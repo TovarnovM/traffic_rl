@@ -21,6 +21,13 @@ The long-term design target is a high-performance, array-oriented simulation cor
 ## Developer quick checks
 
 ```bash
+python -m pip install -e .
 pytest -q
-python -c "import snfs_traffic"
+python -c "import snfs_traffic; print(snfs_traffic.__version__)"
+```
+
+No-install alternative:
+
+```bash
+PYTHONPATH=src python -c "import snfs_traffic; print(snfs_traffic.__version__)"
 ```
