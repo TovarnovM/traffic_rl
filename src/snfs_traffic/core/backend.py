@@ -44,6 +44,8 @@ class StepBackend(Protocol):
     ) -> TrafficState:
         """Run one full step and return the next state."""
 
+        ...
+
 
 @dataclass(frozen=True)
 class ReferenceBackend:
