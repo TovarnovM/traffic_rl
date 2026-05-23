@@ -23,17 +23,20 @@ Implemented:
 - Reproducible uniform-random scenario initializer.
 - Reference head-cell occupancy / lane ordering / neighbor indexing (head-cell only; vehicle body cells are not marked).
 - Reference longitudinal same-lane step without lane changes.
-- Validation tests for params/state/topology/scenario/indexing/longitudinal behavior.
+- Reference lane-change phase using the paper's incentive/safety criteria and stochastic P_CL attempt.
+- Stochastic conflict resolution for simultaneous lane-change target-cell conflicts.
+- Validation tests for params/state/topology/scenario/indexing/longitudinal/lane-change behavior.
 
 Not implemented yet:
-- Lane changing.
-- Full reference step with lane-change phase.
-- Length-aware multi-cell occupancy.
-- Length-aware bumper-to-bumper gaps.
+- Full reference step that composes lane-change phase and longitudinal phase.
+- Controlled RL action semantics.
+- Observations.
+- Metrics.
 - Simulator facade.
 - RL environments.
-- Graph/local observations.
-- Metrics.
+- Length-aware multi-cell occupancy.
+- Length-aware bumper-to-bumper gaps.
+- Body-cell bus collision geometry.
 - Numba/Cython kernels.
 
 ## Developer quick checks
@@ -52,6 +55,8 @@ PYTHONPATH=src python -c "import snfs_traffic; print(snfs_traffic.__version__)"
 
 ## Current model limitations
 
-- Current longitudinal step uses head-cell-only gaps.
-- Vehicle length is currently ignored by occupancy and longitudinal gaps.
-- Exact paper-equation mapping of Revised S-NFS probabilities is deferred unless formal equations are supplied.
+- Lane-change gaps are head-cell-only.
+- Vehicle length is ignored by occupancy and gaps.
+- Lane changes are lateral only and do not move position.
+- No same-step lateral swaps into previously occupied target cells.
+- Full paper-exact longitudinal equations are not implemented unless separately added.
