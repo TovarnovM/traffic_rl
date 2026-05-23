@@ -112,10 +112,15 @@ def _assert_equal_tuple(a: tuple[np.ndarray, ...], b: tuple[np.ndarray, ...], na
 
 def run_benchmark(config: BenchmarkConfig) -> dict[str, object]:
     preset = _size_preset("small" if config.quick else config.sizes)
-    repeat = int(preset.get("repeat", config.repeat)) if config.quick else config.repeat
-    warmup = int(preset.get("warmup", config.warmup)) if config.quick else config.warmup
+    if config.quick:
+        repeat = min(config.repeat, int(preset.get("repeat", config.repeat)))
+        warmup = min(config.warmup, int(preset.get("warmup", config.warmup)))
+    else:
+        repeat = config.repeat
+        warmup = config.warmup
 
     include_numba = config.include_numba and NUMBA_AVAILABLE
+    numba_included = bool(config.include_numba)
     numba_version = None
     if NUMBA_AVAILABLE:
         import numba  # type: ignore
@@ -124,6 +129,7 @@ def run_benchmark(config: BenchmarkConfig) -> dict[str, object]:
 
     cases: list[dict[str, object]] = []
     first_call_notes: list[str] = []
+    first_call_compile: dict[str, object] | None = None
 
     for num_lanes, road_length in preset["lane_length_cases"]:
         for density in preset["densities"]:
@@ -163,23 +169,41 @@ def run_benchmark(config: BenchmarkConfig) -> dict[str, object]:
                 measurements["kernel_compute_neighbors"] = m_k_nb
 
                 if include_numba:
-                    compiled_already = bool(build_occupancy_numba.__name__)  # marker only
-                    first_occ_start = perf_counter_ns(); occ_numba = build_occupancy_numba(state.lane, state.pos, state.alive, num_lanes=params.num_lanes, road_length=params.road_length); first_occ_ns = perf_counter_ns() - first_occ_start
-                    first_lo_start = perf_counter_ns(); lo_numba = build_lane_order_numba(occ_numba, n_vehicles=state.n_vehicles); first_lo_ns = perf_counter_ns() - first_lo_start
-                    first_nb_start = perf_counter_ns(); nb_numba = compute_neighbors_numba(state.lane, state.pos, state.alive, *lo_numba, road_length=topology.length); first_nb_ns = perf_counter_ns() - first_nb_start
-                    first_pipe_ns = first_occ_ns + first_lo_ns + first_nb_ns
+                    if first_call_compile is None:
+                        occ_signatures_before = list(getattr(build_occupancy_numba, "signatures", []))
+                        lo_signatures_before = list(getattr(build_lane_order_numba, "signatures", []))
+                        nb_signatures_before = list(getattr(compute_neighbors_numba, "signatures", []))
 
-                    if not np.array_equal(occ_numba, occ_public):
-                        raise AssertionError(f"numba occupancy mismatch for {case_id}")
-                    _assert_equal_tuple(lo_numba, lo_public, f"numba lane-order {case_id}")
-                    _assert_equal_tuple(nb_numba, nb_public, f"numba neighbors {case_id}")
+                        first_occ_start = perf_counter_ns(); occ_numba = build_occupancy_numba(state.lane, state.pos, state.alive, num_lanes=params.num_lanes, road_length=params.road_length); first_occ_ns = perf_counter_ns() - first_occ_start
+                        first_lo_start = perf_counter_ns(); lo_numba = build_lane_order_numba(occ_numba, n_vehicles=state.n_vehicles); first_lo_ns = perf_counter_ns() - first_lo_start
+                        first_nb_start = perf_counter_ns(); nb_numba = compute_neighbors_numba(state.lane, state.pos, state.alive, *lo_numba, road_length=topology.length); first_nb_ns = perf_counter_ns() - first_nb_start
+                        first_pipe_ns = first_occ_ns + first_lo_ns + first_nb_ns
 
-                    measurements["numba_build_occupancy_first_call_compile_inclusive"] = summarize_samples([first_occ_ns], repeat=1, warmup=0)
-                    measurements["numba_build_lane_order_first_call_compile_inclusive"] = summarize_samples([first_lo_ns], repeat=1, warmup=0)
-                    measurements["numba_compute_neighbors_first_call_compile_inclusive"] = summarize_samples([first_nb_ns], repeat=1, warmup=0)
-                    measurements["numba_indexing_pipeline_first_call_compile_inclusive"] = summarize_samples([first_pipe_ns], repeat=1, warmup=0)
-                    if compiled_already:
-                        first_call_notes.append("First-call compile-inclusive measurements may be cache/warm affected within this process.")
+                        if not np.array_equal(occ_numba, occ_public):
+                            raise AssertionError(f"numba occupancy mismatch for {case_id}")
+                        _assert_equal_tuple(lo_numba, lo_public, f"numba lane-order {case_id}")
+                        _assert_equal_tuple(nb_numba, nb_public, f"numba neighbors {case_id}")
+
+                        cache_affected = bool(occ_signatures_before or lo_signatures_before or nb_signatures_before)
+                        if cache_affected:
+                            first_call_notes.append("First-call compile-inclusive measurements may be cache/warm affected within this process.")
+
+                        first_call_compile = {
+                            "case_id": case_id,
+                            "cache_or_warm_affected": cache_affected,
+                            "numba_build_occupancy_first_call_compile_inclusive": summarize_samples([first_occ_ns], repeat=1, warmup=0),
+                            "numba_build_lane_order_first_call_compile_inclusive": summarize_samples([first_lo_ns], repeat=1, warmup=0),
+                            "numba_compute_neighbors_first_call_compile_inclusive": summarize_samples([first_nb_ns], repeat=1, warmup=0),
+                            "numba_indexing_pipeline_first_call_compile_inclusive": summarize_samples([first_pipe_ns], repeat=1, warmup=0),
+                        }
+                    else:
+                        occ_numba = build_occupancy_numba(state.lane, state.pos, state.alive, num_lanes=params.num_lanes, road_length=params.road_length)
+                        lo_numba = build_lane_order_numba(occ_numba, n_vehicles=state.n_vehicles)
+                        nb_numba = compute_neighbors_numba(state.lane, state.pos, state.alive, *lo_numba, road_length=topology.length)
+                        if not np.array_equal(occ_numba, occ_public):
+                            raise AssertionError(f"numba occupancy mismatch for {case_id}")
+                        _assert_equal_tuple(lo_numba, lo_public, f"numba lane-order {case_id}")
+                        _assert_equal_tuple(nb_numba, nb_public, f"numba neighbors {case_id}")
 
                     m_n_pipe = time_callable(lambda: compute_neighbors_numba(state.lane, state.pos, state.alive, *build_lane_order_numba(build_occupancy_numba(state.lane, state.pos, state.alive, num_lanes=params.num_lanes, road_length=params.road_length), n_vehicles=state.n_vehicles), road_length=topology.length), repeat=repeat, warmup=warmup)
                     m_n_occ = time_callable(lambda: build_occupancy_numba(state.lane, state.pos, state.alive, num_lanes=params.num_lanes, road_length=params.road_length), repeat=repeat, warmup=warmup)
@@ -228,6 +252,7 @@ def run_benchmark(config: BenchmarkConfig) -> dict[str, object]:
         "numpy_version": np.__version__,
         "numba_available": bool(NUMBA_AVAILABLE),
         "numba_version": numba_version,
+        "include_numba": numba_included,
         "quick": config.quick,
         "repeat": repeat,
         "warmup": warmup,
@@ -235,6 +260,8 @@ def run_benchmark(config: BenchmarkConfig) -> dict[str, object]:
         "notes": notes,
         "cases": cases,
     }
+    if first_call_compile is not None:
+        results["numba_first_call_compile_inclusive"] = first_call_compile
     return results
 
 
@@ -281,11 +308,15 @@ def _format_report(data: dict[str, object]) -> str:
                 lines.append(f"| {case['case_id']} | {label} | {km:.4f} | n/a | n/a |")
 
     lines.extend(["", "## First-call compile-inclusive timings", "", "These are measured once before warmed Numba timing loops in this process."])
-    for case in data["cases"]:
-        m = case["measurements"]
-        if "numba_indexing_pipeline_first_call_compile_inclusive" not in m:
-            continue
-        lines.append(f"- {case['case_id']}: pipeline first-call compile-inclusive median ms = {m['numba_indexing_pipeline_first_call_compile_inclusive']['median_ms']:.4f}")
+    first_call = data.get("numba_first_call_compile_inclusive")
+    if isinstance(first_call, dict):
+        lines.append(f"- measured_case_id: {first_call.get('case_id')}")
+        lines.append(f"- cache_or_warm_affected: {first_call.get('cache_or_warm_affected')}")
+        lines.append(
+            f"- pipeline first-call compile-inclusive median ms = {first_call['numba_indexing_pipeline_first_call_compile_inclusive']['median_ms']:.4f}"
+        )
+    else:
+        lines.append("- n/a (Numba disabled or unavailable)")
 
     lines.extend(["", "## Recommendation", ""])
     rec = _recommendation(data)
@@ -294,6 +325,8 @@ def _format_report(data: dict[str, object]) -> str:
 
 
 def _recommendation(data: dict[str, object]) -> str:
+    if not data.get("include_numba", True):
+        return "Numba was explicitly disabled for this run, so no Numba integration decision can be made from these results. Conservatively proceed with splitting longitudinal into pure-array kernels first."
     if not data["numba_available"]:
         return "Numba is unavailable in this run, so no Numba integration decision can be made from these results. Conservatively proceed with splitting longitudinal into pure-array kernels first."
     speedups = []
@@ -328,6 +361,8 @@ def main() -> int:
     data = run_benchmark(config)
     config.out_json.write_text(json.dumps(data, indent=2), encoding="utf-8")
     config.out_md.write_text(_format_report(data), encoding="utf-8")
+    print(f"Wrote JSON report: {config.out_json}")
+    print(f"Wrote Markdown report: {config.out_md}")
     return 0
 
 

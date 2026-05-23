@@ -31,7 +31,7 @@ def test_benchmark_indexing_quick_smoke(tmp_path):
     )
     data = mod.run_benchmark(config)
     out_json.write_text(json.dumps(data), encoding="utf-8")
-    out_md.write_text("ok", encoding="utf-8")
+    out_md.write_text(mod._format_report(data), encoding="utf-8")
 
     assert out_json.exists()
     assert out_md.exists()
