@@ -1,10 +1,10 @@
 # PLAN.md — Revised S-NFS Traffic Simulator Roadmap
 
-Актуальное состояние: после завершения **Tasks 1–7** в загруженном репозитории.
+Актуальное состояние: после завершения **Tasks 1–8** в загруженном репозитории.
 
 Проект — чистая новая реализация Revised S-NFS traffic simulator для будущих multi-agent reinforcement learning экспериментов. Главная архитектурная линия остаётся прежней: массивное NumPy-состояние, маленькое и тестируемое core-ядро, отсутствие Python object graph в hot loop, постепенный переход от reference NumPy/Python реализации к оптимизированному backend.
 
-Важно: в текущем архиве **full reference step `step_reference(...)` ещё не влит**. Уже есть отдельная reference longitudinal phase и отдельная reference lane-change phase. Следующий непосредственный task — скомпоновать их в полный reference step.
+Важно: `step_reference(...)` уже реализован как композиция reference lane-change phase и reference longitudinal phase с сохранением lane-change флагов после longitudinal шага. Следующий непосредственный task — расширить runtime-invariant покрытие.
 
 ---
 
@@ -20,6 +20,7 @@ Task 4 — minimal reproducible uniform-random scenario initializer.
 Task 5 — reference head-cell occupancy / lane order / neighbor indexing.
 Task 6 — reference longitudinal same-lane step without lane changes.
 Task 7 — reference lane-change phase using Eq. (8)/(9), P_CL = p_lane_change = 0.5 by default, and stochastic conflict resolution.
+Task 8 — full reference step composing lane-change phase and longitudinal phase.
 ```
 
 Текущее ядро содержит:
@@ -32,7 +33,7 @@ src/snfs_traffic/
     state.py
     types.py
     indexing.py
-    step_reference.py              # currently longitudinal reference step only
+    step_reference.py              # longitudinal + full reference step composition
     lane_change_reference.py       # reference lane-change phase
   topology/
     base.py
@@ -103,7 +104,7 @@ from snfs_traffic.scenarios import (
 ## Следующий непосредственный task
 
 ```text
-Task 8 — full reference step composing lane-change phase and longitudinal phase.
+Task 9 — runtime invariant suite / random rollout invariant tests.
 ```
 
 Нельзя переходить к Numba, Gym env, observations или RL action semantics до того, как будет зафиксирован маленький и тестируемый `step_reference(...)`.
