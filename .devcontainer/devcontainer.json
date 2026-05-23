@@ -1,0 +1,34 @@
+{
+	"name": "traffic_rl",
+	"dockerComposeFile": "../docker-compose.dev.yml",
+	"service": "traffic_rl",
+	"workspaceFolder": "/workspace",
+	"shutdownAction": "stopCompose",
+	"remoteUser": "dev",
+	// "forwardPorts": ["9001:0.0.0.0:9001"],
+	"customizations": {
+		"settings": {
+			"terminal.integrated.shell.linux": "bash"
+		},
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"GigaCode.gigacode-vscode",
+				"littlefoxteam.vscode-python-test-adapter",
+				"ms-vscode.test-adapter-converter",
+				"hbenl.vscode-test-explorer",
+				"samuelcolvin.jinjahtml",
+				"VisbyDev.folder-path-color",
+				"ms-toolsai.jupyter@2025.3.0",
+				"mongodb.mongodb-vscode",
+				"jeff-hykin.polacode-2019",
+				"kamikillerto.vscode-colorize",
+				"esc5221.clipboard-diff-patch",
+				"ktnrg45.vscode-cython",
+				"mechatroner.rainbow-csv",
+				"openai.chatgpt"
+			]
+		}
+	}
+}
