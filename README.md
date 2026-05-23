@@ -22,16 +22,18 @@ Implemented:
 - Reference periodic `RingTopology` for a multi-lane ring segment.
 - Reproducible uniform-random scenario initializer.
 - Reference head-cell occupancy / lane ordering / neighbor indexing (head-cell only; vehicle body cells are not marked).
-- Validation tests for params/state/topology/scenario/indexing behavior.
+- Reference longitudinal same-lane step without lane changes.
+- Validation tests for params/state/topology/scenario/indexing/longitudinal behavior.
 
 Not implemented yet:
-- S-NFS dynamics.
 - Lane changing.
+- Full reference step with lane-change phase.
 - Length-aware multi-cell occupancy.
 - Length-aware bumper-to-bumper gaps.
-- Simulator step.
+- Simulator facade.
 - RL environments.
-- Graph observations.
+- Graph/local observations.
+- Metrics.
 - Numba/Cython kernels.
 
 ## Developer quick checks
@@ -47,3 +49,9 @@ No-install alternative:
 ```bash
 PYTHONPATH=src python -c "import snfs_traffic; print(snfs_traffic.__version__)"
 ```
+
+## Current model limitations
+
+- Current longitudinal step uses head-cell-only gaps.
+- Vehicle length is currently ignored by occupancy and longitudinal gaps.
+- Exact paper-equation mapping of Revised S-NFS probabilities is deferred unless formal equations are supplied.

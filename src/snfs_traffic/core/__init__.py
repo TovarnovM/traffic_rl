@@ -10,6 +10,7 @@ from .indexing import (
     compute_neighbors,
 )
 from .state import TrafficState, empty_state, validate_state
+from .step_reference import step_longitudinal_reference
 
 __all__ = [
     "SimulationParams",
@@ -23,4 +24,5 @@ __all__ = [
     "build_occupancy",
     "build_lane_order",
     "compute_neighbors",
+    "step_longitudinal_reference",
 ]
