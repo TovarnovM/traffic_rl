@@ -1,10 +1,10 @@
 # PLAN.md — Revised S-NFS Traffic Simulator Roadmap
 
-Актуальное состояние: после завершения **Tasks 1–11** в загруженном репозитории.
+Актуальное состояние: после завершения **Tasks 1–12** в загруженном репозитории.
 
 Проект — чистая новая реализация Revised S-NFS traffic simulator для будущих multi-agent reinforcement learning экспериментов. Главная архитектурная линия остаётся прежней: массивное NumPy-состояние, маленькое и тестируемое core-ядро, отсутствие Python object graph в hot loop, постепенный переход от reference NumPy/Python реализации к оптимизированному backend.
 
-Важно: `step_reference(...)` уже реализован как композиция reference lane-change phase и reference longitudinal phase с сохранением lane-change флагов после longitudinal шага. Tasks 1–11 are complete. Task 11 завершил выделение backend-neutral pure-array indexing kernels и их equivalence coverage без изменения physics. Следующий непосредственный task — Task 12: optional Numba implementation of the indexing kernels with reference equivalence tests.
+Важно: `step_reference(...)` уже реализован как композиция reference lane-change phase и reference longitudinal phase с сохранением lane-change флагов после longitudinal шага. Tasks 1–12 are complete. Task 12 добавил optional Numba indexing kernels и strict equivalence tests без изменения physics и default path.
 
 ---
 
@@ -24,6 +24,7 @@ Task 8 — full reference step composing lane-change phase and longitudinal phas
 Task 9 — runtime invariant suite / random rollout invariant tests.
 Task 10 — minimal backend contract and reference-vs-backend equivalence scaffolding.
 Task 11 — backend-neutral pure-array indexing kernels and reference equivalence tests.
+Task 12 — optional Numba indexing kernels with strict reference equivalence tests.
 ```
 
 Текущее ядро содержит:
@@ -115,10 +116,10 @@ from snfs_traffic.scenarios import (
 ## Следующий непосредственный task
 
 ```text
-Task 12 — optional Numba implementation of the indexing kernels with reference equivalence tests.
+Task 13 — benchmark reference vs Numba indexing kernels and decide whether/how to wire indexing acceleration into an optimized backend.
 ```
 
-Tasks 1–11 are complete. Следующий приоритет — optional Numba implementation of indexing kernels behind the established pure-array kernel contract.
+Tasks 1–12 are complete. Следующий приоритет — benchmark reference vs Numba indexing kernels и решение о встраивании ускорения в optimized backend.
 
 ---
 
@@ -498,9 +499,32 @@ seeds: multiple fixed seeds
 - no simulator facade yet unless needed only for backend selection.
 ```
 
-## Task 13 — Numba full-step equivalence
+## Task 13 — benchmark reference vs Numba indexing kernels and decide whether/how to wire indexing acceleration into an optimized backend
+
+Цель: измерить реальную стоимость текущих indexing phases и пользу optional Numba kernels перед любым подключением ускорения в backend path.
+
+Обязательные требования:
+
+- benchmark only occupancy/lane_order/neighbors and representative full-step slices where indexing cost is visible;
+- compare public reference wrappers / pure-array kernels / optional Numba kernels where applicable;
+- include warmup handling for Numba compilation;
+- report first-call compile cost separately from warmed execution time;
+- keep benchmark results out of correctness tests;
+- do not make performance numbers brittle CI assertions;
+- do not wire Numba into `step_reference`;
+- do not change `ReferenceBackend`;
+- do not introduce backend registry or environment-variable backend selection yet;
+- do not implement Numba lane-change, longitudinal, RNG, or full-step kernels;
+- use benchmark results to recommend whether the next implementation task should be:
+  1. an explicit optimized backend using Numba indexing only,
+  2. splitting longitudinal phase into pure-array kernels,
+  3. or postponing Numba integration if indexing is not the bottleneck.
+
+## Future task — Numba full-step equivalence
 
 Цель: accelerated full-step backend, эквивалентный `step_reference(...)` на зафиксированных scenarios/seeds.
+
+Условие запуска: выполнять только после Task 13 benchmarks и решения о целесообразности deeper Numba integration.
 
 Обязательные требования:
 

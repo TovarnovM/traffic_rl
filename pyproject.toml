@@ -18,3 +18,8 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+
+[project.optional-dependencies]
+numba = [
+    "numba>=0.61",
+]
