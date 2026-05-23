@@ -21,12 +21,14 @@ Implemented:
 - Core `TrafficState` array schema.
 - Reference periodic `RingTopology` for a multi-lane ring segment.
 - Reproducible uniform-random scenario initializer.
-- Validation tests for params/state/topology/scenario behavior.
+- Reference head-cell occupancy / lane ordering / neighbor indexing (head-cell only; vehicle body cells are not marked).
+- Validation tests for params/state/topology/scenario/indexing behavior.
 
 Not implemented yet:
 - S-NFS dynamics.
 - Lane changing.
-- Occupancy / lane ordering / neighbor indexing.
+- Length-aware multi-cell occupancy.
+- Length-aware bumper-to-bumper gaps.
 - Simulator step.
 - RL environments.
 - Graph observations.
