@@ -1,6 +1,6 @@
 # PLAN.md — Revised S-NFS Traffic Simulator Roadmap
 
-Актуальное состояние: после завершения **Tasks 1–9** в загруженном репозитории.
+Актуальное состояние: после завершения **Tasks 1–10** в загруженном репозитории.
 
 Проект — чистая новая реализация Revised S-NFS traffic simulator для будущих multi-agent reinforcement learning экспериментов. Главная архитектурная линия остаётся прежней: массивное NumPy-состояние, маленькое и тестируемое core-ядро, отсутствие Python object graph в hot loop, постепенный переход от reference NumPy/Python реализации к оптимизированному backend.
 
@@ -22,6 +22,7 @@ Task 6 — reference longitudinal same-lane step without lane changes.
 Task 7 — reference lane-change phase using Eq. (8)/(9), P_CL = p_lane_change = 0.5 by default, and stochastic conflict resolution.
 Task 8 — full reference step composing lane-change phase and longitudinal phase.
 Task 9 — runtime invariant suite / random rollout invariant tests.
+Task 10 — minimal backend contract and reference-vs-backend equivalence scaffolding.
 ```
 
 Текущее ядро содержит:
@@ -109,10 +110,10 @@ from snfs_traffic.scenarios import (
 ## Следующий непосредственный task
 
 ```text
-Task 10 — preparation for optimized backend / reference-vs-optimized equivalence scaffolding.
+Task 11 — Numba-compatible indexing kernel preparation and equivalence tests.
 ```
 
-`step_reference(...)` и runtime invariants уже зафиксированы; следующий приоритет — подготовка optimized backend + equivalence scaffolding (Task 10).
+Tasks 1–10 are complete. Следующий приоритет — подготовка выделенных Numba-compatible pure-array indexing kernels за backend-equivalence scaffold без изменения физики.
 
 ---
 
