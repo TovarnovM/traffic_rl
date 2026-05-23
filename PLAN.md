@@ -1,8 +1,10 @@
 # PLAN.md — Revised S-NFS Traffic Simulator Roadmap
 
-Актуальное состояние: после завершения Tasks 1–5.
+Актуальное состояние: после завершения **Tasks 1–7** в загруженном репозитории.
 
-Проект — чистая новая реализация Revised S-NFS traffic simulator для будущих multi-agent reinforcement learning экспериментов. Главная архитектурная линия: массивное NumPy-состояние, маленькое и тестируемое core-ядро, отсутствие Python object graph в hot loop, постепенный переход от reference NumPy/Python к Numba/Cython backend.
+Проект — чистая новая реализация Revised S-NFS traffic simulator для будущих multi-agent reinforcement learning экспериментов. Главная архитектурная линия остаётся прежней: массивное NumPy-состояние, маленькое и тестируемое core-ядро, отсутствие Python object graph в hot loop, постепенный переход от reference NumPy/Python реализации к оптимизированному backend.
+
+Важно: в текущем архиве **full reference step `step_reference(...)` ещё не влит**. Уже есть отдельная reference longitudinal phase и отдельная reference lane-change phase. Следующий непосредственный task — скомпоновать их в полный reference step.
 
 ---
 
@@ -16,6 +18,8 @@ Task 2 — core SimulationParams and TrafficState schemas.
 Task 3 — reference periodic RingTopology.
 Task 4 — minimal reproducible uniform-random scenario initializer.
 Task 5 — reference head-cell occupancy / lane order / neighbor indexing.
+Task 6 — reference longitudinal same-lane step without lane changes.
+Task 7 — reference lane-change phase using Eq. (8)/(9), P_CL = p_lane_change = 0.5 by default, and stochastic conflict resolution.
 ```
 
 Текущее ядро содержит:
@@ -23,10 +27,13 @@ Task 5 — reference head-cell occupancy / lane order / neighbor indexing.
 ```text
 src/snfs_traffic/
   core/
+    __init__.py
     params.py
     state.py
     types.py
     indexing.py
+    step_reference.py              # currently longitudinal reference step only
+    lane_change_reference.py       # reference lane-change phase
   topology/
     base.py
     ring.py
@@ -39,7 +46,19 @@ src/snfs_traffic/
   io/
 ```
 
-Текущий публичный core API:
+Текущие тесты покрывают:
+
+```text
+tests/test_imports.py
+tests/test_state_schema.py
+tests/test_ring_topology.py
+tests/test_init_scenarios.py
+tests/test_indexing.py
+tests/test_snfs_longitudinal.py
+tests/test_snfs_lane_change.py
+```
+
+## Текущий публичный core API
 
 ```python
 from snfs_traffic.core import (
@@ -54,16 +73,18 @@ from snfs_traffic.core import (
     build_occupancy,
     build_lane_order,
     compute_neighbors,
+    step_longitudinal_reference,
+    step_lane_change_reference,
 )
 ```
 
-Текущий публичный topology API:
+## Текущий публичный topology API
 
 ```python
 from snfs_traffic.topology import RingTopology
 ```
 
-Текущий публичный scenario API:
+## Текущий публичный scenario API
 
 ```python
 from snfs_traffic.scenarios import (
@@ -79,13 +100,13 @@ from snfs_traffic.scenarios import (
 )
 ```
 
-## Текущий следующий task
+## Следующий непосредственный task
 
 ```text
-Task 6 — reference longitudinal Revised S-NFS without lane changes.
+Task 8 — full reference step composing lane-change phase and longitudinal phase.
 ```
 
-Именно с него надо продолжать. Переходить к lane-change, envs, observations или Numba раньше нельзя: сначала нужен корректный reference longitudinal step.
+Нельзя переходить к Numba, Gym env, observations или RL action semantics до того, как будет зафиксирован маленький и тестируемый `step_reference(...)`.
 
 ---
 
@@ -134,12 +155,12 @@ pytest
 Добавлять позже только отдельными task-ами:
 
 ```text
-numba       # только начиная с Numba kernel tasks
+numba       # только начиная с Numba backend / kernel tasks
 gymnasium   # только начиная с Gym env task
 ray/rllib   # только начиная с RLlib adapter task, не в core
 ```
 
-Не добавлять в core/scenarios/topology на текущих этапах:
+Не добавлять в `core`, `scenarios`, `topology` на текущих этапах:
 
 ```text
 gymnasium
@@ -154,11 +175,11 @@ networkx
 
 ---
 
-# 3. Целевой runtime-контракт
+# 3. Зафиксированный runtime-контракт текущего reference core
 
 ## 3.1. TrafficState schema
 
-Текущий `TrafficState` хранит только массивы:
+`TrafficState` хранит только массивы:
 
 ```python
 vehicle_id:      int32[N]
@@ -174,11 +195,11 @@ changed_lane:    bool[N]
 controlled:      bool[N]
 ```
 
-`pos` на текущем этапе означает head cell. Для `length > 1` тело машины пока не размечается.
+`pos` на текущем этапе означает **head cell**. Для `length > 1` тело машины пока не размечается. `length` является metadata и сейчас не участвует в occupancy/gaps/collision checks.
 
 ## 3.2. Reference indexing state
 
-Текущий Task 5 уже реализовал reference indexing:
+Текущий indexing слой реализует:
 
 ```python
 occupancy:       int32[num_lanes, road_length]  # -1 или vehicle array index
@@ -199,13 +220,13 @@ build_lane_order(occupancy, *, n_vehicles) -> lane_order, lane_counts, lane_rank
 compute_neighbors(state, lane_order, lane_counts, lane_rank, topology) -> front_id, back_id, front_gap, back_gap
 ```
 
-Обязательный контракт Task 5:
+Обязательный контракт indexing:
 
 ```text
 - occupancy marks head cells only;
-- occupancy[lane, head_pos] = vehicle_index;
+- occupancy[lane, head_pos] = vehicle array index;
 - vehicle_id не используется как индекс occupancy;
-- inactive vehicles не попадают в occupancy/lane_order;
+- inactive vehicles не попадают в occupancy/lane_order/neighbors;
 - duplicate alive head cells запрещены;
 - lane_order хранит vehicle array indices в порядке возрастающего pos;
 - lane_rank[i] = rank машины i внутри своей полосы;
@@ -215,1364 +236,513 @@ compute_neighbors(state, lane_order, lane_counts, lane_rank, topology) -> front_
 - length сейчас игнорируется в occupancy и gaps.
 ```
 
-Это намеренно. Полная length-aware occupancy и bumper-to-bumper gaps остаются Task 26.
+Это намеренно. Полная length-aware occupancy и bumper-to-bumper gaps остаются отдельным поздним milestone.
 
-## 3.3. Step API target
-
-Целевой simulator API:
-
-```python
-sim.reset(seed, scenario_config)
-state_view = sim.state_view()
-sim.step(actions)
-```
-
-Где `actions` — необязательные намерения controlled vehicles:
-
-```python
-action_accel: int8[N]  # -1, 0, +1, or 0 for uncontrolled
-action_lane:  int8[N]  # -1, 0, +1, or 0 for uncontrolled
-```
-
-Не все машины обязаны быть RL-controlled. Для HDV/AV actions генерируются внутренними rules.
-
-## 3.4. Целевой порядок фаз полного шага
-
-Фиксируем один порядок:
-
-```text
-1. build occupancy / lane order
-2. compute front/back neighbors
-3. decide lane-change intents
-4. resolve lane-change conflicts
-5. commit lane changes
-6. rebuild occupancy / lane order
-7. compute front/back neighbors
-8. compute longitudinal velocity update
-9. apply collision avoidance
-10. commit positions
-11. update metrics/events
-```
-
-Это соответствует главному требованию модели: сначала перестроения на соседнюю полосу, потом независимое обновление состояний, скоростей и позиций. Межшаговых interaction после commit positions нет.
-
----
-
-# 4. Topology strategy
-
-MVP topology уже реализована как periodic multi-lane ring:
-
-```python
-RingTopology(
-    num_lanes=4,
-    length=1500,
-)
-```
+## 3.3. Longitudinal reference phase
 
 Текущий API:
 
 ```python
-boundary == "periodic"
-normalize_pos(pos)
-forward_distance(from_pos, to_pos)
-signed_delta(from_pos, to_pos)
-```
-
-Критическое правило: расстояния через boundary считаются через topology, а не вручную через `% road_length` по всему коду.
-
-Дальнейшая стратегия:
-
-```text
-MVP = RingTopology.
-Open boundary = отдельный Task 27.
-Segment graph / ramps / intersections = отдельный Task 28.
-```
-
-Не надо сейчас преждевременно строить универсальный road graph. Это сломает простоту hot loop до того, как будет проверено S-NFS ядро.
-
----
-
-# 5. План этапов / Codex tasks
-
-## Task 1. Bootstrap нового проекта и базовая структура
-
-**Status:** completed.
-
-**Цель:** создать чистый проект без переноса старой объектной архитектуры.
-
-**Реализовано:**
-
-```text
-- pyproject.toml
-- README.md
-- src/snfs_traffic/
-- tests/
-- package import smoke tests
-- .devcontainer / docker-related files
-```
-
-**Важный результат:** проект стартовал как array-oriented simulator, без переноса старых `Vehicle`, `RoadLane`, `TrafficModel` как основы.
-
----
-
-## Task 2. Configs и типизированные структуры состояния
-
-**Status:** completed.
-
-**Цель:** зафиксировать state schema и параметры модели.
-
-**Реализовано:**
-
-```text
-src/snfs_traffic/core/state.py
-src/snfs_traffic/core/params.py
-src/snfs_traffic/core/types.py
-tests/test_state_schema.py
-```
-
-Текущие основные структуры:
-
-```python
-SimulationParams
-TrafficState
-empty_state
-validate_state
-max_supported_velocity
-```
-
-Текущий `SimulationParams` включает:
-
-```python
-num_lanes
-road_length
-vmax_default
-vmax_controlled
-G
-q
-r
-S
-P1
-P2
-P3
-P4
-p_lane_change
-```
-
-Проверяется:
-
-```text
-- dtype массивов;
-- shape compatibility;
-- lane/pos/vel ranges;
-- copy semantics;
-- params validation.
-```
-
----
-
-## Task 3. Reference topology: periodic ring segment
-
-**Status:** completed.
-
-**Цель:** сделать минимальную topology без overengineering.
-
-**Реализовано:**
-
-```text
-src/snfs_traffic/topology/base.py
-src/snfs_traffic/topology/ring.py
-tests/test_ring_topology.py
-```
-
-Текущий `RingTopology`:
-
-```python
-class RingTopology:
-    num_lanes: int
-    length: int
-    boundary == "periodic"
-
-    def normalize_pos(pos): ...
-    def forward_distance(from_pos, to_pos): ...
-    def signed_delta(from_pos, to_pos): ...
-```
-
----
-
-## Task 4. Scenario initializer: uniform random initial state
-
-**Status:** completed.
-
-**Цель:** уметь создавать корректное начальное состояние.
-
-**Реализовано:**
-
-```text
-src/snfs_traffic/scenarios/init.py
-tests/test_init_scenarios.py
-```
-
-Текущий API:
-
-```python
-make_uniform_random_state(
-    *,
-    num_lanes: int,
-    road_length: int,
-    density: float,
-    seed: int | np.integer,
-    vehicle_mix: VehicleMix | None = None,
-) -> TrafficState
-```
-
-Поддерживается metadata для:
-
-```text
-- HDV
-- AV
-- controlled AV
-- bus
-```
-
-Важное ограничение:
-
-```text
-bus length хранится только в state.length;
-body cells автобусов пока не занимают отдельные occupancy cells;
-уникальность гарантируется только для head cells.
-```
-
----
-
-## Task 5. Occupancy и lane order reference implementation
-
-**Status:** completed.
-
-**Цель:** построить корректный reference indexing layer для будущих S-NFS dynamics, lane-change, observations, metrics и invariant checks.
-
-**Реализовано:**
-
-```text
-src/snfs_traffic/core/indexing.py
-tests/test_indexing.py
-exports from src/snfs_traffic/core/__init__.py
-README status update
-```
-
-Текущий API:
-
-```python
-INDEX_DTYPE = np.int32
-MISSING_INDEX = -1
-MISSING_GAP = -1
-
-build_occupancy(state, params) -> np.ndarray
-build_lane_order(occupancy, *, n_vehicles) -> tuple[np.ndarray, np.ndarray, np.ndarray]
-compute_neighbors(state, lane_order, lane_counts, lane_rank, topology) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]
-```
-
-Контракт:
-
-```text
-- HEAD-CELL indexing only;
-- occupancy shape = (params.num_lanes, params.road_length);
-- occupancy dtype = int32;
-- occupancy stores vehicle array index, not vehicle_id;
-- inactive vehicles ignored;
-- duplicate alive head cells rejected;
-- lane_order ordered by increasing pos;
-- lane_rank missing/inactive = -1;
-- front/back neighbors are same-lane only;
-- lanes with 0 or 1 vehicle return missing neighbors/gaps;
-- front_gap/back_gap are head-cell empty gaps;
-- state.length ignored for now.
-```
-
-Это важный foundation. Не менять семантику Task 5 при реализации Task 6–8 без отдельного task.
-
----
-
-## Task 6. Reference longitudinal Revised S-NFS без lane changes
-
-**Status:** next.
-
-**Цель:** реализовать продольную динамику Revised S-NFS для одной/нескольких полос без перестроений.
-
-Этот task должен использовать уже готовый indexing layer:
-
-```text
-build_occupancy
-build_lane_order
-compute_neighbors
-```
-
-**Файлы:**
-
-```text
-src/snfs_traffic/core/step_reference.py
-tests/test_snfs_longitudinal.py
-```
-
-**Что сделать:**
-
-```text
-- acceleration;
-- slow-to-start;
-- perspective / anticipation;
-- random braking;
-- collision avoidance;
-- movement / position commit.
-```
-
-Параметры default preset уже есть в `SimulationParams`:
-
-```text
-G = 15
-q = 0.99
-r = 0.99
-S = 2
-P1 = 0.999
-P2 = 0.99
-P3 = 0.98
-P4 = 0.01
-vmax_default = 5
-vmax_controlled = 6
-```
-
-**Scope для Task 6:**
-
-```text
-- no lane-change decisions;
-- no lane-change conflict resolution;
-- no action API beyond optional future shape if needed;
-- no simulator facade;
-- no observations;
-- no metrics;
-- no Numba;
-- no length-aware occupancy;
-- no multi-cell bus collision geometry.
-```
-
-**Ожидаемый API:**
-
-Минимально и без overengineering:
-
-```python
-def step_longitudinal_reference(
+step_longitudinal_reference(
     state: TrafficState,
     params: SimulationParams,
     topology: RingTopology,
     rng: np.random.Generator,
-) -> TrafficState:
-    ...
+) -> TrafficState
 ```
 
-Допустим in-place вариант только если он явно документирован и покрыт тестами:
-
-```python
-def step_longitudinal_reference_inplace(...): ...
-```
-
-Лучше начать с copy-return или explicit in-place policy, но не смешивать оба поведения неявно.
-
-**Критические тесты:**
+Текущие semantics:
 
 ```text
-- deterministic при одинаковом seed;
-- velocity всегда в [0, vmax(vehicle)];
-- positions normalized on ring;
-- нет duplicate occupied head cells after movement;
-- stopped vehicle remains valid;
-- single vehicle accelerates up to vmax;
-- close front vehicle limits speed by gap;
-- adjacent front vehicle forces speed 0;
-- wraparound front vehicle handled correctly;
-- multi-lane vehicles interact only within same lane;
-- inactive vehicles ignored;
-- density=1.0 full occupancy remains valid;
-- controlled vehicles use vmax_controlled, uncontrolled use vmax_default;
-- length ignored explicitly for now.
+- validates state;
+- validates periodic RingTopology compatibility;
+- validates rng;
+- computes same-lane neighbor indexing from input state;
+- updates vel and pos for alive vehicles;
+- does not change lane;
+- resets changed_lane[:] = False and last_lane_delta[:] = 0 because this phase performs no lane changes;
+- keeps inactive vehicles unchanged;
+- validates result and rebuilds occupancy;
+- remains head-cell-only and length-ignored.
 ```
 
-**Success criteria:**
+Важное ограничение: это текущая explicit reference semantics, а не гарантированная финальная paper-exact Revised S-NFS longitudinal equation mapping. Если будет отдельно предоставлена формальная версия уравнений, её нужно интегрировать отдельным task-ом.
 
-```bash
-pytest -q tests/test_snfs_longitudinal.py
-pytest -q
+## 3.4. Lane-change reference phase
+
+Текущий API:
+
+```python
+step_lane_change_reference(
+    state: TrafficState,
+    params: SimulationParams,
+    topology: RingTopology,
+    rng: np.random.Generator,
+) -> TrafficState
 ```
+
+Текущие semantics:
+
+```text
+- validates state;
+- validates periodic RingTopology compatibility;
+- validates rng;
+- computes all lane-change decisions from old state / old indexing;
+- uses Eq. (8) incentive criterion;
+- uses Eq. (9) safety criterion;
+- uses params.p_lane_change, default 0.5;
+- uses stochastic side tie-break when both adjacent lanes are eligible;
+- uses stochastic conflict resolution for simultaneous target-cell conflicts;
+- changes only lane and lane-change flags;
+- does not change pos or vel;
+- sets changed_lane[i] = True and last_lane_delta[i] = target_lane - old_lane for accepted movers;
+- resets changed_lane/last_lane_delta for non-movers;
+- disallows same-step lateral swaps into previously occupied target cells;
+- keeps head-cell-only, length-ignored semantics.
+```
+
+## 3.5. Full-step target semantics
+
+Целевой public API после следующего task:
+
+```python
+step_reference(
+    state: TrafficState,
+    params: SimulationParams,
+    topology: RingTopology,
+    rng: np.random.Generator,
+) -> TrafficState
+```
+
+Фиксируем порядок полного reference шага:
+
+```text
+1. lane-change phase;
+2. recompute indexing implicitly inside longitudinal phase;
+3. longitudinal movement phase.
+```
+
+Критически важно: longitudinal movement должен считаться после перестроений, по новым lane assignment. То есть машина, перестроившаяся в более свободную полосу, должна ускоряться/двигаться относительно новой полосы, а не старой.
+
+`step_longitudinal_reference(...)` сейчас сбрасывает `changed_lane` и `last_lane_delta`, поэтому будущий `step_reference(...)` обязан сохранить флаги lane-change phase и восстановить их после longitudinal phase.
+
+Правильная композиция:
+
+```python
+after_lc = step_lane_change_reference(state, params, topology, rng)
+lane_delta = after_lc.last_lane_delta.copy()
+changed_lane = after_lc.changed_lane.copy()
+
+after_long = step_longitudinal_reference(after_lc, params, topology, rng)
+out = after_long.copy()
+out.last_lane_delta = lane_delta
+out.changed_lane = changed_lane
+
+validate_state(out, params)
+build_occupancy(out, params)
+return out
+```
+
+После полного шага `state.changed_lane` / `state.last_lane_delta` должны описывать lateral movement, произошедший именно в этом полном шаге. Будущие observation builders смогут использовать эти поля как recent lane-changing behavior.
 
 ---
 
-## Task 7. Reference lane-change Kukida/S-NFS
+# 4. Ближайшая очередь task-ов
 
-**Status:** planned.
+## Task 8 — full reference step composition
 
-**Цель:** реализовать перестроение на соседнюю полосу до longitudinal update.
+Цель: добавить маленький, явный, тестируемый `step_reference(...)`, который только композирует уже реализованные фазы.
 
-**Файлы:**
-
-```text
-src/snfs_traffic/core/lane_change_reference.py
-tests/test_lane_change_reference.py
-```
-
-**Сделать:**
+Files:
 
 ```text
-- candidate target lanes: lane - 1, lane + 1;
-- incentive criterion;
-- safety criterion;
-- stochastic p_lane_change;
-- conflict resolution;
-- commit lane changes;
-- update changed_lane and last_lane_delta.
+Modify:
+  src/snfs_traffic/core/step_reference.py
+  src/snfs_traffic/core/__init__.py
+  README.md
+
+Add:
+  tests/test_snfs_full_step.py
 ```
 
-**MVP conflict resolution:**
+Не добавлять новую физику. Не менять lane-change или longitudinal rules без необходимости.
+
+Обязательные проверки:
 
 ```text
-Если несколько машин хотят в одну target head cell, все конфликтующие остаются на месте.
-Разрешить перестроение только если целевая head cell свободна и нет конкурента.
+- public import of step_reference;
+- no input state mutation;
+- full step equals manual phase composition with same rng;
+- lane-change phase happens before longitudinal movement;
+- lane-change flags survive longitudinal phase;
+- one-lane full step equals longitudinal step;
+- p_lane_change=0 blocks lateral movement but still allows longitudinal update;
+- conflict resolution participates in full step;
+- deterministic with same seed;
+- different seeds can produce different outcomes;
+- invalid rng/topology rejected;
+- random rollout remains valid;
+- density=1.0 remains valid;
+- bus length ignored intentionally.
 ```
 
-Не добавлять сложный приоритет раньше времени.
-
-**Success criteria:**
-
-```text
-- только соседние полосы;
-- нельзя выйти за пределы lane;
-- нельзя попасть в занятую head cell;
-- stochastic lane-change воспроизводим по seed;
-- changed_lane и last_lane_delta обновляются;
-- no duplicate head cells after lane-change commit.
-```
-
----
-
-## Task 8. Полный reference step
-
-**Status:** planned.
-
-**Цель:** собрать полный шаг симуляции в Python/NumPy без Numba.
-
-**Файлы:**
-
-```text
-src/snfs_traffic/core/step_reference.py
-tests/test_step_reference.py
-```
-
-**Целевой порядок:**
-
-```text
-1. build occupancy / lane order
-2. compute front/back neighbors
-3. decide lane-change intents
-4. resolve lane-change conflicts
-5. commit lane changes
-6. rebuild occupancy / lane order
-7. compute front/back neighbors
-8. compute longitudinal velocity update
-9. apply collision avoidance
-10. commit positions
-11. return events
-```
-
-**API sketch:**
+Expected after Task 8:
 
 ```python
-@dataclass(frozen=True, slots=True)
-class StepEvents:
-    changed_lane_count: int
-    collision_count: int
-    inserted_count: int
-    removed_count: int
-
-
-def step_reference(state, params, topology, rng, actions=None) -> tuple[TrafficState, StepEvents]:
-    ...
+from snfs_traffic.core import step_reference
 ```
 
-`collision_count` должен быть 0 в норме, но полезен для assert/debug.
+## Task 9 — runtime invariant suite / random rollout tests
 
-**Success criteria:**
+Цель: вынести повторяющиеся runtime-проверки состояния в явный reusable слой, чтобы зафиксировать correctness contract перед оптимизацией.
+
+Suggested files:
 
 ```text
-- 1000 шагов на random state без нарушения инвариантов;
-- deterministic rollout с одинаковым seed;
-- actions=None работает для HDV/AV internal rules;
-- no duplicate head cells after every step.
+Add:
+  src/snfs_traffic/core/invariants.py
+  tests/test_invariants_random_rollouts.py
 ```
 
----
-
-## Task 9. Invariant suite и property-like rollout tests
-
-**Status:** planned.
-
-**Цель:** перед Numba жёстко зафиксировать корректность reference implementation.
-
-**Файлы:**
-
-```text
-src/snfs_traffic/core/invariants.py
-tests/test_invariants_random_rollouts.py
-```
-
-**Инварианты:**
-
-```text
-- no duplicate occupied head cells;
-- lane in [0, num_lanes);
-- pos in [0, road_length);
-- vel in [0, vmax(vehicle)];
-- lane changes only -1/0/+1;
-- no teleport except periodic boundary movement;
-- alive vehicles count stable for ring topology;
-- indexing consistency after each step.
-```
-
-**Rollout matrix:**
-
-```text
-lanes: 1, 2, 4
-road_length: 50, 100, 1500
-density: 0.05, 0.2, 0.4, 0.7
-steps: 100-1000
-```
-
----
-
-## Task 10. Numba indexing kernels
-
-**Status:** planned.
-
-**Цель:** начать ускорение с уже проверенного indexing layer, а не с полного step.
-
-**Файлы:**
-
-```text
-src/snfs_traffic/core/kernels/indexing_numba.py
-tests/test_indexing_numba_equivalence.py
-benchmarks/bench_indexing.py
-```
-
-**Сделать Numba-версии:**
+Возможный API:
 
 ```python
-build_occupancy_numba(...)
-build_lane_order_numba(...)
-compute_neighbors_numba(...)
+validate_runtime_invariants(state, params, topology) -> None
 ```
 
-**Требование:** результаты byte-for-byte совпадают с reference implementation на тестовых состояниях.
-
-**Success criteria:**
+Проверки:
 
 ```text
-- equivalence tests;
-- benchmark показывает ускорение или хотя бы отсутствие регресса;
-- Numba не попадает в core dependency до этого task.
+- validate_state passes;
+- build_occupancy succeeds;
+- occupied head-cell count equals alive vehicle count;
+- no duplicate alive head cells;
+- alive lanes are in [0, num_lanes);
+- alive positions are in [0, road_length);
+- alive velocities are non-negative;
+- uncontrolled alive velocities <= params.vmax_default;
+- controlled alive velocities <= params.vmax_controlled;
+- changed_lane == (last_lane_delta != 0) for alive vehicles;
+- last_lane_delta values are only -1, 0, +1;
+- alive count is stable for closed periodic ring rollouts;
+- length remains ignored by occupancy/gaps under current reference semantics.
 ```
 
----
-
-## Task 11. Numba full step kernel
-
-**Status:** planned.
-
-**Цель:** получить быстрый production step.
-
-**Файлы:**
+Rollout coverage:
 
 ```text
-src/snfs_traffic/core/kernels/step_numba.py
-tests/test_step_numba_equivalence.py
-benchmarks/bench_step.py
+num_lanes: 1, 2, 3, 4
+road_length: small and medium values
+density: 0.05, 0.2, 0.5, 0.8, 1.0
+steps: 50–200 depending on test cost
+seeds: multiple fixed seeds
 ```
 
-**Подход к RNG:**
+Этот task должен не менять physics. Его задача — зафиксировать invariant contract перед Numba/backend work.
 
-На первом этапе не делать сложный internal Numba RNG. Лучше использовать pre-sampled random arrays:
+## Task 10 — prepare backend-neutral pure array transition contract
+
+Цель: отделить reference public API от будущего accelerated backend API. Не обязательно сразу писать Numba. Сначала надо определить, какие массивы и scalar params будут входом/выходом низкоуровневых kernels.
+
+Возможное направление:
+
+```text
+- выделить минимальный внутренний contract для indexing/step kernels;
+- не ломать public TrafficState API;
+- не добавлять numba раньше времени, если без него можно зафиксировать signatures;
+- добавить tests, которые гарантируют equivalence с public reference functions.
+```
+
+Риск: преждевременная оптимизация. Если Task 9 даст достаточную уверенность, можно объединить этот этап с первым Numba indexing task.
+
+## Task 11 — Numba indexing kernels with reference equivalence
+
+Цель: ускорить occupancy/lane_order/neighbors, не меняя semantics.
+
+Добавлять `numba` только в этом или явно backend task-е.
+
+Обязательные требования:
+
+```text
+- reference Python/NumPy implementation remains available;
+- Numba implementation is optional backend;
+- tests compare Numba outputs to reference outputs over many random states;
+- no change in head-cell-only semantics;
+- no length-aware logic;
+- no RL actions;
+- no simulator facade yet unless needed only for backend selection.
+```
+
+## Task 12 — Numba full-step equivalence
+
+Цель: accelerated full-step backend, эквивалентный `step_reference(...)` на зафиксированных scenarios/seeds.
+
+Обязательные требования:
+
+```text
+- same RNG semantics must be explicitly handled or documented;
+- if exact RNG equivalence is hard, split deterministic kernels and stochastic draw preparation;
+- reference step remains source of truth;
+- tests compare output arrays and invariants;
+- performance benchmark can be tiny and optional, not a hard correctness dependency.
+```
+
+## Task 13 — thin simulator facade
+
+Цель: добавить минимальный удобный facade поверх `TrafficState`, `SimulationParams`, `RingTopology`, `step_reference` / backend step.
+
+Пример целевого API:
 
 ```python
-rand_slow_start[N]
-rand_perspective[N]
-rand_brake[N]
-rand_lane_change[N]
+sim = SnfsSimulator(params, topology, initial_state, seed=123)
+state = sim.state
+state = sim.step()
 ```
 
-Python/Env генерирует random arrays, Numba kernel их потребляет. Это проще, тестируемее и достаточно быстро.
-
-**Success criteria:**
+Ограничения:
 
 ```text
-- step_numba совпадает с step_reference при одинаковых random arrays;
-- benchmark печатает steps/sec и vehicle_steps/sec;
-- target case 4 lanes / 1500 cells / 2000 vehicles не является bottleneck.
+- facade must stay thin;
+- no Gymnasium yet;
+- no RL actions yet unless separate task explicitly defines them;
+- no object graph of Vehicle/RoadLane;
+- state remains array-oriented.
 ```
 
----
+## Task 14 — controlled action semantics
 
-## Task 12. SnfsSimulator facade
+Цель: определить, как external RL actions влияют на controlled vehicles.
 
-**Status:** planned.
-
-**Цель:** закрыть сырые массивы удобным, но тонким API.
-
-**Файлы:**
+Это нельзя делать неявно. Нужно отдельное специфицированное решение:
 
 ```text
-src/snfs_traffic/core/simulator.py
-tests/test_simulator_api.py
+action_accel: int8[N]  # e.g. -1, 0, +1
+action_lane:  int8[N]  # e.g. -1, 0, +1
 ```
 
-**API sketch:**
-
-```python
-class SnfsSimulator:
-    def reset(...): ...
-    def step(actions=None): ...
-    def state_view(): ...
-    def copy_state(): ...
-    def restore_state(snapshot): ...
-```
-
-Параметр:
-
-```python
-backend: Literal["reference", "numba"]
-```
-
-**Важно:** `SnfsSimulator.step()` не строит observations и не считает rewards. Только physics/state transition.
-
----
-
-## Task 13. Metrics и fundamental diagram
-
-**Status:** planned.
-
-**Цель:** иметь научную проверку ядра, а не только unit tests.
-
-**Файлы:**
+Надо решить:
 
 ```text
-src/snfs_traffic/metrics/basic.py
-src/snfs_traffic/metrics/fundamental.py
-examples/run_fundamental_diagram.py
-tests/test_basic_metrics.py
+- action validity and clipping;
+- interaction with safety constraints;
+- whether controlled actions override or bias reference lane-change probabilities;
+- how controlled vehicles interact with p_lane_change;
+- whether HDV/AV internal rules remain unchanged;
+- deterministic behavior under fixed seed.
 ```
 
-**Метрики:**
+До этого момента controlled vehicles отличаются только `vmax_controlled` и флагом `controlled`; внешние RL actions не реализованы.
+
+## Task 15 — observation builders
+
+Цель: добавить первые observation builders без Gym/RLlib.
+
+Возможные builders:
 
 ```text
-- density;
-- mean speed;
-- flow;
-- lane-change rate;
-- local density around vehicle;
-- local flow around vehicle.
+- full-state observation;
+- ego/local lane-window observation;
+- occupancy grid observation;
+- later graph/GNN-compatible observation.
 ```
 
-**Success criteria:**
-
-```bash
-python examples/run_fundamental_diagram.py --quick
-```
-
-Создаёт `.csv`/`.npz` с кривыми.
-
----
-
-## Task 14. Snapshot `.npz` / restore
-
-**Status:** planned.
-
-**Цель:** заменить pickle object graph на компактный массивный snapshot.
-
-**Файлы:**
+Ограничения:
 
 ```text
-src/snfs_traffic/io/snapshot.py
-tests/test_snapshot.py
+- observations не должны менять simulation state;
+- observations не должны тянуть torch/ray/rllib;
+- output должен быть NumPy arrays / plain dicts;
+- graph-specific framework integration позже отдельным task-ом.
 ```
 
-**API sketch:**
+## Task 16 — metrics and rollout diagnostics
 
-```python
-save_snapshot(path, state, params, rng_state, metadata)
-load_snapshot(path) -> Snapshot
-```
-
-**Формат:**
-
-```text
-snapshot.npz:
-  vehicle_id
-  lane
-  pos
-  vel
-  length
-  veh_type
-  behavior_id
-  alive
-  last_lane_delta
-  changed_lane
-  controlled
-  params_json
-  rng_state_json
-  metadata_json
-```
-
-**Success criteria:**
-
-```text
-- save/load сохраняет rollout exactly;
-- snapshot не зависит от Python class graph;
-- можно использовать warm-start после stabilization.
-```
-
----
-
-## Task 15. Rule IDs и минимальная гибкость поведения
-
-**Status:** planned.
-
-**Цель:** сделать расширяемые правила без ООП в hot loop.
-
-**Файлы:**
-
-```text
-src/snfs_traffic/rules/ids.py
-src/snfs_traffic/rules/presets.py
-tests/test_behavior_ids.py
-```
-
-Текущие scenario IDs уже есть, но task должен привести их к устойчивому публичному месту в `rules`:
-
-```python
-HDV_REVISED_SNFS = 1
-AV_REVISED_SNFS = 2
-RL_CONTROLLED = 3
-BUS = 4
-AGGRESSIVE_INTERCEPTOR = 5
-```
-
-**Важно:** не делать plugin system, исполняющую Python callbacks в hot loop.
-
-Правильная модель:
-
-```text
-prototype mode: Python reference rules;
-production mode: behavior_id + numba branch.
-```
-
----
-
-## Task 16. Controlled actions semantics
-
-**Status:** planned.
-
-**Цель:** правильно реализовать RL-действия как намерения, а не как прямую телепортацию состояния.
-
-**Файлы:**
-
-```text
-src/snfs_traffic/core/actions.py
-tests/test_controlled_actions.py
-```
-
-**API sketch:**
-
-```python
-@dataclass(frozen=True, slots=True)
-class ActionBatch:
-    vehicle_indices: np.ndarray
-    accel: np.ndarray  # -1, 0, +1
-    lane: np.ndarray   # -1, 0, +1
-```
-
-Dense mapping:
-
-```python
-action_accel[N]
-action_lane[N]
-```
-
-**Семантика:**
-
-```text
-- accel modifies desired velocity by -1/0/+1;
-- lane is attempted lane-change intent;
-- collision/safety rules still apply;
-- invalid lane action at boundary becomes no-op;
-- uncontrolled vehicles ignore external actions.
-```
-
----
-
-## Task 17. Full-state observation API
-
-**Status:** planned.
-
-**Цель:** дать observation builders исчерпывающую информацию без прямого доступа к simulator internals.
-
-**Файлы:**
-
-```text
-src/snfs_traffic/observations/state_view.py
-tests/test_state_view.py
-```
-
-**API sketch:**
-
-```python
-@dataclass(frozen=True, slots=True)
-class StateView:
-    lane: np.ndarray
-    pos: np.ndarray
-    vel: np.ndarray
-    veh_type: np.ndarray
-    behavior_id: np.ndarray
-    front_id: np.ndarray
-    back_id: np.ndarray
-    front_gap: np.ndarray
-    back_gap: np.ndarray
-    topology: RingTopology
-```
-
-`StateView` должен быть read-only или явно documented immutable during step.
-
----
-
-## Task 18. Local grid observation builder
-
-**Status:** planned.
-
-**Цель:** воспроизвести local grid observation, но отдельно от env.
-
-**Файлы:**
-
-```text
-src/snfs_traffic/observations/local_grid.py
-tests/test_local_grid_observation.py
-```
-
-**API sketch:**
-
-```python
-LocalGridObservationBuilder(
-    cells_back: int,
-    cells_front: int,
-    include_velocity: bool,
-    include_lane_change_sign: bool,
-)
-```
-
-Возврат:
-
-```python
-obs: np.ndarray  # shape=(num_lanes, width) for one ego
-```
-
-или batch для нескольких агентов.
-
-**Success criteria:**
-
-```text
-- корректный wraparound на кольце;
-- target/interceptor encoding optional;
-- batch для нескольких agents;
-- тесты на ручных конфигурациях.
-```
-
----
-
-## Task 19. AgentManager
-
-**Status:** planned.
-
-**Цель:** отделить физическую машину от RL-агента.
-
-**Файлы:**
-
-```text
-src/snfs_traffic/envs/agent_manager.py
-tests/test_agent_manager.py
-```
-
-**API sketch:**
-
-```python
-class AgentManager:
-    def reset(sim) -> dict[str, int]: ...
-    def active_agents(sim) -> dict[str, int]: ...
-    def map_actions(action_dict) -> ActionBatch: ...
-```
-
-Режимы:
-
-```text
-- FixedControlledVehicles;
-- AllControlledVehicles;
-- RadiusAroundTargetAgents;
-- GroupControllerAgent.
-```
-
-Ключевой контракт:
-
-```text
-agent_id -> vehicle_idx
-```
-
-а не subclass машины.
-
----
-
-## Task 20. RewardFunction и TaskSpec
-
-**Status:** planned.
-
-**Цель:** вынести reward/termination из env.
-
-**Файлы:**
-
-```text
-src/snfs_traffic/tasks/base.py
-src/snfs_traffic/tasks/interception.py
-tests/test_interception_task.py
-```
-
-**API sketch:**
-
-```python
-class TaskSpec:
-    def reset(sim): ...
-    def compute_rewards(prev_state, state, events, agent_manager): ...
-    def compute_terminated(...): ...
-    def compute_truncated(...): ...
-```
-
-Первый task:
-
-```text
-InterceptionConvergenceTask
-```
-
-Минимальные reward components:
-
-```text
-- reward for reducing distance to target;
-- proximity bonus;
-- bonus for occupying cell in front of target;
-- penalty for overshooting target;
-- lane-change penalty.
-```
-
----
-
-## Task 21. Gymnasium single-agent adapter
-
-**Status:** planned.
-
-**Цель:** сделать простой RL smoke-test.
-
-**Файлы:**
-
-```text
-src/snfs_traffic/envs/gym_single.py
-tests/test_gym_single_env.py
-```
-
-**API sketch:**
-
-```python
-class SingleAgentTrafficEnv(gym.Env):
-    def reset(...): ...
-    def step(action): ...
-```
-
-**Важно:** на этом task можно добавить `gymnasium` dependency. Раньше — не надо.
-
-**Не делать:** RLlib, APPO, GNN.
-
----
-
-## Task 22. RLlib MultiAgentEnv adapter
-
-**Status:** planned.
-
-**Цель:** тонкая RLlib-обвязка поверх готового simulator/task/observation stack.
-
-**Файлы:**
-
-```text
-src/snfs_traffic/envs/rllib_multi.py
-tests/test_rllib_multi_env.py
-```
-
-**API sketch:**
-
-```python
-class RllibTrafficMultiAgentEnv(MultiAgentEnv):
-    def reset(...): ...
-    def step(action_dict): ...
-```
-
-Возврат:
-
-```python
-obs: dict[agent_id, obs]
-rewards: dict[agent_id, float]
-terminateds: dict[agent_id, bool] + "__all__"
-truncateds: dict[agent_id, bool] + "__all__"
-infos: dict[agent_id, dict]
-```
-
-RLlib не должен влиять на архитектуру core.
-
----
-
-## Task 23. Sync vectorized env внутри одного процесса
-
-**Status:** planned.
-
-**Цель:** простая поддержка vectorized env без преждевременной батчевой Numba-магии.
-
-**Файлы:**
-
-```text
-src/snfs_traffic/envs/vector.py
-tests/test_vector_env.py
-benchmarks/bench_vector_env.py
-```
-
-**API sketch:**
-
-```python
-class SyncVectorTrafficEnv:
-    def reset(): ...
-    def step(list_of_action_dicts): ...
-```
-
-Первый вариант — честный loop по envs.
-
-Не делать пока один огромный batched kernel для разных env: это усложнит layout из-за переменного числа машин/агентов.
-
----
-
-## Task 24. Graph observation interface, без финальной GNN-логики
-
-**Status:** planned.
-
-**Цель:** заложить безопасный контракт для будущего PyTorch GNN encoder.
-
-**Файлы:**
-
-```text
-src/snfs_traffic/observations/graph.py
-tests/test_graph_observation_contract.py
-```
-
-**API sketch:**
-
-```python
-@dataclass(frozen=True, slots=True)
-class GraphObservation:
-    node_features: np.ndarray      # float32 [num_nodes, node_dim]
-    edge_index: np.ndarray         # int64 [2, num_edges]
-    edge_features: np.ndarray      # float32 [num_edges, edge_dim]
-    node_vehicle_indices: np.ndarray
-    controlled_node_mask: np.ndarray
-```
-
-Первый builder:
-
-```text
-- nodes = all vehicles within radius R from ego;
-- edges = front/back same lane + adjacent lane nearest front/back.
-```
-
-Не пытаться на этом task выбрать “идеальный” GNN-граф.
-
----
-
-## Task 25. Benchmark suite и performance gates
-
-**Status:** planned.
-
-**Цель:** не потерять производительность при дальнейшей разработке.
-
-**Файлы:**
-
-```text
-benchmarks/bench_core.py
-benchmarks/bench_observations.py
-benchmarks/bench_rllib_env.py
-```
-
-Сценарии:
-
-```text
-small: 3 lanes, 500 cells, 350 vehicles
-target: 4 lanes, 1500 cells, 2000 vehicles
-dense: 4 lanes, 1500 cells, 3500 vehicles
-```
-
-Метрики:
-
-```text
-- core steps/sec;
-- vehicle-steps/sec;
-- local grid obs/sec;
-- graph obs/sec;
-- full env steps/sec.
-```
-
-Benchmark должен печатать JSON/CSV для сравнения commits.
-
----
-
-## Task 26. Bus / length > 1 support
-
-**Status:** planned, intentionally delayed.
-
-**Цель:** аккуратно добавить длинные ТС, не ломая ядро.
-
-Почему не раньше: `length > 1` усложняет occupancy, gaps, collision checks и lane-change safety. Если впихнуть это в первые tasks, MVP станет сильно сложнее и медленнее.
-
-**Файлы:**
-
-```text
-src/snfs_traffic/core/lengths.py
-tests/test_vehicle_lengths.py
-```
-
-**Сделать:**
-
-```text
-- зафиксировать, что pos означает: front cell или rear cell;
-- occupancy validation для intervals;
-- gap calculation с учетом length;
-- lane-change safety с учетом length;
-- migration path from head-cell-only tests.
-```
-
-**Success criteria:**
-
-```text
-- автобусы не пересекаются с легковыми;
-- gap перед автобусом/за автобусом корректный;
-- старые тесты length=1 не ломаются;
-- head-cell-only assumptions заменены явно, а не неявно.
-```
-
----
-
-## Task 27. Open boundary
-
-**Status:** planned, after stable ring core.
-
-**Цель:** добавить inflow/outflow без fake vehicle hacks.
-
-**Файлы:**
-
-```text
-src/snfs_traffic/topology/open_segment.py
-src/snfs_traffic/scenarios/spawn.py
-tests/test_open_boundary.py
-```
-
-**Сделать:**
-
-```python
-SpawnPolicy
-RemovePolicy
-```
+Цель: добавить метрики без тяжёлых dependencies.
 
 Примеры:
 
 ```text
-- stochastic inflow;
-- fixed inflow interval;
-- density-controlled inflow.
+- mean speed;
+- flow / throughput on ring;
+- density by lane;
+- lane-change count/rate;
+- stopped vehicle count;
+- collision/duplicate occupancy assertions;
+- fundamental-diagram-friendly summaries.
 ```
 
-**Success criteria:**
+No matplotlib/pandas in core. Export plotting или dataframe conversion — только отдельно и вне hot core.
+
+## Task 17 — Gymnasium environment wrapper
+
+Цель: добавить Gymnasium-compatible env поверх уже стабильного simulator facade and observation/action semantics.
+
+Только здесь можно добавлять `gymnasium`.
+
+Ограничения:
 
 ```text
-- машины появляются только если entry cells свободны;
-- машины удаляются при выходе;
-- density/flow metrics работают;
-- open boundary не является особым типом машины.
+- Gym wrapper не должен загрязнять core;
+- core остаётся importable without gymnasium;
+- tests должны проверять импорт core без gymnasium при необходимости;
+- env action/observation spaces должны соответствовать уже утверждённым semantics.
+```
+
+## Task 18 — multi-agent / RLlib adapter
+
+Цель: добавить multi-agent adapter, когда уже есть:
+
+```text
+- stable simulator facade;
+- controlled action semantics;
+- observation builders;
+- reward/metric basics;
+- Gymnasium wrapper.
+```
+
+Ray/RLlib не должны попадать в core imports.
+
+---
+
+# 5. Later milestones
+
+## 5.1. Length-aware geometry
+
+Текущая реализация намеренно head-cell-only. Отдельный будущий milestone:
+
+```text
+- multi-cell occupancy for vehicle bodies;
+- bumper-to-bumper gaps;
+- bus/body collision geometry;
+- lane-change safety based on body extents;
+- validation of mixed lengths.
+```
+
+Это нельзя добавлять маленькими незаметными правками в текущие reference tasks, потому что это меняет фундаментальную semantics indexing/collisions.
+
+## 5.2. Open-boundary topology
+
+Сейчас поддержан periodic ring. Отдельный future milestone:
+
+```text
+- open segment topology;
+- spawn/despawn policies;
+- boundary inflow/outflow;
+- route/lane availability constraints;
+- validation for non-periodic indexing and neighbor semantics.
+```
+
+## 5.3. More exact Revised S-NFS paper equations
+
+Если будут предоставлены формальные уравнения/таблицы/параметры для полного paper-exact Revised S-NFS longitudinal update, интегрировать их отдельным task-ом.
+
+Важно не смешивать:
+
+```text
+- current operational reference semantics;
+- paper-exact equation mapping;
+- performance backend;
+- RL action semantics.
+```
+
+Каждая из этих тем должна быть отдельной проверяемой задачей.
+
+## 5.4. IO / snapshots / reproducibility
+
+Позже:
+
+```text
+- snapshot save/load;
+- deterministic rollout replay;
+- compact binary or npz export;
+- scenario config serialization;
+- benchmark fixtures.
+```
+
+Не нужно до stabilization of core step and invariants.
+
+---
+
+# 6. Global non-goals for current phase
+
+До завершения reference full step + invariant suite не делать:
+
+```text
+- Gymnasium env;
+- RLlib/PettingZoo adapter;
+- graph observations;
+- controlled external action semantics;
+- simulator facade with broad feature surface;
+- Numba/Cython kernels;
+- pandas/matplotlib reporting;
+- length-aware occupancy;
+- open-boundary traffic;
+- object-oriented vehicle/lane model.
 ```
 
 ---
 
-## Task 28. Segment graph topology draft
+# 7. Current correctness contract summary
 
-**Status:** planned, after stable ring/open core.
-
-**Цель:** подготовить основу для съездов/перекрестков, но не делать полноценную городскую симуляцию.
-
-**Файлы:**
+На текущем этапе проект гарантирует только это:
 
 ```text
-src/snfs_traffic/topology/segment_graph.py
-tests/test_segment_graph_topology.py
+- state is array-oriented and validated;
+- topology is periodic RingTopology;
+- scenario initializer can generate reproducible uniform-random states;
+- occupancy/lane_order/neighbors are head-cell-only and same-lane;
+- longitudinal phase updates velocity/position without lane changes;
+- lane-change phase updates lane and lane-change flags without longitudinal movement;
+- lane-change conflicts for same target head cell are resolved stochastically;
+- inactive vehicles are ignored by occupancy/lane_order/neighbors and are not moved by phases;
+- vehicle length is metadata only for current reference core.
 ```
 
-**API sketch:**
-
-```python
-RoadSegment
-LaneConnector
-TransferPolicy
-```
-
-MVP:
+Не гарантируется пока:
 
 ```text
-- два последовательных сегмента;
-- merge/split metadata;
-- transfer vehicle from segment A to B.
+- full composed step in public API;
+- external controlled RL actions;
+- observations;
+- metrics;
+- simulator facade;
+- RL environments;
+- length-aware body occupancy;
+- open boundary behavior;
+- Numba/Cython acceleration;
+- final paper-exact longitudinal equation mapping.
 ```
-
-Этот этап делать только после стабильного ring/open ядра.
 
 ---
 
-# 6. Рекомендуемый порядок выполнения
+# 8. Recommended immediate validation commands
 
-Текущий актуальный порядок:
+После каждого task-а запускать:
 
-```text
-DONE  1. Task 1  — bootstrap
-DONE  2. Task 2  — state/params
-DONE  3. Task 3  — ring topology
-DONE  4. Task 4  — initializer
-DONE  5. Task 5  — indexing
-NEXT  6. Task 6  — longitudinal S-NFS reference
-TODO  7. Task 7  — lane change reference
-TODO  8. Task 8  — full reference step
-TODO  9. Task 9  — invariants
-TODO 10. Task 10 — numba indexing
-TODO 11. Task 11 — numba full step
-TODO 12. Task 12 — simulator facade
-TODO 13. Task 13 — metrics/fundamental diagram
-TODO 14. Task 14 — snapshots
-TODO 15. Task 15 — behavior/rule ids
-TODO 16. Task 16 — controlled actions
-TODO 17. Task 17 — full state observation
-TODO 18. Task 18 — local grid observation
-TODO 19. Task 19 — agent manager
-TODO 20. Task 20 — task/reward
-TODO 21. Task 21 — gym single-agent
-TODO 22. Task 22 — RLlib multi-agent
-TODO 23. Task 23 — vector env
-TODO 24. Task 24 — graph observation contract
-TODO 25. Task 25 — benchmark suite
-TODO 26. Task 26 — buses / length > 1
-TODO 27. Task 27 — open boundary
-TODO 28. Task 28 — segment graph / ramps / intersections
+```bash
+python -m pip install -e .
+pytest -q
 ```
 
-Нельзя сейчас перескакивать сразу к env/RLlib/GNN. Без reference S-NFS step все эти слои будут строиться на пустоте.
+Для текущего состояния особенно важны:
 
----
-
-# 7. MVP v0.1 definition
-
-MVP v0.1 готов, когда есть:
-
-```text
-- ring road;
-- 4 lanes / 1500 cells / 2000 vehicles target scenario;
-- HDV/AV/RL-controlled vehicles;
-- Revised S-NFS longitudinal update;
-- stochastic lane change;
-- full reference step;
-- invariant rollout suite;
-- Numba backend;
-- deterministic seeds;
-- local grid observation;
-- single-agent Gym env;
-- multi-agent RLlib env;
-- fundamental diagram example;
-- benchmark core/env throughput.
+```bash
+pytest -q tests/test_snfs_longitudinal.py
+pytest -q tests/test_snfs_lane_change.py
+pytest -q tests/test_indexing.py
+pytest -q
 ```
 
-Не входит в MVP v0.1:
+После Task 8 добавить:
 
-```text
-- перекрестки;
-- open boundary;
-- автобусы как полноценные length>1 occupying bodies;
-- сложный graph observation;
-- custom APPO;
-- красивая визуализация.
+```bash
+pytest -q tests/test_snfs_full_step.py
+pytest -q
 ```
 
-Это не недостаток. Это правильная отсечка.
+После Task 9 добавить:
 
----
-
-# 8. Главные риски
-
-## Риск 1. Слишком рано делать универсальную topology
-
-Если сразу делать перекрестки, съезды, traffic lights, multi-segment kernels — ядро станет сложным до того, как будет проверено. Поэтому:
-
-```text
-interface discipline — да;
-сложная topology implementation — позже.
-```
-
-## Риск 2. Слишком красивая rule plugin system
-
-Python callbacks в hot loop убьют производительность. Гибкость должна быть двухуровневой:
-
-```text
-prototype mode: Python reference rules;
-production mode: behavior_id + Numba branch.
-```
-
-## Риск 3. Observation станет bottleneck
-
-Даже если S-NFS step быстрый, graph/local observations могут съесть всё. Observation builders надо benchmark-ить отдельно.
-
-## Риск 4. RLlib начнет диктовать архитектуру
-
-Нельзя. RLlib — адаптер. Simulator, task logic, observations и rewards должны жить отдельно.
-
-## Риск 5. Раннее length-aware моделирование сломает MVP
-
-`length > 1` кажется маленькой фичей, но она меняет occupancy, gaps, collision avoidance и lane-change safety. До Task 26 buses должны оставаться metadata-only через `state.length`.
-
-## Риск 6. Непроверенная reference physics перед Numba
-
-Numba надо писать только после того, как reference behavior закрыт тестами. Иначе Numba kernel законсервирует ошибки.
-
----
-
-# 9. Ближайший практический шаг
-
-Следующий Codex task должен быть:
-
-```text
-Task 6 — implement reference longitudinal Revised S-NFS without lane changes.
-```
-
-Он должен получить весь контекст:
-
-```text
-- current TrafficState/SimulationParams schema;
-- current RingTopology API;
-- current scenario initializer;
-- current indexing API and head-cell-only semantics;
-- no lane change yet;
-- no length-aware occupancy yet;
-- no Numba yet;
-- tests must prove deterministic, safe, same-lane longitudinal motion.
+```bash
+pytest -q tests/test_invariants_random_rollouts.py
+pytest -q
 ```
