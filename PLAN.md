@@ -1,10 +1,10 @@
 # PLAN.md — Revised S-NFS Traffic Simulator Roadmap
 
-Актуальное состояние: после завершения **Tasks 1–14** в загруженном репозитории.
+Актуальное состояние: после завершения **Tasks 1–15** в загруженном репозитории.
 
 Проект — чистая новая реализация Revised S-NFS traffic simulator для будущих multi-agent reinforcement learning экспериментов. Главная архитектурная линия остаётся прежней: массивное NumPy-состояние, маленькое и тестируемое core-ядро, отсутствие Python object graph в hot loop, постепенный переход от reference NumPy/Python реализации к оптимизированному backend.
 
-Важно: `step_reference(...)` уже реализован как композиция reference lane-change phase и reference longitudinal phase с сохранением lane-change флагов после longitudinal шага. Tasks 1–14 are complete. Task 12 добавил optional Numba indexing kernels и strict equivalence tests без изменения physics и default path; Task 13 добавил benchmark tooling; Task 14 добавил longitudinal array-kernel decomposition with strict equivalence tests.
+Важно: `step_reference(...)` уже реализован как композиция reference lane-change phase и reference longitudinal phase с сохранением lane-change флагов после longitudinal шага. Tasks 1–15 are complete. Task 12 добавил optional Numba indexing kernels и strict equivalence tests без изменения physics и default path; Task 13 добавил benchmark tooling; Task 14 добавил longitudinal array-kernel decomposition with strict equivalence tests; Task 15 добавил lane-change array-kernel decomposition with strict equivalence tests.
 
 ---
 
@@ -147,9 +147,23 @@ Completed:
 - no optimized full-step backend was added.
 
 Task 15 — split lane-change phase into array-level proposal/conflict kernels with strict reference equivalence tests.
+
+Completed:
+- added internal lane-change array-level kernels for target-lane neighbor lookup, eligibility, proposal collection, stochastic conflict resolution, and applying accepted lane changes;
+- refactored step_lane_change_reference(...) to use those kernels;
+- kept public API unchanged;
+- kept ReferenceBackend and step_reference(...) behavior unchanged;
+- preserved exact RNG draw order for target-lane tie-breaking, lane-change probability draws, and conflict tie-breaking;
+- preserved dict insertion-order conflict resolution semantics;
+- added strict equivalence tests against old lane-change loop semantics;
+- no Numba lane-change kernel was added;
+- no optimized full-step backend was added;
+- no longitudinal behavior was changed.
+
+Task 16 — benchmark full-step phase costs after longitudinal and lane-change kernel splits before implementing optimized full-step backends.
 ```
 
-Tasks 1–14 are complete. Следующий приоритет — Task 15 (консервативно): split lane-change phase into array-level proposal/conflict kernels with strict reference equivalence tests.
+Tasks 1–15 are complete. Следующий приоритет — Task 16 (консервативно): benchmark full-step phase costs after longitudinal and lane-change kernel splits before implementing optimized full-step backends.
 
 ---
 
