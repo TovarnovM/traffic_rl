@@ -34,11 +34,16 @@ Implemented:
 - Backend-neutral pure-array indexing kernels for occupancy, lane order, and periodic-ring neighbor/gap computation.
 - Public validated indexing wrappers delegating to pure-array indexing kernels.
 - Equivalence tests proving pure-array indexing kernels match the public reference indexing API.
+- Optional Numba-compiled indexing kernels for occupancy, lane order, and periodic-ring neighbor/gap computation.
+- Strict equivalence tests proving Numba indexing outputs match pure-array reference kernels and public validated wrappers.
+- Numba is available as an optional extra dependency, not required for base install.
 - Validation tests for params/state/topology/scenario/indexing/longitudinal/lane-change/full-step behavior.
 
 Not implemented yet:
 - Optimized backend.
-- Numba/Cython kernels.
+- Numba lane-change kernel.
+- Numba longitudinal kernel.
+- Cython kernels.
 - Controlled RL action semantics.
 - Observations.
 - Metrics.
