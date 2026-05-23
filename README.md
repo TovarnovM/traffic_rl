@@ -31,6 +31,9 @@ Implemented:
 - Minimal backend step protocol.
 - `ReferenceBackend` wrapper around `step_reference`.
 - Reference-vs-backend equivalence tests.
+- Backend-neutral pure-array indexing kernels for occupancy, lane order, and periodic-ring neighbor/gap computation.
+- Public validated indexing wrappers delegating to pure-array indexing kernels.
+- Equivalence tests proving pure-array indexing kernels match the public reference indexing API.
 - Validation tests for params/state/topology/scenario/indexing/longitudinal/lane-change/full-step behavior.
 
 Not implemented yet:

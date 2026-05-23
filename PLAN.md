@@ -1,10 +1,10 @@
 # PLAN.md — Revised S-NFS Traffic Simulator Roadmap
 
-Актуальное состояние: после завершения **Tasks 1–10** в загруженном репозитории.
+Актуальное состояние: после завершения **Tasks 1–11** в загруженном репозитории.
 
 Проект — чистая новая реализация Revised S-NFS traffic simulator для будущих multi-agent reinforcement learning экспериментов. Главная архитектурная линия остаётся прежней: массивное NumPy-состояние, маленькое и тестируемое core-ядро, отсутствие Python object graph в hot loop, постепенный переход от reference NumPy/Python реализации к оптимизированному backend.
 
-Важно: `step_reference(...)` уже реализован как композиция reference lane-change phase и reference longitudinal phase с сохранением lane-change флагов после longitudinal шага. Tasks 1–10 are complete. Следующий непосредственный task — Task 11: Numba-compatible indexing kernel preparation and equivalence tests за backend-equivalence scaffold без изменения physics.
+Важно: `step_reference(...)` уже реализован как композиция reference lane-change phase и reference longitudinal phase с сохранением lane-change флагов после longitudinal шага. Tasks 1–11 are complete. Task 11 завершил выделение backend-neutral pure-array indexing kernels и их equivalence coverage без изменения physics. Следующий непосредственный task — Task 12: optional Numba implementation of the indexing kernels with reference equivalence tests.
 
 ---
 
@@ -23,6 +23,7 @@ Task 7 — reference lane-change phase using Eq. (8)/(9), P_CL = p_lane_change =
 Task 8 — full reference step composing lane-change phase and longitudinal phase.
 Task 9 — runtime invariant suite / random rollout invariant tests.
 Task 10 — minimal backend contract and reference-vs-backend equivalence scaffolding.
+Task 11 — backend-neutral pure-array indexing kernels and reference equivalence tests.
 ```
 
 Текущее ядро содержит:
@@ -57,6 +58,7 @@ tests/test_state_schema.py
 tests/test_ring_topology.py
 tests/test_init_scenarios.py
 tests/test_indexing.py
+tests/test_indexing_kernels.py
 tests/test_snfs_longitudinal.py
 tests/test_snfs_lane_change.py
 tests/test_snfs_full_step.py
@@ -113,10 +115,10 @@ from snfs_traffic.scenarios import (
 ## Следующий непосредственный task
 
 ```text
-Task 11 — Numba-compatible indexing kernel preparation and equivalence tests.
+Task 12 — optional Numba implementation of the indexing kernels with reference equivalence tests.
 ```
 
-Tasks 1–10 are complete. Следующий приоритет — подготовка выделенных Numba-compatible pure-array indexing kernels за backend-equivalence scaffold без изменения физики.
+Tasks 1–11 are complete. Следующий приоритет — optional Numba implementation of indexing kernels behind the established pure-array kernel contract.
 
 ---
 
@@ -465,25 +467,38 @@ seeds: multiple fixed seeds
 - зафиксированы ограничения RNG/head-cell semantics/documentation без изменения physics.
 ```
 
-## Task 11 — Numba indexing kernels with reference equivalence
+## Completed Task 11 — backend-neutral pure-array indexing kernels and reference equivalence tests
 
-Цель: ускорить occupancy/lane_order/neighbors, не меняя semantics.
+Статус: выполнено.
 
-Добавлять `numba` только в этом или явно backend task-е.
+Что реализовано:
+
+```text
+- добавлен `src/snfs_traffic/core/indexing_kernels.py`;
+- добавлены pure-array kernels: `build_occupancy_kernel`, `build_lane_order_kernel`, `compute_neighbors_kernel`;
+- публичные wrappers в `src/snfs_traffic/core/indexing.py` сохранили валидацию входов и делегируют вычисления kernels;
+- добавлены equivalence tests (`tests/test_indexing_kernels.py`), доказывающие совпадение outputs kernels с публичными reference wrappers;
+- Numba/Cython/optimized backend в рамках Task 11 не добавлялись;
+- physics/RNG/public API semantics не менялись.
+```
+
+## Task 12 — optional Numba implementation of the indexing kernels with reference equivalence tests
+
+Цель: опционально ускорить occupancy/lane_order/neighbors поверх уже зафиксированного pure-array kernel contract, не меняя semantics.
 
 Обязательные требования:
 
 ```text
 - reference Python/NumPy implementation remains available;
-- Numba implementation is optional backend;
-- tests compare Numba outputs to reference outputs over many random states;
+- Numba implementation is optional and must preserve outputs;
+- tests compare Numba kernel outputs to reference kernel/wrapper outputs over many random states;
 - no change in head-cell-only semantics;
 - no length-aware logic;
 - no RL actions;
 - no simulator facade yet unless needed only for backend selection.
 ```
 
-## Task 12 — Numba full-step equivalence
+## Task 13 — Numba full-step equivalence
 
 Цель: accelerated full-step backend, эквивалентный `step_reference(...)` на зафиксированных scenarios/seeds.
 
@@ -497,7 +512,7 @@ seeds: multiple fixed seeds
 - performance benchmark can be tiny and optional, not a hard correctness dependency.
 ```
 
-## Task 13 — thin simulator facade
+## Task 14 — thin simulator facade
 
 Цель: добавить минимальный удобный facade поверх `TrafficState`, `SimulationParams`, `RingTopology`, `step_reference` / backend step.
 
@@ -519,7 +534,7 @@ state = sim.step()
 - state remains array-oriented.
 ```
 
-## Task 14 — controlled action semantics
+## Task 15 — controlled action semantics
 
 Цель: определить, как external RL actions влияют на controlled vehicles.
 
