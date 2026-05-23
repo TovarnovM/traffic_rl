@@ -1,7 +1,13 @@
 import numpy as np
 import pytest
 
-from snfs_traffic.core import SimulationParams, TrafficState, validate_state
+from snfs_traffic.core import (
+    SimulationParams,
+    TrafficState,
+    empty_state,
+    max_supported_velocity,
+    validate_state,
+)
 
 
 def _valid_state() -> TrafficState:
@@ -54,6 +60,29 @@ def test_simulation_params_invalid(kwargs: dict, field_name: str) -> None:
         SimulationParams(**kwargs)
 
 
+
+
+def test_simulation_params_probability_type_strictness() -> None:
+    with pytest.raises(ValueError, match="q"):
+        SimulationParams(num_lanes=4, road_length=1500, q=True)
+
+    with pytest.raises(ValueError, match="q"):
+        SimulationParams(num_lanes=4, road_length=1500, q="0.5")
+
+    with pytest.raises(ValueError, match="q"):
+        SimulationParams(num_lanes=4, road_length=1500, q="bad")
+
+    with pytest.raises(ValueError, match="p_lane_change"):
+        SimulationParams(num_lanes=4, road_length=1500, p_lane_change=None)
+
+
+def test_max_supported_velocity() -> None:
+    params = SimulationParams(num_lanes=4, road_length=1500, vmax_default=5, vmax_controlled=6)
+    assert max_supported_velocity(params) == 6
+
+    params = SimulationParams(num_lanes=4, road_length=1500, vmax_default=8, vmax_controlled=6)
+    assert max_supported_velocity(params) == 8
+
 def test_validate_state_valid() -> None:
     params = SimulationParams(num_lanes=4, road_length=1500)
     validate_state(_valid_state(), params)
@@ -79,6 +108,15 @@ def test_validate_state_wrong_dtype() -> None:
     with pytest.raises(ValueError, match="alive"):
         validate_state(state, params)
 
+
+
+
+def test_validate_state_non_contiguous_rejected() -> None:
+    params = SimulationParams(num_lanes=4, road_length=1500)
+    state = _valid_state()
+    state.lane = np.array([0, 9, 1, 9, 3, 9], dtype=np.int16)[::2]
+    with pytest.raises(ValueError, match="lane|C-contiguous"):
+        validate_state(state, params)
 
 def test_validate_state_non_1d_rejected() -> None:
     params = SimulationParams(num_lanes=4, road_length=1500)
@@ -151,3 +189,45 @@ def test_state_copy_is_deep() -> None:
     assert state.lane[0] == 0
     assert not np.shares_memory(state.lane, state_copy.lane)
     assert not np.shares_memory(state.pos, state_copy.pos)
+
+
+def test_empty_state_schema_and_validation() -> None:
+    params = SimulationParams(num_lanes=4, road_length=1500)
+    state = empty_state(3)
+
+    assert isinstance(state, TrafficState)
+
+    arrays = [
+        state.vehicle_id,
+        state.lane,
+        state.pos,
+        state.vel,
+        state.length,
+        state.veh_type,
+        state.behavior_id,
+        state.alive,
+        state.last_lane_delta,
+        state.changed_lane,
+        state.controlled,
+    ]
+    assert all(arr.shape == (3,) for arr in arrays)
+
+    assert state.vehicle_id.dtype == np.int32
+    assert state.lane.dtype == np.int16
+    assert state.pos.dtype == np.int32
+    assert state.vel.dtype == np.int16
+    assert state.length.dtype == np.int16
+    assert state.veh_type.dtype == np.int16
+    assert state.behavior_id.dtype == np.int16
+    assert state.alive.dtype == np.bool_
+    assert state.last_lane_delta.dtype == np.int8
+    assert state.changed_lane.dtype == np.bool_
+    assert state.controlled.dtype == np.bool_
+
+    assert np.array_equal(state.vehicle_id, np.arange(3, dtype=np.int32))
+    assert np.all(state.alive)
+    assert np.all(state.length == 1)
+    assert np.all(state.last_lane_delta == 0)
+    assert np.all(state.changed_lane == 0)
+
+    validate_state(state, params)
