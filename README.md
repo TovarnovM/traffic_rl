@@ -21,16 +21,21 @@ Implemented:
 - Core `TrafficState` array schema.
 - Reference periodic `RingTopology` for a multi-lane ring segment.
 - Reproducible uniform-random scenario initializer.
-- Reference head-cell occupancy / lane ordering / neighbor indexing (head-cell only; vehicle body cells are not marked).
-- Reference longitudinal same-lane step without lane changes.
+- Reference head-cell occupancy / lane ordering / neighbor indexing.
+- Reference longitudinal same-lane step.
 - Reference lane-change phase using the paper's incentive/safety criteria and stochastic P_CL attempt.
 - Stochastic conflict resolution for simultaneous lane-change target-cell conflicts.
 - Full reference step composing lane-change phase and longitudinal phase.
 - Reusable runtime invariant validation helper.
 - Random rollout invariant tests for the current reference core.
+- Minimal backend step protocol.
+- `ReferenceBackend` wrapper around `step_reference`.
+- Reference-vs-backend equivalence tests.
 - Validation tests for params/state/topology/scenario/indexing/longitudinal/lane-change/full-step behavior.
 
 Not implemented yet:
+- Optimized backend.
+- Numba/Cython kernels.
 - Controlled RL action semantics.
 - Observations.
 - Metrics.
@@ -39,8 +44,31 @@ Not implemented yet:
 - Length-aware multi-cell occupancy.
 - Length-aware bumper-to-bumper gaps.
 - Body-cell bus collision geometry.
-- Numba/Cython kernels.
 - Open-boundary topology/step semantics.
+
+
+## Backend contract
+
+A backend performs exactly one full simulation step and must match `step_reference` semantics.
+
+Backends receive:
+- `TrafficState`
+- `SimulationParams`
+- `RingTopology`
+- `np.random.Generator`
+
+Backends return:
+- `TrafficState`
+
+Current backend limitations:
+- only `ReferenceBackend` exists;
+- no optimized backend exists yet;
+- backend equivalence tests currently compare `ReferenceBackend` against `step_reference`;
+- future optimized backends must pass the same equivalence tests;
+- RNG must come from the provided `np.random.Generator`;
+- occupancy/gaps/collision checks remain head-cell-only;
+- vehicle length is ignored by occupancy and gap logic;
+- controlled vehicles still do not receive external RL actions.
 
 ## Developer quick checks
 

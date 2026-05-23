@@ -1,10 +1,10 @@
 # PLAN.md — Revised S-NFS Traffic Simulator Roadmap
 
-Актуальное состояние: после завершения **Tasks 1–9** в загруженном репозитории.
+Актуальное состояние: после завершения **Tasks 1–10** в загруженном репозитории.
 
 Проект — чистая новая реализация Revised S-NFS traffic simulator для будущих multi-agent reinforcement learning экспериментов. Главная архитектурная линия остаётся прежней: массивное NumPy-состояние, маленькое и тестируемое core-ядро, отсутствие Python object graph в hot loop, постепенный переход от reference NumPy/Python реализации к оптимизированному backend.
 
-Важно: `step_reference(...)` уже реализован как композиция reference lane-change phase и reference longitudinal phase с сохранением lane-change флагов после longitudinal шага. Следующий непосредственный task — подготовка оптимизированного backend и reference-vs-optimized equivalence scaffolding.
+Важно: `step_reference(...)` уже реализован как композиция reference lane-change phase и reference longitudinal phase с сохранением lane-change флагов после longitudinal шага. Tasks 1–10 are complete. Следующий непосредственный task — Task 11: Numba-compatible indexing kernel preparation and equivalence tests за backend-equivalence scaffold без изменения physics.
 
 ---
 
@@ -22,6 +22,7 @@ Task 6 — reference longitudinal same-lane step without lane changes.
 Task 7 — reference lane-change phase using Eq. (8)/(9), P_CL = p_lane_change = 0.5 by default, and stochastic conflict resolution.
 Task 8 — full reference step composing lane-change phase and longitudinal phase.
 Task 9 — runtime invariant suite / random rollout invariant tests.
+Task 10 — minimal backend contract and reference-vs-backend equivalence scaffolding.
 ```
 
 Текущее ядро содержит:
@@ -81,6 +82,9 @@ from snfs_traffic.core import (
     step_reference,
     step_lane_change_reference,
     validate_runtime_invariants,
+    StepBackend,
+    ReferenceBackend,
+    get_reference_backend,
 )
 ```
 
@@ -109,10 +113,10 @@ from snfs_traffic.scenarios import (
 ## Следующий непосредственный task
 
 ```text
-Task 10 — preparation for optimized backend / reference-vs-optimized equivalence scaffolding.
+Task 11 — Numba-compatible indexing kernel preparation and equivalence tests.
 ```
 
-`step_reference(...)` и runtime invariants уже зафиксированы; следующий приоритет — подготовка optimized backend + equivalence scaffolding (Task 10).
+Tasks 1–10 are complete. Следующий приоритет — подготовка выделенных Numba-compatible pure-array indexing kernels за backend-equivalence scaffold без изменения физики.
 
 ---
 
@@ -447,20 +451,19 @@ seeds: multiple fixed seeds
 
 Этот task должен не менять physics. Его задача — зафиксировать invariant contract перед Numba/backend work.
 
-## Task 10 — prepare backend-neutral pure array transition contract
+## Completed Task 10 — minimal backend contract and reference-vs-backend equivalence scaffolding
 
-Цель: отделить reference public API от будущего accelerated backend API. Не обязательно сразу писать Numba. Сначала надо определить, какие массивы и scalar params будут входом/выходом низкоуровневых kernels.
+Статус: выполнено.
 
-Возможное направление:
+Что реализовано:
 
 ```text
-- выделить минимальный внутренний contract для indexing/step kernels;
-- не ломать public TrafficState API;
-- не добавлять numba раньше времени, если без него можно зафиксировать signatures;
-- добавить tests, которые гарантируют equivalence с public reference functions.
+- добавлен минимальный backend contract (StepBackend protocol);
+- добавлен ReferenceBackend, делегирующий в step_reference(...);
+- добавлен get_reference_backend() singleton accessor;
+- добавлены reference-vs-backend equivalence tests на фиксированных seeds/scenarios;
+- зафиксированы ограничения RNG/head-cell semantics/documentation без изменения physics.
 ```
-
-Риск: преждевременная оптимизация. Если Task 9 даст достаточную уверенность, можно объединить этот этап с первым Numba indexing task.
 
 ## Task 11 — Numba indexing kernels with reference equivalence
 
