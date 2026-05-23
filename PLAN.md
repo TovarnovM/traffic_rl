@@ -57,6 +57,7 @@ tests/test_init_scenarios.py
 tests/test_indexing.py
 tests/test_snfs_longitudinal.py
 tests/test_snfs_lane_change.py
+tests/test_snfs_full_step.py
 ```
 
 ## Текущий публичный core API
@@ -75,6 +76,7 @@ from snfs_traffic.core import (
     build_lane_order,
     compute_neighbors,
     step_longitudinal_reference,
+    step_reference,
     step_lane_change_reference,
 )
 ```
@@ -107,7 +109,7 @@ from snfs_traffic.scenarios import (
 Task 9 — runtime invariant suite / random rollout invariant tests.
 ```
 
-Нельзя переходить к Numba, Gym env, observations или RL action semantics до того, как будет зафиксирован маленький и тестируемый `step_reference(...)`.
+`step_reference(...)` уже зафиксирован; следующий приоритет — инвариантные runtime-тесты (Task 9), после чего можно планировать следующие слои.
 
 ---
 
