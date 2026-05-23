@@ -15,8 +15,19 @@ The long-term design target is a high-performance, array-oriented simulation cor
 
 ## Current status
 
-- Project skeleton only.
-- No S-NFS traffic dynamics implemented yet.
+Implemented:
+- Project skeleton.
+- Core `SimulationParams` schema.
+- Core `TrafficState` array schema.
+- Validation tests for params/state behavior.
+
+Not implemented yet:
+- S-NFS dynamics.
+- Lane changing.
+- Topology.
+- Simulator step.
+- RL environments.
+- Graph observations.
 
 ## Developer quick checks
 
