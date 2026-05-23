@@ -105,3 +105,23 @@ PYTHONPATH=src python -c "import snfs_traffic; print(snfs_traffic.__version__)"
 - Runtime invariant helper validates current reference semantics, not future length-aware geometry.
 - Full paper-exact longitudinal equations are not implemented unless separately added.
 - Lane-change flags in returned full-step state describe lateral motion during that full step.
+
+
+## Benchmarking indexing kernels
+
+The repository includes a non-CI performance benchmark for indexing phases:
+
+```bash
+python benchmarks/benchmark_indexing.py --quick --out-json /tmp/snfs_indexing_bench.json --out-md /tmp/snfs_indexing_bench.md
+```
+
+With optional Numba installed:
+
+```bash
+python -m pip install -e ".[numba]"
+python benchmarks/benchmark_indexing.py --quick
+```
+
+Benchmark numbers are environment-dependent. Codex Cloud/CI results are useful as smoke checks only and should not be treated as final production performance measurements.
+
+This benchmark does not change simulator behavior. Numba indexing remains optional and is not used by default in `step_reference(...)`. An optimized full-step backend is still not implemented.

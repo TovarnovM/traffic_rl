@@ -116,10 +116,24 @@ from snfs_traffic.scenarios import (
 ## Следующий непосредственный task
 
 ```text
-Task 13 — benchmark reference vs Numba indexing kernels and decide whether/how to wire indexing acceleration into an optimized backend.
+Task 13 — benchmark reference vs Numba indexing kernels and decision report.
+
+Completed:
+- added benchmark script for public wrappers, pure-array kernels, and optional Numba kernels;
+- benchmark reports JSON and Markdown;
+- first-call Numba compile-inclusive timings are separated from warmed timings;
+- benchmark is not part of correctness/performance CI thresholds;
+- no simulator behavior changed;
+- no backend wiring was added.
+
+Important:
+- Codex Cloud/CI timings are indicative only.
+- Final performance decision should be repeated on the target machine.
+
+Task 14 — split longitudinal phase into pure-array kernels with reference equivalence tests.
 ```
 
-Tasks 1–12 are complete. Следующий приоритет — benchmark reference vs Numba indexing kernels и решение о встраивании ускорения в optimized backend.
+Tasks 1–13 are complete. Следующий приоритет — Task 14 (консервативно): split longitudinal phase into pure-array kernels, then benchmark full-step phase costs on target hardware.
 
 ---
 
