@@ -58,6 +58,7 @@ tests/test_state_schema.py
 tests/test_ring_topology.py
 tests/test_init_scenarios.py
 tests/test_indexing.py
+tests/test_indexing_kernels.py
 tests/test_snfs_longitudinal.py
 tests/test_snfs_lane_change.py
 tests/test_snfs_full_step.py
@@ -466,25 +467,38 @@ seeds: multiple fixed seeds
 - зафиксированы ограничения RNG/head-cell semantics/documentation без изменения physics.
 ```
 
-## Task 11 — Numba indexing kernels with reference equivalence
+## Completed Task 11 — backend-neutral pure-array indexing kernels and reference equivalence tests
 
-Цель: ускорить occupancy/lane_order/neighbors, не меняя semantics.
+Статус: выполнено.
 
-Добавлять `numba` только в этом или явно backend task-е.
+Что реализовано:
+
+```text
+- добавлен `src/snfs_traffic/core/indexing_kernels.py`;
+- добавлены pure-array kernels: `build_occupancy_kernel`, `build_lane_order_kernel`, `compute_neighbors_kernel`;
+- публичные wrappers в `src/snfs_traffic/core/indexing.py` сохранили валидацию входов и делегируют вычисления kernels;
+- добавлены equivalence tests (`tests/test_indexing_kernels.py`), доказывающие совпадение outputs kernels с публичными reference wrappers;
+- Numba/Cython/optimized backend в рамках Task 11 не добавлялись;
+- physics/RNG/public API semantics не менялись.
+```
+
+## Task 12 — optional Numba implementation of the indexing kernels with reference equivalence tests
+
+Цель: опционально ускорить occupancy/lane_order/neighbors поверх уже зафиксированного pure-array kernel contract, не меняя semantics.
 
 Обязательные требования:
 
 ```text
 - reference Python/NumPy implementation remains available;
-- Numba implementation is optional backend;
-- tests compare Numba outputs to reference outputs over many random states;
+- Numba implementation is optional and must preserve outputs;
+- tests compare Numba kernel outputs to reference kernel/wrapper outputs over many random states;
 - no change in head-cell-only semantics;
 - no length-aware logic;
 - no RL actions;
 - no simulator facade yet unless needed only for backend selection.
 ```
 
-## Task 12 — Numba full-step equivalence
+## Task 13 — Numba full-step equivalence
 
 Цель: accelerated full-step backend, эквивалентный `step_reference(...)` на зафиксированных scenarios/seeds.
 
@@ -498,7 +512,7 @@ seeds: multiple fixed seeds
 - performance benchmark can be tiny and optional, not a hard correctness dependency.
 ```
 
-## Task 13 — thin simulator facade
+## Task 14 — thin simulator facade
 
 Цель: добавить минимальный удобный facade поверх `TrafficState`, `SimulationParams`, `RingTopology`, `step_reference` / backend step.
 
@@ -520,7 +534,7 @@ state = sim.step()
 - state remains array-oriented.
 ```
 
-## Task 14 — controlled action semantics
+## Task 15 — controlled action semantics
 
 Цель: определить, как external RL actions влияют на controlled vehicles.
 
