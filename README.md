@@ -19,15 +19,18 @@ Implemented:
 - Project skeleton.
 - Core `SimulationParams` schema.
 - Core `TrafficState` array schema.
-- Validation tests for params/state behavior.
+- Reference periodic `RingTopology` for a multi-lane ring segment.
+- Validation tests for params/state/topology behavior.
 
 Not implemented yet:
 - S-NFS dynamics.
 - Lane changing.
-- Topology.
+- Occupancy / lane ordering / neighbor indexing.
+- Scenario initialization.
 - Simulator step.
 - RL environments.
 - Graph observations.
+- Numba/Cython kernels.
 
 ## Developer quick checks
 
