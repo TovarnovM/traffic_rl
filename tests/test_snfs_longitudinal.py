@@ -135,12 +135,15 @@ def test_multilane_same_lane_only_interaction() -> None:
 def test_inactive_vehicles_ignored_and_unchanged() -> None:
     params = _det_params(num_lanes=1, road_length=10)
     topology = RingTopology(num_lanes=1, length=10)
-    state = _manual_state(lane=[0, 0, 0], pos=[1, 3, 6], vel=[1, 4, 0], alive=[True, False, True])
+    state = _manual_state(lane=[0, 0, 0], pos=[1, 2, 6], vel=[1, 4, 0], alive=[True, False, True])
 
     out = step_longitudinal_reference(state, params, topology, np.random.default_rng(5))
-    assert int(out.pos[1]) == 3
+    assert int(out.pos[1]) == 2
     assert int(out.vel[1]) == 4
-    assert int(out.vel[0]) <= 3
+    # If inactive vehicle at pos=2 were incorrectly included, follower would be clamped to v=0.
+    # Correct alive-only front neighbor is at pos=6 (gap=4), so follower does 1->2 and moves to 3.
+    assert int(out.vel[0]) == 2
+    assert int(out.pos[0]) == 3
 
 
 def test_deterministic_same_seed_same_outputs() -> None:
@@ -241,6 +244,15 @@ def test_lane_change_flags_are_reset() -> None:
     out = step_longitudinal_reference(state, params, topology, np.random.default_rng(13))
     assert np.all(out.changed_lane == np.array([False, False]))
     assert np.all(out.last_lane_delta == np.array([0, 0], dtype=np.int8))
+
+
+def test_invalid_rng_rejected() -> None:
+    params = _det_params(num_lanes=1, road_length=10)
+    topology = RingTopology(num_lanes=1, length=10)
+    state = _manual_state(lane=[0], pos=[0])
+
+    with pytest.raises((TypeError, ValueError), match="rng|Generator"):
+        step_longitudinal_reference(state, params, topology, rng=123)
 
 
 def test_invalid_topology_rejected() -> None:

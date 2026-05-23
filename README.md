@@ -23,7 +23,7 @@ Implemented:
 - Reproducible uniform-random scenario initializer.
 - Reference head-cell occupancy / lane ordering / neighbor indexing (head-cell only; vehicle body cells are not marked).
 - Reference longitudinal same-lane step without lane changes.
-- Validation tests for params/state/topology/scenario/indexing behavior.
+- Validation tests for params/state/topology/scenario/indexing/longitudinal behavior.
 
 Not implemented yet:
 - Lane changing.
