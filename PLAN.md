@@ -22,7 +22,6 @@ Task 6 — reference longitudinal same-lane step without lane changes.
 Task 7 — reference lane-change phase using Eq. (8)/(9), P_CL = p_lane_change = 0.5 by default, and stochastic conflict resolution.
 Task 8 — full reference step composing lane-change phase and longitudinal phase.
 Task 9 — runtime invariant suite / random rollout invariant tests.
-Task 10 — preparation for optimized backend / reference-vs-optimized equivalence scaffolding.
 ```
 
 Текущее ядро содержит:
@@ -60,6 +59,7 @@ tests/test_indexing.py
 tests/test_snfs_longitudinal.py
 tests/test_snfs_lane_change.py
 tests/test_snfs_full_step.py
+tests/test_runtime_invariants.py
 ```
 
 ## Текущий публичный core API
@@ -80,6 +80,7 @@ from snfs_traffic.core import (
     step_longitudinal_reference,
     step_reference,
     step_lane_change_reference,
+    validate_runtime_invariants,
 )
 ```
 
@@ -368,6 +369,7 @@ Modify:
 
 Add:
   tests/test_snfs_full_step.py
+tests/test_runtime_invariants.py
 ```
 
 Не добавлять новую физику. Не менять lane-change или longitudinal rules без необходимости.

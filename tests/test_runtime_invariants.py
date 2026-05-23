@@ -102,6 +102,10 @@ def test_validate_runtime_invariants_density_one_stays_valid_and_no_lane_changes
 
         state = step_reference(state, params, topology, rng)
 
+    validate_runtime_invariants(state, params, topology)
+    assert not state.changed_lane.any()
+    assert np.all(state.last_lane_delta == 0)
+
 
 def _manual_state_two_duplicates() -> TrafficState:
     return TrafficState(
