@@ -10,7 +10,7 @@ from .indexing import (
     compute_neighbors,
 )
 from .state import TrafficState, empty_state, validate_state
-from .step_reference import step_longitudinal_reference
+from .step_reference import step_longitudinal_reference, step_reference
 from .lane_change_reference import step_lane_change_reference
 
 __all__ = [
@@ -26,5 +26,6 @@ __all__ = [
     "build_lane_order",
     "compute_neighbors",
     "step_longitudinal_reference",
+    "step_reference",
     "step_lane_change_reference",
 ]

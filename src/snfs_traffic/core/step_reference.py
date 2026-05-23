@@ -1,8 +1,8 @@
-"""Reference longitudinal step semantics for same-lane movement on a periodic ring.
+"""Reference step semantics for periodic-ring simulation.
 
-This is the repository's current explicit reference semantics for longitudinal
-updates. It is intentionally conservative and testable, and does not claim a
-final paper-exact Revised S-NFS equation mapping.
+This module keeps the explicit reference longitudinal semantics and provides a
+small full-step composition helper that applies lane-change then longitudinal
+motion while preserving lane-change flags from the lane-change phase.
 """
 
 from __future__ import annotations
@@ -10,6 +10,7 @@ from __future__ import annotations
 import numpy as np
 
 from snfs_traffic.core.indexing import build_lane_order, build_occupancy, compute_neighbors
+from snfs_traffic.core.lane_change_reference import step_lane_change_reference
 from snfs_traffic.core.params import SimulationParams
 from snfs_traffic.core.state import TrafficState, validate_state
 from snfs_traffic.topology import RingTopology
@@ -101,3 +102,30 @@ def step_longitudinal_reference(
     validate_state(new_state, params)
     build_occupancy(new_state, params)
     return new_state
+
+
+def step_reference(
+    state: TrafficState,
+    params: SimulationParams,
+    topology: RingTopology,
+    rng: np.random.Generator,
+) -> TrafficState:
+    """Apply one full reference step: lane-change phase then longitudinal phase.
+
+    Lane-change flags from the lane-change phase are restored after the
+    longitudinal phase so callers can observe lateral movement that happened
+    during this full step.
+    """
+
+    after_lane_change = step_lane_change_reference(state, params, topology, rng)
+    changed_lane = after_lane_change.changed_lane.copy()
+    last_lane_delta = after_lane_change.last_lane_delta.copy()
+
+    out = step_longitudinal_reference(after_lane_change, params, topology, rng)
+    out = out.copy()
+    out.changed_lane = changed_lane
+    out.last_lane_delta = last_lane_delta
+
+    validate_state(out, params)
+    build_occupancy(out, params)
+    return out
