@@ -1,10 +1,10 @@
 # PLAN.md — Revised S-NFS Traffic Simulator Roadmap
 
-Актуальное состояние: после завершения **Tasks 1–12** в загруженном репозитории.
+Актуальное состояние: после завершения **Tasks 1–14** в загруженном репозитории.
 
 Проект — чистая новая реализация Revised S-NFS traffic simulator для будущих multi-agent reinforcement learning экспериментов. Главная архитектурная линия остаётся прежней: массивное NumPy-состояние, маленькое и тестируемое core-ядро, отсутствие Python object graph в hot loop, постепенный переход от reference NumPy/Python реализации к оптимизированному backend.
 
-Важно: `step_reference(...)` уже реализован как композиция reference lane-change phase и reference longitudinal phase с сохранением lane-change флагов после longitudinal шага. Tasks 1–12 are complete. Task 12 добавил optional Numba indexing kernels и strict equivalence tests без изменения physics и default path.
+Важно: `step_reference(...)` уже реализован как композиция reference lane-change phase и reference longitudinal phase с сохранением lane-change флагов после longitudinal шага. Tasks 1–14 are complete. Task 12 добавил optional Numba indexing kernels и strict equivalence tests без изменения physics и default path; Task 13 добавил benchmark tooling; Task 14 добавил longitudinal array-kernel decomposition with strict equivalence tests.
 
 ---
 
@@ -25,6 +25,8 @@ Task 9 — runtime invariant suite / random rollout invariant tests.
 Task 10 — minimal backend contract and reference-vs-backend equivalence scaffolding.
 Task 11 — backend-neutral pure-array indexing kernels and reference equivalence tests.
 Task 12 — optional Numba indexing kernels with strict reference equivalence tests.
+Task 13 — benchmark tooling for indexing wrappers / pure-array kernels / optional Numba kernels.
+Task 14 — split longitudinal phase into pure-array kernels with strict reference equivalence tests.
 ```
 
 Текущее ядро содержит:
@@ -37,6 +39,7 @@ src/snfs_traffic/
     state.py
     types.py
     indexing.py
+    longitudinal_kernels.py        # internal longitudinal pure-array kernels
     step_reference.py              # longitudinal + full reference step composition
     lane_change_reference.py       # reference lane-change phase
   topology/
@@ -60,6 +63,7 @@ tests/test_ring_topology.py
 tests/test_init_scenarios.py
 tests/test_indexing.py
 tests/test_indexing_kernels.py
+tests/test_longitudinal_kernels.py
 tests/test_snfs_longitudinal.py
 tests/test_snfs_lane_change.py
 tests/test_snfs_full_step.py
@@ -131,9 +135,21 @@ Important:
 - Final performance decision should be repeated on the target machine.
 
 Task 14 — split longitudinal phase into pure-array kernels with reference equivalence tests.
+
+Completed:
+- added internal longitudinal array-level kernels for velocity update and periodic position advance;
+- refactored step_longitudinal_reference(...) to use those kernels;
+- kept public API unchanged;
+- kept ReferenceBackend and step_reference(...) behavior unchanged;
+- preserved exact RNG draw order and stochastic semantics;
+- added strict equivalence tests against old longitudinal loop semantics;
+- no Numba longitudinal kernel was added;
+- no optimized full-step backend was added.
+
+Task 15 — split lane-change phase into array-level proposal/conflict kernels with strict reference equivalence tests.
 ```
 
-Tasks 1–13 are complete. Следующий приоритет — Task 14 (консервативно): split longitudinal phase into pure-array kernels, then benchmark full-step phase costs on target hardware.
+Tasks 1–14 are complete. Следующий приоритет — Task 15 (консервативно): split lane-change phase into array-level proposal/conflict kernels with strict reference equivalence tests.
 
 ---
 
