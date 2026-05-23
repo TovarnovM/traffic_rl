@@ -20,13 +20,13 @@ Implemented:
 - Core `SimulationParams` schema.
 - Core `TrafficState` array schema.
 - Reference periodic `RingTopology` for a multi-lane ring segment.
-- Validation tests for params/state/topology behavior.
+- Reproducible uniform-random scenario initializer.
+- Validation tests for params/state/topology/scenario behavior.
 
 Not implemented yet:
 - S-NFS dynamics.
 - Lane changing.
 - Occupancy / lane ordering / neighbor indexing.
-- Scenario initialization.
 - Simulator step.
 - RL environments.
 - Graph observations.
