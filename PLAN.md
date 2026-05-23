@@ -1,6 +1,6 @@
 # PLAN.md — Revised S-NFS Traffic Simulator Roadmap
 
-Актуальное состояние: после завершения **Tasks 1–12** в загруженном репозитории.
+Актуальное состояние: после завершения **Tasks 1–14** в загруженном репозитории.
 
 Проект — чистая новая реализация Revised S-NFS traffic simulator для будущих multi-agent reinforcement learning экспериментов. Главная архитектурная линия остаётся прежней: массивное NumPy-состояние, маленькое и тестируемое core-ядро, отсутствие Python object graph в hot loop, постепенный переход от reference NumPy/Python реализации к оптимизированному backend.
 
@@ -131,9 +131,21 @@ Important:
 - Final performance decision should be repeated on the target machine.
 
 Task 14 — split longitudinal phase into pure-array kernels with reference equivalence tests.
+
+Completed:
+- added internal longitudinal array-level kernels for velocity update and periodic position advance;
+- refactored step_longitudinal_reference(...) to use those kernels;
+- kept public API unchanged;
+- kept ReferenceBackend and step_reference(...) behavior unchanged;
+- preserved exact RNG draw order and stochastic semantics;
+- added strict equivalence tests against old longitudinal loop semantics;
+- no Numba longitudinal kernel was added;
+- no optimized full-step backend was added.
+
+Task 15 — split lane-change phase into array-level proposal/conflict kernels with strict reference equivalence tests.
 ```
 
-Tasks 1–13 are complete. Следующий приоритет — Task 14 (консервативно): split longitudinal phase into pure-array kernels, then benchmark full-step phase costs on target hardware.
+Tasks 1–14 are complete. Следующий приоритет — Task 15 (консервативно): split lane-change phase into array-level proposal/conflict kernels with strict reference equivalence tests.
 
 ---
 

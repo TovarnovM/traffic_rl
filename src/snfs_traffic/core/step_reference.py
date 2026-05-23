@@ -11,6 +11,7 @@ import numpy as np
 
 from snfs_traffic.core.indexing import build_lane_order, build_occupancy, compute_neighbors
 from snfs_traffic.core.lane_change_reference import step_lane_change_reference
+from snfs_traffic.core.longitudinal_kernels import advance_positions_kernel, compute_longitudinal_velocities_kernel
 from snfs_traffic.core.params import SimulationParams
 from snfs_traffic.core.state import TrafficState, validate_state
 from snfs_traffic.topology import RingTopology
@@ -25,10 +26,6 @@ def _validate_topology(params: SimulationParams, topology: RingTopology) -> None
         raise ValueError("topology.num_lanes must match params.num_lanes")
     if topology.length != params.road_length:
         raise ValueError("topology.length must match params.road_length")
-
-
-def _vehicle_vmax(state: TrafficState, params: SimulationParams, index: int) -> int:
-    return int(params.vmax_controlled if state.controlled[index] else params.vmax_default)
 
 
 def step_longitudinal_reference(
@@ -51,53 +48,29 @@ def step_longitudinal_reference(
     new_state.changed_lane.fill(False)
     new_state.last_lane_delta.fill(0)
 
-    new_vel_i64 = new_state.vel.astype(np.int64, copy=True)
-
-    for i in range(state.n_vehicles):
-        if not state.alive[i]:
-            continue
-
-        old_v = int(state.vel[i])
-        vmax_i = _vehicle_vmax(state, params, i)
-
-        if int(front_id[i]) == -1:
-            gap_i = int(params.road_length - 1)
-            leader_v = vmax_i
-        else:
-            gap_i = int(front_gap[i])
-            leader_v = int(state.vel[int(front_id[i])])
-
-        v = min(old_v + 1, vmax_i)
-
-        if int(front_id[i]) != -1 and gap_i <= params.G:
-            anticipated_leader_motion = max(leader_v - int(params.S), 0)
-            anticipated_gap = gap_i + anticipated_leader_motion
-            v = min(v, anticipated_gap)
-
-        if old_v == 0 and v > 0 and rng.random() < params.r:
-            v = 0
-
-        brake_prob = float(params.P4)
-        if int(front_id[i]) != -1 and gap_i <= params.S:
-            brake_prob = max(brake_prob, 1.0 - float(params.P2))
-        elif int(front_id[i]) != -1 and gap_i <= params.G:
-            brake_prob = max(brake_prob, 1.0 - float(params.P3))
-
-        if v > 0 and rng.random() < brake_prob:
-            v -= 1
-
-        if int(front_id[i]) != -1:
-            v = min(v, gap_i)
-        v = max(0, min(v, vmax_i))
-
-        new_vel_i64[i] = v
-
-    new_state.vel = new_vel_i64.astype(state.vel.dtype, copy=False)
-
-    for i in range(state.n_vehicles):
-        if not state.alive[i]:
-            continue
-        new_state.pos[i] = topology.normalize_pos(int(state.pos[i]) + int(new_state.vel[i]))
+    new_state.vel = compute_longitudinal_velocities_kernel(
+        state.vel,
+        state.alive,
+        state.controlled,
+        front_id,
+        front_gap,
+        road_length=params.road_length,
+        vmax_default=params.vmax_default,
+        vmax_controlled=params.vmax_controlled,
+        G=params.G,
+        S=params.S,
+        r=params.r,
+        P2=params.P2,
+        P3=params.P3,
+        P4=params.P4,
+        rng=rng,
+    )
+    new_state.pos = advance_positions_kernel(
+        state.pos,
+        new_state.vel,
+        state.alive,
+        road_length=params.road_length,
+    )
 
     validate_state(new_state, params)
     build_occupancy(new_state, params)
