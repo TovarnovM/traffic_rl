@@ -12,6 +12,7 @@ from .indexing import (
 from .state import TrafficState, empty_state, validate_state
 from .step_reference import step_longitudinal_reference, step_reference
 from .lane_change_reference import step_lane_change_reference
+from .invariants import validate_runtime_invariants
 
 __all__ = [
     "SimulationParams",
@@ -28,4 +29,5 @@ __all__ = [
     "step_longitudinal_reference",
     "step_reference",
     "step_lane_change_reference",
+    "validate_runtime_invariants",
 ]
