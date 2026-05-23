@@ -12,37 +12,28 @@ from __future__ import annotations
 
 import numpy as np
 
+from snfs_traffic.core.indexing_kernels import (
+    INDEX_DTYPE,
+    MISSING_GAP,
+    MISSING_INDEX,
+    build_lane_order_kernel,
+    build_occupancy_kernel,
+    compute_neighbors_kernel,
+)
 from snfs_traffic.core.params import SimulationParams
 from snfs_traffic.core.state import TrafficState, validate_state
 from snfs_traffic.topology import RingTopology
 
-INDEX_DTYPE = np.int32
-MISSING_INDEX = -1
-MISSING_GAP = -1
-
-
-def _empty_index_array(shape: tuple[int, ...]) -> np.ndarray:
-    return np.full(shape, MISSING_INDEX, dtype=INDEX_DTYPE)
-
-
-def _empty_gap_array(shape: tuple[int, ...]) -> np.ndarray:
-    return np.full(shape, MISSING_GAP, dtype=INDEX_DTYPE)
-
-
 def build_occupancy(state: TrafficState, params: SimulationParams) -> np.ndarray:
     validate_state(state, params)
 
-    occupancy = _empty_index_array((params.num_lanes, params.road_length))
-    for i in range(state.n_vehicles):
-        if not state.alive[i]:
-            continue
-        lane = int(state.lane[i])
-        pos = int(state.pos[i])
-        if occupancy[lane, pos] != MISSING_INDEX:
-            raise ValueError(f"duplicate occupied head cell at lane={lane}, pos={pos}")
-        occupancy[lane, pos] = i
-
-    return occupancy
+    return build_occupancy_kernel(
+        state.lane,
+        state.pos,
+        state.alive,
+        num_lanes=params.num_lanes,
+        road_length=params.road_length,
+    )
 
 
 def _validate_occupancy(occupancy: np.ndarray, *, n_vehicles: int) -> None:
@@ -76,23 +67,7 @@ def _validate_lane_order_inputs(occupancy: np.ndarray, *, n_vehicles: int) -> No
 def build_lane_order(occupancy: np.ndarray, *, n_vehicles: int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     _validate_lane_order_inputs(occupancy, n_vehicles=n_vehicles)
 
-    num_lanes, road_length = occupancy.shape
-    lane_order = _empty_index_array((num_lanes, road_length))
-    lane_counts = np.zeros((num_lanes,), dtype=INDEX_DTYPE)
-    lane_rank = _empty_index_array((n_vehicles,))
-
-    for lane in range(num_lanes):
-        count = 0
-        for pos in range(road_length):
-            vehicle_idx = int(occupancy[lane, pos])
-            if vehicle_idx == MISSING_INDEX:
-                continue
-            lane_order[lane, count] = vehicle_idx
-            lane_rank[vehicle_idx] = count
-            count += 1
-        lane_counts[lane] = count
-
-    return lane_order, lane_counts, lane_rank
+    return build_lane_order_kernel(occupancy, n_vehicles=n_vehicles)
 
 
 def compute_neighbors(
@@ -135,11 +110,6 @@ def compute_neighbors(
     if not lane_rank.flags.c_contiguous:
         raise ValueError("lane_rank must be C-contiguous")
 
-    front_id = _empty_index_array((state.n_vehicles,))
-    back_id = _empty_index_array((state.n_vehicles,))
-    front_gap = _empty_gap_array((state.n_vehicles,))
-    back_gap = _empty_gap_array((state.n_vehicles,))
-
     for i in range(state.n_vehicles):
         if not state.alive[i]:
             continue
@@ -156,21 +126,20 @@ def compute_neighbors(
         if int(lane_order[lane, rank]) != i:
             raise ValueError(f"lane_order and lane_rank inconsistent for vehicle index {i}")
 
-        if count <= 1:
-            continue
+        if count > 1:
+            front_rank = (rank + 1) % count
+            back_rank = (rank - 1) % count
+            front_idx = int(lane_order[lane, front_rank])
+            back_idx = int(lane_order[lane, back_rank])
+            if front_idx == MISSING_INDEX or back_idx == MISSING_INDEX:
+                raise ValueError(f"lane_order missing neighbor index for lane {lane}")
 
-        front_rank = (rank + 1) % count
-        back_rank = (rank - 1) % count
-
-        front_idx = int(lane_order[lane, front_rank])
-        back_idx = int(lane_order[lane, back_rank])
-        if front_idx == MISSING_INDEX or back_idx == MISSING_INDEX:
-            raise ValueError(f"lane_order missing neighbor index for lane {lane}")
-
-        front_id[i] = front_idx
-        back_id[i] = back_idx
-
-        front_gap[i] = int(topology.forward_distance(int(state.pos[i]), int(state.pos[front_idx])) - 1)
-        back_gap[i] = int(topology.forward_distance(int(state.pos[back_idx]), int(state.pos[i])) - 1)
-
-    return front_id, back_id, front_gap, back_gap
+    return compute_neighbors_kernel(
+        state.lane,
+        state.pos,
+        state.alive,
+        lane_order,
+        lane_counts,
+        lane_rank,
+        road_length=topology.length,
+    )
