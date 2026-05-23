@@ -37,15 +37,17 @@ Implemented:
 - Optional Numba-compiled indexing kernels for occupancy, lane order, and periodic-ring neighbor/gap computation.
 - Strict equivalence tests proving Numba indexing outputs match pure-array reference kernels and public validated wrappers.
 - Numba is available as an optional extra dependency, not required for base install.
+- Numba is optional and is not used by default in `step_reference(...)`.
 - Validation tests for params/state/topology/scenario/indexing/longitudinal/lane-change/full-step behavior.
 
 Not implemented yet:
-- Optimized backend.
+- Optimized full-step backend.
 - Numba lane-change kernel.
 - Numba longitudinal kernel.
 - Cython kernels.
 - Controlled RL action semantics.
 - Observations.
+- Rewards.
 - Metrics.
 - Simulator facade.
 - RL environments.
@@ -82,6 +84,7 @@ Current backend limitations:
 
 ```bash
 python -m pip install -e .
+python -m pip install -e ".[numba]"
 pytest -q
 python -c "import snfs_traffic; print(snfs_traffic.__version__)"
 ```

@@ -499,9 +499,32 @@ seeds: multiple fixed seeds
 - no simulator facade yet unless needed only for backend selection.
 ```
 
-## Task 13 — Numba full-step equivalence
+## Task 13 — benchmark reference vs Numba indexing kernels and decide whether/how to wire indexing acceleration into an optimized backend
+
+Цель: измерить реальную стоимость текущих indexing phases и пользу optional Numba kernels перед любым подключением ускорения в backend path.
+
+Обязательные требования:
+
+- benchmark only occupancy/lane_order/neighbors and representative full-step slices where indexing cost is visible;
+- compare public reference wrappers / pure-array kernels / optional Numba kernels where applicable;
+- include warmup handling for Numba compilation;
+- report first-call compile cost separately from warmed execution time;
+- keep benchmark results out of correctness tests;
+- do not make performance numbers brittle CI assertions;
+- do not wire Numba into `step_reference`;
+- do not change `ReferenceBackend`;
+- do not introduce backend registry or environment-variable backend selection yet;
+- do not implement Numba lane-change, longitudinal, RNG, or full-step kernels;
+- use benchmark results to recommend whether the next implementation task should be:
+  1. an explicit optimized backend using Numba indexing only,
+  2. splitting longitudinal phase into pure-array kernels,
+  3. or postponing Numba integration if indexing is not the bottleneck.
+
+## Future task — Numba full-step equivalence
 
 Цель: accelerated full-step backend, эквивалентный `step_reference(...)` на зафиксированных scenarios/seeds.
+
+Условие запуска: выполнять только после Task 13 benchmarks и решения о целесообразности deeper Numba integration.
 
 Обязательные требования:
 
