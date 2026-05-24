@@ -41,7 +41,6 @@ Implemented:
 - Validation tests for params/state/topology/scenario/indexing/longitudinal/lane-change/full-step behavior.
 
 Not implemented yet:
-- Experimental optimized full-step backend (optional/fallback-focused, not production-ready).
 - Experimental optional Numba lane-change proposal helper.
 - Experimental optional Numba longitudinal helper.
 - Cython kernels.
@@ -72,7 +71,7 @@ Backends return:
 
 Current backend limitations:
 - `ReferenceBackend` exists and remains authoritative for semantics;
-- an experimental `OptimizedBackend` exists and is expected to fallback to reference semantics when optional kernels are unavailable;
+- a supported optional `OptimizedBackend` is available and falls back to reference semantics when Numba kernels are unavailable;
 - backend equivalence tests compare backend outputs against `step_reference`;
 - future optimized backends must pass the same equivalence tests;
 - RNG must come from the provided `np.random.Generator`;
@@ -124,13 +123,28 @@ python benchmarks/benchmark_indexing.py --quick
 
 Benchmark numbers are environment-dependent. Codex Cloud/CI results are useful as smoke checks only and should not be treated as final production performance measurements.
 
-This benchmark does not change simulator behavior. Numba indexing remains optional and is not used by default in `step_reference(...)`. An experimental optimized full-step backend exists and remains optional/fallback-focused.
+This benchmark does not change simulator behavior. Numba indexing remains optional and is not used by default in `step_reference(...)`. `OptimizedBackend` is a supported optional backend when required Numba kernels are available, and falls back to `ReferenceBackend` when they are not.
 
 
-## Optimized full-step benchmark (experimental)
+## Optimized full-step benchmark
 
 ```bash
 PYTHONPATH=src python benchmarks/bench_optimized_full_step.py --preset smoke --backend both
 PYTHONPATH=src python benchmarks/bench_optimized_full_step.py --preset standard --backend both --out-json /tmp/snfs_optimized_full_step.json --out-md /tmp/snfs_optimized_full_step.md
 ```
 
+
+
+## Backend selection
+
+Use `snfs_traffic.backends.get_backend(name)` with `name` in `{"reference", "optimized", "auto"}`.
+
+- `reference`: always uses `ReferenceBackend` (`step_reference` semantics oracle).
+- `optimized`: uses `OptimizedBackend` when all required Numba kernels are available; otherwise gracefully falls back to `ReferenceBackend`.
+- `auto`: same as `optimized`, intended as the default production-safe selector.
+
+Install optional Numba kernels with:
+
+```bash
+python -m pip install -e ".[numba]"
+```

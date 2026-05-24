@@ -166,3 +166,90 @@ def compute_neighbors_numba(
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     _ensure_numba_available()
     return _compute_neighbors_numba_impl(lane, pos, alive, lane_order, lane_counts, lane_rank, road_length)
+
+
+if NUMBA_AVAILABLE:
+
+    @njit(cache=True)
+    def _build_index_and_neighbors_numba_impl(
+        lane: np.ndarray,
+        pos: np.ndarray,
+        alive: np.ndarray,
+        num_lanes: int,
+        road_length: int,
+    ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+        occupancy = np.empty((num_lanes, road_length), dtype=INDEX_DTYPE)
+        lane_order = np.empty((num_lanes, road_length), dtype=INDEX_DTYPE)
+        lane_counts = np.zeros((num_lanes,), dtype=INDEX_DTYPE)
+
+        n_vehicles = int(lane.shape[0])
+        lane_rank = np.empty((n_vehicles,), dtype=INDEX_DTYPE)
+        front_id = np.empty((n_vehicles,), dtype=INDEX_DTYPE)
+        back_id = np.empty((n_vehicles,), dtype=INDEX_DTYPE)
+        front_gap = np.empty((n_vehicles,), dtype=INDEX_DTYPE)
+        back_gap = np.empty((n_vehicles,), dtype=INDEX_DTYPE)
+
+        for i in range(n_vehicles):
+            lane_rank[i] = MISSING_INDEX
+            front_id[i] = MISSING_INDEX
+            back_id[i] = MISSING_INDEX
+            front_gap[i] = MISSING_GAP
+            back_gap[i] = MISSING_GAP
+
+        for lane_idx in range(num_lanes):
+            for pos_idx in range(road_length):
+                occupancy[lane_idx, pos_idx] = MISSING_INDEX
+                lane_order[lane_idx, pos_idx] = MISSING_INDEX
+
+        for i in range(n_vehicles):
+            if not alive[i]:
+                continue
+            lane_i = int(lane[i])
+            pos_i = int(pos[i])
+            if occupancy[lane_i, pos_i] != MISSING_INDEX:
+                raise ValueError("duplicate occupied head cell")
+            occupancy[lane_i, pos_i] = i
+
+        for lane_idx in range(num_lanes):
+            count = 0
+            for pos_idx in range(road_length):
+                vehicle_idx = int(occupancy[lane_idx, pos_idx])
+                if vehicle_idx == MISSING_INDEX:
+                    continue
+                lane_order[lane_idx, count] = vehicle_idx
+                lane_rank[vehicle_idx] = count
+                count += 1
+            lane_counts[lane_idx] = count
+
+            if count <= 1:
+                continue
+
+            for rank in range(count):
+                veh = int(lane_order[lane_idx, rank])
+                front_rank = (rank + 1) % count
+                back_rank = (rank - 1) % count
+                front_veh = int(lane_order[lane_idx, front_rank])
+                back_veh = int(lane_order[lane_idx, back_rank])
+                front_id[veh] = front_veh
+                back_id[veh] = back_veh
+                front_gap[veh] = int((int(pos[front_veh]) - int(pos[veh])) % road_length - 1)
+                back_gap[veh] = int((int(pos[veh]) - int(pos[back_veh])) % road_length - 1)
+
+        return occupancy, lane_order, lane_counts, lane_rank, front_id, back_id, front_gap, back_gap
+
+else:
+
+    def _build_index_and_neighbors_numba_impl(*args: object, **kwargs: object) -> tuple[np.ndarray, ...]:
+        raise ImportError("Numba is not installed. Install optional dependency: pip install 'snfs-traffic[numba]'.")
+
+
+def build_index_and_neighbors_numba(
+    lane: np.ndarray,
+    pos: np.ndarray,
+    alive: np.ndarray,
+    *,
+    num_lanes: int,
+    road_length: int,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    _ensure_numba_available()
+    return _build_index_and_neighbors_numba_impl(lane, pos, alive, num_lanes, road_length)
