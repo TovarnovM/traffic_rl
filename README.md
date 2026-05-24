@@ -41,9 +41,9 @@ Implemented:
 - Validation tests for params/state/topology/scenario/indexing/longitudinal/lane-change/full-step behavior.
 
 Not implemented yet:
-- Optimized full-step backend.
-- Numba lane-change kernel.
-- Numba longitudinal kernel.
+- Experimental optimized full-step backend (optional/fallback-focused, not production-ready).
+- Experimental optional Numba lane-change proposal helper.
+- Experimental optional Numba longitudinal helper.
 - Cython kernels.
 - Controlled RL action semantics.
 - Observations.
@@ -71,9 +71,9 @@ Backends return:
 - `TrafficState`
 
 Current backend limitations:
-- only `ReferenceBackend` exists;
-- no optimized backend exists yet;
-- backend equivalence tests currently compare `ReferenceBackend` against `step_reference`;
+- `ReferenceBackend` exists and remains authoritative for semantics;
+- an experimental `OptimizedBackend` exists and is expected to fallback to reference semantics when optional kernels are unavailable;
+- backend equivalence tests compare backend outputs against `step_reference`;
 - future optimized backends must pass the same equivalence tests;
 - RNG must come from the provided `np.random.Generator`;
 - occupancy/gaps/collision checks remain head-cell-only;
@@ -124,4 +124,13 @@ python benchmarks/benchmark_indexing.py --quick
 
 Benchmark numbers are environment-dependent. Codex Cloud/CI results are useful as smoke checks only and should not be treated as final production performance measurements.
 
-This benchmark does not change simulator behavior. Numba indexing remains optional and is not used by default in `step_reference(...)`. An optimized full-step backend is still not implemented.
+This benchmark does not change simulator behavior. Numba indexing remains optional and is not used by default in `step_reference(...)`. An experimental optimized full-step backend exists and remains optional/fallback-focused.
+
+
+## Optimized full-step benchmark (experimental)
+
+```bash
+PYTHONPATH=src python benchmarks/bench_optimized_full_step.py --preset smoke --backend both
+PYTHONPATH=src python benchmarks/bench_optimized_full_step.py --preset standard --backend both --out-json /tmp/snfs_optimized_full_step.json --out-md /tmp/snfs_optimized_full_step.md
+```
+
