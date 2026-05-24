@@ -9,9 +9,31 @@ from snfs_traffic.core.lane_change_numba import NUMBA_AVAILABLE as LANE_NUMBA_AV
 from snfs_traffic.core.longitudinal_kernels import compute_longitudinal_velocities_kernel
 from snfs_traffic.core.longitudinal_numba import NUMBA_AVAILABLE as LONG_NUMBA_AVAILABLE, advance_positions_numba
 from snfs_traffic.core.params import SimulationParams
-from snfs_traffic.core.state import TrafficState
+from snfs_traffic.core.state import TrafficState, validate_state
 from snfs_traffic.core.step_reference import step_reference
 from snfs_traffic.topology import RingTopology
+
+
+def _validate_reference_inputs(
+    state: TrafficState,
+    params: SimulationParams,
+    topology: RingTopology,
+    rng: np.random.Generator,
+) -> None:
+    if not isinstance(rng, np.random.Generator):
+        raise TypeError("rng must be an instance of numpy.random.Generator")
+
+    validate_state(state, params)
+
+    if not isinstance(topology, RingTopology):
+        raise ValueError("topology must be RingTopology")
+    if topology.boundary != "periodic":
+        raise ValueError("topology.boundary must be 'periodic'")
+    if topology.num_lanes != params.num_lanes:
+        raise ValueError("topology.num_lanes must match params.num_lanes")
+    if topology.length != params.road_length:
+        raise ValueError("topology.length must match params.road_length")
+
 
 
 @dataclass(frozen=True)
@@ -19,6 +41,8 @@ class OptimizedBackend:
     name: str = "optimized"
 
     def step(self, state: TrafficState, params: SimulationParams, topology: RingTopology, rng: np.random.Generator) -> TrafficState:
+        _validate_reference_inputs(state, params, topology, rng)
+
         if not (INDEX_NUMBA_AVAILABLE and LANE_NUMBA_AVAILABLE and LONG_NUMBA_AVAILABLE):
             return step_reference(state, params, topology, rng)
         occupancy, lane_order, lane_counts, _, front_id, _, front_gap, _ = build_index_and_neighbors_numba(

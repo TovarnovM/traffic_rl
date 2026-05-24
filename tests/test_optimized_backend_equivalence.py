@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 
 from snfs_traffic.backends.optimized import get_optimized_backend
 from snfs_traffic.core import SimulationParams, step_reference, validate_runtime_invariants
@@ -55,3 +56,12 @@ def test_optimized_backend_multistep_rollout_grid_equivalence() -> None:
                         validate_runtime_invariants(state_opt, params, topology)
 
                     assert float(rng_ref.random()) == float(rng_opt.random())
+
+
+def test_optimized_backend_preserves_reference_input_validation() -> None:
+    params = SimulationParams(num_lanes=2, road_length=10, p_lane_change=0.2)
+    bad_topology = RingTopology(num_lanes=3, length=10)
+    state = make_uniform_random_state(num_lanes=2, road_length=10, density=0.2, seed=9)
+
+    with pytest.raises(ValueError, match="topology.num_lanes must match params.num_lanes"):
+        get_optimized_backend().step(state, params, bad_topology, np.random.default_rng(0))
