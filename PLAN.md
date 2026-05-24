@@ -161,6 +161,19 @@ Completed:
 - no longitudinal behavior was changed.
 
 Task 16 — benchmark full-step phase costs after longitudinal and lane-change kernel splits before implementing optimized full-step backends.
+
+Completed:
+- added benchmark tooling for full `step_reference(...)` and benchmark-local phase-level timing;
+- added deterministic smoke/standard benchmark presets;
+- added JSON and Markdown benchmark reports;
+- added benchmark-local correctness checks against public `step_reference(...)`;
+- added smoke tests for benchmark CLI/output schema;
+- did not change simulator physics;
+- did not change public API;
+- did not implement optimized backend;
+- did not add Numba lane-change or longitudinal kernels.
+
+Task 17 — optimize the measured dominant full-step bottleneck identified by Task 16.
 ```
 
 Tasks 1–15 are complete. Следующий приоритет — Task 16 (консервативно): benchmark full-step phase costs after longitudinal and lane-change kernel splits before implementing optimized full-step backends.
