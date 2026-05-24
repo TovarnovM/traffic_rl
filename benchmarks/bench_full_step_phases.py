@@ -41,6 +41,7 @@ PHASE_KEYS = [
     "validation_and_final_checks",
     "longitudinal_phase",
     "full_step_reference_blackbox",
+    "orchestration_and_copy_overhead",
 ]
 
 @dataclass(frozen=True)
@@ -73,6 +74,25 @@ def get_cases(preset: str, seed: int, steps: int | None) -> list[BenchCase]:
         out = [replace(c, steps=steps) for c in out]
     return out
 
+
+
+def _parse_requested_case_names(raw: str) -> list[str]:
+    return [part.strip() for part in raw.split(",") if part.strip()]
+
+
+def _validate_requested_cases(parser: argparse.ArgumentParser, requested: list[str], available: list[str]) -> None:
+    unknown = [name for name in requested if name not in available]
+    if unknown:
+        parser.error(
+            "unknown case name(s): "
+            + ", ".join(unknown)
+            + ". valid case names: "
+            + ", ".join(available)
+        )
+
+
+def _non_blackbox_non_overhead_sum_ns(phase_ns: dict[str, int]) -> int:
+    return int(sum(v for k, v in phase_ns.items() if k not in {"full_step_reference_blackbox", "orchestration_and_copy_overhead"}))
 
 def phased_step(state, params, topology, rng):
     phase_ns = {k: 0 for k in PHASE_KEYS}
@@ -138,6 +158,8 @@ def run_case(case: BenchCase, repeats: int, warmups: int):
             total_ns, phase_totals = do_rollout(case.steps, collect_phase=True)
             roll_ns, full_totals = do_rollout(case.steps, collect_phase=False)
             phase_totals["full_step_reference_blackbox"] = full_totals["full_step_reference_blackbox"]
+            measured_ns = _non_blackbox_non_overhead_sum_ns(phase_totals)
+            phase_totals["orchestration_and_copy_overhead"] = max(0, int(total_ns) - int(measured_ns))
             repeats_data.append({"repeat_index": i, "total_ns": total_ns, "rollout_reference_blackbox_ns": roll_ns, "per_step_ns": total_ns / case.steps, "phase_ns": phase_totals})
     finally:
         if gc_enabled: gc.enable()
@@ -170,6 +192,8 @@ def recommend(preset: str, cases: list[dict]):
         msg = "Task 17 — implement optional Numba longitudinal kernel; longitudinal phase dominates."
     elif t0 == "validation_and_final_checks":
         msg = "Task 17 — design optimized full-step backend separating validation-heavy reference checks from fast path."
+    elif t0 == "orchestration_and_copy_overhead":
+        msg = "Task 17 — design optimized full-step backend focused on orchestration/state-copy overhead, then re-benchmark."
     else:
         msg = "Task 17 — optimize the measured dominant full-step bottleneck identified by Task 16."
     return {"top_bottlenecks": names, "suggested_next_task": msg, "top_phase": t0, "top_phase_percent_mean": p0}
@@ -210,8 +234,15 @@ def main():
     warmups = args.warmups if args.warmups is not None else d_warm
     cases = get_cases(args.preset, args.seed, args.steps if args.steps is not None else d_steps)
     if args.cases:
-        wanted = {x.strip() for x in args.cases.split(",") if x.strip()}
-        cases = [c for c in cases if c.name in wanted]
+        requested = _parse_requested_case_names(args.cases)
+        if not requested:
+            p.error("--cases was provided but no non-empty case names were given")
+        available_case_names = [c.name for c in cases]
+        _validate_requested_cases(p, requested, available_case_names)
+        requested_set = set(requested)
+        cases = [c for c in cases if c.name in requested_set]
+        if not cases:
+            p.error("--cases filter selected zero cases")
 
     for c in cases[: min(2, len(cases))]:
         assert_phased_equivalent(c)

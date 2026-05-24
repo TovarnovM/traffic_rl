@@ -176,7 +176,7 @@ Completed:
 Task 17 — optimize the measured dominant full-step bottleneck identified by Task 16.
 ```
 
-Tasks 1–15 are complete. Следующий приоритет — Task 16 (консервативно): benchmark full-step phase costs after longitudinal and lane-change kernel splits before implementing optimized full-step backends.
+Tasks 1–16 are complete. Следующий приоритет — Task 17 (консервативно): optimize the measured dominant full-step bottleneck identified by Task 16.
 
 ---
 
