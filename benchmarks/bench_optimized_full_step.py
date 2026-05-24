@@ -199,7 +199,7 @@ def _format_markdown(data: dict) -> str:
         "## Comparison",
         "",
         "| case | vehicles | steps | reference mean ms/step | optimized mean ms/step | speedup x | equivalence | top optimized component | notes |",
-        "|---|---:|---:|---:|---:|---:|---|---|",
+        "|---|---:|---:|---:|---:|---:|---|---|---|",
     ]
     for case in data["cases"]:
         eq = "yes" if (case["equivalence"]["state_equal"] and case["equivalence"]["rng_next_draw_equal"]) else "no"
