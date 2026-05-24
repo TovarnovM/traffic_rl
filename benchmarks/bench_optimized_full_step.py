@@ -21,6 +21,18 @@ from snfs_traffic.scenarios import make_uniform_random_state
 from snfs_traffic.topology import RingTopology
 
 FIELDS = ("lane", "pos", "vel", "alive", "controlled", "changed_lane", "last_lane_delta")
+PROFILE_COMPONENTS = (
+    "occupancy_pre_lane_change",
+    "lane_order_pre_lane_change",
+    "lane_change_proposals",
+    "conflict_resolution",
+    "apply_lane_changes",
+    "occupancy_post_lane_change",
+    "lane_order_post_lane_change",
+    "longitudinal_velocity",
+    "position_advance",
+    "state_copy_orchestration",
+)
 
 
 def _parse_requested_case_names(raw: str) -> list[str]:
@@ -58,6 +70,88 @@ def _run_rollout(case, *, kind: str):
             state = backend.step(state, params, topology, rng)
     elapsed_ns = perf_counter_ns() - t0
     return elapsed_ns / case.steps, state, float(rng.random())
+
+
+def _run_optimized_profiled_rollout(case) -> tuple[dict[str, float], object]:
+    from snfs_traffic.core.indexing import build_lane_order, build_occupancy, compute_neighbors
+    from snfs_traffic.core.lane_change_kernels import apply_lane_changes_kernel, resolve_lane_change_conflicts_kernel
+    from snfs_traffic.core.lane_change_numba import collect_lane_change_proposals_numba
+    from snfs_traffic.core.longitudinal_kernels import compute_longitudinal_velocities_kernel
+    from snfs_traffic.core.longitudinal_numba import advance_positions_numba
+
+    params = SimulationParams(num_lanes=case.num_lanes, road_length=case.road_length, p_lane_change=case.p_lane_change)
+    topology = RingTopology(num_lanes=case.num_lanes, length=case.road_length)
+    state = make_uniform_random_state(
+        num_lanes=case.num_lanes,
+        road_length=case.road_length,
+        density=case.density,
+        seed=case.seed,
+    )
+    rng = np.random.default_rng(case.seed + 999)
+    totals_ns = {name: 0 for name in PROFILE_COMPONENTS}
+
+    for _ in range(case.steps):
+        t = perf_counter_ns()
+        occupancy = build_occupancy(state, params)
+        totals_ns["occupancy_pre_lane_change"] += perf_counter_ns() - t
+
+        t = perf_counter_ns()
+        lane_order, lane_counts, lane_rank = build_lane_order(occupancy, n_vehicles=state.n_vehicles)
+        front_id, _, front_gap, _ = compute_neighbors(state, lane_order, lane_counts, lane_rank, topology)
+        totals_ns["lane_order_pre_lane_change"] += perf_counter_ns() - t
+
+        t = perf_counter_ns()
+        proposals = collect_lane_change_proposals_numba(
+            lane=state.lane, pos=state.pos, vel=state.vel, alive=state.alive, controlled=state.controlled,
+            occupancy=occupancy, lane_order=lane_order, lane_counts=lane_counts, front_id=front_id, front_gap=front_gap,
+            num_lanes=params.num_lanes, road_length=params.road_length, vmax_default=params.vmax_default,
+            vmax_controlled=params.vmax_controlled, p_lane_change=params.p_lane_change, rng=rng
+        )
+        totals_ns["lane_change_proposals"] += perf_counter_ns() - t
+
+        t = perf_counter_ns()
+        accepted = resolve_lane_change_conflicts_kernel(proposals, rng)
+        totals_ns["conflict_resolution"] += perf_counter_ns() - t
+
+        t = perf_counter_ns()
+        new_lane, new_changed_lane, new_last_lane_delta = apply_lane_changes_kernel(state.lane, state.changed_lane, state.last_lane_delta, accepted)
+        totals_ns["apply_lane_changes"] += perf_counter_ns() - t
+
+        t = perf_counter_ns()
+        after_lane = state.copy()
+        after_lane.lane = new_lane
+        after_lane.changed_lane = new_changed_lane
+        after_lane.last_lane_delta = new_last_lane_delta
+        totals_ns["state_copy_orchestration"] += perf_counter_ns() - t
+
+        t = perf_counter_ns()
+        occupancy2 = build_occupancy(after_lane, params)
+        totals_ns["occupancy_post_lane_change"] += perf_counter_ns() - t
+
+        t = perf_counter_ns()
+        lane_order2, lane_counts2, lane_rank2 = build_lane_order(occupancy2, n_vehicles=after_lane.n_vehicles)
+        front_id2, _, front_gap2, _ = compute_neighbors(after_lane, lane_order2, lane_counts2, lane_rank2, topology)
+        totals_ns["lane_order_post_lane_change"] += perf_counter_ns() - t
+
+        t = perf_counter_ns()
+        new_vel = compute_longitudinal_velocities_kernel(after_lane.vel, after_lane.alive, after_lane.controlled, front_id2, front_gap2,
+            road_length=params.road_length, vmax_default=params.vmax_default, vmax_controlled=params.vmax_controlled,
+            G=params.G, S=params.S, r=params.r, P2=params.P2, P3=params.P3, P4=params.P4, rng=rng)
+        totals_ns["longitudinal_velocity"] += perf_counter_ns() - t
+
+        t = perf_counter_ns()
+        new_pos = advance_positions_numba(after_lane.pos, new_vel, after_lane.alive, road_length=params.road_length)
+        totals_ns["position_advance"] += perf_counter_ns() - t
+
+        t = perf_counter_ns()
+        out = after_lane.copy()
+        out.vel = new_vel
+        out.pos = new_pos
+        state = out
+        totals_ns["state_copy_orchestration"] += perf_counter_ns() - t
+
+    profile_ms_per_step = {k: (v / case.steps) / 1e6 for k, v in totals_ns.items()}
+    return profile_ms_per_step, state
 
 
 def _precompile_optimized_if_available() -> None:
@@ -104,14 +198,14 @@ def _format_markdown(data: dict) -> str:
         "",
         "## Comparison",
         "",
-        "| case | vehicles | steps | reference mean ms/step | optimized mean ms/step | speedup x | equivalence | notes |",
-        "|---|---:|---:|---:|---:|---:|---|---|",
+        "| case | vehicles | steps | reference mean ms/step | optimized mean ms/step | speedup x | equivalence | top optimized component | notes |",
+        "|---|---:|---:|---:|---:|---:|---|---|---|",
     ]
     for case in data["cases"]:
         eq = "yes" if (case["equivalence"]["state_equal"] and case["equivalence"]["rng_next_draw_equal"]) else "no"
         lines.append(
             f"| {case['name']} | {case['n_vehicles']} | {case['steps']} | {case['reference']['mean_ms_per_step']:.4f} | "
-            f"{case['optimized']['mean_ms_per_step']:.4f} | {case['speedup_x']:.3f} | {eq} | {case['notes']} |"
+            f"{case['optimized']['mean_ms_per_step']:.4f} | {case['speedup_x']:.3f} | {eq} | {case['optimized_profile']['top_component']} | {case['notes']} |"
         )
     lines += ["", "## Recommendation", "", data["recommendation"], ""]
     return "\n".join(lines)
@@ -212,6 +306,10 @@ def main() -> None:
                         "mean_ms_per_step": opt_mean / 1e6,
                         "median_ms_per_step": opt_median / 1e6,
                     },
+                    "optimized_profile": {
+                        "component_ms_per_step": {},
+                        "top_component": "n/a",
+                    },
                     "speedup_x": speedup,
                     "equivalence": {
                         "state_equal": state_equal,
@@ -225,6 +323,20 @@ def main() -> None:
                     "notes": _case_note(),
                 }
             )
+            if NUMBA_AVAILABLE and args.backend in {"optimized", "both"}:
+                prof, prof_state = _run_optimized_profiled_rollout(case)
+                top_component = max(prof.items(), key=lambda kv: kv[1])[0]
+                results[-1]["optimized_profile"] = {
+                    "component_ms_per_step": prof,
+                    "top_component": top_component,
+                }
+                if args.backend == "optimized":
+                    state_equal_profile = True
+                    for field in FIELDS:
+                        if not np.array_equal(getattr(last_optimized_state, field), getattr(prof_state, field)):
+                            state_equal_profile = False
+                            break
+                    results[-1]["optimized_profile"]["matches_optimized_state"] = state_equal_profile
     finally:
         if gc_enabled:
             gc.enable()
