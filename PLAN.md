@@ -852,3 +852,24 @@ pytest -q
 pytest -q tests/test_invariants_random_rollouts.py
 pytest -q
 ```
+## Task 17+19+20 — aggressive optimized full-step backend branch
+
+Completed:
+- added optional Numba lane-change proposal collection path (`core/lane_change_numba.py`);
+- added optional Numba longitudinal position-advance path (`core/longitudinal_numba.py`);
+- added optimized backend with graceful fallback to reference when optional kernels are unavailable (`backends/optimized.py`);
+- added benchmark comparison script (`benchmarks/bench_optimized_full_step.py`);
+- added equivalence/smoke tests for optional kernels/backend/benchmark.
+
+Benchmark result:
+- see benchmark output JSON/Markdown from `bench_optimized_full_step.py`.
+- if numba is unavailable, optimized backend falls back to reference.
+
+Next:
+- keep branch experimental if equivalence or speedup targets are not met.
+
+
+Task 17+19+20 follow-up stabilization:
+- benchmark script corrected to honor warmups/repeats, strict --cases validation, per-repeat JSON timings, conservative recommendation logic, and explicit fallback metadata;
+- expanded lane-change numba and optimized-backend equivalence coverage (multi-seed, lane-count/density/p_lane_change grid, rollout invariants, RNG next-draw parity checks);
+- status remains experimental (not production-ready).
