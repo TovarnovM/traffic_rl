@@ -1,0 +1,126 @@
+{
+  "benchmark": "snfs_optimized_full_step",
+  "schema_version": 2,
+  "created_at_utc": "2026-05-24T09:47:01.048813+00:00",
+  "python": "3.14.4 (main, May  1 2026, 05:51:55) [GCC 13.3.0]",
+  "platform": "Linux-6.12.47-x86_64-with-glibc2.39",
+  "numpy_version": "2.4.6",
+  "numba_available": true,
+  "preset": "smoke",
+  "seed": 0,
+  "steps": 50,
+  "repeats": 3,
+  "warmups": 1,
+  "backend": "both",
+  "cases": [
+    {
+      "name": "smoke_low_density",
+      "num_lanes": 2,
+      "road_length": 100,
+      "density": 0.1,
+      "p_lane_change": 0.5,
+      "steps": 50,
+      "seed": 0,
+      "n_vehicles": 20,
+      "repeats": 3,
+      "warmups": 1,
+      "reference": {
+        "per_repeat_ms_per_step": [
+          1.93872798,
+          1.98252878,
+          2.04502038
+        ],
+        "mean_ms_per_step": 1.9887590466666667,
+        "median_ms_per_step": 1.98252878
+      },
+      "optimized": {
+        "per_repeat_ms_per_step": [
+          0.10327283999999999,
+          0.10786053999999999,
+          0.09995994
+        ],
+        "mean_ms_per_step": 0.10369777333333333,
+        "median_ms_per_step": 0.10327283999999999
+      },
+      "optimized_profile": {
+        "component_ms_per_step": {
+          "pre_lane_change_index_neighbors_fused": 0.008577379999999999,
+          "lane_change_proposals": 0.01363066,
+          "conflict_resolution": 0.0007308999999999999,
+          "apply_lane_changes": 0.0062101000000000005,
+          "post_lane_change_index_neighbors_fused": 0.008485540000000001,
+          "longitudinal_velocity": 0.04948148,
+          "position_advance": 0.00264678,
+          "state_copy_orchestration": 0.01147978
+        },
+        "top_component": "longitudinal_velocity"
+      },
+      "speedup_x": 19.17841610999555,
+      "equivalence": {
+        "state_equal": true,
+        "rng_next_draw_equal": true
+      },
+      "backend_status": {
+        "optimized_requested": true,
+        "optimized_available": true,
+        "fallback_to_reference": false
+      },
+      "notes": "optimized backend active"
+    },
+    {
+      "name": "smoke_dense",
+      "num_lanes": 3,
+      "road_length": 100,
+      "density": 0.5,
+      "p_lane_change": 0.5,
+      "steps": 50,
+      "seed": 1,
+      "n_vehicles": 150,
+      "repeats": 3,
+      "warmups": 1,
+      "reference": {
+        "per_repeat_ms_per_step": [
+          8.17736452,
+          8.31101554,
+          7.773293519999999
+        ],
+        "mean_ms_per_step": 8.087224526666667,
+        "median_ms_per_step": 8.17736452
+      },
+      "optimized": {
+        "per_repeat_ms_per_step": [
+          0.5019429,
+          0.71541986,
+          0.55540754
+        ],
+        "mean_ms_per_step": 0.5909234333333333,
+        "median_ms_per_step": 0.55540754
+      },
+      "optimized_profile": {
+        "component_ms_per_step": {
+          "pre_lane_change_index_neighbors_fused": 0.0188824,
+          "lane_change_proposals": 0.15206182000000001,
+          "conflict_resolution": 0.0024586,
+          "apply_lane_changes": 0.01526168,
+          "post_lane_change_index_neighbors_fused": 0.01922554,
+          "longitudinal_velocity": 0.3865604,
+          "position_advance": 0.0089146,
+          "state_copy_orchestration": 0.020304700000000002
+        },
+        "top_component": "longitudinal_velocity"
+      },
+      "speedup_x": 13.685740098421098,
+      "equivalence": {
+        "state_equal": true,
+        "rng_next_draw_equal": true
+      },
+      "backend_status": {
+        "optimized_requested": true,
+        "optimized_available": true,
+        "fallback_to_reference": false
+      },
+      "notes": "optimized backend active"
+    }
+  ],
+  "recommendation": "keep OptimizedBackend supported but do not merge indexing fast path"
+}

@@ -14,7 +14,7 @@ from time import perf_counter_ns
 import numpy as np
 
 from bench_full_step_phases import get_cases
-from snfs_traffic.backends.optimized import get_optimized_backend
+from snfs_traffic.backends import get_backend
 from snfs_traffic.core import SimulationParams, step_reference
 from snfs_traffic.core.lane_change_numba import NUMBA_AVAILABLE
 from snfs_traffic.scenarios import make_uniform_random_state
@@ -22,13 +22,11 @@ from snfs_traffic.topology import RingTopology
 
 FIELDS = ("lane", "pos", "vel", "alive", "controlled", "changed_lane", "last_lane_delta")
 PROFILE_COMPONENTS = (
-    "occupancy_pre_lane_change",
-    "lane_order_pre_lane_change",
+    "pre_lane_change_index_neighbors_fused",
     "lane_change_proposals",
     "conflict_resolution",
     "apply_lane_changes",
-    "occupancy_post_lane_change",
-    "lane_order_post_lane_change",
+    "post_lane_change_index_neighbors_fused",
     "longitudinal_velocity",
     "position_advance",
     "state_copy_orchestration",
@@ -59,7 +57,7 @@ def _run_rollout(case, *, kind: str):
         density=case.density,
         seed=case.seed,
     )
-    backend = get_optimized_backend()
+    backend = get_backend("optimized")
     rng = np.random.default_rng(case.seed + 999)
 
     t0 = perf_counter_ns()
@@ -73,7 +71,7 @@ def _run_rollout(case, *, kind: str):
 
 
 def _run_optimized_profiled_rollout(case) -> tuple[dict[str, float], object]:
-    from snfs_traffic.core.indexing import build_lane_order, build_occupancy, compute_neighbors
+    from snfs_traffic.core.indexing_numba import build_index_and_neighbors_numba
     from snfs_traffic.core.lane_change_kernels import apply_lane_changes_kernel, resolve_lane_change_conflicts_kernel
     from snfs_traffic.core.lane_change_numba import collect_lane_change_proposals_numba
     from snfs_traffic.core.longitudinal_kernels import compute_longitudinal_velocities_kernel
@@ -92,13 +90,10 @@ def _run_optimized_profiled_rollout(case) -> tuple[dict[str, float], object]:
 
     for _ in range(case.steps):
         t = perf_counter_ns()
-        occupancy = build_occupancy(state, params)
-        totals_ns["occupancy_pre_lane_change"] += perf_counter_ns() - t
-
-        t = perf_counter_ns()
-        lane_order, lane_counts, lane_rank = build_lane_order(occupancy, n_vehicles=state.n_vehicles)
-        front_id, _, front_gap, _ = compute_neighbors(state, lane_order, lane_counts, lane_rank, topology)
-        totals_ns["lane_order_pre_lane_change"] += perf_counter_ns() - t
+        occupancy, lane_order, lane_counts, _, front_id, _, front_gap, _ = build_index_and_neighbors_numba(
+            state.lane, state.pos, state.alive, num_lanes=params.num_lanes, road_length=params.road_length
+        )
+        totals_ns["pre_lane_change_index_neighbors_fused"] += perf_counter_ns() - t
 
         t = perf_counter_ns()
         proposals = collect_lane_change_proposals_numba(
@@ -125,13 +120,10 @@ def _run_optimized_profiled_rollout(case) -> tuple[dict[str, float], object]:
         totals_ns["state_copy_orchestration"] += perf_counter_ns() - t
 
         t = perf_counter_ns()
-        occupancy2 = build_occupancy(after_lane, params)
-        totals_ns["occupancy_post_lane_change"] += perf_counter_ns() - t
-
-        t = perf_counter_ns()
-        lane_order2, lane_counts2, lane_rank2 = build_lane_order(occupancy2, n_vehicles=after_lane.n_vehicles)
-        front_id2, _, front_gap2, _ = compute_neighbors(after_lane, lane_order2, lane_counts2, lane_rank2, topology)
-        totals_ns["lane_order_post_lane_change"] += perf_counter_ns() - t
+        _, _, _, _, front_id2, _, front_gap2, _ = build_index_and_neighbors_numba(
+            after_lane.lane, after_lane.pos, after_lane.alive, num_lanes=params.num_lanes, road_length=params.road_length
+        )
+        totals_ns["post_lane_change_index_neighbors_fused"] += perf_counter_ns() - t
 
         t = perf_counter_ns()
         new_vel = compute_longitudinal_velocities_kernel(after_lane.vel, after_lane.alive, after_lane.controlled, front_id2, front_gap2,
@@ -169,18 +161,18 @@ def _case_note() -> str:
 
 def _recommend(cases: list[dict]) -> str:
     if not cases:
-        return "keep branch experimental"
+        return "keep backend experimental"
     if not all(c["equivalence"]["state_equal"] and c["equivalence"]["rng_next_draw_equal"] for c in cases):
-        return "keep branch experimental"
+        return "keep backend experimental"
 
     rep = [c for c in cases if c["name"] in {"medium_moderate", "medium_dense", "wide_moderate"}]
     if not rep:
-        return "merge only specific kernels"
+        return "keep OptimizedBackend supported but do not merge indexing fast path"
     if all(c["speedup_x"] >= 1.10 for c in rep):
-        return "merge optimized backend"
+        return "keep OptimizedBackend supported and merge indexing fast path"
     if any(c["speedup_x"] > 1.0 for c in rep):
-        return "merge only specific kernels"
-    return "keep branch experimental"
+        return "keep OptimizedBackend supported but do not merge indexing fast path"
+    return "keep backend experimental"
 
 
 def _format_markdown(data: dict) -> str:
