@@ -1,127 +1,410 @@
-# snfs-traffic
 
-`snfs-traffic` is a new clean implementation of a Revised S-NFS traffic simulator.
+# traffic_rl / snfs_traffic
 
-## Design goal
+High-performance Revised S-NFS traffic simulator core for future reinforcement-learning experiments.
 
-The long-term design target is a high-performance, array-oriented simulation core.
+The project currently implements a deterministic, testable, array-based traffic simulator core with:
 
-## Planned future capabilities
+- authoritative reference semantics;
+- optional optimized Numba backend;
+- backend selection API;
+- strict reference-vs-optimized equivalence checks;
+- benchmark/report infrastructure.
 
-- Multi-agent reinforcement learning environments.
-- Graph/GNN-compatible observation builders.
-- Flexible vehicle behavior rule presets.
-- Numba/Cython-optimized simulation step.
+The repository is not yet an RL environment package. RL actions, observations, rewards, Gymnasium wrappers, RLlib wrappers, and multi-agent wrappers are planned but intentionally not implemented in the current simulator core layer.
+
+---
 
 ## Current status
 
-Implemented:
-- Project skeleton.
-- Core `SimulationParams` schema.
-- Core `TrafficState` array schema.
-- Reference periodic `RingTopology` for a multi-lane ring segment.
-- Reproducible uniform-random scenario initializer.
-- Reference head-cell occupancy / lane ordering / neighbor indexing.
-- Reference longitudinal same-lane step.
-- Reference lane-change phase using the paper's incentive/safety criteria and stochastic P_CL attempt.
-- Stochastic conflict resolution for simultaneous lane-change target-cell conflicts.
-- Full reference step composing lane-change phase and longitudinal phase.
-- Reusable runtime invariant validation helper.
-- Random rollout invariant tests for the current reference core.
-- Minimal backend step protocol.
-- `ReferenceBackend` wrapper around `step_reference`.
-- Reference-vs-backend equivalence tests.
-- Backend-neutral pure-array indexing kernels for occupancy, lane order, and periodic-ring neighbor/gap computation.
-- Public validated indexing wrappers delegating to pure-array indexing kernels.
-- Equivalence tests proving pure-array indexing kernels match the public reference indexing API.
-- Optional Numba-compiled indexing kernels for occupancy, lane order, and periodic-ring neighbor/gap computation.
-- Strict equivalence tests proving Numba indexing outputs match pure-array reference kernels and public validated wrappers.
-- Numba is available as an optional extra dependency, not required for base install.
-- Numba is optional and is not used by default in `step_reference(...)`.
-- Validation tests for params/state/topology/scenario/indexing/longitudinal/lane-change/full-step behavior.
+Current repository state: after Tasks 1–23, including:
 
-Not implemented yet:
-- Optimized full-step backend.
-- Numba lane-change kernel.
-- Numba longitudinal kernel.
-- Cython kernels.
+- reference simulator core;
+- Numba indexing kernels;
+- Numba lane-change proposal helper;
+- Numba longitudinal helper;
+- optimized full-step backend;
+- Task 21 production-readiness gate;
+- Task 22+23 optimized backend hardening and fused indexing/neighbor fast path.
+
+Current conclusion:
+
+`OptimizedBackend` is a supported optional backend when required Numba kernels are available.
+
+`step_reference(...)` remains the authoritative semantic oracle.
+
+Numba remains optional. The base package must still import and run without Numba installed.
+
+---
+
+## Implemented
+
+Core simulator:
+
+- `SimulationParams` schema.
+- `TrafficState` array schema.
+- Periodic multi-lane `RingTopology`.
+- Reproducible uniform-random scenario initializer.
+- Reference head-cell occupancy.
+- Reference lane ordering.
+- Reference periodic-ring neighbor/gap indexing.
+- Reference lane-change phase.
+- Stochastic lane-change conflict resolution.
+- Reference longitudinal same-lane update.
+- Full reference step via `step_reference(...)`.
+- Runtime invariant validation helper.
+
+Backend architecture:
+
+- Minimal backend protocol.
+- `ReferenceBackend`.
+- Supported optional `OptimizedBackend`.
+- Public backend selector:
+  - `"reference"`;
+  - `"optimized"`;
+  - `"auto"`.
+
+Optimized path:
+
+- Optional Numba indexing kernels.
+- Optional Numba lane-change proposal helper.
+- Optional Numba longitudinal helper.
+- Fused Numba indexing/neighbor fast path used by `OptimizedBackend`.
+- Optimized full-step backend with graceful fallback to reference semantics when required Numba kernels are unavailable.
+
+Correctness validation:
+
+- Reference-vs-backend equivalence tests.
+- Optimized-backend equivalence tests.
+- Runtime invariant tests.
+- RNG next-draw parity checks.
+- Focused Numba indexing tests.
+- Focused fused indexing/neighbor tests.
+- Focused lane-change Numba tests.
+- Focused benchmark script tests.
+
+Benchmarking/reporting:
+
+- Indexing benchmark.
+- Full-step optimized-vs-reference benchmark.
+- Component-level optimized backend profiling in benchmark code.
+- Task 21 and Task 22+23 benchmark reports.
+
+---
+
+## Not implemented yet
+
+RL-facing layer:
+
 - Controlled RL action semantics.
-- Observations.
-- Rewards.
-- Metrics.
+- Action application contract.
+- Observation schema.
+- Reward schema.
+- Episode semantics.
+- Metrics/info schema for RL rollouts.
 - Simulator facade.
-- RL environments.
+- Gymnasium environments.
+- RLlib wrappers.
+- PettingZoo/multi-agent wrappers.
+
+Physics/model extensions:
+
 - Length-aware multi-cell occupancy.
 - Length-aware bumper-to-bumper gaps.
 - Body-cell bus collision geometry.
-- Open-boundary topology/step semantics.
+- Open-boundary topology.
+- Open-boundary step semantics.
+- New simulator physics beyond the current Revised S-NFS core.
 
+Performance extensions:
 
-## Backend contract
+- Further optimization of lane-change proposal collection.
+- Further optimization of longitudinal velocity update.
+- Cython kernels.
 
-A backend performs exactly one full simulation step and must match `step_reference` semantics.
+---
 
-Backends receive:
-- `TrafficState`
-- `SimulationParams`
-- `RingTopology`
-- `np.random.Generator`
+## Installation
 
-Backends return:
-- `TrafficState`
-
-Current backend limitations:
-- only `ReferenceBackend` exists;
-- no optimized backend exists yet;
-- backend equivalence tests currently compare `ReferenceBackend` against `step_reference`;
-- future optimized backends must pass the same equivalence tests;
-- RNG must come from the provided `np.random.Generator`;
-- occupancy/gaps/collision checks remain head-cell-only;
-- vehicle length is ignored by occupancy and gap logic;
-- controlled vehicles still do not receive external RL actions.
-
-## Developer quick checks
+Base install:
 
 ```bash
 python -m pip install -e .
+````
+
+Install with optional Numba support:
+
+```bash
 python -m pip install -e ".[numba]"
-pytest -q
-python -c "import snfs_traffic; print(snfs_traffic.__version__)"
 ```
 
-No-install alternative:
+No-install local development alternative:
 
 ```bash
 PYTHONPATH=src python -c "import snfs_traffic; print(snfs_traffic.__version__)"
 ```
 
-## Current model limitations
+---
 
-- Current full step is head-cell-only.
-- Vehicle length is ignored by occupancy, gaps, and collision checks.
-- Lane changes are lateral only and do not move position.
-- No same-step lateral swaps into previously occupied target cells.
-- Controlled vehicles do not yet receive external actions.
-- Runtime invariant helper validates current reference semantics, not future length-aware geometry.
-- Full paper-exact longitudinal equations are not implemented unless separately added.
-- Lane-change flags in returned full-step state describe lateral motion during that full step.
+## Developer quick checks
 
-
-## Benchmarking indexing kernels
-
-The repository includes a non-CI performance benchmark for indexing phases:
+Base checks:
 
 ```bash
-python benchmarks/benchmark_indexing.py --quick --out-json /tmp/snfs_indexing_bench.json --out-md /tmp/snfs_indexing_bench.md
+python -m pip install -e .
+pytest -q
+python -c "import snfs_traffic; print(snfs_traffic.__version__)"
 ```
 
-With optional Numba installed:
+Numba-enabled checks:
 
 ```bash
 python -m pip install -e ".[numba]"
-python benchmarks/benchmark_indexing.py --quick
+pytest -q
 ```
 
-Benchmark numbers are environment-dependent. Codex Cloud/CI results are useful as smoke checks only and should not be treated as final production performance measurements.
+Focused optimized backend checks:
 
-This benchmark does not change simulator behavior. Numba indexing remains optional and is not used by default in `step_reference(...)`. An optimized full-step backend is still not implemented.
+```bash
+pytest -q tests/test_optimized_backend_equivalence.py
+pytest -q tests/test_lane_change_numba.py
+pytest -q tests/test_indexing_numba.py
+pytest -q tests/test_indexing_numba_fused.py
+pytest -q tests/test_backends_selection.py
+pytest -q tests/test_bench_optimized_full_step.py
+```
+
+Legacy indexing benchmark smoke check:
+
+```bash
+PYTHONPATH=src python benchmarks/benchmark_indexing.py --quick --repeat 1 --warmup 0
+```
+
+---
+
+## Backend contract
+
+A backend performs exactly one full simulation step.
+
+Backends receive:
+
+* `TrafficState`;
+* `SimulationParams`;
+* `RingTopology`;
+* `np.random.Generator`.
+
+Backends return:
+
+* `TrafficState`.
+
+All backends must preserve `step_reference(...)` semantics.
+
+Required state-field equivalence:
+
+* `lane`;
+* `pos`;
+* `vel`;
+* `alive`;
+* `controlled`;
+* `changed_lane`;
+* `last_lane_delta`.
+
+Required global guarantees:
+
+* runtime invariants pass;
+* RNG draw order/parity is preserved;
+* no hidden stochastic behavior is introduced;
+* `ReferenceBackend` remains independent of Numba;
+* Numba remains optional.
+
+---
+
+## Backend selection
+
+Use:
+
+```python
+from snfs_traffic.backends import get_backend
+
+backend = get_backend("auto")
+```
+
+Available backend names:
+
+```python
+get_backend("reference")
+get_backend("optimized")
+get_backend("auto")
+```
+
+Behavior:
+
+* `"reference"` always returns `ReferenceBackend`;
+* `"optimized"` returns `OptimizedBackend` when all required Numba kernels are available, otherwise falls back to `ReferenceBackend`;
+* `"auto"` is the production-safe selector: prefer optimized when available, otherwise reference.
+
+The reference backend remains the semantic oracle. The optimized backend is a performance implementation that must match the reference backend exactly.
+
+---
+
+## Minimal usage example
+
+```python
+import numpy as np
+
+from snfs_traffic.backends import get_backend
+from snfs_traffic.core import SimulationParams
+from snfs_traffic.scenarios import make_uniform_random_state
+from snfs_traffic.topology import RingTopology
+
+params = SimulationParams(num_lanes=3, road_length=1000)
+topology = RingTopology(num_lanes=3, length=1000)
+
+state = make_uniform_random_state(
+    num_lanes=3,
+    road_length=1000,
+    density=0.2,
+    seed=1,
+)
+
+rng = np.random.default_rng(123)
+
+backend = get_backend("auto")
+
+for _ in range(100):
+    state = backend.step(state, params, topology, rng)
+```
+
+---
+
+## Reference step
+
+The authoritative full-step implementation is:
+
+```python
+from snfs_traffic.core import step_reference
+```
+
+Use `step_reference(...)` when:
+
+* validating new behavior;
+* writing semantic tests;
+* debugging optimized backend discrepancies;
+* checking exact RNG behavior.
+
+Optimized kernels and optimized backends must be compared against this reference path.
+
+---
+
+## Benchmarking
+
+Indexing benchmark:
+
+```bash
+python benchmarks/benchmark_indexing.py \
+  --quick \
+  --out-json /tmp/snfs_indexing_bench.json \
+  --out-md /tmp/snfs_indexing_bench.md
+```
+
+Optimized full-step smoke benchmark:
+
+```bash
+python benchmarks/bench_optimized_full_step.py \
+  --preset smoke \
+  --backend both \
+  --repeats 3 \
+  --warmups 1 \
+  --steps 50 \
+  --out-json reports/task22_23/optimized_smoke.json \
+  --out-md reports/task22_23/optimized_smoke.md
+```
+
+Optimized reduced-standard benchmark:
+
+```bash
+python benchmarks/bench_optimized_full_step.py \
+  --preset standard \
+  --backend both \
+  --repeats 3 \
+  --warmups 1 \
+  --steps 50 \
+  --cases medium_moderate,medium_dense,wide_moderate \
+  --out-json reports/task22_23/optimized_reduced_standard.json \
+  --out-md reports/task22_23/optimized_reduced_standard.md
+```
+
+Benchmark numbers are environment-dependent. They should be used for relative comparison inside the same environment, not as absolute production-performance claims.
+
+---
+
+## Latest representative benchmark status
+
+Task 22+23 reduced-standard benchmark showed the optimized backend remained equivalent to reference and significantly faster.
+
+Representative reduced-standard results:
+
+| case            | reference ms/step | optimized ms/step | speedup vs reference | speedup vs Task 21 optimized |
+| --------------- | ----------------: | ----------------: | -------------------: | ---------------------------: |
+| medium_moderate |           96.9242 |            4.1205 |              23.522x |                       2.625x |
+| medium_dense    |          354.9731 |           13.6533 |              25.999x |                       1.839x |
+| wide_moderate   |          191.7672 |            7.8746 |              24.353x |                       2.290x |
+
+Equivalence:
+
+* `state_equal=true`;
+* `rng_next_draw_equal=true`.
+
+After Task 22+23, the main optimized-backend bottleneck moved from indexing/lane-ordering to lane-change proposal collection.
+
+Current top component in representative cases:
+
+* `lane_change_proposals`.
+
+---
+
+## Current model limitations
+
+The current simulator intentionally uses simplified head-cell semantics:
+
+* occupancy is head-cell-only;
+* gaps are head-cell-only;
+* vehicle length is not used for occupancy/gap/collision geometry;
+* bus body cells are not modeled as occupied cells;
+* lane changes are lateral only and do not move longitudinal position;
+* there are no same-step lateral swaps into previously occupied target cells;
+* controlled vehicles are marked in state but do not yet receive external RL actions;
+* open-boundary roads are not implemented;
+* current runtime invariants validate current reference semantics, not future length-aware geometry.
+
+These limitations are intentional for the current core stage. They should not be changed casually while adding RL wrappers.
+
+---
+
+## Development principles
+
+1. `step_reference(...)` is the semantic oracle.
+2. Optimized code must match reference semantics exactly.
+3. RNG draw order/parity is part of correctness.
+4. Numba is optional.
+5. Reference backend must remain simple and independent of Numba.
+6. Do not add RL actions/observations/rewards directly into optimized kernels.
+7. Do not add new physics while working on backend performance.
+8. Prefer small, testable, surgical changes.
+9. Benchmarks must not become correctness tests with hard performance thresholds.
+10. Production hot paths should not contain profiling hooks.
+
+---
+
+## Roadmap summary
+
+Immediate next stage:
+
+1. Add simulator facade.
+2. Define controlled action semantics.
+3. Define observation schema.
+4. Define reward schema.
+5. Define episode/reset semantics.
+6. Add Gymnasium wrapper after the simulator facade is stable.
+
+The next architectural step should not be another low-level optimization pass unless performance becomes a blocker. The project is ready to begin RL environment preparation, but not ready for RL training yet.
