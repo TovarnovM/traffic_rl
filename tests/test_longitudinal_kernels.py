@@ -212,27 +212,3 @@ def test_kernel_strict_equivalence_to_legacy_loop() -> None:
                 np.testing.assert_array_equal(got_pos, exp_pos)
                 assert rng_a.random() == rng_b.random()
 
-
-def test_q_and_p1_are_intentionally_ignored_by_longitudinal_kernel() -> None:
-    vel = np.array([2, 1], dtype=np.int16)
-    alive = np.array([True, True], dtype=np.bool_)
-    controlled = np.array([False, False], dtype=np.bool_)
-    front_id = np.array([1, -1], dtype=np.int32)
-    front_gap = np.array([3, -1], dtype=np.int32)
-
-    rng_a = np.random.default_rng(202)
-    rng_b = np.random.default_rng(202)
-
-    out_a = compute_longitudinal_velocities_kernel(
-        vel, alive, controlled, front_id, front_gap,
-        road_length=20, vmax_default=5, vmax_controlled=6, G=10, S=2, r=0.3, P2=0.9, P3=0.8, P4=0.2, rng=rng_a
-    )
-    # q/P1 are intentionally absent from kernel inputs; changing only these
-    # SimulationParams values must not affect kernel behavior.
-    out_b = compute_longitudinal_velocities_kernel(
-        vel, alive, controlled, front_id, front_gap,
-        road_length=20, vmax_default=5, vmax_controlled=6, G=10, S=2, r=0.3, P2=0.9, P3=0.8, P4=0.2, rng=rng_b
-    )
-
-    np.testing.assert_array_equal(out_a, out_b)
-    assert rng_a.random() == rng_b.random()

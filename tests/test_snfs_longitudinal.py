@@ -176,11 +176,15 @@ def test_q_and_p1_are_intentionally_ignored_by_step_longitudinal_reference() -> 
     params_a = _det_params(q=0.99, P1=0.999, r=0.2, P2=0.9, P3=0.8, P4=0.1)
     params_b = _det_params(q=0.10, P1=0.10, r=0.2, P2=0.9, P3=0.8, P4=0.1)
 
-    out_a = step_longitudinal_reference(state, params_a, topology, np.random.default_rng(314))
-    out_b = step_longitudinal_reference(state, params_b, topology, np.random.default_rng(314))
+    rng_a = np.random.default_rng(314)
+    rng_b = np.random.default_rng(314)
 
-    np.testing.assert_array_equal(out_a.vel, out_b.vel)
-    np.testing.assert_array_equal(out_a.pos, out_b.pos)
+    out_a = step_longitudinal_reference(state, params_a, topology, rng_a)
+    out_b = step_longitudinal_reference(state, params_b, topology, rng_b)
+
+    for field in out_a.__dataclass_fields__:
+        np.testing.assert_array_equal(getattr(out_a, field), getattr(out_b, field))
+    assert rng_a.random() == rng_b.random()
 
 
 def test_slow_to_start_can_be_forced() -> None:
