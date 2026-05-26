@@ -31,7 +31,7 @@ RUN pip3 install -r requirements.dev.txt
 USER $USERNAME
 
 WORKDIR /workspace
-ENV PYTHONPATH=/workspace:${PYTHONPATH}
+ENV PYTHONPATH=/workspace/src:${PYTHONPATH}
 # Копируем список зависимостей
 
 

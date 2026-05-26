@@ -23,3 +23,11 @@ pythonpath = ["src"]
 numba = [
     "numba>=0.61",
 ]
+infra = [
+    "optuna>=3.6",
+    "sqlalchemy>=2.0",
+    "psycopg2-binary>=2.9",
+]
+ray = [
+    "ray>=2.9",
+]
