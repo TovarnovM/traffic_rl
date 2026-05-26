@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from .params import SimulationParams, max_supported_velocity
+from .params import SimulationParams
 from .types import (
     BEHAVIOR_ID_DTYPE,
     BOOL_DTYPE,
@@ -100,9 +100,17 @@ def validate_state(state: TrafficState, params: SimulationParams) -> None:
         raise ValueError("pos out of range for alive vehicles")
 
     alive_vel = state.vel[alive_mask]
-    vmax = max_supported_velocity(params)
-    if np.any((alive_vel < 0) | (alive_vel > vmax)):
+    if np.any(alive_vel < 0):
         raise ValueError("vel out of range for alive vehicles")
+
+    alive_controlled = state.controlled[alive_mask]
+    uncontrolled_alive_vel = alive_vel[~alive_controlled]
+    if np.any(uncontrolled_alive_vel > params.vmax_default):
+        raise ValueError("vel out of range for uncontrolled alive vehicles")
+
+    controlled_alive_vel = alive_vel[alive_controlled]
+    if np.any(controlled_alive_vel > params.vmax_controlled):
+        raise ValueError("vel out of range for controlled alive vehicles")
 
     alive_length = state.length[alive_mask]
     if np.any(alive_length < 1):

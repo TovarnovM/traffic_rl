@@ -231,3 +231,33 @@ def test_empty_state_schema_and_validation() -> None:
     assert np.all(state.changed_lane == 0)
 
     validate_state(state, params)
+
+
+def test_validate_state_rejects_uncontrolled_velocity_above_vmax_default() -> None:
+    params = SimulationParams(num_lanes=4, road_length=1500, vmax_default=4, vmax_controlled=6)
+    state = _valid_state()
+    state.controlled[:] = np.array([False, False, True], dtype=np.bool_)
+    state.vel[:] = np.array([5, 0, 0], dtype=np.int16)
+
+    with pytest.raises(ValueError, match="uncontrolled"):
+        validate_state(state, params)
+
+
+def test_validate_state_rejects_controlled_velocity_above_vmax_controlled_with_lower_controlled_cap() -> None:
+    params = SimulationParams(num_lanes=4, road_length=1500, vmax_default=7, vmax_controlled=5)
+    state = _valid_state()
+    state.controlled[:] = np.array([True, False, False], dtype=np.bool_)
+    state.vel[:] = np.array([6, 0, 0], dtype=np.int16)
+
+    with pytest.raises(ValueError, match="controlled"):
+        validate_state(state, params)
+
+
+def test_simulation_params_reject_vmax_values_outside_velocity_dtype_range() -> None:
+    vmax_too_large = int(np.iinfo(np.int16).max) + 1
+
+    with pytest.raises(ValueError, match="vmax_default"):
+        SimulationParams(num_lanes=2, road_length=50, vmax_default=vmax_too_large)
+
+    with pytest.raises(ValueError, match="vmax_controlled"):
+        SimulationParams(num_lanes=2, road_length=50, vmax_controlled=vmax_too_large)

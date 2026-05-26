@@ -65,3 +65,52 @@ def test_optimized_backend_preserves_reference_input_validation() -> None:
 
     with pytest.raises(ValueError, match="topology.num_lanes must match params.num_lanes"):
         get_optimized_backend().step(state, params, bad_topology, np.random.default_rng(0))
+
+
+def test_optimized_backend_rejects_invalid_overflow_velocity_postconditions(monkeypatch) -> None:
+    params = SimulationParams(num_lanes=1, road_length=10, vmax_default=10, vmax_controlled=10, p_lane_change=0.0)
+    topology = RingTopology(num_lanes=1, length=10)
+    state = make_uniform_random_state(num_lanes=1, road_length=10, density=0.1, seed=41)
+
+    monkeypatch.setattr("snfs_traffic.backends.optimized.INDEX_NUMBA_AVAILABLE", True)
+    monkeypatch.setattr("snfs_traffic.backends.optimized.LANE_NUMBA_AVAILABLE", True)
+    monkeypatch.setattr("snfs_traffic.backends.optimized.LONG_NUMBA_AVAILABLE", True)
+    monkeypatch.setattr(
+        "snfs_traffic.backends.optimized.build_index_and_neighbors_numba",
+        lambda lane, pos, alive, num_lanes, road_length: (
+            np.empty((num_lanes, road_length), dtype=np.int32),
+            np.empty(lane.shape[0], dtype=np.int32),
+            np.zeros(num_lanes, dtype=np.int32),
+            np.empty(lane.shape[0], dtype=np.int32),
+            np.full(lane.shape[0], -1, dtype=np.int32),
+            np.full(lane.shape[0], -1, dtype=np.int32),
+            np.full(lane.shape[0], road_length - 1, dtype=np.int32),
+            np.full(lane.shape[0], road_length - 1, dtype=np.int32),
+        ),
+    )
+    monkeypatch.setattr("snfs_traffic.backends.optimized.collect_lane_change_proposals_numba", lambda **kwargs: np.zeros(state.n_vehicles, dtype=np.int8))
+    monkeypatch.setattr("snfs_traffic.backends.optimized.resolve_lane_change_conflicts_kernel", lambda proposals, rng: proposals)
+    monkeypatch.setattr(
+        "snfs_traffic.backends.optimized.apply_lane_changes_kernel",
+        lambda lane, changed_lane, last_lane_delta, accepted: (lane.copy(), changed_lane.copy(), last_lane_delta.copy()),
+    )
+    monkeypatch.setattr("snfs_traffic.backends.optimized.compute_longitudinal_velocities_kernel", lambda *args, **kwargs: np.array([-32768], dtype=np.int16))
+    monkeypatch.setattr("snfs_traffic.backends.optimized.advance_positions_numba", lambda pos, vel, alive, road_length: pos.copy())
+
+    with pytest.raises(ValueError, match="vel out of range"):
+        get_optimized_backend().step(state, params, topology, np.random.default_rng(99))
+
+
+def test_reference_and_optimized_equivalent_at_velocity_dtype_boundary_when_valid() -> None:
+    params = SimulationParams(num_lanes=1, road_length=100, vmax_default=32766, vmax_controlled=32766, P2=0.0, p_lane_change=0.0)
+    topology = RingTopology(num_lanes=1, length=100)
+    state = make_uniform_random_state(num_lanes=1, road_length=100, density=0.1, seed=42)
+    state.controlled[:] = False
+    state.vel[:] = np.array([32766], dtype=np.int16)
+
+    rng_ref = np.random.default_rng(1234)
+    rng_opt = np.random.default_rng(1234)
+
+    expected = step_reference(state.copy(), params, topology, rng_ref)
+    actual = get_optimized_backend().step(state.copy(), params, topology, rng_opt)
+    _assert_equal_fields(actual, expected)
