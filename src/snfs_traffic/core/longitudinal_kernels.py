@@ -26,6 +26,10 @@ def compute_longitudinal_velocities_kernel(
     """Compute next-step velocities from validated longitudinal arrays.
 
     Inputs are treated as read-only; output preserves vel dtype.
+
+    This kernel intentionally implements the repository's simplified
+    S-NFS-style longitudinal semantics rather than paper-exact Revised S-NFS.
+    In particular, `q` and `P1` are currently unused by longitudinal dynamics.
     """
 
     out_i64 = vel.astype(np.int64, copy=True)

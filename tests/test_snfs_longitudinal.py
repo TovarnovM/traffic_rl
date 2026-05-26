@@ -169,6 +169,20 @@ def test_forced_random_braking_differs_from_disabled() -> None:
     assert int(none.vel[0]) == 2
 
 
+def test_q_and_p1_are_intentionally_ignored_by_step_longitudinal_reference() -> None:
+    topology = RingTopology(num_lanes=1, length=20)
+    state = _manual_state(lane=[0, 0], pos=[0, 5], vel=[1, 0])
+
+    params_a = _det_params(q=0.99, P1=0.999, r=0.2, P2=0.9, P3=0.8, P4=0.1)
+    params_b = _det_params(q=0.10, P1=0.10, r=0.2, P2=0.9, P3=0.8, P4=0.1)
+
+    out_a = step_longitudinal_reference(state, params_a, topology, np.random.default_rng(314))
+    out_b = step_longitudinal_reference(state, params_b, topology, np.random.default_rng(314))
+
+    np.testing.assert_array_equal(out_a.vel, out_b.vel)
+    np.testing.assert_array_equal(out_a.pos, out_b.pos)
+
+
 def test_slow_to_start_can_be_forced() -> None:
     topology = RingTopology(num_lanes=1, length=20)
     state = _manual_state(lane=[0], pos=[0], vel=[0])

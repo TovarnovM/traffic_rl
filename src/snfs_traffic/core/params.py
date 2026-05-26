@@ -9,6 +9,11 @@ from .types import VELOCITY_DTYPE
 
 @dataclass(frozen=True, slots=True)
 class SimulationParams:
+    """Validated simulation parameters.
+
+    Note: `q` and `P1` are kept for API compatibility with Revised S-NFS
+    notation, but are currently reserved/unused by longitudinal dynamics.
+    """
     num_lanes: int
     road_length: int
     vmax_default: int = 5
