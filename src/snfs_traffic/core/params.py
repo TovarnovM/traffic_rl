@@ -2,6 +2,10 @@
 
 from dataclasses import dataclass
 
+import numpy as np
+
+from .types import VELOCITY_DTYPE
+
 
 @dataclass(frozen=True, slots=True)
 class SimulationParams:
@@ -24,6 +28,8 @@ class SimulationParams:
         self._validate_int("road_length", self.road_length, min_value=1)
         self._validate_int("vmax_default", self.vmax_default, min_value=0)
         self._validate_int("vmax_controlled", self.vmax_controlled, min_value=0)
+        self._validate_velocity_dtype_range("vmax_default", self.vmax_default)
+        self._validate_velocity_dtype_range("vmax_controlled", self.vmax_controlled)
         self._validate_int("G", self.G, min_value=0)
         self._validate_int("S", self.S, min_value=1)
 
@@ -43,6 +49,13 @@ class SimulationParams:
             comparator = ">" if min_value == 1 else ">="
             target = 0 if min_value == 1 else min_value
             raise ValueError(f"{name} must be {comparator} {target}, got {value}")
+
+
+    @staticmethod
+    def _validate_velocity_dtype_range(name: str, value: int) -> None:
+        dtype_max = int(np.iinfo(VELOCITY_DTYPE).max)
+        if value > dtype_max:
+            raise ValueError(f"{name} must be <= {dtype_max} to fit {np.dtype(VELOCITY_DTYPE)}, got {value}")
 
     @staticmethod
     def _validate_prob(name: str, value: float) -> None:

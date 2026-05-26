@@ -10,6 +10,7 @@ from snfs_traffic.core.longitudinal_kernels import compute_longitudinal_velociti
 from snfs_traffic.core.longitudinal_numba import NUMBA_AVAILABLE as LONG_NUMBA_AVAILABLE, advance_positions_numba
 from snfs_traffic.core.params import SimulationParams
 from snfs_traffic.core.state import TrafficState, validate_state
+from snfs_traffic.core.indexing import build_occupancy
 from snfs_traffic.core.step_reference import step_reference
 from snfs_traffic.topology import RingTopology
 
@@ -65,6 +66,8 @@ class OptimizedBackend:
             G=params.G, S=params.S, r=params.r, P2=params.P2, P3=params.P3, P4=params.P4, rng=rng)
         new_pos = advance_positions_numba(after_lane.pos, new_vel, after_lane.alive, road_length=params.road_length)
         out = after_lane.copy(); out.vel = new_vel; out.pos = new_pos
+        validate_state(out, params)
+        build_occupancy(out, params)
         return out
 
 
