@@ -285,12 +285,14 @@ class RoadRenderer:
                 )
 
         ordered_vehicles = [
-            veh for vid, veh in snapshot.items() if vid != self._follow_vehicle_id
+            (vid, veh)
+            for vid, veh in snapshot.items()
+            if vid != self._follow_vehicle_id
         ]
         if focus is not None:
-            ordered_vehicles.append(focus)
+            ordered_vehicles.append((focus.vehicle_id, focus))
 
-        for v in ordered_vehicles:
+        for vid, v in ordered_vehicles:
             lane_y = c.y0 + (self.params.num_lanes - 1 - v.lane) * c.cell_h
             body_cells = 1 if c.body_mode == "head" else max(1, v.length)
             if v.veh_type == AV_VEH_TYPE:
