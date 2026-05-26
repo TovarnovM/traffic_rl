@@ -512,3 +512,50 @@ Immediate next stage:
 6. Add Gymnasium wrapper after the simulator facade is stable.
 
 The next architectural step should not be another low-level optimization pass unless performance becomes a blocker. The project is ready to begin RL environment preparation, but not ready for RL training yet.
+
+
+## Visualization
+
+Install optional visualization tooling:
+
+```bash
+python -m pip install -e ".[viz]"
+```
+
+CLI demo:
+
+```bash
+PYTHONPATH=src python -m snfs_traffic.visualization.demo \
+  --output episode.mp4 \
+  --steps 200 \
+  --num-lanes 3 \
+  --road-length 120 \
+  --density 0.20 \
+  --controlled-fraction 0.03
+```
+
+Visualization is a tooling side-feature: it observes `TrafficState` snapshots, does not step the simulator, does not consume RNG, and uses visual-only interpolation between discrete simulator steps. Default drawing uses head-cell-only bodies to match current simulator semantics. `body_mode="state_length"` only changes rendering and does not change collision/occupancy semantics.
+
+```python
+import numpy as np
+
+from snfs_traffic.backends import get_backend
+from snfs_traffic.core import SimulationParams, validate_runtime_invariants
+from snfs_traffic.scenarios import VehicleMix, make_uniform_random_state
+from snfs_traffic.topology import RingTopology
+from snfs_traffic.visualization import RoadRenderConfig, RoadRenderer, VideoWriter
+
+params = SimulationParams(num_lanes=3, road_length=120)
+topology = RingTopology(num_lanes=params.num_lanes, length=params.road_length)
+state = make_uniform_random_state(num_lanes=3, road_length=120, density=0.20, seed=1, vehicle_mix=VehicleMix(controlled_fraction=0.03))
+backend = get_backend("auto")
+rng = np.random.default_rng(123)
+renderer = RoadRenderer(params=params, topology=topology, config=RoadRenderConfig(interpolation_frames=8, camera="follow", follow="first-controlled"))
+renderer.reset(state)
+with VideoWriter("episode.mp4", fps=48) as video:
+    for step in range(200):
+        next_state = backend.step(state, params, topology, rng)
+        validate_runtime_invariants(next_state, params, topology)
+        video.write_many(renderer.render_step(next_state, step=step + 1))
+        state = next_state
+```

@@ -17,6 +17,8 @@ The project is ready to begin RL environment preparation, but not ready for RL t
 
 ### 1.1 What is stable now
 
+
+- Standalone rollout visualization tooling (`snfs_traffic.visualization`) is implemented as an optional side-feature and intentionally decoupled from simulator stepping semantics.
 - Core simulator state transition is implemented.
 - `step_reference(...)` is the authoritative semantic oracle.
 - `ReferenceBackend` is available and remains simple.
