@@ -4,6 +4,11 @@ Current state: after Tasks 1–23, including Task 22+23 follow-up.
 
 The project is a clean, array-based Revised S-NFS-style traffic simulator core intended for future reinforcement-learning experiments. It currently has a reliable reference simulator, a supported optional optimized backend, backend selection, correctness tests, RNG-parity checks, runtime invariant checks, and benchmark/report infrastructure.
 
+Important semantic note: the current longitudinal phase is intentionally a
+simplified S-NFS-style variant (reference-defined behavior), not paper-exact
+Revised S-NFS. Parameters `q` and `P1` are retained in `SimulationParams` for
+compatibility but are currently unused by longitudinal dynamics.
+
 The project is ready to begin RL environment preparation, but not ready for RL training yet.
 
 ---

@@ -12,6 +12,12 @@ The repository currently provides a deterministic, testable, array-oriented simu
 - runtime invariant checks;
 - benchmark and report infrastructure.
 
+Longitudinal model note: the current core implements a simplified S-NFS-style
+longitudinal update (authoritative in `step_reference(...)`), not paper-exact
+Revised S-NFS formulas. `SimulationParams.q` and `SimulationParams.P1` are
+currently reserved for forward compatibility and intentionally unused by
+longitudinal dynamics.
+
 The project is **not yet an RL environment package**. RL actions, observations, rewards, Gymnasium wrappers, RLlib wrappers, and multi-agent wrappers are planned, but intentionally remain outside the current simulator-core layer.
 
 ---

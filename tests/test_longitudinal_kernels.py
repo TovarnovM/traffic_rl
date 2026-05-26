@@ -211,3 +211,4 @@ def test_kernel_strict_equivalence_to_legacy_loop() -> None:
                 np.testing.assert_array_equal(got_vel, exp_vel)
                 np.testing.assert_array_equal(got_pos, exp_pos)
                 assert rng_a.random() == rng_b.random()
+
