@@ -61,5 +61,6 @@ def test_select_follow_vehicle_id_behaviors():
     assert select_follow_vehicle_id(snap, follow_vehicle_id=None, follow="first-controlled", fallback_to_first_alive=True) == 11
     snap2 = {20: VehicleRenderState(20, 0, 0, 1, 1, 0, 0, False, False)}
     assert select_follow_vehicle_id(snap2, follow_vehicle_id=None, follow="first-controlled", fallback_to_first_alive=True) == 20
+    assert select_follow_vehicle_id(snap2, follow_vehicle_id=None, follow="first-controlled", fallback_to_first_alive=False) is None
     assert select_follow_vehicle_id(snap2, follow_vehicle_id=None, follow="first-alive", fallback_to_first_alive=False) == 20
     assert select_follow_vehicle_id({}, follow_vehicle_id=None, follow="first-alive", fallback_to_first_alive=False) is None

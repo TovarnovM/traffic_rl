@@ -43,12 +43,38 @@ def main() -> None:
     args = build_parser().parse_args()
     params = SimulationParams(num_lanes=args.num_lanes, road_length=args.road_length)
     topology = RingTopology(num_lanes=params.num_lanes, length=params.road_length)
-    mix = VehicleMix(av_fraction=args.av_fraction, controlled_fraction=args.controlled_fraction, bus_fraction=args.bus_fraction, bus_length=args.bus_length)
-    state = make_uniform_random_state(num_lanes=params.num_lanes, road_length=params.road_length, density=args.density, seed=args.seed, vehicle_mix=mix)
+    mix = VehicleMix(
+        av_fraction=args.av_fraction,
+        controlled_fraction=args.controlled_fraction,
+        bus_fraction=args.bus_fraction,
+        bus_length=args.bus_length,
+    )
+    state = make_uniform_random_state(
+        num_lanes=params.num_lanes,
+        road_length=params.road_length,
+        density=args.density,
+        seed=args.seed,
+        vehicle_mix=mix,
+    )
     backend = get_backend(args.backend)
     rng = np.random.default_rng(args.rng_seed)
     follow = None if args.follow == "none" else args.follow
-    renderer = RoadRenderer(params=params, topology=topology, config=RoadRenderConfig(width=args.width, height=args.height, cell_w=args.cell_w, cell_h=args.cell_h, interpolation_frames=args.interpolation_frames, camera=args.camera, follow=follow, body_mode=args.body_mode, draw_cell_numbers=args.draw_cell_numbers, draw_speed=args.draw_speed))
+    renderer = RoadRenderer(
+        params=params,
+        topology=topology,
+        config=RoadRenderConfig(
+            width=args.width,
+            height=args.height,
+            cell_w=args.cell_w,
+            cell_h=args.cell_h,
+            interpolation_frames=args.interpolation_frames,
+            camera=args.camera,
+            follow=follow,
+            body_mode=args.body_mode,
+            draw_cell_numbers=args.draw_cell_numbers,
+            draw_speed=args.draw_speed,
+        ),
+    )
     renderer.reset(state)
     with VideoWriter(args.output, fps=args.fps) as video:
         for step in range(args.steps):
@@ -56,7 +82,10 @@ def main() -> None:
             validate_runtime_invariants(nxt, params, topology)
             video.write_many(renderer.render_step(nxt, step=step + 1))
             state = nxt
-    print(f"Wrote {args.output} with backend={args.backend}, steps={args.steps}, fps={args.fps}")
+    print(
+        f"Wrote {args.output} with backend={args.backend}, "
+        f"steps={args.steps}, fps={args.fps}"
+    )
 
 
 if __name__ == "__main__":

@@ -107,7 +107,13 @@ def snapshot_from_state(state: TrafficState) -> dict[int, VehicleRenderState]:
     return out
 
 
-def select_follow_vehicle_id(snapshot: dict[int, VehicleRenderState], *, follow_vehicle_id: int | None, follow: str | None, fallback_to_first_alive: bool) -> int | None:
+def select_follow_vehicle_id(
+    snapshot: dict[int, VehicleRenderState],
+    *,
+    follow_vehicle_id: int | None,
+    follow: str | None,
+    fallback_to_first_alive: bool,
+) -> int | None:
     if not snapshot:
         return None
     if follow_vehicle_id is not None:
@@ -126,7 +132,13 @@ def select_follow_vehicle_id(snapshot: dict[int, VehicleRenderState], *, follow_
     return None
 
 
-def interpolate_snapshots(prev: dict[int, VehicleRenderState], curr: dict[int, VehicleRenderState], *, road_length: int, alpha: float) -> dict[int, VehicleRenderState]:
+def interpolate_snapshots(
+    prev: dict[int, VehicleRenderState],
+    curr: dict[int, VehicleRenderState],
+    *,
+    road_length: int,
+    alpha: float,
+) -> dict[int, VehicleRenderState]:
     if not (0.0 <= alpha <= 1.0):
         raise ValueError("alpha must be in [0.0,1.0]")
     out: dict[int, VehicleRenderState] = {}
@@ -142,7 +154,14 @@ def interpolate_snapshots(prev: dict[int, VehicleRenderState], curr: dict[int, V
     return out
 
 
-def _iter_periodic_screen_x(*, world_x_px: float, offset_x_px: float, road_px_len: float, width_px: int, margin_px: float) -> Iterator[float]:
+def _iter_periodic_screen_x(
+    *,
+    world_x_px: float,
+    offset_x_px: float,
+    road_px_len: float,
+    width_px: int,
+    margin_px: float,
+) -> Iterator[float]:
     base = world_x_px + offset_x_px
     min_x = -margin_px
     max_x = width_px + margin_px
@@ -159,8 +178,19 @@ def _iter_periodic_screen_x(*, world_x_px: float, offset_x_px: float, road_px_le
 
 
 class RoadRenderer:
-    def __init__(self, *, params: SimulationParams, topology: RingTopology, config: RoadRenderConfig | None = None, **config_overrides) -> None:
-        if topology.num_lanes != params.num_lanes or topology.length != params.road_length or topology.boundary != "periodic":
+    def __init__(
+        self,
+        *,
+        params: SimulationParams,
+        topology: RingTopology,
+        config: RoadRenderConfig | None = None,
+        **config_overrides,
+    ) -> None:
+        if (
+            topology.num_lanes != params.num_lanes
+            or topology.length != params.road_length
+            or topology.boundary != "periodic"
+        ):
             raise ValueError("params and topology must describe the same periodic ring")
         self.params = params
         self.topology = topology
@@ -179,7 +209,11 @@ class RoadRenderer:
         self._prev_snapshot = snap
         self._follow_vehicle_id = select_follow_vehicle_id(
             snap,
-            follow_vehicle_id=follow_vehicle_id if follow_vehicle_id is not None else self.config.follow_vehicle_id,
+            follow_vehicle_id=(
+                follow_vehicle_id
+                if follow_vehicle_id is not None
+                else self.config.follow_vehicle_id
+            ),
             follow=self.config.follow,
             fallback_to_first_alive=self.config.fallback_to_first_alive,
         )
@@ -191,7 +225,12 @@ class RoadRenderer:
         curr = snapshot_from_state(state)
         if self._follow_vehicle_id is not None and self._follow_vehicle_id not in curr:
             if self.config.fallback_to_first_alive:
-                self._follow_vehicle_id = select_follow_vehicle_id(curr, follow_vehicle_id=None, follow="first-alive", fallback_to_first_alive=True)
+                self._follow_vehicle_id = select_follow_vehicle_id(
+                    curr,
+                    follow_vehicle_id=None,
+                    follow="first-alive",
+                    fallback_to_first_alive=True,
+                )
             else:
                 raise ValueError("Focus vehicle disappeared and fallback_to_first_alive is disabled")
         frames = []
@@ -208,13 +247,28 @@ class RoadRenderer:
         self._surface.fill((20, 22, 28))
         road_h = c.cell_h * self.params.num_lanes
         pg.draw.rect(self._surface, (35, 38, 45), pg.Rect(0, c.y0, c.width, road_h))
-        focus = snapshot.get(self._follow_vehicle_id) if self._follow_vehicle_id is not None else None
-        offset = (-c.fixed_start_cell * c.cell_w) if c.camera == "fixed" else (0.0 if focus is None else (c.focus_x_ratio * c.width - focus.pos * c.cell_w))
+        focus = (
+            snapshot.get(self._follow_vehicle_id)
+            if self._follow_vehicle_id is not None
+            else None
+        )
+        if c.camera == "fixed":
+            offset = -c.fixed_start_cell * c.cell_w
+        elif focus is None:
+            offset = 0.0
+        else:
+            offset = c.focus_x_ratio * c.width - focus.pos * c.cell_w
         road_px = self.params.road_length * c.cell_w
         if c.draw_grid:
             for cell in range(self.params.road_length):
                 wx = cell * c.cell_w
-                for sx in _iter_periodic_screen_x(world_x_px=wx, offset_x_px=offset, road_px_len=road_px, width_px=c.width, margin_px=1):
+                for sx in _iter_periodic_screen_x(
+                    world_x_px=wx,
+                    offset_x_px=offset,
+                    road_px_len=road_px,
+                    width_px=c.width,
+                    margin_px=1,
+                ):
                     pg.draw.line(self._surface, (55, 58, 68), (sx, c.y0), (sx, c.y0 + road_h), 1)
                     if c.draw_cell_numbers and cell % 5 == 0:
                         txt = self._font.render(str(cell), True, (140, 145, 160))
@@ -222,20 +276,45 @@ class RoadRenderer:
         if c.draw_lane_lines:
             for li in range(self.params.num_lanes + 1):
                 y = c.y0 + li * c.cell_h
-                pg.draw.line(self._surface, (95, 100, 112), (0, y), (c.width, y), 2 if li in {0, self.params.num_lanes} else 1)
+                pg.draw.line(
+                    self._surface,
+                    (95, 100, 112),
+                    (0, y),
+                    (c.width, y),
+                    2 if li in {0, self.params.num_lanes} else 1,
+                )
 
-        for vid, v in snapshot.items():
+        ordered_vehicles = [
+            veh for vid, veh in snapshot.items() if vid != self._follow_vehicle_id
+        ]
+        if focus is not None:
+            ordered_vehicles.append(focus)
+
+        for v in ordered_vehicles:
             lane_y = c.y0 + (self.params.num_lanes - 1 - v.lane) * c.cell_h
             body_cells = 1 if c.body_mode == "head" else max(1, v.length)
-            col = (70, 160, 240) if v.veh_type == AV_VEH_TYPE else ((220, 150, 70) if v.veh_type == BUS_VEH_TYPE else (185, 185, 190))
+            if v.veh_type == AV_VEH_TYPE:
+                col = (70, 160, 240)
+            elif v.veh_type == BUS_VEH_TYPE:
+                col = (220, 150, 70)
+            else:
+                col = (185, 185, 190)
             if v.controlled:
                 col = (130, 220, 130)
             for b in range(body_cells):
                 wx = (v.pos - b) * c.cell_w
-                for sx in _iter_periodic_screen_x(world_x_px=wx, offset_x_px=offset, road_px_len=road_px, width_px=c.width, margin_px=c.cell_w):
+                for sx in _iter_periodic_screen_x(
+                    world_x_px=wx,
+                    offset_x_px=offset,
+                    road_px_len=road_px,
+                    width_px=c.width,
+                    margin_px=c.cell_w,
+                ):
                     rect = pg.Rect(int(sx), int(lane_y), c.cell_w, c.cell_h)
                     pg.draw.rect(self._surface, col, rect)
                     pg.draw.rect(self._surface, (15, 15, 15), rect, 1)
+                    if focus is not None and v.vehicle_id == focus.vehicle_id:
+                        pg.draw.rect(self._surface, (255, 235, 80), rect, 3)
                     if v.changed_lane and c.draw_changed_lane_marker:
                         pg.draw.circle(self._surface, (255, 80, 120), (rect.right - 5, rect.top + 5), 4)
                     if c.draw_speed:
