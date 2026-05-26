@@ -5,6 +5,7 @@ import pytest
 
 from snfs_traffic.backends.optimized import get_optimized_backend
 from snfs_traffic.core import SimulationParams, step_reference, validate_runtime_invariants
+from snfs_traffic.core.types import VELOCITY_DTYPE
 from snfs_traffic.scenarios import make_uniform_random_state
 from snfs_traffic.topology import RingTopology
 
@@ -78,10 +79,10 @@ def test_optimized_backend_rejects_invalid_overflow_velocity_postconditions(monk
     monkeypatch.setattr(
         "snfs_traffic.backends.optimized.build_index_and_neighbors_numba",
         lambda lane, pos, alive, num_lanes, road_length: (
-            np.empty((num_lanes, road_length), dtype=np.int32),
-            np.empty(lane.shape[0], dtype=np.int32),
+            np.full((num_lanes, road_length), -1, dtype=np.int32),
+            np.full((num_lanes, road_length), -1, dtype=np.int32),
             np.zeros(num_lanes, dtype=np.int32),
-            np.empty(lane.shape[0], dtype=np.int32),
+            np.zeros(lane.shape[0], dtype=np.int32),
             np.full(lane.shape[0], -1, dtype=np.int32),
             np.full(lane.shape[0], -1, dtype=np.int32),
             np.full(lane.shape[0], road_length - 1, dtype=np.int32),
@@ -94,7 +95,11 @@ def test_optimized_backend_rejects_invalid_overflow_velocity_postconditions(monk
         "snfs_traffic.backends.optimized.apply_lane_changes_kernel",
         lambda lane, changed_lane, last_lane_delta, accepted: (lane.copy(), changed_lane.copy(), last_lane_delta.copy()),
     )
-    monkeypatch.setattr("snfs_traffic.backends.optimized.compute_longitudinal_velocities_kernel", lambda *args, **kwargs: np.array([-32768], dtype=np.int16))
+    velocity_min = int(np.iinfo(VELOCITY_DTYPE).min)
+    monkeypatch.setattr(
+        "snfs_traffic.backends.optimized.compute_longitudinal_velocities_kernel",
+        lambda *args, **kwargs: np.full(state.n_vehicles, velocity_min, dtype=VELOCITY_DTYPE),
+    )
     monkeypatch.setattr("snfs_traffic.backends.optimized.advance_positions_numba", lambda pos, vel, alive, road_length: pos.copy())
 
     with pytest.raises(ValueError, match="vel out of range"):
@@ -102,11 +107,13 @@ def test_optimized_backend_rejects_invalid_overflow_velocity_postconditions(monk
 
 
 def test_reference_and_optimized_equivalent_at_velocity_dtype_boundary_when_valid() -> None:
-    params = SimulationParams(num_lanes=1, road_length=100, vmax_default=32766, vmax_controlled=32766, P2=0.0, p_lane_change=0.0)
+    velocity_max = int(np.iinfo(VELOCITY_DTYPE).max)
+    boundary_vmax = velocity_max - 1
+    params = SimulationParams(num_lanes=1, road_length=100, vmax_default=boundary_vmax, vmax_controlled=boundary_vmax, P2=0.0, p_lane_change=0.0)
     topology = RingTopology(num_lanes=1, length=100)
     state = make_uniform_random_state(num_lanes=1, road_length=100, density=0.1, seed=42)
     state.controlled[:] = False
-    state.vel[:] = np.array([32766], dtype=np.int16)
+    state.vel[:] = np.full(state.n_vehicles, boundary_vmax, dtype=VELOCITY_DTYPE)
 
     rng_ref = np.random.default_rng(1234)
     rng_opt = np.random.default_rng(1234)
@@ -114,3 +121,4 @@ def test_reference_and_optimized_equivalent_at_velocity_dtype_boundary_when_vali
     expected = step_reference(state.copy(), params, topology, rng_ref)
     actual = get_optimized_backend().step(state.copy(), params, topology, rng_opt)
     _assert_equal_fields(actual, expected)
+    assert float(rng_ref.random()) == float(rng_opt.random())

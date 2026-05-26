@@ -8,6 +8,7 @@ from snfs_traffic.core import (
     max_supported_velocity,
     validate_state,
 )
+from snfs_traffic.core.types import VELOCITY_DTYPE
 
 
 def _valid_state() -> TrafficState:
@@ -58,8 +59,6 @@ def test_simulation_params_defaults() -> None:
 def test_simulation_params_invalid(kwargs: dict, field_name: str) -> None:
     with pytest.raises(ValueError, match=field_name):
         SimulationParams(**kwargs)
-
-
 
 
 def test_simulation_params_probability_type_strictness() -> None:
@@ -237,7 +236,7 @@ def test_validate_state_rejects_uncontrolled_velocity_above_vmax_default() -> No
     params = SimulationParams(num_lanes=4, road_length=1500, vmax_default=4, vmax_controlled=6)
     state = _valid_state()
     state.controlled[:] = np.array([False, False, True], dtype=np.bool_)
-    state.vel[:] = np.array([5, 0, 0], dtype=np.int16)
+    state.vel[:] = np.array([5, 0, 0], dtype=VELOCITY_DTYPE)
 
     with pytest.raises(ValueError, match="uncontrolled"):
         validate_state(state, params)
@@ -247,14 +246,14 @@ def test_validate_state_rejects_controlled_velocity_above_vmax_controlled_with_l
     params = SimulationParams(num_lanes=4, road_length=1500, vmax_default=7, vmax_controlled=5)
     state = _valid_state()
     state.controlled[:] = np.array([True, False, False], dtype=np.bool_)
-    state.vel[:] = np.array([6, 0, 0], dtype=np.int16)
+    state.vel[:] = np.array([6, 0, 0], dtype=VELOCITY_DTYPE)
 
     with pytest.raises(ValueError, match="controlled"):
         validate_state(state, params)
 
 
 def test_simulation_params_reject_vmax_values_outside_velocity_dtype_range() -> None:
-    vmax_too_large = int(np.iinfo(np.int16).max) + 1
+    vmax_too_large = int(np.iinfo(VELOCITY_DTYPE).max) + 1
 
     with pytest.raises(ValueError, match="vmax_default"):
         SimulationParams(num_lanes=2, road_length=50, vmax_default=vmax_too_large)
