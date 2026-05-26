@@ -128,7 +128,7 @@ services:
     command: sleep infinity
 
     networks:
-      - bridge_1492_69
+      - bridge_1492_67
       # - win_prob_ray_network
 
   optuna-lb:
