@@ -2,21 +2,58 @@
 
 Current state: after Tasks 1–23, including Task 22+23 follow-up.
 
-The project is a clean, array-based implementation of a Revised S-NFS-style traffic simulator core intended for future reinforcement-learning experiments.
-
-The current repository has a reliable reference simulator, a supported optional optimized backend, backend selection, correctness tests, RNG-parity checks, runtime invariant checks, and benchmark/report infrastructure.
+The project is a clean, array-based Revised S-NFS-style traffic simulator core intended for future reinforcement-learning experiments. It currently has a reliable reference simulator, a supported optional optimized backend, backend selection, correctness tests, RNG-parity checks, runtime invariant checks, and benchmark/report infrastructure.
 
 The project is ready to begin RL environment preparation, but not ready for RL training yet.
 
 ---
 
-## 1. Core project principles
+## 1. Current status snapshot
 
-### 1.1 Reference-first correctness
+### 1.1 What is stable now
+
+- Core simulator state transition is implemented.
+- `step_reference(...)` is the authoritative semantic oracle.
+- `ReferenceBackend` is available and remains simple.
+- `OptimizedBackend` is a supported optional backend when required Numba kernels are available.
+- Backend selection supports `"reference"`, `"optimized"`, and `"auto"`.
+- Numba remains optional.
+- Optimized backend preserves reference state equivalence and RNG next-draw parity in focused tests and benchmark checks.
+- Runtime invariant validation is available.
+- Benchmark scripts and reports exist for indexing and optimized full-step performance.
+
+### 1.2 What is not implemented yet
+
+- Simulator facade.
+- Controlled RL action semantics.
+- Action application contract.
+- Observation schema.
+- Reward schema.
+- Episode lifecycle.
+- RL metrics/info schema.
+- Gymnasium wrapper.
+- RLlib wrapper.
+- PettingZoo/multi-agent wrapper.
+
+### 1.3 Current readiness estimate
+
+| Target | Readiness | Notes |
+|---|---:|---|
+| Continue simulator-core development | High | Reference/optimized architecture is established. |
+| Begin RL environment preparation | 75–80% | Correct next step is facade + contracts. |
+| Start actual RL training experiments | 40–50% | RL actions/observations/rewards/env wrappers are missing. |
+
+The blocker for RL training is no longer low-level simulator correctness. The blocker is the missing RL-facing API design.
+
+---
+
+## 2. Core project principles
+
+### 2.1 Reference-first correctness
 
 `step_reference(...)` is the authoritative semantic oracle.
 
-All optimized implementations must match it exactly unless a future task explicitly changes the model semantics.
+All optimized implementations must match it exactly unless a future task explicitly changes model semantics.
 
 Correctness includes:
 
@@ -26,7 +63,7 @@ Correctness includes:
 - deterministic behavior under fixed seed;
 - consistent behavior across supported backends.
 
-### 1.2 Optional optimization
+### 2.2 Optional optimization
 
 Optimized backends and kernels are optional.
 
@@ -36,7 +73,7 @@ The base package must import and run without Numba.
 
 `ReferenceBackend` must never depend on Numba.
 
-### 1.3 No hidden RL semantics inside core kernels
+### 2.3 No hidden RL semantics inside core kernels
 
 The current simulator core should remain independent from RL-specific concerns.
 
@@ -51,7 +88,7 @@ Do not add directly to low-level kernels:
 
 RL-facing behavior should be layered above the simulator core through a clean simulator facade and environment wrappers.
 
-### 1.4 Surgical development
+### 2.4 Surgical development
 
 Prefer small, verifiable tasks.
 
@@ -65,9 +102,9 @@ Keep reference/debug helpers intact unless removal is explicitly justified and c
 
 ---
 
-## 2. Current completed work
+## 3. Completed work by layer
 
-### 2.1 Project bootstrap
+### 3.1 Project bootstrap
 
 Completed:
 
@@ -79,7 +116,7 @@ Completed:
 - optional extras for Numba;
 - development quick checks.
 
-### 2.2 Core state and parameters
+### 3.2 Core state and parameters
 
 Completed:
 
@@ -95,7 +132,7 @@ Current limitation:
 
 - controlled vehicles are marked but do not yet receive external RL actions.
 
-### 2.3 Scenario initialization
+### 3.3 Scenario initialization
 
 Completed:
 
@@ -109,7 +146,7 @@ Current limitation:
 - no scenario curriculum/config facade yet;
 - no RL episode reset API yet.
 
-### 2.4 Reference indexing
+### 3.4 Reference indexing
 
 Completed:
 
@@ -130,7 +167,7 @@ Current limitation:
 - no length-aware geometry;
 - no body-cell collision geometry.
 
-### 2.5 Lane-change phase
+### 3.5 Lane-change phase
 
 Completed:
 
@@ -147,7 +184,7 @@ Current limitation:
 - no external controlled action override;
 - lane-change proposal collection is now the primary optimized-backend bottleneck.
 
-### 2.6 Longitudinal phase
+### 3.6 Longitudinal phase
 
 Completed:
 
@@ -158,10 +195,10 @@ Completed:
 
 Current limitation:
 
-- not full future model family support;
-- no external controlled acceleration/speed action yet.
+- no external controlled acceleration/speed action yet;
+- no future model-family variants yet.
 
-### 2.7 Full reference step
+### 3.7 Full reference step
 
 Completed:
 
@@ -171,7 +208,7 @@ Completed:
 - reference rollout tests;
 - runtime invariant validation after rollouts.
 
-### 2.8 Backend abstraction
+### 3.8 Backend abstraction
 
 Completed:
 
@@ -189,7 +226,7 @@ Current behavior:
 - `"optimized"` uses `OptimizedBackend` when required Numba kernels are available, otherwise falls back to reference;
 - `"auto"` prefers optimized when available, otherwise reference.
 
-### 2.9 Optimized backend
+### 3.9 Optimized backend
 
 Completed:
 
@@ -208,11 +245,17 @@ Current representative benchmark status:
 | medium_dense | 354.9731 | 13.6533 | 25.999x | 1.839x |
 | wide_moderate | 191.7672 | 7.8746 | 24.353x | 2.290x |
 
+Final Task 22+23 recommendation:
+
+```text
+keep OptimizedBackend supported and merge indexing fast path
+```
+
 Current optimized bottleneck:
 
 - `lane_change_proposals`.
 
-### 2.10 Benchmark/report infrastructure
+### 3.10 Benchmark/report infrastructure
 
 Completed:
 
@@ -233,46 +276,51 @@ Current policy:
 
 ---
 
-## 3. Current project status
+## 4. Current architecture
 
-The project currently has:
+Target layering:
 
-- a working simulator core;
-- a semantic oracle;
-- a supported optional optimized backend;
-- backend selection;
-- correctness tests;
-- performance benchmarks;
-- clear current bottleneck identification.
+```text
+low-level core
+  |
+  |-- step_reference(...)
+  |-- ReferenceBackend
+  |-- OptimizedBackend
+  |
+simulator facade                  # next stage
+  |
+  |-- reset(...)
+  |-- step(actions)
+  |-- scenario config
+  |-- backend config
+  |-- controlled vehicle selection
+  |-- optional invariant checks
+  |
+RL contracts                      # after facade
+  |
+  |-- action schema
+  |-- observation schema
+  |-- reward schema
+  |-- episode semantics
+  |-- metrics/info
+  |
+environment wrappers              # after contracts
+  |
+  |-- Gymnasium single-agent
+  |-- Gymnasium vector-compatible option
+  |-- multi-agent wrapper if needed
+  |-- RLlib/PettingZoo only after core env is stable
+```
 
-The project does not yet have:
+Critical dependency rule:
 
-- simulator facade;
-- RL action semantics;
-- observation schema;
-- reward schema;
-- episode lifecycle;
-- Gymnasium wrapper;
-- RLlib wrapper;
-- multi-agent wrapper.
-
-Status assessment:
-
-- simulator core readiness: high;
-- optimized backend readiness: good for optional supported use;
-- RL environment readiness: not yet;
-- readiness to start RL environment preparation: yes.
-
-Estimated readiness:
-
-- for beginning RL-env preparation: 75–80%;
-- for actual RL training experiments: 40–50%.
-
-The blocker for RL training is not low-level simulation anymore. The blocker is missing RL-facing API design.
+```text
+core must not import gymnasium, ray, rllib, torch, matplotlib, pandas, scipy, or networkx.
+```
 
 ---
 
-## 4. What should not be done next
+## 5. What should not be done next
 
 Do not start directly with Gymnasium/RLlib wrappers.
 
@@ -293,51 +341,33 @@ Do not introduce new physics during the first RL-env preparation tasks.
 
 Do not optimize `lane_change_proposals` before defining the simulator facade unless benchmark evidence shows it blocks development.
 
+Do not add action semantics inside Numba kernels first. Define reference/control semantics first, then optimize later if necessary.
+
 ---
 
-## 5. Next development stage: RL environment preparation
+## 6. Immediate next stage: RL environment preparation
 
 The next stage should build a clean layer between the simulator core and RL wrappers.
 
-Target architecture:
+Primary goal:
 
 ```text
-low-level core
-  |
-  |-- step_reference(...)
-  |-- ReferenceBackend
-  |-- OptimizedBackend
-  |
-simulator facade
-  |
-  |-- reset(...)
-  |-- step(actions)
-  |-- controlled vehicle selection
-  |-- scenario config
-  |-- backend config
-  |-- invariant checks
-  |
-RL contracts
-  |
-  |-- action schema
-  |-- observation schema
-  |-- reward schema
-  |-- episode semantics
-  |-- metrics/info
-  |
-environment wrappers
-  |
-  |-- Gymnasium single-agent
-  |-- Gymnasium vector-compatible option
-  |-- multi-agent wrapper if needed
-  |-- RLlib/PettingZoo only after core env is stable
-````
+Create a stable simulator facade and formalize the boundary where external RL control enters the simulation.
+```
+
+The correct immediate next task is:
+
+```text
+Task 24 — simulator facade and deterministic episode skeleton
+```
+
+Task 24 should not add Gymnasium yet.
 
 ---
 
-## 6. Proposed upcoming tasks
+## 7. Proposed upcoming tasks
 
-### Task 24 — Simulator facade and episode skeleton
+### Task 24 — Simulator facade and deterministic episode skeleton
 
 Goal:
 
@@ -345,38 +375,50 @@ Create a stable high-level simulator facade without adding Gymnasium yet.
 
 Expected additions:
 
-* `TrafficSimulator` or `Simulator`;
-* `ScenarioConfig`;
-* `BackendConfig`;
-* deterministic `reset(seed=...)`;
-* deterministic `step(actions=None)`;
-* current state access;
-* controlled vehicle selection hook;
-* optional runtime invariant validation;
-* backend selection integration;
-* rollout helper for tests/debug.
+- `TrafficSimulator` or `Simulator`;
+- `ScenarioConfig`;
+- `BackendConfig`;
+- deterministic `reset(seed=...)`;
+- deterministic `step(actions=None)`;
+- current state access;
+- controlled vehicle selection placeholder;
+- optional runtime invariant validation;
+- backend selection integration;
+- rollout helper for tests/debug.
 
 Important constraints:
 
-* do not add rewards yet unless minimal placeholders are needed;
-* do not add Gymnasium;
-* do not add RLlib;
-* do not change simulator physics;
-* do not break direct backend usage.
+- do not add Gymnasium;
+- do not add RLlib;
+- do not add PettingZoo;
+- do not add rewards yet unless minimal placeholders are strictly needed;
+- do not change simulator physics;
+- do not break direct backend usage;
+- do not add hidden stochastic behavior.
 
 Success criteria:
 
-* facade reset is deterministic under fixed seed;
-* facade step matches backend step when no external actions are supplied;
-* `backend="reference"`, `"optimized"`, and `"auto"` work through the facade;
-* runtime invariants can be enabled/disabled;
-* tests cover reset/step/determinism/backend selection.
+- facade reset is deterministic under fixed seed;
+- facade step matches backend step when no external actions are supplied;
+- `backend="reference"`, `backend="optimized"`, and `backend="auto"` work through the facade;
+- runtime invariants can be enabled/disabled;
+- tests cover reset/step/determinism/backend selection;
+- `pytest -q` passes;
+- README includes a small facade usage snippet.
 
-Recommended output:
+Recommended files to consider:
 
-* new facade module;
-* focused tests;
-* README usage snippet.
+```text
+src/snfs_traffic/simulator.py
+src/snfs_traffic/config.py
+# or
+src/snfs_traffic/sim/
+  __init__.py
+  simulator.py
+  config.py
+```
+
+Do not over-abstract. The first facade should be small and explicit.
 
 ---
 
@@ -394,23 +436,23 @@ lane_delta ∈ {-1, 0, +1}
 
 Possible later action extensions:
 
-* desired speed;
-* acceleration;
-* combined lateral + longitudinal action;
-* continuous control variants.
+- desired speed;
+- acceleration;
+- combined lateral + longitudinal action;
+- continuous control variants.
 
 For the first RL MVP, prefer the smallest useful action space.
 
 Required design decisions:
 
-* how controlled vehicles are selected;
-* whether all controlled vehicles receive actions every step;
-* what happens when action is missing;
-* what happens when action is invalid;
-* how action masks are represented;
-* whether invalid actions are clipped, ignored, or penalized;
-* whether controlled actions override stochastic lane-change attempts;
-* how RNG parity is defined when external actions replace stochastic attempts.
+- how controlled vehicles are selected;
+- whether all controlled vehicles receive actions every step;
+- what happens when an action is missing;
+- what happens when an action is invalid;
+- how action masks are represented;
+- whether invalid actions are clipped, ignored, rejected, or penalized;
+- whether controlled actions override stochastic lane-change attempts;
+- how RNG parity is defined when external actions replace stochastic attempts.
 
 Important warning:
 
@@ -418,11 +460,11 @@ This is the highest-risk design point before RL. Do not bury it inside optimized
 
 Success criteria:
 
-* action schema is explicit;
-* invalid action behavior is explicit;
-* reference path supports controlled actions;
-* optimized path either supports the same behavior or falls back clearly;
-* tests compare controlled and uncontrolled behavior.
+- action schema is explicit;
+- invalid action behavior is explicit;
+- reference path supports controlled actions;
+- optimized path either supports the same behavior or falls back clearly;
+- tests compare controlled and uncontrolled behavior.
 
 ---
 
@@ -434,30 +476,32 @@ Define what the agent sees.
 
 Recommended first observation type:
 
-Ego-centric local observation for each controlled vehicle.
+```text
+ego-centric local observation for each controlled vehicle
+```
 
 Candidate fields:
 
-* ego lane;
-* ego velocity;
-* normalized position or omitted position;
-* front gap current lane;
-* front relative speed current lane;
-* back gap current lane;
-* left-lane front/back gaps if lane exists;
-* right-lane front/back gaps if lane exists;
-* action mask;
-* optional global density/lane count metadata.
+- ego lane;
+- ego velocity;
+- normalized position or omitted position;
+- front gap current lane;
+- front relative speed current lane;
+- back gap current lane;
+- left-lane front/back gaps if lane exists;
+- right-lane front/back gaps if lane exists;
+- action mask;
+- optional global density/lane count metadata.
 
 Avoid full global occupancy as the first default observation unless there is a specific experiment requiring it.
 
 Success criteria:
 
-* observation builder is independent from Gymnasium;
-* observation shape is deterministic;
-* observation dtype is documented;
-* observation tests cover road wraparound and lane boundaries;
-* action mask is consistent with lane boundaries and occupancy/safety logic.
+- observation builder is independent from Gymnasium;
+- observation shape is deterministic;
+- observation dtype is documented;
+- observation tests cover road wraparound and lane boundaries;
+- action mask is consistent with lane boundaries and occupancy/safety logic.
 
 ---
 
@@ -469,15 +513,11 @@ Define reward components independently from Gymnasium.
 
 Candidate first reward components:
 
-* speed/progress reward;
-* lane-change cost;
-* invalid-action penalty;
-* unsafe-gap penalty if applicable;
-* optional collision/termination penalty if future collision semantics are added.
-
-Important:
-
-Do not overfit reward before running simple experiments.
+- speed/progress reward;
+- lane-change cost;
+- invalid-action penalty;
+- unsafe-gap penalty if applicable;
+- optional collision/termination penalty if future collision semantics are added.
 
 Keep reward decomposed:
 
@@ -489,10 +529,10 @@ The `info` dict should expose reward components.
 
 Success criteria:
 
-* reward function is pure/testable;
-* reward components are documented;
-* reward scale is reasonable;
-* tests cover simple scenarios.
+- reward function is pure/testable;
+- reward components are documented;
+- reward scale is reasonable;
+- tests cover simple scenarios.
 
 ---
 
@@ -504,33 +544,33 @@ Define episode lifecycle.
 
 Required decisions:
 
-* max episode steps;
-* terminated vs truncated;
-* reset randomization;
-* controlled vehicle lifecycle;
-* whether controlled vehicle can disappear/die;
-* what happens if no controlled vehicle is available;
-* per-step info schema;
-* per-episode summary metrics.
+- max episode steps;
+- `terminated` vs `truncated`;
+- reset randomization;
+- controlled vehicle lifecycle;
+- whether controlled vehicles can disappear/die;
+- what happens if no controlled vehicle is available;
+- per-step info schema;
+- per-episode summary metrics.
 
 Candidate metrics:
 
-* mean speed;
-* controlled mean speed;
-* flow proxy;
-* lane changes;
-* invalid actions;
-* safety violations;
-* reward components;
-* backend used;
-* seed;
-* scenario config.
+- mean speed;
+- controlled mean speed;
+- flow proxy;
+- lane changes;
+- invalid actions;
+- safety violations;
+- reward components;
+- backend used;
+- seed;
+- scenario config.
 
 Success criteria:
 
-* deterministic episode rollout under fixed seed;
-* metrics are stable and tested;
-* episode end behavior is explicit.
+- deterministic episode rollout under fixed seed;
+- metrics are stable and tested;
+- episode end behavior is explicit.
 
 ---
 
@@ -542,26 +582,25 @@ Add the first real RL wrapper after facade/contracts are stable.
 
 Recommended initial scope:
 
-* one controlled ego vehicle;
-* discrete lateral action;
-* fixed scenario config;
-* fixed observation schema;
-* fixed reward schema;
-* Gymnasium API:
-
-  * `reset(seed=None, options=None)`;
-  * `step(action) -> obs, reward, terminated, truncated, info`.
+- one controlled ego vehicle;
+- discrete lateral action;
+- fixed scenario config;
+- fixed observation schema;
+- fixed reward schema;
+- Gymnasium API:
+  - `reset(seed=None, options=None)`;
+  - `step(action) -> obs, reward, terminated, truncated, info`.
 
 Do not add RLlib yet.
 
 Success criteria:
 
-* `gymnasium.Env` compliance;
-* deterministic reset with seed;
-* smoke random-agent rollout;
-* tests for observation/action spaces;
-* tests for terminated/truncated behavior;
-* no direct dependency of core kernels on Gymnasium.
+- `gymnasium.Env` compliance;
+- deterministic reset with seed;
+- smoke random-agent rollout;
+- tests for observation/action spaces;
+- tests for terminated/truncated behavior;
+- no direct dependency of core kernels on Gymnasium.
 
 ---
 
@@ -573,39 +612,41 @@ Only after single-agent env works, design multi-agent control.
 
 Possible options:
 
-* custom multi-agent facade;
-* PettingZoo ParallelEnv;
-* RLlib MultiAgentEnv.
+- custom multi-agent facade;
+- PettingZoo ParallelEnv;
+- RLlib MultiAgentEnv.
 
 Do not implement all wrappers at once.
 
 Required decisions:
 
-* agent IDs;
-* controlled vehicle assignment;
-* per-agent observations;
-* shared/global rewards vs individual rewards;
-* agent appearance/disappearance;
-* action dict validation.
+- agent IDs;
+- controlled vehicle assignment;
+- per-agent observations;
+- shared/global rewards vs individual rewards;
+- agent appearance/disappearance;
+- action dict validation.
 
 Success criteria:
 
-* deterministic multi-agent rollout;
-* clear mapping between vehicle IDs and agent IDs;
-* tests for missing/extra actions;
-* tests for done/truncation semantics.
+- deterministic multi-agent rollout;
+- clear mapping between vehicle IDs and agent IDs;
+- tests for missing/extra actions;
+- tests for done/truncation semantics.
 
 ---
 
-## 7. Performance roadmap
+## 8. Performance roadmap
 
 Current bottleneck after Task 22+23:
 
-* `lane_change_proposals`.
+- `lane_change_proposals`.
 
 Recommended future performance task:
 
-### Optional Task P1 — Optimize lane-change proposal collection
+```text
+Optional Task P1 — optimize lane-change proposal collection
+```
 
 Goal:
 
@@ -613,1006 +654,184 @@ Reduce current optimized-backend bottleneck after fused indexing.
 
 Constraints:
 
-* preserve exact semantics;
-* preserve RNG parity;
-* do not change action semantics;
-* do not add RL behavior;
-* do not alter conflict resolution semantics.
+- preserve exact semantics;
+- preserve RNG parity;
+- do not change action semantics;
+- do not add RL behavior;
+- do not alter conflict resolution semantics.
 
 Potential strategies:
 
-* reduce per-vehicle branching;
-* specialize dense/sparse paths;
-* precompute lane availability masks;
-* fuse more read-only data access;
-* reduce temporary allocations;
-* split controlled/uncontrolled paths only after controlled action contract is finalized.
+- reduce per-vehicle branching;
+- specialize dense/sparse paths;
+- precompute lane availability masks;
+- fuse more read-only data access;
+- reduce temporary allocations;
+- split controlled/uncontrolled paths only after controlled action contract is finalized.
 
 Do not start this before Task 24 unless performance blocks facade work.
 
 ---
 
-## 8. Model-extension roadmap
+## 9. Model-extension roadmap
 
 These are not prerequisites for first RL environment preparation.
 
-### Future physics/model tasks
-
 Potential future tasks:
 
-* length-aware multi-cell occupancy;
-* length-aware gaps;
-* bus body-cell collision geometry;
-* open-boundary topology;
-* inflow/outflow;
-* richer behavior profiles;
-* paper-exact longitudinal variants if needed.
+- length-aware multi-cell occupancy;
+- length-aware gaps;
+- bus body-cell collision geometry;
+- open-boundary topology;
+- inflow/outflow;
+- richer behavior profiles;
+- paper-exact longitudinal variants if needed.
 
 Warning:
 
 Any physics change must be treated as a semantic change and must update:
 
-* reference implementation;
-* tests;
-* optimized backend;
-* benchmarks;
-* docs.
+- reference implementation;
+- tests;
+- optimized backend;
+- benchmarks;
+- docs.
 
 Do not mix these changes with RL wrapper tasks.
 
 ---
 
-## 9. Documentation roadmap
+## 10. Documentation roadmap
 
 Current docs should stay synchronized with project stage.
 
 Immediate documentation needs:
 
-* keep README status current;
-* keep backend support status clear;
-* document simulator facade once added;
-* document action/observation/reward contracts before Gymnasium wrapper;
-* keep benchmark reports in `reports/`;
-* avoid claiming RL readiness before wrappers exist.
+- keep README status current;
+- keep backend support status clear;
+- document simulator facade once added;
+- document action/observation/reward contracts before Gymnasium wrapper;
+- keep benchmark reports in `reports/`;
+- avoid claiming RL readiness before wrappers exist.
 
 Recommended docs after Task 24:
 
-* facade usage example;
-* scenario config example;
-* backend config example;
-* deterministic rollout example.
+- facade usage example;
+- scenario config example;
+- backend config example;
+- deterministic rollout example.
 
 Recommended docs after Tasks 25–27:
 
-* action schema;
-* observation schema;
-* reward components;
-* invalid action semantics;
-* episode semantics.
+- action schema;
+- observation schema;
+- reward components;
+- invalid action semantics;
+- episode semantics.
 
 Recommended docs after Task 29:
 
-* Gymnasium environment usage;
-* random-agent rollout example;
-* minimal training smoke example only if actually tested.
+- Gymnasium environment usage;
+- random-agent rollout example;
+- minimal training smoke example only if actually tested.
 
 ---
 
-## 10. Current immediate next task
-
-The next concrete Codex task should be:
+## 11. Suggested Task 24 prompt
 
 ```text
 Task 24 — simulator facade and deterministic episode skeleton
+
+Repository context
+==================
+
+The repository is after Tasks 1–23, including Task 22+23 follow-up.
+
+The simulator core has:
+- step_reference(...) as the semantic oracle;
+- ReferenceBackend;
+- supported optional OptimizedBackend;
+- backend selector get_backend("reference" | "optimized" | "auto");
+- optional Numba kernels;
+- runtime invariant validation;
+- deterministic scenario initialization;
+- benchmark/report infrastructure.
+
+Goal
+====
+
+Add a small high-level simulator facade that future RL wrappers can use.
+
+Do not add Gymnasium, RLlib, PettingZoo, rewards, or observations yet.
+
+Expected implementation
+=======================
+
+Add a simple facade, for example:
+
+- TrafficSimulator or Simulator;
+- ScenarioConfig;
+- BackendConfig or backend name field;
+- reset(seed=...) method;
+- step(actions=None) method;
+- current state access;
+- controlled vehicle selection placeholder;
+- optional runtime invariant validation;
+- backend selection integration.
+
+Requirements
+============
+
+- reset is deterministic under fixed seed;
+- step(actions=None) matches selected backend behavior exactly;
+- backend="reference", backend="optimized", and backend="auto" work;
+- no simulator physics changes;
+- no hidden RNG changes;
+- no Gymnasium dependency;
+- no RLlib dependency;
+- no rewards/observations unless minimal placeholders are unavoidable;
+- existing direct backend API remains valid.
+
+Tests
+=====
+
+Add focused tests for:
+
+- deterministic reset;
+- deterministic rollout under fixed seed;
+- reference backend through facade;
+- optimized/auto backend through facade, including fallback-safe behavior;
+- optional runtime invariant checks;
+- state returned/accessed by facade.
+
+Validation
+==========
+
+Run:
+
+python -m pip install -e ".[numba]"
+pytest -q
+pytest -q tests/test_optimized_backend_equivalence.py
+pytest -q tests/test_backends_selection.py
+
+Documentation
+=============
+
+Update README with a short facade usage example and clarify that Gymnasium wrappers are still planned, not implemented.
 ```
-
-Task 24 should not add Gymnasium yet.
-
-Task 24 should create the high-level object that future RL wrappers will depend on.
-
-Minimum deliverables:
-
-* `TrafficSimulator` / `Simulator`;
-* config objects;
-* deterministic reset;
-* deterministic step;
-* backend selection integration;
-* controlled vehicle selection placeholder;
-* optional invariant checks;
-* tests;
-* README snippet.
-
-Recommended acceptance criteria:
-
-* `pytest -q` passes;
-* deterministic reset/step tests pass;
-* reference and optimized backend facade tests pass;
-* no Gymnasium dependency is added;
-* no rewards/observations are prematurely overdesigned;
-* no simulator physics changes are introduced.
 
 ---
 
-## 11. Readiness summary
+## 12. Readiness summary
 
 Current project level:
 
-* core simulator: mature enough for next-stage use;
-* optimized backend: supported optional backend;
-* benchmark status: good;
-* semantic safety: good;
-* RL API: missing;
-* Gymnasium readiness: not yet;
-* RL training readiness: not yet.
+- core simulator: mature enough for next-stage use;
+- optimized backend: supported optional backend;
+- benchmark status: good;
+- semantic safety: good;
+- RL API: missing;
+- Gymnasium readiness: not yet;
+- RL training readiness: not yet.
 
 The correct next move is to build the simulator facade and formalize control boundaries before implementing environment wrappers.
-
-
-
----
-
-# 0. Текущий статус реализации
-
-## Уже реализовано
-
-```text
-Task 1 — project bootstrap and import smoke tests.
-Task 2 — core SimulationParams and TrafficState schemas.
-Task 3 — reference periodic RingTopology.
-Task 4 — minimal reproducible uniform-random scenario initializer.
-Task 5 — reference head-cell occupancy / lane order / neighbor indexing.
-Task 6 — reference longitudinal same-lane step without lane changes.
-Task 7 — reference lane-change phase using Eq. (8)/(9), P_CL = p_lane_change = 0.5 by default, and stochastic conflict resolution.
-Task 8 — full reference step composing lane-change phase and longitudinal phase.
-Task 9 — runtime invariant suite / random rollout invariant tests.
-Task 10 — minimal backend contract and reference-vs-backend equivalence scaffolding.
-Task 11 — backend-neutral pure-array indexing kernels and reference equivalence tests.
-Task 12 — optional Numba indexing kernels with strict reference equivalence tests.
-Task 13 — benchmark tooling for indexing wrappers / pure-array kernels / optional Numba kernels.
-Task 14 — split longitudinal phase into pure-array kernels with strict reference equivalence tests.
-```
-
-Текущее ядро содержит:
-
-```text
-src/snfs_traffic/
-  core/
-    __init__.py
-    params.py
-    state.py
-    types.py
-    indexing.py
-    longitudinal_kernels.py        # internal longitudinal pure-array kernels
-    step_reference.py              # longitudinal + full reference step composition
-    lane_change_reference.py       # reference lane-change phase
-  topology/
-    base.py
-    ring.py
-  scenarios/
-    init.py
-  rules/
-  observations/
-  envs/
-  metrics/
-  io/
-```
-
-Текущие тесты покрывают:
-
-```text
-tests/test_imports.py
-tests/test_state_schema.py
-tests/test_ring_topology.py
-tests/test_init_scenarios.py
-tests/test_indexing.py
-tests/test_indexing_kernels.py
-tests/test_longitudinal_kernels.py
-tests/test_snfs_longitudinal.py
-tests/test_snfs_lane_change.py
-tests/test_snfs_full_step.py
-tests/test_runtime_invariants.py
-```
-
-## Текущий публичный core API
-
-```python
-from snfs_traffic.core import (
-    SimulationParams,
-    TrafficState,
-    empty_state,
-    max_supported_velocity,
-    validate_state,
-    INDEX_DTYPE,
-    MISSING_GAP,
-    MISSING_INDEX,
-    build_occupancy,
-    build_lane_order,
-    compute_neighbors,
-    step_longitudinal_reference,
-    step_reference,
-    step_lane_change_reference,
-    validate_runtime_invariants,
-    StepBackend,
-    ReferenceBackend,
-    get_reference_backend,
-)
-```
-
-## Текущий публичный topology API
-
-```python
-from snfs_traffic.topology import RingTopology
-```
-
-## Текущий публичный scenario API
-
-```python
-from snfs_traffic.scenarios import (
-    AV_BEHAVIOR_ID,
-    AV_VEH_TYPE,
-    BUS_BEHAVIOR_ID,
-    BUS_VEH_TYPE,
-    CONTROLLED_AV_BEHAVIOR_ID,
-    HDV_BEHAVIOR_ID,
-    HDV_VEH_TYPE,
-    VehicleMix,
-    make_uniform_random_state,
-)
-```
-
-## Следующий непосредственный task
-
-```text
-Task 13 — benchmark reference vs Numba indexing kernels and decision report.
-
-Completed:
-- added benchmark script for public wrappers, pure-array kernels, and optional Numba kernels;
-- benchmark reports JSON and Markdown;
-- first-call Numba compile-inclusive timings are separated from warmed timings;
-- benchmark is not part of correctness/performance CI thresholds;
-- no simulator behavior changed;
-- no backend wiring was added.
-
-Important:
-- Codex Cloud/CI timings are indicative only.
-- Final performance decision should be repeated on the target machine.
-
-Task 14 — split longitudinal phase into pure-array kernels with reference equivalence tests.
-
-Completed:
-- added internal longitudinal array-level kernels for velocity update and periodic position advance;
-- refactored step_longitudinal_reference(...) to use those kernels;
-- kept public API unchanged;
-- kept ReferenceBackend and step_reference(...) behavior unchanged;
-- preserved exact RNG draw order and stochastic semantics;
-- added strict equivalence tests against old longitudinal loop semantics;
-- no Numba longitudinal kernel was added;
-- no optimized full-step backend was added.
-
-Task 15 — split lane-change phase into array-level proposal/conflict kernels with strict reference equivalence tests.
-
-Completed:
-- added internal lane-change array-level kernels for target-lane neighbor lookup, eligibility, proposal collection, stochastic conflict resolution, and applying accepted lane changes;
-- refactored step_lane_change_reference(...) to use those kernels;
-- kept public API unchanged;
-- kept ReferenceBackend and step_reference(...) behavior unchanged;
-- preserved exact RNG draw order for target-lane tie-breaking, lane-change probability draws, and conflict tie-breaking;
-- preserved dict insertion-order conflict resolution semantics;
-- added strict equivalence tests against old lane-change loop semantics;
-- no Numba lane-change kernel was added;
-- no optimized full-step backend was added;
-- no longitudinal behavior was changed.
-
-Task 16 — benchmark full-step phase costs after longitudinal and lane-change kernel splits before implementing optimized full-step backends.
-
-Completed:
-- added benchmark tooling for full `step_reference(...)` and benchmark-local phase-level timing;
-- added deterministic smoke/standard benchmark presets;
-- added JSON and Markdown benchmark reports;
-- added benchmark-local correctness checks against public `step_reference(...)`;
-- added smoke tests for benchmark CLI/output schema;
-- did not change simulator physics;
-- did not change public API;
-- did not implement optimized backend;
-- did not add Numba lane-change or longitudinal kernels.
-
-Task 17 — optimize the measured dominant full-step bottleneck identified by Task 16.
-```
-
-Tasks 1–16 are complete. Следующий приоритет — Task 17 (консервативно): optimize the measured dominant full-step bottleneck identified by Task 16.
-
----
-
-# 1. Главная архитектурная декомпозиция
-
-Проект разделяется на независимые слои:
-
-```text
-snfs_traffic/
-  core/           # быстрый state transition engine и reference physics
-  topology/       # ring/open/segment graph/intersections later
-  scenarios/      # initial state generation, spawn policies later
-  rules/          # HDV/AV/RL/infrastructure rule ids and presets
-  observations/   # full-state, local grid, graph observation builders
-  envs/           # Gymnasium/RLlib/PettingZoo adapters
-  metrics/        # validation metrics, fundamental diagram, rollout stats
-  io/             # snapshots, restore, export/import
-```
-
-Критическое правило:
-
-```text
-core не импортирует gymnasium, ray, torch, rllib, matplotlib, pandas, scipy.
-```
-
-`core` должен оставаться маленьким, быстрым, framework-independent и проверяемым.
-
-Запрещено строить hot loop вокруг объектов `Vehicle`, `RoadLane`, `TrafficModel` или любого object graph. Машины — это строки в массивах.
-
----
-
-# 2. Dependency policy
-
-Текущий базовый runtime dependency:
-
-```text
-numpy
-```
-
-Текущий dev/test dependency:
-
-```text
-pytest
-```
-
-Добавлять позже только отдельными task-ами:
-
-```text
-numba       # только начиная с Numba backend / kernel tasks
-gymnasium   # только начиная с Gym env task
-ray/rllib   # только начиная с RLlib adapter task, не в core
-```
-
-Не добавлять в `core`, `scenarios`, `topology` на текущих этапах:
-
-```text
-gymnasium
-ray
-rllib
-torch
-pandas
-scipy
-matplotlib
-networkx
-```
-
----
-
-# 3. Зафиксированный runtime-контракт текущего reference core
-
-## 3.1. TrafficState schema
-
-`TrafficState` хранит только массивы:
-
-```python
-vehicle_id:      int32[N]
-lane:            int16[N]
-pos:             int32[N]
-vel:             int16[N]
-length:          int16[N]
-veh_type:        int16[N]
-behavior_id:     int16[N]
-alive:           bool[N]
-last_lane_delta: int8[N]
-changed_lane:    bool[N]
-controlled:      bool[N]
-```
-
-`pos` на текущем этапе означает **head cell**. Для `length > 1` тело машины пока не размечается. `length` является metadata и сейчас не участвует в occupancy/gaps/collision checks.
-
-## 3.2. Reference indexing state
-
-Текущий indexing слой реализует:
-
-```python
-occupancy:       int32[num_lanes, road_length]  # -1 или vehicle array index
-lane_order:      int32[num_lanes, road_length]
-lane_counts:     int32[num_lanes]
-lane_rank:       int32[N]
-front_id:        int32[N]
-back_id:         int32[N]
-front_gap:       int32[N]
-back_gap:        int32[N]
-```
-
-Текущий public API:
-
-```python
-build_occupancy(state, params) -> occupancy
-build_lane_order(occupancy, *, n_vehicles) -> lane_order, lane_counts, lane_rank
-compute_neighbors(state, lane_order, lane_counts, lane_rank, topology) -> front_id, back_id, front_gap, back_gap
-```
-
-Обязательный контракт indexing:
-
-```text
-- occupancy marks head cells only;
-- occupancy[lane, head_pos] = vehicle array index;
-- vehicle_id не используется как индекс occupancy;
-- inactive vehicles не попадают в occupancy/lane_order/neighbors;
-- duplicate alive head cells запрещены;
-- lane_order хранит vehicle array indices в порядке возрастающего pos;
-- lane_rank[i] = rank машины i внутри своей полосы;
-- front/back neighbors считаются только внутри одной lane;
-- one-vehicle lane policy: front_id/back_id/front_gap/back_gap = -1;
-- gaps are head-cell empty gaps;
-- length сейчас игнорируется в occupancy и gaps.
-```
-
-Это намеренно. Полная length-aware occupancy и bumper-to-bumper gaps остаются отдельным поздним milestone.
-
-## 3.3. Longitudinal reference phase
-
-Текущий API:
-
-```python
-step_longitudinal_reference(
-    state: TrafficState,
-    params: SimulationParams,
-    topology: RingTopology,
-    rng: np.random.Generator,
-) -> TrafficState
-```
-
-Текущие semantics:
-
-```text
-- validates state;
-- validates periodic RingTopology compatibility;
-- validates rng;
-- computes same-lane neighbor indexing from input state;
-- updates vel and pos for alive vehicles;
-- does not change lane;
-- resets changed_lane[:] = False and last_lane_delta[:] = 0 because this phase performs no lane changes;
-- keeps inactive vehicles unchanged;
-- validates result and rebuilds occupancy;
-- remains head-cell-only and length-ignored.
-```
-
-Важное ограничение: это текущая explicit reference semantics, а не гарантированная финальная paper-exact Revised S-NFS longitudinal equation mapping. Если будет отдельно предоставлена формальная версия уравнений, её нужно интегрировать отдельным task-ом.
-
-## 3.4. Lane-change reference phase
-
-Текущий API:
-
-```python
-step_lane_change_reference(
-    state: TrafficState,
-    params: SimulationParams,
-    topology: RingTopology,
-    rng: np.random.Generator,
-) -> TrafficState
-```
-
-Текущие semantics:
-
-```text
-- validates state;
-- validates periodic RingTopology compatibility;
-- validates rng;
-- computes all lane-change decisions from old state / old indexing;
-- uses Eq. (8) incentive criterion;
-- uses Eq. (9) safety criterion;
-- uses params.p_lane_change, default 0.5;
-- uses stochastic side tie-break when both adjacent lanes are eligible;
-- uses stochastic conflict resolution for simultaneous target-cell conflicts;
-- changes only lane and lane-change flags;
-- does not change pos or vel;
-- sets changed_lane[i] = True and last_lane_delta[i] = target_lane - old_lane for accepted movers;
-- resets changed_lane/last_lane_delta for non-movers;
-- disallows same-step lateral swaps into previously occupied target cells;
-- keeps head-cell-only, length-ignored semantics.
-```
-
-## 3.5. Full-step target semantics
-
-Целевой public API после следующего task:
-
-```python
-step_reference(
-    state: TrafficState,
-    params: SimulationParams,
-    topology: RingTopology,
-    rng: np.random.Generator,
-) -> TrafficState
-```
-
-Фиксируем порядок полного reference шага:
-
-```text
-1. lane-change phase;
-2. recompute indexing implicitly inside longitudinal phase;
-3. longitudinal movement phase.
-```
-
-Критически важно: longitudinal movement должен считаться после перестроений, по новым lane assignment. То есть машина, перестроившаяся в более свободную полосу, должна ускоряться/двигаться относительно новой полосы, а не старой.
-
-`step_longitudinal_reference(...)` сейчас сбрасывает `changed_lane` и `last_lane_delta`, поэтому будущий `step_reference(...)` обязан сохранить флаги lane-change phase и восстановить их после longitudinal phase.
-
-Правильная композиция:
-
-```python
-after_lc = step_lane_change_reference(state, params, topology, rng)
-lane_delta = after_lc.last_lane_delta.copy()
-changed_lane = after_lc.changed_lane.copy()
-
-after_long = step_longitudinal_reference(after_lc, params, topology, rng)
-out = after_long.copy()
-out.last_lane_delta = lane_delta
-out.changed_lane = changed_lane
-
-validate_state(out, params)
-build_occupancy(out, params)
-return out
-```
-
-После полного шага `state.changed_lane` / `state.last_lane_delta` должны описывать lateral movement, произошедший именно в этом полном шаге. Будущие observation builders смогут использовать эти поля как recent lane-changing behavior.
-
----
-
-# 4. Ближайшая очередь task-ов
-
-## Task 8 — full reference step composition
-
-Цель: добавить маленький, явный, тестируемый `step_reference(...)`, который только композирует уже реализованные фазы.
-
-Files:
-
-```text
-Modify:
-  src/snfs_traffic/core/step_reference.py
-  src/snfs_traffic/core/__init__.py
-  README.md
-
-Add:
-  tests/test_snfs_full_step.py
-tests/test_runtime_invariants.py
-```
-
-Не добавлять новую физику. Не менять lane-change или longitudinal rules без необходимости.
-
-Обязательные проверки:
-
-```text
-- public import of step_reference;
-- no input state mutation;
-- full step equals manual phase composition with same rng;
-- lane-change phase happens before longitudinal movement;
-- lane-change flags survive longitudinal phase;
-- one-lane full step equals longitudinal step;
-- p_lane_change=0 blocks lateral movement but still allows longitudinal update;
-- conflict resolution participates in full step;
-- deterministic with same seed;
-- different seeds can produce different outcomes;
-- invalid rng/topology rejected;
-- random rollout remains valid;
-- density=1.0 remains valid;
-- bus length ignored intentionally.
-```
-
-Expected after Task 8:
-
-```python
-from snfs_traffic.core import step_reference
-```
-
-## Task 9 — runtime invariant suite / random rollout tests
-
-Цель: вынести повторяющиеся runtime-проверки состояния в явный reusable слой, чтобы зафиксировать correctness contract перед оптимизацией.
-
-Suggested files:
-
-```text
-Add:
-  src/snfs_traffic/core/invariants.py
-  tests/test_invariants_random_rollouts.py
-```
-
-Возможный API:
-
-```python
-validate_runtime_invariants(state, params, topology) -> None
-```
-
-Проверки:
-
-```text
-- validate_state passes;
-- build_occupancy succeeds;
-- occupied head-cell count equals alive vehicle count;
-- no duplicate alive head cells;
-- alive lanes are in [0, num_lanes);
-- alive positions are in [0, road_length);
-- alive velocities are non-negative;
-- uncontrolled alive velocities <= params.vmax_default;
-- controlled alive velocities <= params.vmax_controlled;
-- changed_lane == (last_lane_delta != 0) for alive vehicles;
-- last_lane_delta values are only -1, 0, +1;
-- alive count is stable for closed periodic ring rollouts;
-- length remains ignored by occupancy/gaps under current reference semantics.
-```
-
-Rollout coverage:
-
-```text
-num_lanes: 1, 2, 3, 4
-road_length: small and medium values
-density: 0.05, 0.2, 0.5, 0.8, 1.0
-steps: 50–200 depending on test cost
-seeds: multiple fixed seeds
-```
-
-Этот task должен не менять physics. Его задача — зафиксировать invariant contract перед Numba/backend work.
-
-## Completed Task 10 — minimal backend contract and reference-vs-backend equivalence scaffolding
-
-Статус: выполнено.
-
-Что реализовано:
-
-```text
-- добавлен минимальный backend contract (StepBackend protocol);
-- добавлен ReferenceBackend, делегирующий в step_reference(...);
-- добавлен get_reference_backend() singleton accessor;
-- добавлены reference-vs-backend equivalence tests на фиксированных seeds/scenarios;
-- зафиксированы ограничения RNG/head-cell semantics/documentation без изменения physics.
-```
-
-## Completed Task 11 — backend-neutral pure-array indexing kernels and reference equivalence tests
-
-Статус: выполнено.
-
-Что реализовано:
-
-```text
-- добавлен `src/snfs_traffic/core/indexing_kernels.py`;
-- добавлены pure-array kernels: `build_occupancy_kernel`, `build_lane_order_kernel`, `compute_neighbors_kernel`;
-- публичные wrappers в `src/snfs_traffic/core/indexing.py` сохранили валидацию входов и делегируют вычисления kernels;
-- добавлены equivalence tests (`tests/test_indexing_kernels.py`), доказывающие совпадение outputs kernels с публичными reference wrappers;
-- Numba/Cython/optimized backend в рамках Task 11 не добавлялись;
-- physics/RNG/public API semantics не менялись.
-```
-
-## Task 12 — optional Numba implementation of the indexing kernels with reference equivalence tests
-
-Цель: опционально ускорить occupancy/lane_order/neighbors поверх уже зафиксированного pure-array kernel contract, не меняя semantics.
-
-Обязательные требования:
-
-```text
-- reference Python/NumPy implementation remains available;
-- Numba implementation is optional and must preserve outputs;
-- tests compare Numba kernel outputs to reference kernel/wrapper outputs over many random states;
-- no change in head-cell-only semantics;
-- no length-aware logic;
-- no RL actions;
-- no simulator facade yet unless needed only for backend selection.
-```
-
-## Task 13 — benchmark reference vs Numba indexing kernels and decide whether/how to wire indexing acceleration into an optimized backend
-
-Цель: измерить реальную стоимость текущих indexing phases и пользу optional Numba kernels перед любым подключением ускорения в backend path.
-
-Обязательные требования:
-
-- benchmark only occupancy/lane_order/neighbors and representative full-step slices where indexing cost is visible;
-- compare public reference wrappers / pure-array kernels / optional Numba kernels where applicable;
-- include warmup handling for Numba compilation;
-- report first-call compile cost separately from warmed execution time;
-- keep benchmark results out of correctness tests;
-- do not make performance numbers brittle CI assertions;
-- do not wire Numba into `step_reference`;
-- do not change `ReferenceBackend`;
-- do not introduce backend registry or environment-variable backend selection yet;
-- do not implement Numba lane-change, longitudinal, RNG, or full-step kernels;
-- use benchmark results to recommend whether the next implementation task should be:
-  1. an explicit optimized backend using Numba indexing only,
-  2. splitting longitudinal phase into pure-array kernels,
-  3. or postponing Numba integration if indexing is not the bottleneck.
-
-## Future task — Numba full-step equivalence
-
-Цель: accelerated full-step backend, эквивалентный `step_reference(...)` на зафиксированных scenarios/seeds.
-
-Условие запуска: выполнять только после Task 13 benchmarks и решения о целесообразности deeper Numba integration.
-
-Обязательные требования:
-
-```text
-- same RNG semantics must be explicitly handled or documented;
-- if exact RNG equivalence is hard, split deterministic kernels and stochastic draw preparation;
-- reference step remains source of truth;
-- tests compare output arrays and invariants;
-- performance benchmark can be tiny and optional, not a hard correctness dependency.
-```
-
-## Task 14 — thin simulator facade
-
-Цель: добавить минимальный удобный facade поверх `TrafficState`, `SimulationParams`, `RingTopology`, `step_reference` / backend step.
-
-Пример целевого API:
-
-```python
-sim = SnfsSimulator(params, topology, initial_state, seed=123)
-state = sim.state
-state = sim.step()
-```
-
-Ограничения:
-
-```text
-- facade must stay thin;
-- no Gymnasium yet;
-- no RL actions yet unless separate task explicitly defines them;
-- no object graph of Vehicle/RoadLane;
-- state remains array-oriented.
-```
-
-## Task 15 — controlled action semantics
-
-Цель: определить, как external RL actions влияют на controlled vehicles.
-
-Это нельзя делать неявно. Нужно отдельное специфицированное решение:
-
-```text
-action_accel: int8[N]  # e.g. -1, 0, +1
-action_lane:  int8[N]  # e.g. -1, 0, +1
-```
-
-Надо решить:
-
-```text
-- action validity and clipping;
-- interaction with safety constraints;
-- whether controlled actions override or bias reference lane-change probabilities;
-- how controlled vehicles interact with p_lane_change;
-- whether HDV/AV internal rules remain unchanged;
-- deterministic behavior under fixed seed.
-```
-
-До этого момента controlled vehicles отличаются только `vmax_controlled` и флагом `controlled`; внешние RL actions не реализованы.
-
-## Task 15 — observation builders
-
-Цель: добавить первые observation builders без Gym/RLlib.
-
-Возможные builders:
-
-```text
-- full-state observation;
-- ego/local lane-window observation;
-- occupancy grid observation;
-- later graph/GNN-compatible observation.
-```
-
-Ограничения:
-
-```text
-- observations не должны менять simulation state;
-- observations не должны тянуть torch/ray/rllib;
-- output должен быть NumPy arrays / plain dicts;
-- graph-specific framework integration позже отдельным task-ом.
-```
-
-## Task 16 — metrics and rollout diagnostics
-
-Цель: добавить метрики без тяжёлых dependencies.
-
-Примеры:
-
-```text
-- mean speed;
-- flow / throughput on ring;
-- density by lane;
-- lane-change count/rate;
-- stopped vehicle count;
-- collision/duplicate occupancy assertions;
-- fundamental-diagram-friendly summaries.
-```
-
-No matplotlib/pandas in core. Export plotting или dataframe conversion — только отдельно и вне hot core.
-
-## Task 17 — Gymnasium environment wrapper
-
-Цель: добавить Gymnasium-compatible env поверх уже стабильного simulator facade and observation/action semantics.
-
-Только здесь можно добавлять `gymnasium`.
-
-Ограничения:
-
-```text
-- Gym wrapper не должен загрязнять core;
-- core остаётся importable without gymnasium;
-- tests должны проверять импорт core без gymnasium при необходимости;
-- env action/observation spaces должны соответствовать уже утверждённым semantics.
-```
-
-## Task 18 — multi-agent / RLlib adapter
-
-Цель: добавить multi-agent adapter, когда уже есть:
-
-```text
-- stable simulator facade;
-- controlled action semantics;
-- observation builders;
-- reward/metric basics;
-- Gymnasium wrapper.
-```
-
-Ray/RLlib не должны попадать в core imports.
-
----
-
-# 5. Later milestones
-
-## 5.1. Length-aware geometry
-
-Текущая реализация намеренно head-cell-only. Отдельный будущий milestone:
-
-```text
-- multi-cell occupancy for vehicle bodies;
-- bumper-to-bumper gaps;
-- bus/body collision geometry;
-- lane-change safety based on body extents;
-- validation of mixed lengths.
-```
-
-Это нельзя добавлять маленькими незаметными правками в текущие reference tasks, потому что это меняет фундаментальную semantics indexing/collisions.
-
-## 5.2. Open-boundary topology
-
-Сейчас поддержан periodic ring. Отдельный future milestone:
-
-```text
-- open segment topology;
-- spawn/despawn policies;
-- boundary inflow/outflow;
-- route/lane availability constraints;
-- validation for non-periodic indexing and neighbor semantics.
-```
-
-## 5.3. More exact Revised S-NFS paper equations
-
-Если будут предоставлены формальные уравнения/таблицы/параметры для полного paper-exact Revised S-NFS longitudinal update, интегрировать их отдельным task-ом.
-
-Важно не смешивать:
-
-```text
-- current operational reference semantics;
-- paper-exact equation mapping;
-- performance backend;
-- RL action semantics.
-```
-
-Каждая из этих тем должна быть отдельной проверяемой задачей.
-
-## 5.4. IO / snapshots / reproducibility
-
-Позже:
-
-```text
-- snapshot save/load;
-- deterministic rollout replay;
-- compact binary or npz export;
-- scenario config serialization;
-- benchmark fixtures.
-```
-
-Не нужно до stabilization of core step and invariants.
-
----
-
-# 6. Global non-goals for current phase
-
-До завершения reference full step + invariant suite не делать:
-
-```text
-- Gymnasium env;
-- RLlib/PettingZoo adapter;
-- graph observations;
-- controlled external action semantics;
-- simulator facade with broad feature surface;
-- Numba/Cython kernels;
-- pandas/matplotlib reporting;
-- length-aware occupancy;
-- open-boundary traffic;
-- object-oriented vehicle/lane model.
-```
-
----
-
-# 7. Current correctness contract summary
-
-На текущем этапе проект гарантирует только это:
-
-```text
-- state is array-oriented and validated;
-- topology is periodic RingTopology;
-- scenario initializer can generate reproducible uniform-random states;
-- occupancy/lane_order/neighbors are head-cell-only and same-lane;
-- longitudinal phase updates velocity/position without lane changes;
-- lane-change phase updates lane and lane-change flags without longitudinal movement;
-- lane-change conflicts for same target head cell are resolved stochastically;
-- inactive vehicles are ignored by occupancy/lane_order/neighbors and are not moved by phases;
-- vehicle length is metadata only for current reference core.
-```
-
-Не гарантируется пока:
-
-```text
-- full composed step in public API;
-- external controlled RL actions;
-- observations;
-- metrics;
-- simulator facade;
-- RL environments;
-- length-aware body occupancy;
-- open boundary behavior;
-- Numba/Cython acceleration;
-- final paper-exact longitudinal equation mapping.
-```
-
----
-
-# 8. Recommended immediate validation commands
-
-После каждого task-а запускать:
-
-```bash
-python -m pip install -e .
-pytest -q
-```
-
-Для текущего состояния особенно важны:
-
-```bash
-pytest -q tests/test_snfs_longitudinal.py
-pytest -q tests/test_snfs_lane_change.py
-pytest -q tests/test_indexing.py
-pytest -q
-```
-
-После Task 8 добавить:
-
-```bash
-pytest -q tests/test_snfs_full_step.py
-pytest -q
-```
-
-После Task 9 добавить:
-
-```bash
-pytest -q tests/test_invariants_random_rollouts.py
-pytest -q
-```
-## Task 17+19+20 — aggressive optimized full-step backend branch
-
-Completed:
-- added optional Numba lane-change proposal collection path (`core/lane_change_numba.py`);
-- added optional Numba longitudinal position-advance path (`core/longitudinal_numba.py`);
-- added optimized backend with graceful fallback to reference when optional kernels are unavailable (`backends/optimized.py`);
-- added benchmark comparison script (`benchmarks/bench_optimized_full_step.py`);
-- added equivalence/smoke tests for optional kernels/backend/benchmark.
-
-Benchmark result:
-- see benchmark output JSON/Markdown from `bench_optimized_full_step.py`.
-- if numba is unavailable, optimized backend falls back to reference.
-
-Next:
-- keep branch experimental if equivalence or speedup targets are not met.
-
-
-Task 17+19+20 follow-up stabilization:
-- benchmark script corrected to honor warmups/repeats, strict --cases validation, per-repeat JSON timings, conservative recommendation logic, and explicit fallback metadata;
-- expanded lane-change numba and optimized-backend equivalence coverage (multi-seed, lane-count/density/p_lane_change grid, rollout invariants, RNG next-draw parity checks);
-- status remains experimental (not production-ready).
