@@ -112,7 +112,7 @@ class TrafficSimulator:
         return RolloutSnapshot(step=self._step_count, state=self._state.copy(), info=self._last)
 
     def iter_rollout(self, *, steps: int, action_provider: Callable[[TrafficState, int], object | None] | None = None, include_initial: bool = False):
-        if not isinstance(steps, int) or steps < 0:
+        if isinstance(steps, bool) or not isinstance(steps, int) or steps < 0:
             raise ValueError("steps must be int >= 0")
         if include_initial:
             yield self.snapshot()

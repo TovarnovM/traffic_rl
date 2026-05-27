@@ -41,7 +41,7 @@ Current readiness estimate:
 | Simulator core | Mature enough for next-stage use |
 | Reference semantics | Stable oracle |
 | Optional optimized backend | Supported, benchmarked, fallback-safe |
-| RL action semantics | Implemented (lateral controlled facade path) |
+| RL action semantics | Implemented (lateral controlled facade/reference path) |
 | Observation contract | Implemented (local controlled-only schema) |
 | Reward contract | Not implemented |
 | Simulator facade | Implemented |
@@ -110,10 +110,8 @@ Current readiness estimate:
 ### RL-facing layer
 
 - Reward schema.
-- Reward schema.
 - Episode semantics.
 - Metrics/info schema for RL rollouts.
-- Simulator facade.
 - Gymnasium environments.
 - RLlib wrappers.
 - PettingZoo/multi-agent wrappers.
@@ -560,10 +558,65 @@ with VideoWriter("episode.mp4", fps=48) as video:
 ```
 
 ## Simulator facade
-Use `TrafficSimulator` for reset/step/observe/rollout. `step(actions=None)` preserves selected backend semantics exactly. Choose backend via `backend="reference"|"optimized"|"auto"`. Enable runtime checks with `validate=True`.
+
+```python
+from snfs_traffic.core import SimulationParams
+from snfs_traffic.scenarios import VehicleMix
+from snfs_traffic.simulator import ScenarioConfig, TrafficSimulator
+
+sim = TrafficSimulator(
+    params=SimulationParams(num_lanes=3, road_length=120),
+    backend="auto",  # "reference" | "optimized" | "auto"
+    rng_seed=123,
+    scenario=ScenarioConfig(
+        density=0.20,
+        seed=1,
+        vehicle_mix=VehicleMix(controlled_fraction=0.03),
+    ),
+    validate=True,
+)
+state = sim.reset()
+obs = sim.observe()
+state = sim.step(actions=None)
+```
 
 ## Controlled lateral actions
-Actions are keyed by stable `vehicle_id` with lane deltas `-1` (left), `0` (stay), `+1` (right). IDs must be alive controlled vehicles. Under `require_all_controlled_actions=True`, every alive controlled vehicle must have an action; otherwise missing actions are treated as stay. Structural invalid inputs raise `ValueError`. Unsafe/out-of-bounds/occupied/conflict commands are rejected and reported via `ControlledActionResult`. Explicit zero/stay actions are not equivalent to `actions=None`.
+
+- Action values are `-1`, `0`, `+1`.
+  - `-1`: target lane `lane - 1`
+  - `0`: stay
+  - `+1`: target lane `lane + 1`
+- Actions are keyed by stable `vehicle_id`.
+- Action IDs must refer to alive controlled vehicles.
+- `require_all_controlled_actions=True` requires an action for every alive controlled vehicle.
+- `require_all_controlled_actions=False` fills missing controlled actions with stay (`0`).
+- Structural invalid inputs raise `ValueError`.
+- Unsafe / out-of-bounds / target-occupied / controlled-conflict commands are reported in `ControlledActionResult`.
+- Explicit stay actions are not equivalent to `actions=None`.
+- `actions=None` preserves selected backend behavior exactly.
 
 ## Local observations
-Gym-free local observations are returned only for alive controlled vehicles. `obs.vehicle_id` aligns with rows. `obs.action_mask` columns are `[-1, 0, +1]`. Observation feature order is fixed and shape is `(n_controlled_alive, 21)` with default dtype `float32`.
+
+- Gym-free observation API.
+- Rows are alive controlled vehicles only and align with `obs.vehicle_id`.
+- Fixed 21-feature order (`LOCAL_OBSERVATION_FEATURES`).
+- Default dtype is `float32`; shape is `(n_alive_controlled, 21)`.
+- `action_mask` shape is `(n_alive_controlled, 3)` with columns `[-1, 0, +1]`.
+
+## Visualization with simulator rollout
+
+```python
+from snfs_traffic.visualization import RoadRenderConfig, RoadRenderer, VideoWriter
+
+state = sim.reset()
+renderer = RoadRenderer(
+    params=sim.params,
+    topology=sim.topology,
+    config=RoadRenderConfig(interpolation_frames=2),
+)
+renderer.reset(state)
+
+with VideoWriter("episode.mp4", fps=24) as video:
+    for snap in sim.iter_rollout(steps=50):
+        video.write_many(renderer.render_step(snap.state, step=snap.step))
+```

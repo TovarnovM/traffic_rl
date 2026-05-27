@@ -138,6 +138,14 @@ def compute_lateral_action_mask(state: TrafficState, params: SimulationParams, t
 
 
 def step_with_controlled_lateral_actions_reference(state: TrafficState, params: SimulationParams, topology: RingTopology, rng: np.random.Generator, actions, *, require_all_controlled: bool = True):
+    if not isinstance(topology, RingTopology):
+        raise ValueError("topology must be RingTopology")
+    if topology.boundary != "periodic":
+        raise ValueError("topology.boundary must be periodic")
+    if topology.num_lanes != params.num_lanes:
+        raise ValueError("topology.num_lanes must match params.num_lanes")
+    if topology.length != params.road_length:
+        raise ValueError("topology.length must match params.road_length")
     validate_state(state, params)
     if not isinstance(rng, np.random.Generator):
         raise TypeError("rng must be numpy.random.Generator")

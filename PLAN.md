@@ -32,9 +32,7 @@ The project is ready to begin RL environment preparation, but not ready for RL t
 ### 1.2 What is not implemented yet
 
 - Reward schema.
-- Reward schema.
 - Episode lifecycle.
-- RL metrics/info schema.
 - Gymnasium wrapper.
 - RLlib wrapper.
 - PettingZoo/multi-agent wrapper.
@@ -847,6 +845,23 @@ The correct next move is to build the simulator facade and formalize control bou
 - Rewards are not implemented.
 - Episode lifecycle is not implemented.
 - Gymnasium/RLlib/PettingZoo wrappers are not implemented.
+
+Next roadmap:
+1. reward schema;
+2. episode reset/termination/truncation contract;
+3. Gymnasium wrapper;
+4. optional optimized controlled-action path after profiling.
+
+
+## Facade MVP status
+
+- Simulator facade implemented.
+- Rollout/snapshot hooks implemented.
+- Controlled lateral actions implemented as reference facade path.
+- Local observation schema implemented.
+- Reward contract not implemented.
+- Episode lifecycle not implemented.
+- Gymnasium/RLlib/PettingZoo wrappers not implemented.
 
 Next roadmap:
 1. reward schema;
