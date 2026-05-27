@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from snfs_traffic.control import compute_lateral_action_mask, controlled_vehicle_ids
+from snfs_traffic.control import compute_lateral_action_mask
 from snfs_traffic.core import SimulationParams, TrafficState
 from snfs_traffic.core.indexing import MISSING_INDEX, build_lane_order, build_occupancy, compute_neighbors
 from snfs_traffic.core.lane_change_kernels import target_lane_neighbors_at_pos_kernel
@@ -35,6 +35,10 @@ class LocalObservationBatch:
 def build_local_observations(state: TrafficState, params: SimulationParams, topology: RingTopology, config: LocalObservationConfig | None = None) -> LocalObservationBatch:
     cfg = config or LocalObservationConfig()
     validate_state(state, params)
+    if not isinstance(topology, RingTopology):
+        raise ValueError("topology must be RingTopology")
+    if topology.boundary != "periodic" or topology.num_lanes != params.num_lanes or topology.length != params.road_length:
+        raise ValueError("topology must be periodic and match SimulationParams")
     occupancy = build_occupancy(state, params)
     lane_order, lane_counts, lane_rank = build_lane_order(occupancy, n_vehicles=state.n_vehicles)
     front_id, back_id, front_gap, back_gap = compute_neighbors(state, lane_order, lane_counts, lane_rank, topology)
@@ -66,16 +70,36 @@ def build_local_observations(state: TrafficState, params: SimulationParams, topo
             obs[r, base] = 1.0
             cell_free = int(occupancy[tl, ego_pos]) == MISSING_INDEX
             obs[r, base + 1] = 1.0 if cell_free else 0.0
-            if int(lane_counts[tl]) == 0:
+            if not cell_free:
+                occ_idx = int(occupancy[tl, ego_pos])
+                if int(lane_counts[tl]) <= 1:
+                    obs[r, base + 2] = 0.0
+                    obs[r, base + 4] = 0.0
+                    rel = (int(state.vel[occ_idx]) - ego_vel) / denom_speed
+                    obs[r, base + 3] = rel
+                    obs[r, base + 5] = rel
+                else:
+                    try:
+                        tf, tb, gnf, gnb = target_lane_neighbors_at_pos_kernel(state.pos, lane_order, lane_counts, target_lane=tl, candidate_pos=ego_pos, road_length=params.road_length)
+                        obs[r, base + 2] = gnf / denom_gap
+                        obs[r, base + 3] = (int(state.vel[int(tf)]) - ego_vel) / denom_speed
+                        obs[r, base + 4] = gnb / denom_gap
+                        obs[r, base + 5] = (int(state.vel[int(tb)]) - ego_vel) / denom_speed
+                    except ValueError:
+                        obs[r, base + 2] = 0.0
+                        obs[r, base + 4] = 0.0
+                        rel = (int(state.vel[occ_idx]) - ego_vel) / denom_speed
+                        obs[r, base + 3] = rel
+                        obs[r, base + 5] = rel
+            elif int(lane_counts[tl]) == 0:
                 obs[r, base + 2] = (params.road_length - 1) / denom_gap
                 obs[r, base + 4] = (params.road_length - 1) / denom_gap
-                obs[r, base + 6] = 1.0 if cell_free else 0.0
             else:
                 tf, tb, gnf, gnb = target_lane_neighbors_at_pos_kernel(state.pos, lane_order, lane_counts, target_lane=tl, candidate_pos=ego_pos, road_length=params.road_length)
                 obs[r, base + 2] = gnf / denom_gap
                 obs[r, base + 3] = (int(state.vel[int(tf)]) - ego_vel) / denom_speed
                 obs[r, base + 4] = gnb / denom_gap
                 obs[r, base + 5] = (int(state.vel[int(tb)]) - ego_vel) / denom_speed
-                obs[r, base + 6] = 1.0 if (cell_free and (ego_vel > (int(state.vel[int(tb)]) - int(gnb)))) else 0.0
+            obs[r, base + 6] = 1.0 if mask[r, 0 if delta == -1 else 2] else 0.0
 
     return LocalObservationBatch(vehicle_id=vids, obs=obs, action_mask=mask, feature_names=LOCAL_OBSERVATION_FEATURES)

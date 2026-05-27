@@ -29,8 +29,16 @@ class LaneActionBatch:
     lane_delta: np.ndarray
 
     def __post_init__(self) -> None:
+        if not isinstance(self.vehicle_id, np.ndarray) or not isinstance(self.lane_delta, np.ndarray):
+            raise ValueError("vehicle_id and lane_delta must be numpy arrays")
         if self.vehicle_id.ndim != 1 or self.lane_delta.ndim != 1 or self.vehicle_id.shape != self.lane_delta.shape:
             raise ValueError("vehicle_id and lane_delta must be 1D with same shape")
+        if self.vehicle_id.dtype != np.int32:
+            raise ValueError("vehicle_id dtype must be int32")
+        if self.lane_delta.dtype != np.int8:
+            raise ValueError("lane_delta dtype must be int8")
+        if not self.vehicle_id.flags.c_contiguous or not self.lane_delta.flags.c_contiguous:
+            raise ValueError("vehicle_id and lane_delta must be C-contiguous")
         if len(np.unique(self.vehicle_id)) != self.vehicle_id.size:
             raise ValueError("vehicle_id values must be unique")
         if not np.all(np.isin(self.lane_delta, np.array(LANE_ACTION_VALUES, dtype=self.lane_delta.dtype))):
@@ -38,8 +46,11 @@ class LaneActionBatch:
 
     @classmethod
     def from_mapping(cls, actions: Mapping[int, int]) -> "LaneActionBatch":
-        ids = np.asarray(list(actions.keys()), dtype=np.int32)
-        deltas = np.asarray(list(actions.values()), dtype=np.int8)
+        try:
+            ids = np.asarray(list(actions.keys()), dtype=np.int32)
+            deltas = np.asarray(list(actions.values()), dtype=np.int8)
+        except (OverflowError, ValueError, TypeError) as exc:
+            raise ValueError("failed to convert mapping into LaneActionBatch") from exc
         return cls(np.ascontiguousarray(ids), np.ascontiguousarray(deltas))
 
 
@@ -101,6 +112,14 @@ def _lateral_valid(state, lane_order, lane_counts, occupancy, idx: int, target_l
 
 
 def compute_lateral_action_mask(state: TrafficState, params: SimulationParams, topology: RingTopology) -> tuple[np.ndarray, np.ndarray]:
+    if not isinstance(topology, RingTopology):
+        raise ValueError("topology must be RingTopology")
+    if topology.boundary != "periodic":
+        raise ValueError("topology.boundary must be periodic")
+    if topology.num_lanes != params.num_lanes:
+        raise ValueError("topology.num_lanes must match params.num_lanes")
+    if topology.length != params.road_length:
+        raise ValueError("topology.length must match params.road_length")
     validate_state(state, params)
     occupancy = build_occupancy(state, params)
     lane_order, lane_counts, _ = build_lane_order(occupancy, n_vehicles=state.n_vehicles)

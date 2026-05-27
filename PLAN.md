@@ -31,10 +31,7 @@ The project is ready to begin RL environment preparation, but not ready for RL t
 
 ### 1.2 What is not implemented yet
 
-- Simulator facade.
-- Controlled RL action semantics.
-- Action application contract.
-- Observation schema.
+- Reward schema.
 - Reward schema.
 - Episode lifecycle.
 - RL metrics/info schema.

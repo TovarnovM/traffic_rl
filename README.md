@@ -41,9 +41,10 @@ Current readiness estimate:
 | Simulator core | Mature enough for next-stage use |
 | Reference semantics | Stable oracle |
 | Optional optimized backend | Supported, benchmarked, fallback-safe |
-| RL action semantics | Not implemented |
-| Observation/reward contracts | Not implemented |
-| Simulator facade | Not implemented |
+| RL action semantics | Implemented (lateral controlled facade path) |
+| Observation contract | Implemented (local controlled-only schema) |
+| Reward contract | Not implemented |
+| Simulator facade | Implemented |
 | Gymnasium/RLlib wrappers | Not implemented |
 
 ---
@@ -108,9 +109,7 @@ Current readiness estimate:
 
 ### RL-facing layer
 
-- Controlled RL action semantics.
-- Action application contract.
-- Observation schema.
+- Reward schema.
 - Reward schema.
 - Episode semantics.
 - Metrics/info schema for RL rollouts.
