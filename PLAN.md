@@ -31,13 +31,8 @@ The project is ready to begin RL environment preparation, but not ready for RL t
 
 ### 1.2 What is not implemented yet
 
-- Simulator facade.
-- Controlled RL action semantics.
-- Action application contract.
-- Observation schema.
 - Reward schema.
 - Episode lifecycle.
-- RL metrics/info schema.
 - Gymnasium wrapper.
 - RLlib wrapper.
 - PettingZoo/multi-agent wrapper.
@@ -47,8 +42,8 @@ The project is ready to begin RL environment preparation, but not ready for RL t
 | Target | Readiness | Notes |
 |---|---:|---|
 | Continue simulator-core development | High | Reference/optimized architecture is established. |
-| Begin RL environment preparation | 75–80% | Correct next step is facade + contracts. |
-| Start actual RL training experiments | 40–50% | RL actions/observations/rewards/env wrappers are missing. |
+| Begin RL environment preparation | 85–90% | Facade/actions/local observations are in place; next is reward + episode/env contracts. |
+| Start actual RL training experiments | 40–50% | Facade-level controlled lateral actions and local observations are implemented; rewards, episode semantics, metrics/info contract, and env wrappers are still missing. |
 
 The blocker for RL training is no longer low-level simulator correctness. The blocker is the missing RL-facing API design.
 
@@ -137,7 +132,7 @@ Completed:
 
 Current limitation:
 
-- controlled vehicles are marked but do not yet receive external RL actions.
+- controlled vehicles now support facade-level lateral action control via the reference action path.
 
 ### 3.3 Scenario initialization
 
@@ -294,7 +289,7 @@ low-level core
   |-- ReferenceBackend
   |-- OptimizedBackend
   |
-simulator facade                  # next stage
+simulator facade                  # implemented MVP
   |
   |-- reset(...)
   |-- step(actions)
@@ -303,7 +298,7 @@ simulator facade                  # next stage
   |-- controlled vehicle selection
   |-- optional invariant checks
   |
-RL contracts                      # after facade
+remaining RL contracts            # next: reward, episode, metrics/info
   |
   |-- action schema
   |-- observation schema
@@ -335,311 +330,35 @@ Reason:
 
 A wrapper built directly on low-level `TrafficState` and backend APIs will couple RL code to simulator internals too early.
 
-Before wrappers, the project needs:
+Before wrappers, the project status is:
 
-1. simulator facade;
-2. controlled action contract;
-3. observation contract;
-4. reward contract;
-5. episode/reset contract;
-6. metrics/info contract.
+1. simulator facade: done;
+2. controlled action contract: done for lateral facade/reference path;
+3. observation contract: done for local controlled-only schema;
+4. reward contract: pending;
+5. episode/reset contract: pending;
+6. metrics/info contract: pending.
 
 Do not introduce new physics during the first RL-env preparation tasks.
 
-Do not optimize `lane_change_proposals` before defining the simulator facade unless benchmark evidence shows it blocks development.
+Do not optimize controlled-action paths or `lane_change_proposals` further unless profiling shows it blocks reward/episode/env work.
 
 Do not add action semantics inside Numba kernels first. Define reference/control semantics first, then optimize later if necessary.
 
 ---
 
-## 6. Immediate next stage: RL environment preparation
-
-The next stage should build a clean layer between the simulator core and RL wrappers.
-
-Primary goal:
-
-```text
-Create a stable simulator facade and formalize the boundary where external RL control enters the simulation.
-```
-
-The correct immediate next task is:
-
-```text
-Task 24 — simulator facade and deterministic episode skeleton
-```
-
-Task 24 should not add Gymnasium yet.
-
----
-
-## 7. Proposed upcoming tasks
-
-### Task 24 — Simulator facade and deterministic episode skeleton
-
-Goal:
-
-Create a stable high-level simulator facade without adding Gymnasium yet.
-
-Expected additions:
-
-- `TrafficSimulator` or `Simulator`;
-- `ScenarioConfig`;
-- `BackendConfig`;
-- deterministic `reset(seed=...)`;
-- deterministic `step(actions=None)`;
-- current state access;
-- controlled vehicle selection placeholder;
-- optional runtime invariant validation;
-- backend selection integration;
-- rollout helper for tests/debug.
-
-Important constraints:
-
-- do not add Gymnasium;
-- do not add RLlib;
-- do not add PettingZoo;
-- do not add rewards yet unless minimal placeholders are strictly needed;
-- do not change simulator physics;
-- do not break direct backend usage;
-- do not add hidden stochastic behavior.
-
-Success criteria:
-
-- facade reset is deterministic under fixed seed;
-- facade step matches backend step when no external actions are supplied;
-- `backend="reference"`, `backend="optimized"`, and `backend="auto"` work through the facade;
-- runtime invariants can be enabled/disabled;
-- tests cover reset/step/determinism/backend selection;
-- `pytest -q` passes;
-- README includes a small facade usage snippet.
-
-Recommended files to consider:
-
-```text
-src/snfs_traffic/simulator.py
-src/snfs_traffic/config.py
-# or
-src/snfs_traffic/sim/
-  __init__.py
-  simulator.py
-  config.py
-```
-
-Do not over-abstract. The first facade should be small and explicit.
-
----
-
-### Task 25 — Controlled action contract
-
-Goal:
-
-Define how external control enters the simulator.
-
-Suggested first action mode:
-
-```text
-lane_delta ∈ {-1, 0, +1}
-```
-
-Possible later action extensions:
-
-- desired speed;
-- acceleration;
-- combined lateral + longitudinal action;
-- continuous control variants.
-
-For the first RL MVP, prefer the smallest useful action space.
-
-Required design decisions:
-
-- how controlled vehicles are selected;
-- whether all controlled vehicles receive actions every step;
-- what happens when an action is missing;
-- what happens when an action is invalid;
-- how action masks are represented;
-- whether invalid actions are clipped, ignored, rejected, or penalized;
-- whether controlled actions override stochastic lane-change attempts;
-- how RNG parity is defined when external actions replace stochastic attempts.
-
-Important warning:
-
-This is the highest-risk design point before RL. Do not bury it inside optimized kernels.
-
-Success criteria:
-
-- action schema is explicit;
-- invalid action behavior is explicit;
-- reference path supports controlled actions;
-- optimized path either supports the same behavior or falls back clearly;
-- tests compare controlled and uncontrolled behavior.
-
----
-
-### Task 26 — Observation contract
-
-Goal:
-
-Define what the agent sees.
-
-Recommended first observation type:
-
-```text
-ego-centric local observation for each controlled vehicle
-```
-
-Candidate fields:
-
-- ego lane;
-- ego velocity;
-- normalized position or omitted position;
-- front gap current lane;
-- front relative speed current lane;
-- back gap current lane;
-- left-lane front/back gaps if lane exists;
-- right-lane front/back gaps if lane exists;
-- action mask;
-- optional global density/lane count metadata.
-
-Avoid full global occupancy as the first default observation unless there is a specific experiment requiring it.
-
-Success criteria:
-
-- observation builder is independent from Gymnasium;
-- observation shape is deterministic;
-- observation dtype is documented;
-- observation tests cover road wraparound and lane boundaries;
-- action mask is consistent with lane boundaries and occupancy/safety logic.
-
----
-
-### Task 27 — Reward contract
-
-Goal:
-
-Define reward components independently from Gymnasium.
-
-Candidate first reward components:
-
-- speed/progress reward;
-- lane-change cost;
-- invalid-action penalty;
-- unsafe-gap penalty if applicable;
-- optional collision/termination penalty if future collision semantics are added.
-
-Keep reward decomposed:
-
-```python
-reward_total = reward_speed + reward_lane_change + reward_invalid + reward_safety
-```
-
-The `info` dict should expose reward components.
-
-Success criteria:
-
-- reward function is pure/testable;
-- reward components are documented;
-- reward scale is reasonable;
-- tests cover simple scenarios.
-
----
-
-### Task 28 — Episode semantics and metrics
-
-Goal:
-
-Define episode lifecycle.
-
-Required decisions:
-
-- max episode steps;
-- `terminated` vs `truncated`;
-- reset randomization;
-- controlled vehicle lifecycle;
-- whether controlled vehicles can disappear/die;
-- what happens if no controlled vehicle is available;
-- per-step info schema;
-- per-episode summary metrics.
-
-Candidate metrics:
-
-- mean speed;
-- controlled mean speed;
-- flow proxy;
-- lane changes;
-- invalid actions;
-- safety violations;
-- reward components;
-- backend used;
-- seed;
-- scenario config.
-
-Success criteria:
-
-- deterministic episode rollout under fixed seed;
-- metrics are stable and tested;
-- episode end behavior is explicit.
-
----
-
-### Task 29 — Gymnasium single-agent environment
-
-Goal:
-
-Add the first real RL wrapper after facade/contracts are stable.
-
-Recommended initial scope:
-
-- one controlled ego vehicle;
-- discrete lateral action;
-- fixed scenario config;
-- fixed observation schema;
-- fixed reward schema;
-- Gymnasium API:
-  - `reset(seed=None, options=None)`;
-  - `step(action) -> obs, reward, terminated, truncated, info`.
-
-Do not add RLlib yet.
-
-Success criteria:
-
-- `gymnasium.Env` compliance;
-- deterministic reset with seed;
-- smoke random-agent rollout;
-- tests for observation/action spaces;
-- tests for terminated/truncated behavior;
-- no direct dependency of core kernels on Gymnasium.
-
----
-
-### Task 30 — Multi-agent environment design
-
-Goal:
-
-Only after single-agent env works, design multi-agent control.
-
-Possible options:
-
-- custom multi-agent facade;
-- PettingZoo ParallelEnv;
-- RLlib MultiAgentEnv.
-
-Do not implement all wrappers at once.
-
-Required decisions:
-
-- agent IDs;
-- controlled vehicle assignment;
-- per-agent observations;
-- shared/global rewards vs individual rewards;
-- agent appearance/disappearance;
-- action dict validation.
-
-Success criteria:
-
-- deterministic multi-agent rollout;
-- clear mapping between vehicle IDs and agent IDs;
-- tests for missing/extra actions;
-- tests for done/truncation semantics.
+## 6. Completed facade milestone (historical)
+
+The simulator facade milestone has been completed:
+- facade-level reset/step/observe/rollout APIs are implemented;
+- controlled lateral actions are implemented via reference action path;
+- local controlled-only observations are implemented.
+
+Current roadmap remains:
+1. reward schema;
+2. episode reset/termination/truncation contract;
+3. Gymnasium wrapper;
+4. optional optimized controlled-action path after profiling.
 
 ---
 
@@ -676,7 +395,7 @@ Potential strategies:
 - reduce temporary allocations;
 - split controlled/uncontrolled paths only after controlled action contract is finalized.
 
-Do not start this before Task 24 unless performance blocks facade work.
+Do not start this before reward/episode/env contracts unless performance blocks development priorities.
 
 ---
 
@@ -721,7 +440,7 @@ Immediate documentation needs:
 - keep benchmark reports in `reports/`;
 - avoid claiming RL readiness before wrappers exist.
 
-Recommended docs after Task 24:
+Recommended docs after facade milestone:
 
 - facade usage example;
 - scenario config example;
@@ -744,101 +463,3 @@ Recommended docs after Task 29:
 
 ---
 
-## 11. Suggested Task 24 prompt
-
-```text
-Task 24 — simulator facade and deterministic episode skeleton
-
-Repository context
-==================
-
-The repository is after Tasks 1–23, including Task 22+23 follow-up.
-
-The simulator core has:
-- step_reference(...) as the semantic oracle;
-- ReferenceBackend;
-- supported optional OptimizedBackend;
-- backend selector get_backend("reference" | "optimized" | "auto");
-- optional Numba kernels;
-- runtime invariant validation;
-- deterministic scenario initialization;
-- benchmark/report infrastructure.
-
-Goal
-====
-
-Add a small high-level simulator facade that future RL wrappers can use.
-
-Do not add Gymnasium, RLlib, PettingZoo, rewards, or observations yet.
-
-Expected implementation
-=======================
-
-Add a simple facade, for example:
-
-- TrafficSimulator or Simulator;
-- ScenarioConfig;
-- BackendConfig or backend name field;
-- reset(seed=...) method;
-- step(actions=None) method;
-- current state access;
-- controlled vehicle selection placeholder;
-- optional runtime invariant validation;
-- backend selection integration.
-
-Requirements
-============
-
-- reset is deterministic under fixed seed;
-- step(actions=None) matches selected backend behavior exactly;
-- backend="reference", backend="optimized", and backend="auto" work;
-- no simulator physics changes;
-- no hidden RNG changes;
-- no Gymnasium dependency;
-- no RLlib dependency;
-- no rewards/observations unless minimal placeholders are unavoidable;
-- existing direct backend API remains valid.
-
-Tests
-=====
-
-Add focused tests for:
-
-- deterministic reset;
-- deterministic rollout under fixed seed;
-- reference backend through facade;
-- optimized/auto backend through facade, including fallback-safe behavior;
-- optional runtime invariant checks;
-- state returned/accessed by facade.
-
-Validation
-==========
-
-Run:
-
-python -m pip install -e ".[numba]"
-pytest -q
-pytest -q tests/test_optimized_backend_equivalence.py
-pytest -q tests/test_backends_selection.py
-
-Documentation
-=============
-
-Update README with a short facade usage example and clarify that Gymnasium wrappers are still planned, not implemented.
-```
-
----
-
-## 12. Readiness summary
-
-Current project level:
-
-- core simulator: mature enough for next-stage use;
-- optimized backend: supported optional backend;
-- benchmark status: good;
-- semantic safety: good;
-- RL API: missing;
-- Gymnasium readiness: not yet;
-- RL training readiness: not yet.
-
-The correct next move is to build the simulator facade and formalize control boundaries before implementing environment wrappers.
