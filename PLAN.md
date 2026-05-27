@@ -42,7 +42,7 @@ The project is ready to begin RL environment preparation, but not ready for RL t
 | Target | Readiness | Notes |
 |---|---:|---|
 | Continue simulator-core development | High | Reference/optimized architecture is established. |
-| Begin RL environment preparation | 75–80% | Correct next step is facade + contracts. |
+| Begin RL environment preparation | 85–90% | Facade/actions/local observations are in place; next is reward + episode/env contracts. |
 | Start actual RL training experiments | 40–50% | RL actions/observations/rewards/env wrappers are missing. |
 
 The blocker for RL training is no longer low-level simulator correctness. The blocker is the missing RL-facing API design.
@@ -830,38 +830,15 @@ Current project level:
 
 - core simulator: mature enough for next-stage use;
 - optimized backend: supported optional backend;
-- benchmark status: good;
 - semantic safety: good;
-- RL API: missing;
-- Gymnasium readiness: not yet;
+- simulator facade: implemented;
+- controlled lateral action semantics: implemented as reference facade path;
+- local controlled-only observation schema: implemented;
+- reward contract: not implemented;
+- episode lifecycle: not implemented;
+- RL metrics/info schema: not implemented;
+- Gymnasium/RLlib/PettingZoo wrappers: not implemented;
 - RL training readiness: not yet.
-
-The correct next move is to build the simulator facade and formalize control boundaries before implementing environment wrappers.
-
-- Simulator facade implemented.
-- Facade-compatible rollout/snapshot hooks implemented.
-- Controlled lateral action semantics implemented as reference facade path.
-- Local observation schema implemented.
-- Rewards are not implemented.
-- Episode lifecycle is not implemented.
-- Gymnasium/RLlib/PettingZoo wrappers are not implemented.
-
-Next roadmap:
-1. reward schema;
-2. episode reset/termination/truncation contract;
-3. Gymnasium wrapper;
-4. optional optimized controlled-action path after profiling.
-
-
-## Facade MVP status
-
-- Simulator facade implemented.
-- Rollout/snapshot hooks implemented.
-- Controlled lateral actions implemented as reference facade path.
-- Local observation schema implemented.
-- Reward contract not implemented.
-- Episode lifecycle not implemented.
-- Gymnasium/RLlib/PettingZoo wrappers not implemented.
 
 Next roadmap:
 1. reward schema;

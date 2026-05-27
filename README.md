@@ -599,9 +599,30 @@ state = sim.step(actions=None)
 
 - Gym-free observation API.
 - Rows are alive controlled vehicles only and align with `obs.vehicle_id`.
-- Fixed 21-feature order (`LOCAL_OBSERVATION_FEATURES`).
 - Default dtype is `float32`; shape is `(n_alive_controlled, 21)`.
 - `action_mask` shape is `(n_alive_controlled, 3)` with columns `[-1, 0, +1]`.
+- Exact 21 feature names in order:
+  1. `ego_lane_norm`
+  2. `ego_pos_norm`
+  3. `ego_vel_norm`
+  4. `front_gap_norm`
+  5. `front_rel_speed_norm`
+  6. `back_gap_norm`
+  7. `back_rel_speed_norm`
+  8. `left_exists`
+  9. `left_cell_free`
+  10. `left_front_gap_norm`
+  11. `left_front_rel_speed_norm`
+  12. `left_back_gap_norm`
+  13. `left_back_rel_speed_norm`
+  14. `left_safe`
+  15. `right_exists`
+  16. `right_cell_free`
+  17. `right_front_gap_norm`
+  18. `right_front_rel_speed_norm`
+  19. `right_back_gap_norm`
+  20. `right_back_rel_speed_norm`
+  21. `right_safe`
 
 ## Visualization with simulator rollout
 
