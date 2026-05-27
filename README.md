@@ -559,3 +559,12 @@ with VideoWriter("episode.mp4", fps=48) as video:
         video.write_many(renderer.render_step(next_state, step=step + 1))
         state = next_state
 ```
+
+## Simulator facade
+Use `TrafficSimulator` for reset/step/observe/rollout. `step(actions=None)` preserves selected backend semantics exactly. Choose backend via `backend="reference"|"optimized"|"auto"`. Enable runtime checks with `validate=True`.
+
+## Controlled lateral actions
+Actions are keyed by stable `vehicle_id` with lane deltas `-1` (left), `0` (stay), `+1` (right). IDs must be alive controlled vehicles. Under `require_all_controlled_actions=True`, every alive controlled vehicle must have an action; otherwise missing actions are treated as stay. Structural invalid inputs raise `ValueError`. Unsafe/out-of-bounds/occupied/conflict commands are rejected and reported via `ControlledActionResult`. Explicit zero/stay actions are not equivalent to `actions=None`.
+
+## Local observations
+Gym-free local observations are returned only for alive controlled vehicles. `obs.vehicle_id` aligns with rows. `obs.action_mask` columns are `[-1, 0, +1]`. Observation feature order is fixed and shape is `(n_controlled_alive, 21)` with default dtype `float32`.

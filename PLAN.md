@@ -842,3 +842,17 @@ Current project level:
 - RL training readiness: not yet.
 
 The correct next move is to build the simulator facade and formalize control boundaries before implementing environment wrappers.
+
+- Simulator facade implemented.
+- Facade-compatible rollout/snapshot hooks implemented.
+- Controlled lateral action semantics implemented as reference facade path.
+- Local observation schema implemented.
+- Rewards are not implemented.
+- Episode lifecycle is not implemented.
+- Gymnasium/RLlib/PettingZoo wrappers are not implemented.
+
+Next roadmap:
+1. reward schema;
+2. episode reset/termination/truncation contract;
+3. Gymnasium wrapper;
+4. optional optimized controlled-action path after profiling.
