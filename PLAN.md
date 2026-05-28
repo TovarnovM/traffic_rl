@@ -165,9 +165,9 @@ Completed:
 
 Current limitation:
 
-- length-aware body occupancy validation plus head-order indexing;
-- no length-aware geometry;
-- no body-cell collision geometry.
+- head ordering remains head-based;
+- body occupancy/gap validation is length-aware;
+- optimized backend falls back to reference for non-unit lengths.
 
 ### 3.5 Lane-change phase
 

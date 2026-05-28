@@ -4,8 +4,7 @@ This module keeps head-cell indexing for lane ordering and also exposes length-a
 `occupancy[lane, head_pos] = vehicle_index` for alive vehicles.
 Body occupancy is validated via `build_body_occupancy`.
 
-Neighbor helpers remain head-order based; length-aware gap helpers are provided in indexing_kernels.
-Length-aware occupancy and bumper-to-bumper gaps are deferred.
+Neighbor helpers remain head-order based; length-aware body occupancy and gap helpers are provided in indexing_kernels.
 """
 
 from __future__ import annotations
