@@ -156,19 +156,17 @@ def test_vehicle_mix_defaults():
 
 def test_vehicle_mix_deterministic_counts():
     mix = VehicleMix(av_fraction=0.2, controlled_fraction=0.1, bus_fraction=0.05, bus_length=3)
-    state = make_uniform_random_state(num_lanes=1, road_length=100, density=1.0, seed=123, vehicle_mix=mix)
+    with pytest.raises(ValueError, match="could not place non-overlapping vehicle bodies"):
+        make_uniform_random_state(num_lanes=1, road_length=100, density=1.0, seed=123, vehicle_mix=mix)
 
-    assert np.sum(state.controlled) == 10
-    assert np.sum(state.behavior_id == CONTROLLED_AV_BEHAVIOR_ID) == 10
-    assert np.sum(state.behavior_id == AV_BEHAVIOR_ID) == 20
-    assert np.sum(state.behavior_id == BUS_BEHAVIOR_ID) == 5
-    assert np.sum(state.behavior_id == HDV_BEHAVIOR_ID) == 65
-    assert np.sum(state.veh_type == AV_VEH_TYPE) == 30
-    assert np.sum(state.veh_type == BUS_VEH_TYPE) == 5
-    assert np.sum(state.length == 3) == 5
-    assert np.sum(state.length == 1) == 95
 
-    validate_state(state, SimulationParams(num_lanes=1, road_length=100))
+def test_vehicle_mix_bus_heavy_placeable_case():
+    mix = VehicleMix(bus_fraction=0.5, bus_length=3)
+    state = make_uniform_random_state(num_lanes=3, road_length=30, density=0.4, seed=123, vehicle_mix=mix)
+
+    assert np.sum(state.length == 3) > 0
+
+    validate_state(state, SimulationParams(num_lanes=3, road_length=30))
 
 
 @pytest.mark.parametrize(

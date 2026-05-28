@@ -6,7 +6,7 @@ from typing import Mapping
 import numpy as np
 
 from snfs_traffic.core import SimulationParams, TrafficState
-from snfs_traffic.core.indexing import MISSING_INDEX, build_lane_order, build_occupancy, compute_neighbors
+from snfs_traffic.core.indexing import MISSING_INDEX, build_body_occupancy, build_lane_order, build_occupancy, compute_neighbors
 from snfs_traffic.core.lane_change_kernels import (
     apply_lane_changes_kernel,
     collect_lane_change_proposals_kernel,
@@ -192,8 +192,9 @@ def step_with_controlled_lateral_actions_reference(state: TrafficState, params: 
             applied_delta[i] = np.int8(target - int(state.lane[idx]))
 
     alive_uncontrolled = state.alive & ~state.controlled
+    body_occupancy = build_body_occupancy(state, params)
     proposals_un = collect_lane_change_proposals_kernel(
-        state.lane, state.pos, state.vel, alive_uncontrolled, state.controlled, occupancy, lane_order, lane_counts,
+        state.lane, state.pos, state.vel, state.length, alive_uncontrolled, state.controlled, body_occupancy, lane_order, lane_counts,
         front_id, front_gap, num_lanes=params.num_lanes, road_length=params.road_length, vmax_default=params.vmax_default,
         vmax_controlled=params.vmax_controlled, p_lane_change=params.p_lane_change, rng=rng,
     )

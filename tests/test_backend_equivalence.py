@@ -112,7 +112,7 @@ def test_reference_backend_full_occupancy_equivalence_no_lane_changes():
         assert np.all(state_backend.last_lane_delta == 0)
 
 
-def test_reference_backend_equivalence_intentionally_ignores_bus_body_cells():
+def test_reference_backend_equivalence_rejects_unplaceable_bus_body_configuration():
     params = SimulationParams(num_lanes=3, road_length=30)
     topology = RingTopology(num_lanes=3, length=30)
     backend = get_reference_backend()

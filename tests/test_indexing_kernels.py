@@ -134,9 +134,11 @@ def test_indexing_kernels_random_state_equivalence_across_densities():
             assert_indexing_outputs_equal(nb_actual, nb_expected)
 
 
-def test_indexing_kernels_intentionally_ignore_bus_body_cells():
+def test_indexing_kernels_reject_unplaceable_bus_body_configuration():
     mix = VehicleMix(bus_fraction=1.0, bus_length=3)
-    state = make_uniform_random_state(num_lanes=3, road_length=30, density=0.4, seed=123, vehicle_mix=mix)
+    import pytest
+    with pytest.raises(ValueError, match="non-overlapping"):
+        make_uniform_random_state(num_lanes=3, road_length=30, density=0.4, seed=123, vehicle_mix=mix)
     params = SimulationParams(num_lanes=3, road_length=30)
     topology = RingTopology(num_lanes=3, length=30)
 

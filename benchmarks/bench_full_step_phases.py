@@ -16,6 +16,7 @@ import numpy as np
 from snfs_traffic.core import (
     SimulationParams,
     build_lane_order,
+    build_body_occupancy,
     build_occupancy,
     compute_neighbors,
     step_longitudinal_reference,
@@ -100,7 +101,7 @@ def phased_step(state, params, topology, rng):
     t0 = perf_counter_ns(); occupancy = build_occupancy(state, params); phase_ns["build_occupancy_pre_lane_change"] += perf_counter_ns() - t0
     t0 = perf_counter_ns(); lane_order, lane_counts, lane_rank = build_lane_order(occupancy, n_vehicles=state.n_vehicles); phase_ns["build_lane_order_pre_lane_change"] += perf_counter_ns() - t0
     t0 = perf_counter_ns(); front_id, _, front_gap, _ = compute_neighbors(state, lane_order, lane_counts, lane_rank, topology); phase_ns["compute_neighbors_pre_lane_change"] += perf_counter_ns() - t0
-    t0 = perf_counter_ns(); proposals = collect_lane_change_proposals_kernel(state.lane, state.pos, state.vel, state.alive, state.controlled, occupancy, lane_order, lane_counts, front_id, front_gap, num_lanes=params.num_lanes, road_length=params.road_length, vmax_default=params.vmax_default, vmax_controlled=params.vmax_controlled, p_lane_change=params.p_lane_change, rng=rng); phase_ns["lane_change_collect_proposals"] += perf_counter_ns() - t0
+    t0 = perf_counter_ns(); body_occupancy = build_body_occupancy(state, params); proposals = collect_lane_change_proposals_kernel(state.lane, state.pos, state.vel, state.length, state.alive, state.controlled, body_occupancy, lane_order, lane_counts, front_id, front_gap, num_lanes=params.num_lanes, road_length=params.road_length, vmax_default=params.vmax_default, vmax_controlled=params.vmax_controlled, p_lane_change=params.p_lane_change, rng=rng); phase_ns["lane_change_collect_proposals"] += perf_counter_ns() - t0
     t0 = perf_counter_ns(); accepted = resolve_lane_change_conflicts_kernel(proposals, rng); phase_ns["lane_change_resolve_conflicts"] += perf_counter_ns() - t0
     t0 = perf_counter_ns(); new_lane, new_changed_lane, new_last_lane_delta = apply_lane_changes_kernel(state.lane, state.changed_lane, state.last_lane_delta, accepted); phase_ns["lane_change_apply"] += perf_counter_ns() - t0
 
