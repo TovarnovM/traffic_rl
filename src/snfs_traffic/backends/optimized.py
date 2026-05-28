@@ -57,7 +57,9 @@ class OptimizedBackend:
             num_lanes=params.num_lanes, road_length=params.road_length, vmax_default=params.vmax_default,
             vmax_controlled=params.vmax_controlled, p_lane_change=params.p_lane_change, rng=rng
         )
-        accepted = resolve_lane_change_conflicts_kernel(proposals, rng)
+        accepted = resolve_lane_change_conflicts_kernel(
+            proposals, rng, pos=state.pos, length=state.length, road_length=params.road_length
+        )
         new_lane, new_changed_lane, new_last_lane_delta = apply_lane_changes_kernel(state.lane, state.changed_lane, state.last_lane_delta, accepted)
         after_lane = state.copy(); after_lane.lane = new_lane; after_lane.changed_lane = new_changed_lane; after_lane.last_lane_delta = new_last_lane_delta
         _, _, _, _, front_id2, _, front_gap2, _ = build_index_and_neighbors_numba(

@@ -90,7 +90,7 @@ def test_optimized_backend_rejects_invalid_overflow_velocity_postconditions(monk
         ),
     )
     monkeypatch.setattr("snfs_traffic.backends.optimized.collect_lane_change_proposals_numba", lambda **kwargs: np.zeros(state.n_vehicles, dtype=np.int8))
-    monkeypatch.setattr("snfs_traffic.backends.optimized.resolve_lane_change_conflicts_kernel", lambda proposals, rng: proposals)
+    monkeypatch.setattr("snfs_traffic.backends.optimized.resolve_lane_change_conflicts_kernel", lambda proposals, rng, **kwargs: proposals)
     monkeypatch.setattr(
         "snfs_traffic.backends.optimized.apply_lane_changes_kernel",
         lambda lane, changed_lane, last_lane_delta, accepted: (lane.copy(), changed_lane.copy(), last_lane_delta.copy()),

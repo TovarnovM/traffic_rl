@@ -96,3 +96,24 @@ def test_facade_step_info_action_path_flags():
     action_map = {int(v): 0 for v in ids}
     sim.step(action_map)
     assert sim.last_step_info.used_reference_action_path is True
+
+
+def test_controlled_reserved_body_cells_block_overlapping_uncontrolled_proposal(monkeypatch):
+    p = SimulationParams(num_lanes=3, road_length=20, p_lane_change=1.0)
+    t = RingTopology(num_lanes=3, length=20)
+    s = empty_state(2)
+    s.controlled[:] = [True, False]
+    s.lane[:] = [0, 2]
+    s.pos[:] = [5, 6]
+    s.length[:] = [3, 3]
+
+    def fake_uncontrolled_proposals(*args, **kwargs):
+        return {(1, 6): [1]}
+
+    monkeypatch.setattr("snfs_traffic.control.collect_lane_change_proposals_kernel", fake_uncontrolled_proposals)
+
+    out, result = step_with_controlled_lateral_actions_reference(s, p, t, np.random.default_rng(0), {0: +1})
+
+    assert bool(result.applied[0]) is True
+    assert int(out.lane[0]) == 1
+    assert int(out.lane[1]) == 2

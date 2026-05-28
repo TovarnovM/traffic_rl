@@ -64,7 +64,13 @@ def step_lane_change_reference(
         rng=rng,
     )
 
-    accepted = resolve_lane_change_conflicts_kernel(proposals, rng)
+    accepted = resolve_lane_change_conflicts_kernel(
+        proposals,
+        rng,
+        pos=state.pos,
+        length=state.length,
+        road_length=params.road_length,
+    )
 
     new_lane, new_changed_lane, new_last_lane_delta = apply_lane_changes_kernel(
         state.lane,

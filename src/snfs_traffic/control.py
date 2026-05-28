@@ -185,17 +185,29 @@ def step_with_controlled_lateral_actions_reference(state: TrafficState, params: 
 
     accepted_controlled = {}
     reserved_targets = set()
+    reserved_body_cells = set()
     for key, vals in proposals.items():
         if len(vals) > 1:
             for i, _, _ in vals:
                 valid[i] = False
                 reasons[i] = "controlled_conflict"
-        else:
-            i, idx, target = vals[0]
-            accepted_controlled[idx] = target
-            reserved_targets.add(key)
-            applied[i] = True
-            applied_delta[i] = np.int8(target - int(state.lane[idx]))
+            continue
+
+        i, idx, target = vals[0]
+        candidate_cells = {
+            (target, (int(state.pos[idx]) + d) % params.road_length)
+            for d in range(int(state.length[idx]))
+        }
+        if not candidate_cells.isdisjoint(reserved_body_cells):
+            valid[i] = False
+            reasons[i] = "controlled_conflict"
+            continue
+
+        accepted_controlled[idx] = target
+        reserved_targets.add(key)
+        reserved_body_cells.update(candidate_cells)
+        applied[i] = True
+        applied_delta[i] = np.int8(target - int(state.lane[idx]))
 
     alive_uncontrolled = state.alive & ~state.controlled
     proposals_un = collect_lane_change_proposals_kernel(
@@ -204,7 +216,14 @@ def step_with_controlled_lateral_actions_reference(state: TrafficState, params: 
         vmax_controlled=params.vmax_controlled, p_lane_change=params.p_lane_change, rng=rng,
     )
     proposals_un = {k: v for k, v in proposals_un.items() if k not in reserved_targets}
-    accepted_un = resolve_lane_change_conflicts_kernel(proposals_un, rng)
+    accepted_un = resolve_lane_change_conflicts_kernel(
+        proposals_un,
+        rng,
+        pos=state.pos,
+        length=state.length,
+        road_length=params.road_length,
+        reserved_body_cells=reserved_body_cells,
+    )
 
     accepted_all = dict(accepted_un)
     accepted_all.update(accepted_controlled)

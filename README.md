@@ -12,11 +12,10 @@ The repository currently provides a deterministic, testable, array-oriented simu
 - runtime invariant checks;
 - benchmark and report infrastructure.
 
-Longitudinal model note: the current core implements a simplified S-NFS-style
-longitudinal update (authoritative in `step_reference(...)`), not paper-exact
-Revised S-NFS formulas. `SimulationParams.q` and `SimulationParams.P1` are
-currently reserved for forward compatibility and intentionally unused by
-longitudinal dynamics.
+Longitudinal model note: the current core implements the full Revised S-NFS
+longitudinal phase order in `step_reference(...)`: stochastic look-ahead via
+`r/S`, slow-to-start via `q`, perspective capping, `P1..P4` keep-speed braking
+branches, and leader-safe collision avoidance.
 
 The project is **not yet a full RL environment package**. Facade-level controlled lateral actions and local controlled-only observations are implemented, while rewards, episode semantics, Gymnasium/RLlib/PettingZoo wrappers, and full environment packaging are still planned/not implemented.
 
@@ -466,7 +465,7 @@ Current top representative component:
 
 ## Current model limitations
 
-The current simulator intentionally uses simplified head-cell semantics:
+The current simulator uses length-aware body validity with head-based lane ordering:
 
 - body occupancy is length-aware for validity/collision checks while head occupancy still drives lane ordering;
 - longitudinal and lane-change gaps use length-aware empty-cell conventions;

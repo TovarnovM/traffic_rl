@@ -105,7 +105,7 @@ def _run_optimized_profiled_rollout(case) -> tuple[dict[str, float], object]:
         totals_ns["lane_change_proposals"] += perf_counter_ns() - t
 
         t = perf_counter_ns()
-        accepted = resolve_lane_change_conflicts_kernel(proposals, rng)
+        accepted = resolve_lane_change_conflicts_kernel(proposals, rng, pos=state.pos, length=state.length, road_length=params.road_length)
         totals_ns["conflict_resolution"] += perf_counter_ns() - t
 
         t = perf_counter_ns()
