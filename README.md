@@ -18,7 +18,7 @@ Revised S-NFS formulas. `SimulationParams.q` and `SimulationParams.P1` are
 currently reserved for forward compatibility and intentionally unused by
 longitudinal dynamics.
 
-The project is **not yet an RL environment package**. RL actions, observations, rewards, Gymnasium wrappers, RLlib wrappers, and multi-agent wrappers are planned, but intentionally remain outside the current simulator-core layer.
+The project is **not yet a full RL environment package**. Facade-level controlled lateral actions and local controlled-only observations are implemented, while rewards, episode semantics, Gymnasium/RLlib/PettingZoo wrappers, and full environment packaging are still planned/not implemented.
 
 ---
 
@@ -41,9 +41,10 @@ Current readiness estimate:
 | Simulator core | Mature enough for next-stage use |
 | Reference semantics | Stable oracle |
 | Optional optimized backend | Supported, benchmarked, fallback-safe |
-| RL action semantics | Not implemented |
-| Observation/reward contracts | Not implemented |
-| Simulator facade | Not implemented |
+| RL action semantics | Implemented (lateral controlled facade/reference path) |
+| Observation contract | Implemented (local controlled-only schema) |
+| Reward contract | Not implemented |
+| Simulator facade | Implemented |
 | Gymnasium/RLlib wrappers | Not implemented |
 
 ---
@@ -108,13 +109,9 @@ Current readiness estimate:
 
 ### RL-facing layer
 
-- Controlled RL action semantics.
-- Action application contract.
-- Observation schema.
 - Reward schema.
 - Episode semantics.
 - Metrics/info schema for RL rollouts.
-- Simulator facade.
 - Gymnasium environments.
 - RLlib wrappers.
 - PettingZoo/multi-agent wrappers.
@@ -477,7 +474,7 @@ The current simulator intentionally uses simplified head-cell semantics:
 - bus body cells are not modeled as occupied cells;
 - lane changes are lateral only and do not move longitudinal position;
 - there are no same-step lateral swaps into previously occupied target cells;
-- controlled vehicles are marked in state but do not yet receive external RL actions;
+- controlled vehicles support facade-level lateral actions; full RL reward/episode/env semantics are not implemented;
 - open-boundary roads are not implemented;
 - current runtime invariants validate current reference semantics, not future length-aware geometry.
 
@@ -502,16 +499,14 @@ These limitations are intentional for the current core stage. Do not change them
 
 ## Roadmap summary
 
-Immediate next stage:
+Next roadmap:
 
-1. Add simulator facade.
-2. Define controlled action semantics.
-3. Define observation schema.
-4. Define reward schema.
-5. Define episode/reset semantics.
-6. Add Gymnasium wrapper after the simulator facade is stable.
+1. reward schema;
+2. episode reset/termination/truncation contract;
+3. Gymnasium wrapper;
+4. optional optimized controlled-action path after profiling.
 
-The next architectural step should not be another low-level optimization pass unless performance becomes a blocker. The project is ready to begin RL environment preparation, but not ready for RL training yet.
+The next architectural step should not be another low-level optimization pass unless performance becomes a blocker. The project is ready to continue RL-environment preparation, but not ready for RL training yet.
 
 
 ## Visualization
@@ -558,4 +553,89 @@ with VideoWriter("episode.mp4", fps=48) as video:
         validate_runtime_invariants(next_state, params, topology)
         video.write_many(renderer.render_step(next_state, step=step + 1))
         state = next_state
+```
+
+## Simulator facade
+
+```python
+from snfs_traffic.core import SimulationParams
+from snfs_traffic.scenarios import VehicleMix
+from snfs_traffic.simulator import ScenarioConfig, TrafficSimulator
+
+sim = TrafficSimulator(
+    params=SimulationParams(num_lanes=3, road_length=120),
+    backend="auto",  # "reference" | "optimized" | "auto"
+    rng_seed=123,
+    scenario=ScenarioConfig(
+        density=0.20,
+        seed=1,
+        vehicle_mix=VehicleMix(controlled_fraction=0.03),
+    ),
+    validate=True,
+)
+state = sim.reset()
+obs = sim.observe()
+state = sim.step(actions=None)
+```
+
+## Controlled lateral actions
+
+- Action values are `-1`, `0`, `+1`.
+  - `-1`: target lane `lane - 1`
+  - `0`: stay
+  - `+1`: target lane `lane + 1`
+- Actions are keyed by stable `vehicle_id`.
+- Action IDs must refer to alive controlled vehicles.
+- `require_all_controlled_actions=True` requires an action for every alive controlled vehicle.
+- `require_all_controlled_actions=False` fills missing controlled actions with stay (`0`).
+- Structural invalid inputs raise `ValueError`.
+- Unsafe / out-of-bounds / target-occupied / controlled-conflict commands are reported in `ControlledActionResult`.
+- Explicit stay actions are not equivalent to `actions=None`.
+- `actions=None` preserves selected backend behavior exactly.
+
+## Local observations
+
+- Gym-free observation API.
+- Rows are alive controlled vehicles only and align with `obs.vehicle_id`.
+- Default dtype is `float32`; shape is `(n_alive_controlled, 21)`.
+- `action_mask` shape is `(n_alive_controlled, 3)` with columns `[-1, 0, +1]`.
+- Exact 21 feature names in order:
+  1. `ego_lane_norm`
+  2. `ego_pos_norm`
+  3. `ego_vel_norm`
+  4. `front_gap_norm`
+  5. `front_rel_speed_norm`
+  6. `back_gap_norm`
+  7. `back_rel_speed_norm`
+  8. `left_exists`
+  9. `left_cell_free`
+  10. `left_front_gap_norm`
+  11. `left_front_rel_speed_norm`
+  12. `left_back_gap_norm`
+  13. `left_back_rel_speed_norm`
+  14. `left_safe`
+  15. `right_exists`
+  16. `right_cell_free`
+  17. `right_front_gap_norm`
+  18. `right_front_rel_speed_norm`
+  19. `right_back_gap_norm`
+  20. `right_back_rel_speed_norm`
+  21. `right_safe`
+
+## Visualization with simulator rollout
+
+```python
+from snfs_traffic.visualization import RoadRenderConfig, RoadRenderer, VideoWriter
+
+state = sim.reset()
+renderer = RoadRenderer(
+    params=sim.params,
+    topology=sim.topology,
+    config=RoadRenderConfig(interpolation_frames=2),
+)
+renderer.reset(state)
+
+with VideoWriter("episode.mp4", fps=24) as video:
+    for snap in sim.iter_rollout(steps=50):
+        video.write_many(renderer.render_step(snap.state, step=snap.step))
 ```
