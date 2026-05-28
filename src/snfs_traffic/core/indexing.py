@@ -17,7 +17,10 @@ from snfs_traffic.core.indexing_kernels import (
     MISSING_GAP,
     MISSING_INDEX,
     build_lane_order_kernel,
+    build_body_occupancy_kernel,
     build_occupancy_kernel,
+    compute_cumulative_forward_gap_kernel,
+    compute_forward_empty_gap_kernel,
     compute_neighbors_kernel,
 )
 from snfs_traffic.core.params import SimulationParams
@@ -30,6 +33,18 @@ def build_occupancy(state: TrafficState, params: SimulationParams) -> np.ndarray
     return build_occupancy_kernel(
         state.lane,
         state.pos,
+        state.alive,
+        num_lanes=params.num_lanes,
+        road_length=params.road_length,
+    )
+
+
+def build_body_occupancy(state: TrafficState, params: SimulationParams) -> np.ndarray:
+    validate_state(state, params)
+    return build_body_occupancy_kernel(
+        state.lane,
+        state.pos,
+        state.length,
         state.alive,
         num_lanes=params.num_lanes,
         road_length=params.road_length,

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from snfs_traffic.core.indexing import build_lane_order, build_occupancy, compute_neighbors
+from snfs_traffic.core.indexing import build_body_occupancy, build_lane_order, build_occupancy, compute_neighbors
 from snfs_traffic.core.params import SimulationParams
 from snfs_traffic.core.state import TrafficState, validate_state
 from snfs_traffic.topology import RingTopology
@@ -15,7 +15,7 @@ def validate_runtime_invariants(
     params: SimulationParams,
     topology: RingTopology,
 ) -> None:
-    """Validate runtime invariants for current head-cell-only reference semantics."""
+    """Validate runtime invariants including length-aware body occupancy."""
 
     validate_state(state, params)
 
@@ -27,6 +27,7 @@ def validate_runtime_invariants(
         raise ValueError("topology.length must match params.road_length")
 
     occupancy = build_occupancy(state, params)
+    body_occupancy = build_body_occupancy(state, params)
     occupied_count = int((occupancy >= 0).sum())
     alive_count = int(state.alive.sum())
     if occupied_count != alive_count:
@@ -84,3 +85,12 @@ def validate_runtime_invariants(
         raise ValueError("back_index has invalid shape")
     if back_gap.shape != expected_shape:
         raise ValueError("back_gap has invalid shape")
+    alive_lengths = state.length[alive]
+    if np.any(alive_lengths < 1):
+        raise ValueError("alive vehicle length must be >= 1")
+    if np.any(alive_lengths > params.road_length):
+        raise ValueError("alive vehicle length must be <= road_length")
+    body_count = int((body_occupancy >= 0).sum())
+    expected_body = int(alive_lengths.astype(np.int64).sum())
+    if body_count != expected_body:
+        raise ValueError("occupied body-cell count must equal sum of alive lengths")

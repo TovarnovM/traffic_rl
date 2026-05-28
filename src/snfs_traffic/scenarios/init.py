@@ -130,12 +130,25 @@ def make_uniform_random_state(
 
     capacity = num_lanes * road_length
     n_vehicles = int(np.floor(capacity * density))
-
-    flat_cells = rng.choice(capacity, size=n_vehicles, replace=False)
-    lane = np.asarray(flat_cells // road_length, dtype=LANE_DTYPE)
-    pos = np.asarray(flat_cells % road_length, dtype=POSITION_DTYPE)
-
     veh_type, behavior_id, controlled, length = _assign_vehicle_types(n_vehicles, mix, rng)
+    lane = np.zeros(n_vehicles, dtype=LANE_DTYPE)
+    pos = np.zeros(n_vehicles, dtype=POSITION_DTYPE)
+    occ = np.zeros((num_lanes, road_length), dtype=bool)
+    for i in range(n_vehicles):
+        l_i = int(length[i])
+        placed = False
+        for _ in range(2000):
+            li = int(rng.integers(0, num_lanes)); pi = int(rng.integers(0, road_length))
+            cells = [((pi + d) % road_length) for d in range(l_i)]
+            if any(occ[li, c] for c in cells):
+                continue
+            lane[i] = li; pos[i] = pi
+            for c in cells:
+                occ[li, c] = True
+            placed = True
+            break
+        if not placed:
+            raise ValueError("could not place non-overlapping vehicle bodies for requested density/mix")
 
     return TrafficState(
         vehicle_id=np.arange(n_vehicles, dtype=VEHICLE_ID_DTYPE),
