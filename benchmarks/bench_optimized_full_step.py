@@ -16,9 +16,13 @@ import numpy as np
 from bench_full_step_phases import get_cases
 from snfs_traffic.backends import get_backend
 from snfs_traffic.core import SimulationParams, step_reference
-from snfs_traffic.core.lane_change_numba import NUMBA_AVAILABLE
+from snfs_traffic.core.indexing_numba import NUMBA_AVAILABLE as INDEX_NUMBA_AVAILABLE
+from snfs_traffic.core.lane_change_numba import NUMBA_AVAILABLE as LANE_NUMBA_AVAILABLE
+from snfs_traffic.core.longitudinal_numba import NUMBA_AVAILABLE as LONG_NUMBA_AVAILABLE
 from snfs_traffic.scenarios import make_uniform_random_state
 from snfs_traffic.topology import RingTopology
+
+NUMBA_AVAILABLE = INDEX_NUMBA_AVAILABLE and LANE_NUMBA_AVAILABLE and LONG_NUMBA_AVAILABLE
 
 FIELDS = ("lane", "pos", "vel", "alive", "controlled", "changed_lane", "last_lane_delta")
 PROFILE_COMPONENTS = (

@@ -90,12 +90,20 @@ def test_optimized_backend_non_unit_length_falls_back_to_reference(monkeypatch) 
 
     expected = step_reference(state.copy(), params, topology, rng_ref)
 
+    monkeypatch.setattr("snfs_traffic.backends.optimized.INDEX_NUMBA_AVAILABLE", True)
+    monkeypatch.setattr("snfs_traffic.backends.optimized.LANE_NUMBA_AVAILABLE", True)
+    monkeypatch.setattr("snfs_traffic.backends.optimized.LONG_NUMBA_AVAILABLE", True)
+    numba_velocity_called = False
+
     def fail_numba_velocity(*args, **kwargs):
+        nonlocal numba_velocity_called
+        numba_velocity_called = True
         raise AssertionError("non-unit lengths must not call Numba longitudinal velocity")
 
     monkeypatch.setattr("snfs_traffic.backends.optimized.compute_longitudinal_velocities_numba", fail_numba_velocity)
 
     actual = get_optimized_backend().step(state.copy(), params, topology, rng_opt)
+    assert not numba_velocity_called
     _assert_equal_fields(actual, expected)
     assert float(rng_ref.random()) == float(rng_opt.random())
 

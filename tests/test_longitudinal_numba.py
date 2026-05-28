@@ -138,6 +138,68 @@ def _assert_numba_velocity_matches_reference(state: TrafficState, params: Simula
     assert float(rng_ref.random()) == float(rng_numba.random())
 
 
+def _compute_matching_reference_and_numba_velocity(
+    state: TrafficState, params: SimulationParams, *, seed: int
+) -> np.ndarray:
+    occupancy = build_occupancy(state, params)
+    lane_order, lane_counts, lane_rank = build_lane_order(occupancy, n_vehicles=state.n_vehicles)
+    rng_ref = np.random.default_rng(seed)
+    rng_numba = np.random.default_rng(seed)
+
+    expected = compute_longitudinal_velocities_kernel(
+        state.lane,
+        state.pos,
+        state.vel,
+        state.length,
+        state.alive,
+        state.controlled,
+        lane_order,
+        lane_counts,
+        lane_rank,
+        road_length=params.road_length,
+        vmax_default=params.vmax_default,
+        vmax_controlled=params.vmax_controlled,
+        G=params.G,
+        q=params.q,
+        r=params.r,
+        S=params.S,
+        P1=params.P1,
+        P2=params.P2,
+        P3=params.P3,
+        P4=params.P4,
+        rng=rng_ref,
+    )
+    u_s, u_q, u_b = draw_longitudinal_randoms(state.alive, rng_numba)
+    actual = compute_longitudinal_velocities_numba(
+        state.lane,
+        state.pos,
+        state.vel,
+        state.alive,
+        state.controlled,
+        lane_order,
+        lane_counts,
+        lane_rank,
+        u_s,
+        u_q,
+        u_b,
+        road_length=params.road_length,
+        vmax_default=params.vmax_default,
+        vmax_controlled=params.vmax_controlled,
+        G=params.G,
+        q=params.q,
+        r=params.r,
+        S=params.S,
+        P1=params.P1,
+        P2=params.P2,
+        P3=params.P3,
+        P4=params.P4,
+    )
+
+    np.testing.assert_array_equal(actual, expected)
+    assert float(rng_ref.random()) == float(rng_numba.random())
+    return actual
+
+
 @pytest.mark.skipif(not NUMBA_AVAILABLE, reason="numba unavailable")
 @pytest.mark.parametrize("num_lanes", [1, 2, 3, 4])
 @pytest.mark.parametrize("density", [0.0, 0.05, 0.2, 0.5, 1.0])
@@ -250,3 +312,55 @@ def test_compute_longitudinal_velocities_numba_random_grid(num_lanes: int, densi
 def test_compute_longitudinal_velocities_numba_focused_cases(name: str, state: TrafficState, params: SimulationParams) -> None:
     del name
     _assert_numba_velocity_matches_reference(state, params, seed=123)
+
+
+@pytest.mark.skipif(not NUMBA_AVAILABLE, reason="numba unavailable")
+def test_r_s_lookahead_parameter_change_alters_output_and_matches_reference() -> None:
+    state = _state_from_arrays([0, 0, 0], [0, 2, 7], [4, 0, 0])
+    common = dict(
+        num_lanes=1,
+        road_length=12,
+        vmax_default=5,
+        vmax_controlled=5,
+        G=2,
+        q=0.0,
+        S=3,
+        P1=1.0,
+        P2=1.0,
+        P3=1.0,
+        P4=1.0,
+    )
+    out_s1 = _compute_matching_reference_and_numba_velocity(
+        state, SimulationParams(r=0.0, **common), seed=321
+    )
+    out_s3 = _compute_matching_reference_and_numba_velocity(
+        state, SimulationParams(r=1.0, **common), seed=321
+    )
+
+    assert not np.array_equal(out_s1, out_s3)
+
+
+@pytest.mark.skipif(not NUMBA_AVAILABLE, reason="numba unavailable")
+def test_p1_keep_probability_parameter_change_alters_output_and_matches_reference() -> None:
+    state = _state_from_arrays([0, 0], [0, 8], [1, 0])
+    common = dict(
+        num_lanes=1,
+        road_length=20,
+        vmax_default=5,
+        vmax_controlled=5,
+        G=2,
+        q=0.0,
+        r=0.0,
+        S=3,
+        P2=1.0,
+        P3=1.0,
+        P4=1.0,
+    )
+    out_keep = _compute_matching_reference_and_numba_velocity(
+        state, SimulationParams(P1=1.0, **common), seed=654
+    )
+    out_brake = _compute_matching_reference_and_numba_velocity(
+        state, SimulationParams(P1=0.0, **common), seed=654
+    )
+
+    assert not np.array_equal(out_keep, out_brake)
