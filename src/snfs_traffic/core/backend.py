@@ -14,7 +14,7 @@ Contract requirements:
 - ``changed_lane`` / ``last_lane_delta`` semantics must describe lateral
   movement during the returned full step.
 - Controlled RL action semantics are not implemented.
-- Length-aware occupancy and body-cell geometry are not implemented.
+- Optimized backend currently falls back to reference for non-unit vehicle lengths.
 """
 
 from __future__ import annotations

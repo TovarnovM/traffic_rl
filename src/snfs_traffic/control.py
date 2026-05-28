@@ -95,11 +95,14 @@ def normalize_lane_actions(actions, state: TrafficState, *, require_all_controll
     return LaneActionBatch(np.ascontiguousarray(ids.astype(state.vehicle_id.dtype)), np.ascontiguousarray(out_delta))
 
 
-def _lateral_valid(state, lane_order, lane_counts, occupancy, idx: int, target_lane: int, road_length: int):
+def _lateral_valid(state, lane_order, lane_counts, occupancy, body_occupancy, idx: int, target_lane: int, road_length: int):
     pos_i = int(state.pos[idx])
     vel_i = int(state.vel[idx])
-    if int(occupancy[target_lane, pos_i]) != MISSING_INDEX:
-        return False, "target_occupied"
+    len_i = int(state.length[idx])
+    for d in range(len_i):
+        cell = (pos_i + d) % road_length
+        if int(body_occupancy[target_lane, cell]) != MISSING_INDEX:
+            return False, "target_occupied"
     if int(lane_counts[target_lane]) == 0:
         return True, ""
     t_front, t_back, _g_nf, g_nb = target_lane_neighbors_at_pos_kernel(
@@ -107,7 +110,8 @@ def _lateral_valid(state, lane_order, lane_counts, occupancy, idx: int, target_l
     )
     if t_front == MISSING_INDEX:
         return True, ""
-    safe = vel_i > (int(state.vel[t_back]) - int(g_nb))
+    g_nb_len = int(g_nb) - int(state.length[t_back]) + 1
+    safe = vel_i > (int(state.vel[t_back]) - g_nb_len)
     return (bool(safe), "" if safe else "unsafe")
 
 
@@ -122,6 +126,7 @@ def compute_lateral_action_mask(state: TrafficState, params: SimulationParams, t
         raise ValueError("topology.length must match params.road_length")
     validate_state(state, params)
     occupancy = build_occupancy(state, params)
+    body_occupancy = build_body_occupancy(state, params)
     lane_order, lane_counts, _ = build_lane_order(occupancy, n_vehicles=state.n_vehicles)
     vids = controlled_vehicle_ids(state)
     mask = np.zeros((vids.shape[0], 3), dtype=np.bool_)
@@ -132,7 +137,7 @@ def compute_lateral_action_mask(state: TrafficState, params: SimulationParams, t
         for col, delta in [(0, -1), (2, 1)]:
             target = lane + delta
             if 0 <= target < params.num_lanes:
-                ok, _ = _lateral_valid(state, lane_order, lane_counts, occupancy, idx, target, params.road_length)
+                ok, _ = _lateral_valid(state, lane_order, lane_counts, occupancy, body_occupancy, idx, target, params.road_length)
                 mask[i, col] = ok
     return vids, mask
 
@@ -151,6 +156,7 @@ def step_with_controlled_lateral_actions_reference(state: TrafficState, params: 
         raise TypeError("rng must be numpy.random.Generator")
     normalized = normalize_lane_actions(actions, state, require_all_controlled=require_all_controlled)
     occupancy = build_occupancy(state, params)
+    body_occupancy = build_body_occupancy(state, params)
     lane_order, lane_counts, lane_rank = build_lane_order(occupancy, n_vehicles=state.n_vehicles)
     front_id, _back_id, front_gap, _ = compute_neighbors(state, lane_order, lane_counts, lane_rank, topology)
 
@@ -170,7 +176,7 @@ def step_with_controlled_lateral_actions_reference(state: TrafficState, params: 
         if target < 0 or target >= params.num_lanes:
             reasons[i] = "out_of_bounds"
             continue
-        ok, reason = _lateral_valid(state, lane_order, lane_counts, occupancy, idx, target, params.road_length)
+        ok, reason = _lateral_valid(state, lane_order, lane_counts, occupancy, body_occupancy, idx, target, params.road_length)
         if not ok:
             reasons[i] = reason
             continue
@@ -192,7 +198,6 @@ def step_with_controlled_lateral_actions_reference(state: TrafficState, params: 
             applied_delta[i] = np.int8(target - int(state.lane[idx]))
 
     alive_uncontrolled = state.alive & ~state.controlled
-    body_occupancy = build_body_occupancy(state, params)
     proposals_un = collect_lane_change_proposals_kernel(
         state.lane, state.pos, state.vel, state.length, alive_uncontrolled, state.controlled, body_occupancy, lane_order, lane_counts,
         front_id, front_gap, num_lanes=params.num_lanes, road_length=params.road_length, vmax_default=params.vmax_default,
@@ -208,6 +213,7 @@ def step_with_controlled_lateral_actions_reference(state: TrafficState, params: 
     after_lane_change.lane = new_lane
     after_lane_change.changed_lane = new_changed_lane
     after_lane_change.last_lane_delta = new_last_lane_delta
+    build_body_occupancy(after_lane_change, params)
     saved_changed = after_lane_change.changed_lane.copy()
     saved_delta = after_lane_change.last_lane_delta.copy()
     out = step_longitudinal_reference(after_lane_change, params, topology, rng)

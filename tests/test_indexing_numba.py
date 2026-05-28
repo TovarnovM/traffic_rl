@@ -175,7 +175,8 @@ def test_numba_indexing_head_order_matches_public_with_nonunit_lengths():
         vehicle_mix=mix,
     )
 
-    assert np.all(state.length[state.alive] == 3)
+    assert np.any(state.length[state.alive] == 3)
+    assert np.any(state.length[state.alive] == 1)
 
     occ_public = build_occupancy(state, params)
     occ_numba = build_occupancy_numba(state.lane, state.pos, state.alive, num_lanes=3, road_length=30)

@@ -470,8 +470,8 @@ The current simulator intentionally uses simplified head-cell semantics:
 
 - body occupancy is length-aware for validity/collision checks while head occupancy still drives lane ordering;
 - longitudinal and lane-change gaps use length-aware empty-cell conventions;
-- vehicle length is not used for occupancy/gap/collision geometry;
-- bus body cells are not modeled as occupied cells;
+- body occupancy is length-aware and overlaps are invalid;
+- head ordering remains based on head cells for indexing;
 - lane changes are lateral only and do not move longitudinal position;
 - there are no same-step lateral swaps into previously occupied target cells;
 - controlled vehicles support facade-level lateral actions; full RL reward/episode/env semantics are not implemented;
