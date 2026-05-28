@@ -1,6 +1,6 @@
 # PLAN.md — Revised S-NFS Traffic Simulator Roadmap
 
-Current state: after Tasks 1–23, including Task 22+23 follow-up.
+Current state: after full Revised S-NFS unit-length Numba longitudinal velocity acceleration.
 
 The project is a clean, array-based Revised S-NFS-style traffic simulator core intended for future reinforcement-learning experiments. It currently has a reliable reference simulator, a supported optional optimized backend, backend selection, correctness tests, RNG-parity checks, runtime invariant checks, and benchmark/report infrastructure.
 
@@ -184,16 +184,17 @@ Completed:
 Current limitation:
 
 - no external controlled action override;
-- lane-change proposal collection is now the primary optimized-backend bottleneck.
+- lane-change proposal collection remains a notable optimized-backend cost, but representative bottlenecks are now longitudinal RNG draws or dense-case longitudinal velocity collision-avoidance work.
 
 ### 3.6 Longitudinal phase
 
 Completed:
 
-- reference longitudinal update;
-- optional Numba longitudinal helper;
-- position advance;
-- tests against reference behavior.
+- full Revised S-NFS reference longitudinal update;
+- optional Numba full Revised S-NFS velocity kernel for unit-length vehicles;
+- optional Numba position advance;
+- direct velocity-kernel tests against reference behavior;
+- RNG next-draw parity tests for scalar longitudinal random draw precomputation.
 
 Current limitation:
 
@@ -235,19 +236,21 @@ Completed:
 - supported optional optimized full-step backend;
 - optional Numba indexing/lane-change/longitudinal kernels;
 - fused indexing/neighbor fast path;
+- Numba full Revised S-NFS longitudinal velocity for alive unit-length vehicles;
+- intentional reference fallback for any alive non-unit vehicle length;
 - optimized backend equivalence tests;
 - RNG next-draw parity checks;
 - fallback behavior when Numba is unavailable.
 
-Current representative benchmark status:
+Current representative benchmark status (`reports/full_rev_snfs_numba/optimized_reduced_standard.md`):
 
-| case | reference ms/step | optimized ms/step | speedup vs reference | speedup vs Task 21 optimized |
-|---|---:|---:|---:|---:|
-| medium_moderate | 96.9242 | 4.1205 | 23.522x | 2.625x |
-| medium_dense | 354.9731 | 13.6533 | 25.999x | 1.839x |
-| wide_moderate | 191.7672 | 7.8746 | 24.353x | 2.290x |
+| case | reference ms/step | optimized ms/step | speedup vs reference | equivalence | top optimized component |
+|---|---:|---:|---:|---|---|
+| medium_moderate | 491.1606 | 6.0169 | 81.630x | yes | `longitudinal_random_draws` |
+| medium_dense | 2761.7621 | 20.0826 | 137.520x | yes | `longitudinal_velocity_numba` |
+| wide_moderate | 1001.5073 | 10.0021 | 100.130x | yes | `longitudinal_random_draws` |
 
-Final Task 22+23 recommendation:
+Fresh recommendation:
 
 ```text
 keep OptimizedBackend supported and merge indexing fast path
@@ -255,7 +258,8 @@ keep OptimizedBackend supported and merge indexing fast path
 
 Current optimized bottleneck:
 
-- `lane_change_proposals`.
+- longitudinal RNG draw generation for medium-density representative cases;
+- Numba longitudinal velocity collision-avoidance propagation for the dense representative case.
 
 ### 3.10 Benchmark/report infrastructure
 
@@ -268,7 +272,8 @@ Completed:
 - component breakdown;
 - JSON/Markdown benchmark output;
 - Task 21 report;
-- Task 22+23 report.
+- Task 22+23 report;
+- full Revised S-NFS unit-length Numba longitudinal report in `reports/full_rev_snfs_numba/`.
 
 Current policy:
 
@@ -364,19 +369,20 @@ Current roadmap remains:
 
 ## 8. Performance roadmap
 
-Current bottleneck after Task 22+23:
+Current bottleneck after full Revised S-NFS unit-length Numba longitudinal acceleration:
 
-- `lane_change_proposals`.
+- `longitudinal_random_draws` in medium-density representative cases;
+- `longitudinal_velocity_numba` in the dense representative case, mainly collision-avoidance propagation.
 
 Recommended future performance task:
 
 ```text
-Optional Task P1 — optimize lane-change proposal collection
+Optional Task P1 — reduce longitudinal RNG draw overhead and dense-case collision-avoidance cost
 ```
 
 Goal:
 
-Reduce current optimized-backend bottleneck after fused indexing.
+Reduce the remaining longitudinal-related optimized-backend bottlenecks while preserving scalar RNG stream parity.
 
 Constraints:
 
