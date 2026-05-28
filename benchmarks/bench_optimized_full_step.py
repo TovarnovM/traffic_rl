@@ -15,10 +15,14 @@ import numpy as np
 
 from bench_full_step_phases import get_cases
 from snfs_traffic.backends import get_backend
-from snfs_traffic.core import SimulationParams, build_lane_order, build_occupancy, step_reference
-from snfs_traffic.core.lane_change_numba import NUMBA_AVAILABLE
+from snfs_traffic.core import SimulationParams, step_reference
+from snfs_traffic.core.indexing_numba import NUMBA_AVAILABLE as INDEX_NUMBA_AVAILABLE
+from snfs_traffic.core.lane_change_numba import NUMBA_AVAILABLE as LANE_NUMBA_AVAILABLE
+from snfs_traffic.core.longitudinal_numba import NUMBA_AVAILABLE as LONG_NUMBA_AVAILABLE
 from snfs_traffic.scenarios import make_uniform_random_state
 from snfs_traffic.topology import RingTopology
+
+NUMBA_AVAILABLE = INDEX_NUMBA_AVAILABLE and LANE_NUMBA_AVAILABLE and LONG_NUMBA_AVAILABLE
 
 FIELDS = ("lane", "pos", "vel", "alive", "controlled", "changed_lane", "last_lane_delta")
 PROFILE_COMPONENTS = (
@@ -27,7 +31,8 @@ PROFILE_COMPONENTS = (
     "conflict_resolution",
     "apply_lane_changes",
     "post_lane_change_index_neighbors_fused",
-    "longitudinal_velocity",
+    "longitudinal_random_draws",
+    "longitudinal_velocity_numba",
     "position_advance",
     "state_copy_orchestration",
 )
@@ -74,8 +79,11 @@ def _run_optimized_profiled_rollout(case) -> tuple[dict[str, float], object]:
     from snfs_traffic.core.indexing_numba import build_index_and_neighbors_numba
     from snfs_traffic.core.lane_change_kernels import apply_lane_changes_kernel, resolve_lane_change_conflicts_kernel
     from snfs_traffic.core.lane_change_numba import collect_lane_change_proposals_numba
-    from snfs_traffic.core.longitudinal_kernels import compute_longitudinal_velocities_kernel
-    from snfs_traffic.core.longitudinal_numba import advance_positions_numba
+    from snfs_traffic.core.longitudinal_numba import (
+        advance_positions_numba,
+        compute_longitudinal_velocities_numba,
+        draw_longitudinal_randoms,
+    )
 
     params = SimulationParams(num_lanes=case.num_lanes, road_length=case.road_length, p_lane_change=case.p_lane_change)
     topology = RingTopology(num_lanes=case.num_lanes, length=case.road_length)
@@ -120,18 +128,23 @@ def _run_optimized_profiled_rollout(case) -> tuple[dict[str, float], object]:
         totals_ns["state_copy_orchestration"] += perf_counter_ns() - t
 
         t = perf_counter_ns()
-        _, _, _, _, front_id2, _, front_gap2, _ = build_index_and_neighbors_numba(
+        _, lane_order2, lane_counts2, lane_rank2, _, _, _, _ = build_index_and_neighbors_numba(
             after_lane.lane, after_lane.pos, after_lane.alive, num_lanes=params.num_lanes, road_length=params.road_length
         )
         totals_ns["post_lane_change_index_neighbors_fused"] += perf_counter_ns() - t
 
         t = perf_counter_ns()
-        occupancy2 = build_occupancy(after_lane, params)
-        lane_order2, lane_counts2, lane_rank2 = build_lane_order(occupancy2, n_vehicles=after_lane.n_vehicles)
-        new_vel = compute_longitudinal_velocities_kernel(after_lane.lane, after_lane.pos, after_lane.vel, after_lane.length, after_lane.alive, after_lane.controlled, lane_order2, lane_counts2, lane_rank2,
+        u_s, u_q, u_b = draw_longitudinal_randoms(after_lane.alive, rng)
+        totals_ns["longitudinal_random_draws"] += perf_counter_ns() - t
+
+        t = perf_counter_ns()
+        new_vel = compute_longitudinal_velocities_numba(
+            after_lane.lane, after_lane.pos, after_lane.vel, after_lane.alive, after_lane.controlled,
+            lane_order2, lane_counts2, lane_rank2, u_s, u_q, u_b,
             road_length=params.road_length, vmax_default=params.vmax_default, vmax_controlled=params.vmax_controlled,
-            G=params.G, q=params.q, r=params.r, S=params.S, P1=params.P1, P2=params.P2, P3=params.P3, P4=params.P4, rng=rng)
-        totals_ns["longitudinal_velocity"] += perf_counter_ns() - t
+            G=params.G, q=params.q, r=params.r, S=params.S, P1=params.P1, P2=params.P2, P3=params.P3, P4=params.P4
+        )
+        totals_ns["longitudinal_velocity_numba"] += perf_counter_ns() - t
 
         t = perf_counter_ns()
         new_pos = advance_positions_numba(after_lane.pos, new_vel, after_lane.alive, road_length=params.road_length)

@@ -1,0 +1,128 @@
+{
+  "benchmark": "snfs_optimized_full_step",
+  "schema_version": 2,
+  "created_at_utc": "2026-05-28T16:04:53.306111+00:00",
+  "python": "3.14.4 (main, May  1 2026, 05:51:55) [GCC 13.3.0]",
+  "platform": "Linux-6.12.47-x86_64-with-glibc2.39",
+  "numpy_version": "2.4.6",
+  "numba_available": true,
+  "preset": "smoke",
+  "seed": 0,
+  "steps": 50,
+  "repeats": 3,
+  "warmups": 2,
+  "backend": "both",
+  "cases": [
+    {
+      "name": "smoke_low_density",
+      "num_lanes": 2,
+      "road_length": 100,
+      "density": 0.1,
+      "p_lane_change": 0.5,
+      "steps": 50,
+      "seed": 0,
+      "n_vehicles": 20,
+      "repeats": 3,
+      "warmups": 2,
+      "reference": {
+        "per_repeat_ms_per_step": [
+          3.88786942,
+          3.9272014,
+          3.84443354
+        ],
+        "mean_ms_per_step": 3.886501453333333,
+        "median_ms_per_step": 3.88786942
+      },
+      "optimized": {
+        "per_repeat_ms_per_step": [
+          0.71468132,
+          0.62862912,
+          0.5978681
+        ],
+        "mean_ms_per_step": 0.6470595133333333,
+        "median_ms_per_step": 0.62862912
+      },
+      "optimized_profile": {
+        "component_ms_per_step": {
+          "pre_lane_change_index_neighbors_fused": 0.00967008,
+          "lane_change_proposals": 0.01233192,
+          "conflict_resolution": 0.00111506,
+          "apply_lane_changes": 0.006089600000000001,
+          "post_lane_change_index_neighbors_fused": 0.0090606,
+          "longitudinal_random_draws": 0.05932246,
+          "longitudinal_velocity_numba": 0.00995832,
+          "position_advance": 0.0022213800000000002,
+          "state_copy_orchestration": 0.01146434
+        },
+        "top_component": "longitudinal_random_draws"
+      },
+      "speedup_x": 6.006404933778013,
+      "equivalence": {
+        "state_equal": true,
+        "rng_next_draw_equal": true
+      },
+      "backend_status": {
+        "optimized_requested": true,
+        "optimized_available": true,
+        "fallback_to_reference": false
+      },
+      "notes": "optimized backend active"
+    },
+    {
+      "name": "smoke_dense",
+      "num_lanes": 3,
+      "road_length": 100,
+      "density": 0.5,
+      "p_lane_change": 0.5,
+      "steps": 50,
+      "seed": 1,
+      "n_vehicles": 150,
+      "repeats": 3,
+      "warmups": 2,
+      "reference": {
+        "per_repeat_ms_per_step": [
+          34.503181600000005,
+          32.43046132,
+          33.7446331
+        ],
+        "mean_ms_per_step": 33.559425340000004,
+        "median_ms_per_step": 33.7446331
+      },
+      "optimized": {
+        "per_repeat_ms_per_step": [
+          1.34964344,
+          1.34676872,
+          1.4262375
+        ],
+        "mean_ms_per_step": 1.3742165533333335,
+        "median_ms_per_step": 1.34964344
+      },
+      "optimized_profile": {
+        "component_ms_per_step": {
+          "pre_lane_change_index_neighbors_fused": 0.01402128,
+          "lane_change_proposals": 0.08292018,
+          "conflict_resolution": 0.00226228,
+          "apply_lane_changes": 0.00918068,
+          "post_lane_change_index_neighbors_fused": 0.01403164,
+          "longitudinal_random_draws": 0.44201714000000003,
+          "longitudinal_velocity_numba": 0.09632167999999999,
+          "position_advance": 0.00377288,
+          "state_copy_orchestration": 0.01533874
+        },
+        "top_component": "longitudinal_random_draws"
+      },
+      "speedup_x": 24.420769243826555,
+      "equivalence": {
+        "state_equal": true,
+        "rng_next_draw_equal": true
+      },
+      "backend_status": {
+        "optimized_requested": true,
+        "optimized_available": true,
+        "fallback_to_reference": false
+      },
+      "notes": "optimized backend active"
+    }
+  ],
+  "recommendation": "keep OptimizedBackend supported but do not merge indexing fast path"
+}

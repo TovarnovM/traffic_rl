@@ -1,0 +1,249 @@
+{
+  "benchmark": "snfs_full_step_phase_costs",
+  "schema_version": 1,
+  "created_at_utc": "2026-05-28T16:23:24.607611+00:00",
+  "python": "3.14.4 (main, May  1 2026, 05:51:55) [GCC 13.3.0]",
+  "platform": "Linux-6.12.47-x86_64-with-glibc2.39",
+  "numpy_version": "2.4.6",
+  "preset": "smoke",
+  "seed": 0,
+  "warmups": 2,
+  "repeats": 3,
+  "default_steps": 10,
+  "cases": [
+    {
+      "name": "smoke_low_density",
+      "num_lanes": 2,
+      "road_length": 100,
+      "density": 0.1,
+      "p_lane_change": 0.5,
+      "steps": 50,
+      "seed": 0,
+      "n_vehicles": 20,
+      "repeats": [
+        {
+          "repeat_index": 0,
+          "total_ns": 165014059,
+          "rollout_reference_blackbox_ns": 180576612,
+          "per_step_ns": 3300281.18,
+          "phase_ns": {
+            "validate_state_input": 7222749,
+            "build_occupancy_pre_lane_change": 7630632,
+            "build_lane_order_pre_lane_change": 4368668,
+            "compute_neighbors_pre_lane_change": 4313083,
+            "lane_change_collect_proposals": 17473545,
+            "lane_change_resolve_conflicts": 94127,
+            "lane_change_apply": 408826,
+            "validation_and_final_checks": 29969967,
+            "longitudinal_phase": 92018534,
+            "full_step_reference_blackbox": 180517567,
+            "orchestration_and_copy_overhead": 1513928
+          }
+        },
+        {
+          "repeat_index": 1,
+          "total_ns": 166082133,
+          "rollout_reference_blackbox_ns": 178589510,
+          "per_step_ns": 3321642.66,
+          "phase_ns": {
+            "validate_state_input": 7151788,
+            "build_occupancy_pre_lane_change": 7763204,
+            "build_lane_order_pre_lane_change": 4340351,
+            "compute_neighbors_pre_lane_change": 4386241,
+            "lane_change_collect_proposals": 17509274,
+            "lane_change_resolve_conflicts": 95795,
+            "lane_change_apply": 418168,
+            "validation_and_final_checks": 29675108,
+            "longitudinal_phase": 93204472,
+            "full_step_reference_blackbox": 178532932,
+            "orchestration_and_copy_overhead": 1537732
+          }
+        },
+        {
+          "repeat_index": 2,
+          "total_ns": 167913525,
+          "rollout_reference_blackbox_ns": 184744213,
+          "per_step_ns": 3358270.5,
+          "phase_ns": {
+            "validate_state_input": 7134413,
+            "build_occupancy_pre_lane_change": 8198846,
+            "build_lane_order_pre_lane_change": 4460989,
+            "compute_neighbors_pre_lane_change": 4432463,
+            "lane_change_collect_proposals": 17730470,
+            "lane_change_resolve_conflicts": 95891,
+            "lane_change_apply": 439804,
+            "validation_and_final_checks": 30011570,
+            "longitudinal_phase": 93931317,
+            "full_step_reference_blackbox": 184684975,
+            "orchestration_and_copy_overhead": 1477762
+          }
+        }
+      ],
+      "summary": {
+        "per_step_ns_mean": 3326731.446666667,
+        "per_step_ns_median": 3321642.66,
+        "phase_per_step_ns_mean": {
+          "validate_state_input": 143393.0,
+          "build_occupancy_pre_lane_change": 157284.54666666666,
+          "build_lane_order_pre_lane_change": 87800.05333333334,
+          "compute_neighbors_pre_lane_change": 87545.24666666666,
+          "lane_change_collect_proposals": 351421.9266666667,
+          "lane_change_resolve_conflicts": 1905.42,
+          "lane_change_apply": 8445.32,
+          "validation_and_final_checks": 597710.9666666667,
+          "longitudinal_phase": 1861028.82,
+          "full_step_reference_blackbox": 3624903.16,
+          "orchestration_and_copy_overhead": 30196.146666666667
+        },
+        "phase_percent_mean": {
+          "validate_state_input": 4.310326886881042,
+          "build_occupancy_pre_lane_change": 4.727900318622453,
+          "build_lane_order_pre_lane_change": 2.6392287667616703,
+          "compute_neighbors_pre_lane_change": 2.631569396874089,
+          "lane_change_collect_proposals": 10.563579666726211,
+          "lane_change_resolve_conflicts": 0.057276038975409366,
+          "lane_change_apply": 0.25386239122073045,
+          "validation_and_final_checks": 17.966913658316596,
+          "longitudinal_phase": 55.94166075126749,
+          "orchestration_and_copy_overhead": 0.907682124354304
+        },
+        "top_phases_by_time": [
+          [
+            "longitudinal_phase",
+            55.94166075126749
+          ],
+          [
+            "validation_and_final_checks",
+            17.966913658316596
+          ],
+          [
+            "lane_change_collect_proposals",
+            10.563579666726211
+          ]
+        ]
+      }
+    },
+    {
+      "name": "smoke_dense",
+      "num_lanes": 3,
+      "road_length": 100,
+      "density": 0.5,
+      "p_lane_change": 0.5,
+      "steps": 50,
+      "seed": 1,
+      "n_vehicles": 150,
+      "repeats": [
+        {
+          "repeat_index": 0,
+          "total_ns": 1589114508,
+          "rollout_reference_blackbox_ns": 1695965776,
+          "per_step_ns": 31782290.16,
+          "phase_ns": {
+            "validate_state_input": 8560506,
+            "build_occupancy_pre_lane_change": 13520777,
+            "build_lane_order_pre_lane_change": 8774642,
+            "compute_neighbors_pre_lane_change": 27599983,
+            "lane_change_collect_proposals": 175119590,
+            "lane_change_resolve_conflicts": 252686,
+            "lane_change_apply": 819861,
+            "validation_and_final_checks": 47303744,
+            "longitudinal_phase": 1304960583,
+            "full_step_reference_blackbox": 1695835185,
+            "orchestration_and_copy_overhead": 2202136
+          }
+        },
+        {
+          "repeat_index": 1,
+          "total_ns": 1548648409,
+          "rollout_reference_blackbox_ns": 1643677325,
+          "per_step_ns": 30972968.18,
+          "phase_ns": {
+            "validate_state_input": 8548803,
+            "build_occupancy_pre_lane_change": 13546632,
+            "build_lane_order_pre_lane_change": 8532084,
+            "compute_neighbors_pre_lane_change": 26965060,
+            "lane_change_collect_proposals": 169612015,
+            "lane_change_resolve_conflicts": 230447,
+            "lane_change_apply": 711030,
+            "validation_and_final_checks": 45284729,
+            "longitudinal_phase": 1272990745,
+            "full_step_reference_blackbox": 1643565800,
+            "orchestration_and_copy_overhead": 2226864
+          }
+        },
+        {
+          "repeat_index": 2,
+          "total_ns": 1540939510,
+          "rollout_reference_blackbox_ns": 1552650153,
+          "per_step_ns": 30818790.2,
+          "phase_ns": {
+            "validate_state_input": 8342464,
+            "build_occupancy_pre_lane_change": 13478765,
+            "build_lane_order_pre_lane_change": 8331974,
+            "compute_neighbors_pre_lane_change": 27090751,
+            "lane_change_collect_proposals": 168356369,
+            "lane_change_resolve_conflicts": 249149,
+            "lane_change_apply": 705182,
+            "validation_and_final_checks": 44813755,
+            "longitudinal_phase": 1267358942,
+            "full_step_reference_blackbox": 1552553731,
+            "orchestration_and_copy_overhead": 2212159
+          }
+        }
+      ],
+      "summary": {
+        "per_step_ns_mean": 31191349.51333333,
+        "per_step_ns_median": 30972968.18,
+        "phase_per_step_ns_mean": {
+          "validate_state_input": 169678.48666666666,
+          "build_occupancy_pre_lane_change": 270307.82666666666,
+          "build_lane_order_pre_lane_change": 170924.66666666666,
+          "compute_neighbors_pre_lane_change": 544371.96,
+          "lane_change_collect_proposals": 3420586.4933333336,
+          "lane_change_resolve_conflicts": 4881.88,
+          "lane_change_apply": 14907.153333333334,
+          "validation_and_final_checks": 916014.8533333334,
+          "longitudinal_phase": 25635401.8,
+          "full_step_reference_blackbox": 32613031.44,
+          "orchestration_and_copy_overhead": 44274.39333333333
+        },
+        "phase_percent_mean": {
+          "validate_state_input": 0.5439921302351294,
+          "build_occupancy_pre_lane_change": 0.8666115153213182,
+          "build_lane_order_pre_lane_change": 0.5479874046283302,
+          "compute_neighbors_pre_lane_change": 1.7452658140594328,
+          "lane_change_collect_proposals": 10.96645879932556,
+          "lane_change_resolve_conflicts": 0.01565139077394887,
+          "lane_change_apply": 0.04779258854113057,
+          "validation_and_final_checks": 2.936759286230195,
+          "longitudinal_phase": 82.187536608641,
+          "orchestration_and_copy_overhead": 0.14194446224395452
+        },
+        "top_phases_by_time": [
+          [
+            "longitudinal_phase",
+            82.187536608641
+          ],
+          [
+            "lane_change_collect_proposals",
+            10.96645879932556
+          ],
+          [
+            "validation_and_final_checks",
+            2.936759286230195
+          ]
+        ]
+      }
+    }
+  ],
+  "recommendation": {
+    "top_bottlenecks": [
+      "longitudinal_phase",
+      "lane_change_collect_proposals",
+      "validation_and_final_checks"
+    ],
+    "suggested_next_task": "Run standard preset before final optimization choice; smoke data is local and limited.",
+    "top_phase": "longitudinal_phase",
+    "top_phase_percent_mean": 69.06459867995424
+  }
+}

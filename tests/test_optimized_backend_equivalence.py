@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from snfs_traffic.backends.optimized import get_optimized_backend
+from snfs_traffic.backends.optimized import LONG_NUMBA_AVAILABLE, get_optimized_backend
 from snfs_traffic.core import SimulationParams, step_reference, validate_runtime_invariants
 from snfs_traffic.core.types import VELOCITY_DTYPE
 from snfs_traffic.scenarios import make_uniform_random_state
@@ -59,6 +59,55 @@ def test_optimized_backend_multistep_rollout_grid_equivalence() -> None:
                     assert float(rng_ref.random()) == float(rng_opt.random())
 
 
+@pytest.mark.skipif(not LONG_NUMBA_AVAILABLE, reason="numba unavailable")
+def test_optimized_backend_unit_lengths_use_numba_velocity_not_python_kernel(monkeypatch) -> None:
+    params = SimulationParams(num_lanes=2, road_length=40, p_lane_change=0.4)
+    topology = RingTopology(num_lanes=2, length=40)
+    state = make_uniform_random_state(num_lanes=2, road_length=40, density=0.25, seed=22)
+    rng_ref = np.random.default_rng(555)
+    rng_opt = np.random.default_rng(555)
+
+    expected = step_reference(state.copy(), params, topology, rng_ref)
+
+    def fail_python_velocity(*args, **kwargs):
+        raise AssertionError("optimized unit-length path must not call Python longitudinal velocity kernel")
+
+    monkeypatch.setattr("snfs_traffic.backends.optimized.compute_longitudinal_velocities_kernel", fail_python_velocity)
+
+    actual = get_optimized_backend().step(state.copy(), params, topology, rng_opt)
+    _assert_equal_fields(actual, expected)
+    assert float(rng_ref.random()) == float(rng_opt.random())
+
+
+def test_optimized_backend_non_unit_length_falls_back_to_reference(monkeypatch) -> None:
+    params = SimulationParams(num_lanes=1, road_length=30, p_lane_change=0.0)
+    topology = RingTopology(num_lanes=1, length=30)
+    state = make_uniform_random_state(num_lanes=1, road_length=30, density=0.05, seed=33)
+    assert state.n_vehicles >= 1
+    state.length[0] = 2
+    rng_ref = np.random.default_rng(777)
+    rng_opt = np.random.default_rng(777)
+
+    expected = step_reference(state.copy(), params, topology, rng_ref)
+
+    monkeypatch.setattr("snfs_traffic.backends.optimized.INDEX_NUMBA_AVAILABLE", True)
+    monkeypatch.setattr("snfs_traffic.backends.optimized.LANE_NUMBA_AVAILABLE", True)
+    monkeypatch.setattr("snfs_traffic.backends.optimized.LONG_NUMBA_AVAILABLE", True)
+    numba_velocity_called = False
+
+    def fail_numba_velocity(*args, **kwargs):
+        nonlocal numba_velocity_called
+        numba_velocity_called = True
+        raise AssertionError("non-unit lengths must not call Numba longitudinal velocity")
+
+    monkeypatch.setattr("snfs_traffic.backends.optimized.compute_longitudinal_velocities_numba", fail_numba_velocity)
+
+    actual = get_optimized_backend().step(state.copy(), params, topology, rng_opt)
+    assert not numba_velocity_called
+    _assert_equal_fields(actual, expected)
+    assert float(rng_ref.random()) == float(rng_opt.random())
+
+
 def test_optimized_backend_preserves_reference_input_validation() -> None:
     params = SimulationParams(num_lanes=2, road_length=10, p_lane_change=0.2)
     bad_topology = RingTopology(num_lanes=3, length=10)
@@ -97,7 +146,7 @@ def test_optimized_backend_rejects_invalid_overflow_velocity_postconditions(monk
     )
     velocity_min = int(np.iinfo(VELOCITY_DTYPE).min)
     monkeypatch.setattr(
-        "snfs_traffic.backends.optimized.compute_longitudinal_velocities_kernel",
+        "snfs_traffic.backends.optimized.compute_longitudinal_velocities_numba",
         lambda *args, **kwargs: np.full(state.n_vehicles, velocity_min, dtype=VELOCITY_DTYPE),
     )
     monkeypatch.setattr("snfs_traffic.backends.optimized.advance_positions_numba", lambda pos, vel, alive, road_length: pos.copy())

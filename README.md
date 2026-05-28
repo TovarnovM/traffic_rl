@@ -23,7 +23,7 @@ The project is **not yet a full RL environment package**. Facade-level controlle
 
 ## Current status
 
-Repository state: after Tasks 1–23, including Task 22+23 follow-up.
+Repository state: after full Revised S-NFS unit-length Numba longitudinal velocity acceleration.
 
 Current conclusion:
 
@@ -79,9 +79,11 @@ Current readiness estimate:
 
 - Optional Numba indexing kernels.
 - Optional Numba lane-change proposal helper.
-- Optional Numba longitudinal helper.
+- Optional Numba full Revised S-NFS longitudinal velocity kernel for unit-length vehicles.
+- Optional Numba position-advance helper.
 - Fused Numba indexing/neighbor fast path used by `OptimizedBackend`.
 - Graceful fallback to reference semantics when required Numba kernels are unavailable.
+- Explicit reference fallback when any alive vehicle has `length != 1`.
 
 ### Correctness validation
 
@@ -101,6 +103,7 @@ Current readiness estimate:
 - Component-level optimized backend profiling in benchmark code.
 - Task 21 benchmark report.
 - Task 22+23 benchmark report.
+- Full Revised S-NFS unit-length Numba longitudinal benchmark report.
 
 ---
 
@@ -127,7 +130,7 @@ Current readiness estimate:
 ### Performance extensions
 
 - Further optimization of lane-change proposal collection.
-- Further optimization of longitudinal velocity update.
+- Further optimization of longitudinal collision-avoidance and RNG-draw costs.
 - Cython kernels.
 
 ---
@@ -408,10 +411,10 @@ python benchmarks/bench_optimized_full_step.py \
   --preset smoke \
   --backend both \
   --repeats 3 \
-  --warmups 1 \
+  --warmups 2 \
   --steps 50 \
-  --out-json reports/task22_23/optimized_smoke.json \
-  --out-md reports/task22_23/optimized_smoke.md
+  --out-json reports/full_rev_snfs_numba/optimized_smoke.json \
+  --out-md reports/full_rev_snfs_numba/optimized_smoke.md
 ```
 
 Optimized reduced-standard benchmark:
@@ -421,11 +424,11 @@ python benchmarks/bench_optimized_full_step.py \
   --preset standard \
   --backend both \
   --repeats 3 \
-  --warmups 1 \
+  --warmups 2 \
   --steps 50 \
   --cases medium_moderate,medium_dense,wide_moderate \
-  --out-json reports/task22_23/optimized_reduced_standard.json \
-  --out-md reports/task22_23/optimized_reduced_standard.md
+  --out-json reports/full_rev_snfs_numba/optimized_reduced_standard.json \
+  --out-md reports/full_rev_snfs_numba/optimized_reduced_standard.md
 ```
 
 Benchmark numbers are environment-dependent. Use them for relative comparison inside the same environment, not as absolute production-performance claims.
@@ -434,32 +437,25 @@ Benchmark numbers are environment-dependent. Use them for relative comparison in
 
 ## Latest representative benchmark status
 
-Task 22+23 reduced-standard benchmark showed that the optimized backend remained equivalent to reference and significantly faster.
+The current reference path implements the full Revised S-NFS longitudinal dynamics. The optimized backend accelerates the same full longitudinal velocity update with Numba for the common case where all alive vehicles have `length == 1`; if any alive vehicle has `length != 1`, `OptimizedBackend` intentionally falls back to reference semantics. Benchmark numbers are environment-dependent and should be compared only within the same machine/interpreter run. Older Task 22+23 speedups are historical pre-full-Rev-SNFS-longitudinal-Numba results and have been replaced here by the fresh report in `reports/full_rev_snfs_numba/optimized_reduced_standard.md`.
 
-Representative reduced-standard results:
+Representative reduced-standard results from this environment:
 
-| case | reference ms/step | optimized ms/step | speedup vs reference | speedup vs Task 21 optimized |
-|---|---:|---:|---:|---:|
-| medium_moderate | 96.9242 | 4.1205 | 23.522x | 2.625x |
-| medium_dense | 354.9731 | 13.6533 | 25.999x | 1.839x |
-| wide_moderate | 191.7672 | 7.8746 | 24.353x | 2.290x |
+| case | reference mean ms/step | optimized mean ms/step | speedup | equivalence | top optimized component |
+|---|---:|---:|---:|---|---|
+| medium_moderate | 491.1606 | 6.0169 | 81.630x | yes | `longitudinal_random_draws` |
+| medium_dense | 2761.7621 | 20.0826 | 137.520x | yes | `longitudinal_velocity_numba` |
+| wide_moderate | 1001.5073 | 10.0021 | 100.130x | yes | `longitudinal_random_draws` |
 
-Equivalence:
+Equivalence means both `state_equal=true` and `rng_next_draw_equal=true` in the benchmark output.
 
-- `state_equal=true`;
-- `rng_next_draw_equal=true`.
-
-Final Task 22+23 recommendation:
+Fresh recommendation:
 
 ```text
 keep OptimizedBackend supported and merge indexing fast path
 ```
 
-After Task 22+23, the main optimized-backend bottleneck moved from indexing/lane-ordering to lane-change proposal collection.
-
-Current top representative component:
-
-- `lane_change_proposals`.
+Current optimized bottleneck after the Numba velocity kernel is longitudinal-related overall: medium-density cases are dominated by scalar longitudinal RNG draw generation, while the dense case is dominated by the Numba longitudinal velocity kernel, primarily its collision-avoidance propagation work. Lane-change proposal collection is now secondary in the representative reduced-standard profile.
 
 ---
 

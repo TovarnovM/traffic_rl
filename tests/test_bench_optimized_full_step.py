@@ -52,6 +52,10 @@ def test_bench_optimized_cli_smoke(tmp_path) -> None:
     assert "per_repeat_ms_per_step" in case["reference"]
     assert "equivalence" in case and "state_equal" in case["equivalence"]
     assert "speedup_x" in case
+    components = case["optimized_profile"]["component_ms_per_step"]
+    if data["numba_available"]:
+        assert "longitudinal_random_draws" in components
+        assert "longitudinal_velocity_numba" in components
     assert "| case | vehicles | steps |" in out_md.read_text(encoding="utf-8")
 
 
