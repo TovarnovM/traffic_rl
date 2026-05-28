@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from snfs_traffic.core.indexing import build_lane_order, build_occupancy, compute_neighbors
+from snfs_traffic.core.indexing import build_body_occupancy, build_lane_order, build_occupancy
 from snfs_traffic.core.lane_change_reference import step_lane_change_reference
 from snfs_traffic.core.longitudinal_kernels import advance_positions_kernel, compute_longitudinal_velocities_kernel
 from snfs_traffic.core.params import SimulationParams
@@ -42,22 +42,27 @@ def step_longitudinal_reference(
 
     occupancy = build_occupancy(state, params)
     lane_order, lane_counts, lane_rank = build_lane_order(occupancy, n_vehicles=state.n_vehicles)
-    front_id, _, front_gap, _ = compute_neighbors(state, lane_order, lane_counts, lane_rank, topology)
 
     new_state = state.copy()
     new_state.changed_lane.fill(False)
     new_state.last_lane_delta.fill(0)
 
     new_state.vel = compute_longitudinal_velocities_kernel(
+        state.lane,
+        state.pos,
         state.vel,
+        state.length,
         state.alive,
         state.controlled,
-        front_id,
-        front_gap,
+        lane_order,
+        lane_counts,
+        lane_rank,
         road_length=params.road_length,
         vmax_default=params.vmax_default,
         vmax_controlled=params.vmax_controlled,
         G=params.G,
+        q=params.q,
+        P1=params.P1,
         S=params.S,
         r=params.r,
         P2=params.P2,
@@ -74,6 +79,7 @@ def step_longitudinal_reference(
 
     validate_state(new_state, params)
     build_occupancy(new_state, params)
+    build_body_occupancy(new_state, params)
     return new_state
 
 
@@ -101,4 +107,5 @@ def step_reference(
 
     validate_state(out, params)
     build_occupancy(out, params)
+    build_body_occupancy(out, params)
     return out

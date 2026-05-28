@@ -130,12 +130,46 @@ def make_uniform_random_state(
 
     capacity = num_lanes * road_length
     n_vehicles = int(np.floor(capacity * density))
-
-    flat_cells = rng.choice(capacity, size=n_vehicles, replace=False)
-    lane = np.asarray(flat_cells // road_length, dtype=LANE_DTYPE)
-    pos = np.asarray(flat_cells % road_length, dtype=POSITION_DTYPE)
-
     veh_type, behavior_id, controlled, length = _assign_vehicle_types(n_vehicles, mix, rng)
+    if int(length.astype(np.int64).sum()) > capacity:
+        raise ValueError("could not place non-overlapping vehicle bodies for requested density/mix")
+    lane = np.zeros(n_vehicles, dtype=LANE_DTYPE)
+    pos = np.zeros(n_vehicles, dtype=POSITION_DTYPE)
+    occ = np.zeros((num_lanes, road_length), dtype=bool)
+    max_attempts = 16
+    base_order = np.arange(n_vehicles, dtype=np.int64)
+    order = np.argsort(-length.astype(np.int64), kind="stable")
+    for _attempt in range(max_attempts):
+        occ.fill(False)
+        lane.fill(0)
+        pos.fill(0)
+        placed_all = True
+        if _attempt > 0:
+            order = order[rng.permutation(order.shape[0])]
+        for idx in order:
+            i = int(idx)
+            l_i = int(length[i])
+            candidates = rng.permutation(capacity)
+            placed = False
+            for flat in candidates:
+                li = int(flat // road_length)
+                pi = int(flat % road_length)
+                cells = [((pi + d) % road_length) for d in range(l_i)]
+                if any(occ[li, c] for c in cells):
+                    continue
+                lane[i] = li
+                pos[i] = pi
+                for c in cells:
+                    occ[li, c] = True
+                placed = True
+                break
+            if not placed:
+                placed_all = False
+                break
+        if placed_all:
+            break
+    else:
+        raise ValueError("could not place non-overlapping vehicle bodies for requested density/mix")
 
     return TrafficState(
         vehicle_id=np.arange(n_vehicles, dtype=VEHICLE_ID_DTYPE),

@@ -1,10 +1,10 @@
 """Reference indexing for periodic ring traffic states.
 
-This module intentionally implements HEAD-CELL indexing only:
+This module keeps head-cell indexing for lane ordering and also exposes length-aware body occupancy:
 `occupancy[lane, head_pos] = vehicle_index` for alive vehicles.
-Vehicle body cells for `length > 1` are not marked yet.
+Body occupancy is validated via `build_body_occupancy`.
 
-Gap outputs are also head-cell empty gaps and currently ignore vehicle length.
+Neighbor helpers remain head-order based; length-aware gap helpers are provided in indexing_kernels.
 Length-aware occupancy and bumper-to-bumper gaps are deferred.
 """
 
@@ -17,7 +17,10 @@ from snfs_traffic.core.indexing_kernels import (
     MISSING_GAP,
     MISSING_INDEX,
     build_lane_order_kernel,
+    build_body_occupancy_kernel,
     build_occupancy_kernel,
+    compute_cumulative_forward_gap_kernel,
+    compute_forward_empty_gap_kernel,
     compute_neighbors_kernel,
 )
 from snfs_traffic.core.params import SimulationParams
@@ -30,6 +33,18 @@ def build_occupancy(state: TrafficState, params: SimulationParams) -> np.ndarray
     return build_occupancy_kernel(
         state.lane,
         state.pos,
+        state.alive,
+        num_lanes=params.num_lanes,
+        road_length=params.road_length,
+    )
+
+
+def build_body_occupancy(state: TrafficState, params: SimulationParams) -> np.ndarray:
+    validate_state(state, params)
+    return build_body_occupancy_kernel(
+        state.lane,
+        state.pos,
+        state.length,
         state.alive,
         num_lanes=params.num_lanes,
         road_length=params.road_length,

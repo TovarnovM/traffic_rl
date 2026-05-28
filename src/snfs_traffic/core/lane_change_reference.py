@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from snfs_traffic.core.indexing import build_lane_order, build_occupancy, compute_neighbors
+from snfs_traffic.core.indexing import build_body_occupancy, build_lane_order, build_occupancy, compute_neighbors
 from snfs_traffic.core.lane_change_kernels import (
     apply_lane_changes_kernel,
     collect_lane_change_proposals_kernel,
@@ -40,6 +40,7 @@ def step_lane_change_reference(
     _validate_rng(rng)
 
     occupancy = build_occupancy(state, params)
+    body_occupancy = build_body_occupancy(state, params)
     lane_order, lane_counts, lane_rank = build_lane_order(occupancy, n_vehicles=state.n_vehicles)
     front_id, _back_id, front_gap, _back_gap = compute_neighbors(state, lane_order, lane_counts, lane_rank, topology)
 
@@ -47,9 +48,10 @@ def step_lane_change_reference(
         state.lane,
         state.pos,
         state.vel,
+        state.length,
         state.alive,
         state.controlled,
-        occupancy,
+        body_occupancy,
         lane_order,
         lane_counts,
         front_id,
@@ -78,4 +80,5 @@ def step_lane_change_reference(
 
     validate_state(out, params)
     build_occupancy(out, params)
+    build_body_occupancy(out, params)
     return out

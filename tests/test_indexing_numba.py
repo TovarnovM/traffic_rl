@@ -163,10 +163,10 @@ def test_numba_indexing_random_state_equivalence_across_densities():
             assert_tuple_arrays_equal(nb_numba, nb_kernel)
 
 
-def test_numba_indexing_intentionally_ignores_bus_body_cells():
+def test_numba_indexing_head_order_matches_public_with_nonunit_lengths():
     params = SimulationParams(num_lanes=3, road_length=30)
     topology = RingTopology(num_lanes=3, length=30)
-    mix = VehicleMix(bus_fraction=1.0, bus_length=3)
+    mix = VehicleMix(bus_fraction=0.5, bus_length=3)
     state = make_uniform_random_state(
         num_lanes=3,
         road_length=30,
@@ -175,7 +175,8 @@ def test_numba_indexing_intentionally_ignores_bus_body_cells():
         vehicle_mix=mix,
     )
 
-    assert np.all(state.length[state.alive] == 3)
+    assert np.any(state.length[state.alive] == 3)
+    assert np.any(state.length[state.alive] == 1)
 
     occ_public = build_occupancy(state, params)
     occ_numba = build_occupancy_numba(state.lane, state.pos, state.alive, num_lanes=3, road_length=30)
