@@ -201,18 +201,17 @@ def test_density_one_full_occupancy_no_changes():
     np.testing.assert_array_equal(out.vel, s.vel)
 
 
-def test_bus_length_ignored_intentionally_for_task7_head_cell_only():
-    """Length is intentionally ignored; lane-change uses only head-cell occupancy/gaps."""
+def test_bus_length_supported_with_body_aware_lane_change():
     p = _params(num_lanes=3, road_length=20)
     s = make_uniform_random_state(
         num_lanes=3,
         road_length=20,
         density=0.3,
         seed=123,
-        vehicle_mix=VehicleMix(bus_fraction=1.0, bus_length=3),
+        vehicle_mix=VehicleMix(bus_fraction=0.5, bus_length=3),
     )
     out = step_lane_change_reference(s, p, RingTopology(3, 20), np.random.default_rng(2))
-    assert np.all(out.length == 3)
+    assert np.any(out.length == 3)
     occ = build_occupancy(out, p)
     assert int((occ >= 0).sum()) == int(out.alive.sum())
 

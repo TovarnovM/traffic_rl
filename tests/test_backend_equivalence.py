@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from snfs_traffic.core import (
     ReferenceBackend,
@@ -117,12 +118,13 @@ def test_reference_backend_equivalence_rejects_unplaceable_bus_body_configuratio
     topology = RingTopology(num_lanes=3, length=30)
     backend = get_reference_backend()
 
-    mix = VehicleMix(bus_fraction=1.0, bus_length=3)
+    mix_impossible = VehicleMix(bus_fraction=1.0, bus_length=3)
+    with pytest.raises(ValueError, match="non-overlapping"):
+        make_uniform_random_state(num_lanes=3, road_length=30, density=0.4, seed=123, vehicle_mix=mix_impossible)
+
+    mix = VehicleMix(bus_fraction=0.5, bus_length=3)
     state_ref = make_uniform_random_state(num_lanes=3, road_length=30, density=0.4, seed=123, vehicle_mix=mix)
     state_backend = make_uniform_random_state(num_lanes=3, road_length=30, density=0.4, seed=123, vehicle_mix=mix)
-
-    assert np.all(state_ref.length[state_ref.alive] == 3)
-    assert np.all(state_backend.length[state_backend.alive] == 3)
 
     rng_ref = np.random.default_rng(456)
     rng_backend = np.random.default_rng(456)

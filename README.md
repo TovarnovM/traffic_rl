@@ -468,8 +468,8 @@ Current top representative component:
 
 The current simulator intentionally uses simplified head-cell semantics:
 
-- occupancy is head-cell-only;
-- gaps are head-cell-only;
+- body occupancy is length-aware for validity/collision checks while head occupancy still drives lane ordering;
+- longitudinal and lane-change gaps use length-aware empty-cell conventions;
 - vehicle length is not used for occupancy/gap/collision geometry;
 - bus body cells are not modeled as occupied cells;
 - lane changes are lateral only and do not move longitudinal position;
@@ -529,7 +529,7 @@ PYTHONPATH=src python -m snfs_traffic.visualization.demo \
   --controlled-fraction 0.03
 ```
 
-Visualization is a tooling side-feature: it observes `TrafficState` snapshots, does not step the simulator, does not consume RNG, and uses visual-only interpolation between discrete simulator steps. Default drawing uses head-cell-only bodies to match current simulator semantics. `body_mode="state_length"` only changes rendering and does not change collision/occupancy semantics.
+Visualization is a tooling side-feature: it observes `TrafficState` snapshots, does not step the simulator, does not consume RNG, and uses visual-only interpolation between discrete simulator steps. Default drawing can use state lengths; visualization does not alter simulator collision semantics. `body_mode="state_length"` only changes rendering and does not change collision/occupancy semantics.
 
 ```python
 import numpy as np

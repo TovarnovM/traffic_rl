@@ -205,7 +205,14 @@ def test_runtime_invariants_reject_unplaceable_bus_body_configuration():
             seed=11,
             vehicle_mix=VehicleMix(bus_fraction=1.0, bus_length=3),
         )
-    assert np.all(state.length[state.alive] == 3)
+    state = make_uniform_random_state(
+        num_lanes=3,
+        road_length=30,
+        density=0.4,
+        seed=11,
+        vehicle_mix=VehicleMix(bus_fraction=0.5, bus_length=3),
+    )
+    assert np.any(state.length[state.alive] == 3)
 
     rng = np.random.default_rng(12)
     for _ in range(20):

@@ -1,10 +1,10 @@
 """Reference indexing for periodic ring traffic states.
 
-This module intentionally implements HEAD-CELL indexing only:
+This module keeps head-cell indexing for lane ordering and also exposes length-aware body occupancy:
 `occupancy[lane, head_pos] = vehicle_index` for alive vehicles.
-Vehicle body cells for `length > 1` are not marked yet.
+Body occupancy is validated via `build_body_occupancy`.
 
-Gap outputs are also head-cell empty gaps and currently ignore vehicle length.
+Neighbor helpers remain head-order based; length-aware gap helpers are provided in indexing_kernels.
 Length-aware occupancy and bumper-to-bumper gaps are deferred.
 """
 

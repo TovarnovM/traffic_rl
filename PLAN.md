@@ -165,7 +165,7 @@ Completed:
 
 Current limitation:
 
-- head-cell-only occupancy;
+- length-aware body occupancy validation plus head-order indexing;
 - no length-aware geometry;
 - no body-cell collision geometry.
 

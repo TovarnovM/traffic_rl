@@ -1,4 +1,4 @@
-"""Runtime invariant checks for reference traffic states."""
+"""Runtime invariant checks for reference traffic states (length-aware body occupancy)."""
 
 from __future__ import annotations
 

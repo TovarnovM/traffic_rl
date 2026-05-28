@@ -262,15 +262,18 @@ def test_density_one_full_occupancy_indexing() -> None:
 
 def test_bus_length_unplaceable_configuration_rejected() -> None:
     mix = VehicleMix(bus_fraction=1.0, bus_length=3)
-    import pytest
     with pytest.raises(ValueError, match="non-overlapping"):
         make_uniform_random_state(num_lanes=1, road_length=10, density=0.5, seed=123, vehicle_mix=mix)
-    params = SimulationParams(num_lanes=1, road_length=10)
-
-    occupancy = build_occupancy(state, params)
-
-    assert np.all(state.length == 3)
-    assert int((occupancy >= 0).sum()) == state.n_vehicles
+    feasible = make_uniform_random_state(
+        num_lanes=3,
+        road_length=30,
+        density=0.4,
+        seed=123,
+        vehicle_mix=VehicleMix(bus_fraction=0.5, bus_length=3),
+    )
+    params = SimulationParams(num_lanes=3, road_length=30)
+    occupancy = build_occupancy(feasible, params)
+    assert int((occupancy >= 0).sum()) == feasible.n_vehicles
 
 
 def test_public_imports_indexing_api() -> None:

@@ -20,8 +20,13 @@ def target_lane_neighbors_at_pos_kernel(pos, lane_order, lane_counts, *, target_
 def eligible_target_lanes_for_vehicle_kernel(lane, pos, vel, length, alive, controlled, body_occupancy, lane_order, lane_counts, front_id, front_gap, *, vehicle_index, num_lanes, road_length, vmax_default, vmax_controlled):
     i=vehicle_index; lane_i=int(lane[i]); pos_i=int(pos[i]); v_i=int(vel[i]); l_i=int(length[i])
     vmax_i = int(vmax_controlled if controlled[i] else vmax_default)
-    if int(front_id[i]) == MISSING_INDEX: g_pf=road_length-l_i; v_p_front=vmax_i
-    else: g_pf=int(front_gap[i]); v_p_front=int(vel[int(front_id[i])])
+    if int(front_id[i]) == MISSING_INDEX:
+        g_pf = road_length - l_i
+        v_p_front = vmax_i
+    else:
+        pf = int(front_id[i])
+        g_pf = int((int(pos[pf]) - pos_i - l_i) % road_length)
+        v_p_front = int(vel[pf])
     eligible=[]
     for lane_delta in (-1,1):
         target_lane=lane_i+lane_delta
