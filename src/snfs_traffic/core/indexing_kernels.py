@@ -35,6 +35,30 @@ def build_occupancy_kernel(
     return occupancy
 
 
+def build_body_occupancy_kernel(
+    lane: np.ndarray,
+    pos: np.ndarray,
+    length: np.ndarray,
+    alive: np.ndarray,
+    *,
+    num_lanes: int,
+    road_length: int,
+) -> np.ndarray:
+    occupancy = np.full((num_lanes, road_length), MISSING_INDEX, dtype=INDEX_DTYPE)
+    for i in range(int(lane.shape[0])):
+        if not alive[i]:
+            continue
+        li = int(lane[i])
+        pi = int(pos[i])
+        l = int(length[i])
+        for d in range(l):
+            c = (pi + d) % road_length
+            if occupancy[li, c] != MISSING_INDEX:
+                raise ValueError(f"overlapping occupied body cell at lane={li}, pos={c}")
+            occupancy[li, c] = i
+    return occupancy
+
+
 def build_lane_order_kernel(occupancy: np.ndarray, *, n_vehicles: int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     num_lanes, road_length = occupancy.shape
     lane_order = np.full((num_lanes, road_length), MISSING_INDEX, dtype=INDEX_DTYPE)
@@ -95,3 +119,80 @@ def compute_neighbors_kernel(
         back_gap[i] = int((int(pos[i]) - int(pos[back_idx])) % road_length - 1)
 
     return front_id, back_id, front_gap, back_gap
+
+
+def compute_forward_empty_gap_kernel(
+    i: int,
+    pos: np.ndarray,
+    length: np.ndarray,
+    lane_order: np.ndarray,
+    lane_counts: np.ndarray,
+    lane_rank: np.ndarray,
+    *,
+    road_length: int,
+) -> int:
+    lane_i = int(lane_order.shape[0] and 0)  # no-op for lint friendliness
+    _ = lane_i
+    rank = int(lane_rank[i])
+    lane = -1
+    for l in range(lane_order.shape[0]):
+        c = int(lane_counts[l])
+        if c <= 0:
+            continue
+        if rank < c and int(lane_order[l, rank]) == i:
+            lane = l
+            break
+    if lane < 0:
+        # fallback: search lane membership by scan
+        for l in range(lane_order.shape[0]):
+            c = int(lane_counts[l])
+            for r in range(c):
+                if int(lane_order[l, r]) == i:
+                    lane = l
+                    rank = r
+                    break
+            if lane >= 0:
+                break
+    count = int(lane_counts[lane])
+    if count <= 1:
+        return int(road_length - int(length[i]))
+    front = int(lane_order[lane, (rank + 1) % count])
+    return int((int(pos[front]) - int(pos[i]) - int(length[i])) % road_length)
+
+
+def compute_cumulative_forward_gap_kernel(
+    i: int,
+    k: int,
+    pos: np.ndarray,
+    length: np.ndarray,
+    lane_order: np.ndarray,
+    lane_counts: np.ndarray,
+    lane_rank: np.ndarray,
+    *,
+    road_length: int,
+) -> int:
+    if k <= 0:
+        return 0
+    total = 0
+    cur = int(i)
+    for _ in range(int(k)):
+        g1 = compute_forward_empty_gap_kernel(cur, pos, length, lane_order, lane_counts, lane_rank, road_length=road_length)
+        total += int(g1)
+        lane = -1
+        rank = -1
+        for l in range(lane_order.shape[0]):
+            c = int(lane_counts[l])
+            for r in range(c):
+                if int(lane_order[l, r]) == cur:
+                    lane = l
+                    rank = r
+                    break
+            if lane >= 0:
+                break
+        if lane < 0:
+            break
+        count = int(lane_counts[lane])
+        if count <= 0:
+            break
+        cur = int(lane_order[lane, (rank + 1) % count])
+    return int(max(0, total))

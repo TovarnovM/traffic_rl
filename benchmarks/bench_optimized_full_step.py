@@ -15,7 +15,7 @@ import numpy as np
 
 from bench_full_step_phases import get_cases
 from snfs_traffic.backends import get_backend
-from snfs_traffic.core import SimulationParams, step_reference
+from snfs_traffic.core import SimulationParams, build_lane_order, build_occupancy, step_reference
 from snfs_traffic.core.lane_change_numba import NUMBA_AVAILABLE
 from snfs_traffic.scenarios import make_uniform_random_state
 from snfs_traffic.topology import RingTopology
@@ -105,7 +105,7 @@ def _run_optimized_profiled_rollout(case) -> tuple[dict[str, float], object]:
         totals_ns["lane_change_proposals"] += perf_counter_ns() - t
 
         t = perf_counter_ns()
-        accepted = resolve_lane_change_conflicts_kernel(proposals, rng)
+        accepted = resolve_lane_change_conflicts_kernel(proposals, rng, pos=state.pos, length=state.length, road_length=params.road_length)
         totals_ns["conflict_resolution"] += perf_counter_ns() - t
 
         t = perf_counter_ns()
@@ -126,9 +126,11 @@ def _run_optimized_profiled_rollout(case) -> tuple[dict[str, float], object]:
         totals_ns["post_lane_change_index_neighbors_fused"] += perf_counter_ns() - t
 
         t = perf_counter_ns()
-        new_vel = compute_longitudinal_velocities_kernel(after_lane.vel, after_lane.alive, after_lane.controlled, front_id2, front_gap2,
+        occupancy2 = build_occupancy(after_lane, params)
+        lane_order2, lane_counts2, lane_rank2 = build_lane_order(occupancy2, n_vehicles=after_lane.n_vehicles)
+        new_vel = compute_longitudinal_velocities_kernel(after_lane.lane, after_lane.pos, after_lane.vel, after_lane.length, after_lane.alive, after_lane.controlled, lane_order2, lane_counts2, lane_rank2,
             road_length=params.road_length, vmax_default=params.vmax_default, vmax_controlled=params.vmax_controlled,
-            G=params.G, S=params.S, r=params.r, P2=params.P2, P3=params.P3, P4=params.P4, rng=rng)
+            G=params.G, q=params.q, r=params.r, S=params.S, P1=params.P1, P2=params.P2, P3=params.P3, P4=params.P4, rng=rng)
         totals_ns["longitudinal_velocity"] += perf_counter_ns() - t
 
         t = perf_counter_ns()

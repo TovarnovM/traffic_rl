@@ -193,17 +193,26 @@ def test_validate_runtime_invariants_rejects_invalid_velocity_bounds():
         validate_runtime_invariants(bad3, params, topology)
 
 
-def test_runtime_invariants_intentionally_ignore_bus_body_cells():
+def test_runtime_invariants_reject_unplaceable_bus_body_configuration():
     params = _params(num_lanes=3, road_length=30)
     topology = RingTopology(num_lanes=3, length=30)
+    import pytest
+    with pytest.raises(ValueError, match="non-overlapping"):
+        make_uniform_random_state(
+            num_lanes=3,
+            road_length=30,
+            density=0.4,
+            seed=11,
+            vehicle_mix=VehicleMix(bus_fraction=1.0, bus_length=3),
+        )
     state = make_uniform_random_state(
         num_lanes=3,
         road_length=30,
         density=0.4,
         seed=11,
-        vehicle_mix=VehicleMix(bus_fraction=1.0, bus_length=3),
+        vehicle_mix=VehicleMix(bus_fraction=0.5, bus_length=3),
     )
-    assert np.all(state.length[state.alive] == 3)
+    assert np.any(state.length[state.alive] == 3)
 
     rng = np.random.default_rng(12)
     for _ in range(20):

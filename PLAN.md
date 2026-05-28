@@ -4,10 +4,10 @@ Current state: after Tasks 1–23, including Task 22+23 follow-up.
 
 The project is a clean, array-based Revised S-NFS-style traffic simulator core intended for future reinforcement-learning experiments. It currently has a reliable reference simulator, a supported optional optimized backend, backend selection, correctness tests, RNG-parity checks, runtime invariant checks, and benchmark/report infrastructure.
 
-Important semantic note: the current longitudinal phase is intentionally a
-simplified S-NFS-style variant (reference-defined behavior), not paper-exact
-Revised S-NFS. Parameters `q` and `P1` are retained in `SimulationParams` for
-compatibility but are currently unused by longitudinal dynamics.
+Important semantic note: the current longitudinal phase implements the full
+Revised S-NFS phase order in the reference backend. `q` controls slow-to-start,
+`r/S` controls stochastic look-ahead, and `P1..P4` are keep-speed probabilities
+for random braking (`1 - Pk` braking probability).
 
 The project is ready to begin RL environment preparation, but not ready for RL training yet.
 
@@ -165,9 +165,9 @@ Completed:
 
 Current limitation:
 
-- head-cell-only occupancy;
-- no length-aware geometry;
-- no body-cell collision geometry.
+- head ordering remains head-based;
+- body occupancy/gap validation is length-aware;
+- optimized backend falls back to reference for non-unit lengths.
 
 ### 3.5 Lane-change phase
 

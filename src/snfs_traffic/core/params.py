@@ -11,8 +11,8 @@ from .types import VELOCITY_DTYPE
 class SimulationParams:
     """Validated simulation parameters.
 
-    Note: `q` and `P1` are kept for API compatibility with Revised S-NFS
-    notation, but are currently reserved/unused by longitudinal dynamics.
+    Implements full Revised S-NFS parameters. Random braking uses keep-speed
+    probabilities P1..P4, i.e. braking probability is (1 - Pk).
     """
     num_lanes: int
     road_length: int

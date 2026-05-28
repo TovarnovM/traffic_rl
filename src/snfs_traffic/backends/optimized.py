@@ -10,7 +10,7 @@ from snfs_traffic.core.longitudinal_kernels import compute_longitudinal_velociti
 from snfs_traffic.core.longitudinal_numba import NUMBA_AVAILABLE as LONG_NUMBA_AVAILABLE, advance_positions_numba
 from snfs_traffic.core.params import SimulationParams
 from snfs_traffic.core.state import TrafficState, validate_state
-from snfs_traffic.core.indexing import build_occupancy
+from snfs_traffic.core.indexing import build_lane_order, build_occupancy
 from snfs_traffic.core.step_reference import step_reference
 from snfs_traffic.topology import RingTopology
 
@@ -46,6 +46,8 @@ class OptimizedBackend:
 
         if not (INDEX_NUMBA_AVAILABLE and LANE_NUMBA_AVAILABLE and LONG_NUMBA_AVAILABLE):
             return step_reference(state, params, topology, rng)
+        if np.any(state.length[state.alive] != 1):
+            return step_reference(state, params, topology, rng)
         occupancy, lane_order, lane_counts, _, front_id, _, front_gap, _ = build_index_and_neighbors_numba(
             state.lane, state.pos, state.alive, num_lanes=params.num_lanes, road_length=params.road_length
         )
@@ -55,15 +57,19 @@ class OptimizedBackend:
             num_lanes=params.num_lanes, road_length=params.road_length, vmax_default=params.vmax_default,
             vmax_controlled=params.vmax_controlled, p_lane_change=params.p_lane_change, rng=rng
         )
-        accepted = resolve_lane_change_conflicts_kernel(proposals, rng)
+        accepted = resolve_lane_change_conflicts_kernel(
+            proposals, rng, pos=state.pos, length=state.length, road_length=params.road_length
+        )
         new_lane, new_changed_lane, new_last_lane_delta = apply_lane_changes_kernel(state.lane, state.changed_lane, state.last_lane_delta, accepted)
         after_lane = state.copy(); after_lane.lane = new_lane; after_lane.changed_lane = new_changed_lane; after_lane.last_lane_delta = new_last_lane_delta
         _, _, _, _, front_id2, _, front_gap2, _ = build_index_and_neighbors_numba(
             after_lane.lane, after_lane.pos, after_lane.alive, num_lanes=params.num_lanes, road_length=params.road_length
         )
-        new_vel = compute_longitudinal_velocities_kernel(after_lane.vel, after_lane.alive, after_lane.controlled, front_id2, front_gap2,
+        occupancy2 = build_occupancy(after_lane, params)
+        lane_order2, lane_counts2, lane_rank2 = build_lane_order(occupancy2, n_vehicles=after_lane.n_vehicles)
+        new_vel = compute_longitudinal_velocities_kernel(after_lane.lane, after_lane.pos, after_lane.vel, after_lane.length, after_lane.alive, after_lane.controlled, lane_order2, lane_counts2, lane_rank2,
             road_length=params.road_length, vmax_default=params.vmax_default, vmax_controlled=params.vmax_controlled,
-            G=params.G, S=params.S, r=params.r, P2=params.P2, P3=params.P3, P4=params.P4, rng=rng)
+            G=params.G, q=params.q, r=params.r, S=params.S, P1=params.P1, P2=params.P2, P3=params.P3, P4=params.P4, rng=rng)
         new_pos = advance_positions_numba(after_lane.pos, new_vel, after_lane.alive, road_length=params.road_length)
         out = after_lane.copy(); out.vel = new_vel; out.pos = new_pos
         validate_state(out, params)

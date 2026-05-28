@@ -220,17 +220,16 @@ def test_density_one_full_occupancy_remains_valid():
     assert int((occ >= 0).sum()) == int(out.alive.sum())
 
 
-def test_bus_length_ignored_intentionally_for_current_reference_full_step():
-    """Length is intentionally ignored for current full-step occupancy/gap semantics."""
+def test_bus_length_supported_with_body_aware_full_step():
     p = _params(num_lanes=3, road_length=30)
     s = make_uniform_random_state(
         num_lanes=3,
         road_length=30,
         density=0.3,
         seed=123,
-        vehicle_mix=VehicleMix(bus_fraction=1.0, bus_length=3),
+        vehicle_mix=VehicleMix(bus_fraction=0.5, bus_length=3),
     )
     out = step_reference(s, p, RingTopology(3, 30), np.random.default_rng(2))
-    assert np.all(out.length == 3)
+    assert np.any(out.length == 3)
     occ = build_occupancy(out, p)
     assert int((occ >= 0).sum()) == int(out.alive.sum())

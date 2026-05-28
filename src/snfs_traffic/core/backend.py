@@ -10,11 +10,11 @@ Contract requirements:
 - Randomness must be consumed only from the provided ``rng`` argument.
 - For the same initial state and RNG seed, backend output must match
   ``step_reference``.
-- Occupancy/collision/gap semantics remain head-cell-only.
+- Reference semantics are length-aware for body occupancy/gaps; optimized backend falls back to reference for non-unit lengths.
 - ``changed_lane`` / ``last_lane_delta`` semantics must describe lateral
   movement during the returned full step.
 - Controlled RL action semantics are not implemented.
-- Length-aware occupancy and body-cell geometry are not implemented.
+- Optimized backend currently falls back to reference for non-unit vehicle lengths.
 """
 
 from __future__ import annotations
