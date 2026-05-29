@@ -9,6 +9,12 @@ from snfs_traffic.core import SimulationParams, TrafficState
 from snfs_traffic.core.indexing import MISSING_INDEX, build_body_occupancy, build_lane_order, build_occupancy, compute_neighbors
 from snfs_traffic.core.indexing_kernels import compute_cumulative_forward_gap_kernel
 from snfs_traffic.core.longitudinal_kernels import advance_positions_kernel
+from snfs_traffic.core.longitudinal_numba import (
+    NUMBA_AVAILABLE as LONG_NUMBA_AVAILABLE,
+    advance_positions_numba,
+    compute_longitudinal_velocities_controlled_speed_numba,
+    draw_longitudinal_randoms,
+)
 from snfs_traffic.core.lane_change_kernels import (
     apply_lane_changes_kernel,
     collect_lane_change_proposals_kernel,
@@ -364,7 +370,92 @@ def _step_longitudinal_with_controlled_speed_actions_reference(
 
     return new_state, desired, applied, clipped
 
-def step_with_controlled_lateral_actions_reference(state: TrafficState, params: SimulationParams, topology: RingTopology, rng: np.random.Generator, actions, *, require_all_controlled: bool = True):
+
+def _step_longitudinal_with_controlled_speed_actions_optimized(
+    state: TrafficState,
+    params: SimulationParams,
+    topology: RingTopology,
+    rng: np.random.Generator,
+    normalized: ControlledActionBatch,
+) -> tuple[TrafficState, np.ndarray, np.ndarray, np.ndarray, bool]:
+    if not LONG_NUMBA_AVAILABLE or np.any(state.length[state.alive] != 1):
+        out, desired, applied, clipped = _step_longitudinal_with_controlled_speed_actions_reference(
+            state, params, topology, rng, normalized
+        )
+        return out, desired, applied, clipped, True
+
+    occupancy = build_occupancy(state, params)
+    lane_order, lane_counts, lane_rank = build_lane_order(occupancy, n_vehicles=state.n_vehicles)
+    n = state.n_vehicles
+    speed_delta_by_idx = np.zeros(n, dtype=np.int8)
+    has_speed_delta_by_idx = np.zeros(n, dtype=np.bool_)
+    vid_to_idx = {int(v): i for i, v in enumerate(state.vehicle_id)}
+    for row, vid in enumerate(normalized.vehicle_id):
+        idx = vid_to_idx[int(vid)]
+        if bool(normalized.speed_delta_provided[row]):
+            speed_delta_by_idx[idx] = np.int8(normalized.speed_delta[row])
+            has_speed_delta_by_idx[idx] = True
+
+    u_s, u_q, u_b = draw_longitudinal_randoms(state.alive, rng)
+    new_vel, desired_by_idx = compute_longitudinal_velocities_controlled_speed_numba(
+        state.lane,
+        state.pos,
+        state.vel,
+        state.alive,
+        state.controlled,
+        has_speed_delta_by_idx,
+        speed_delta_by_idx,
+        lane_order,
+        lane_counts,
+        lane_rank,
+        u_s,
+        u_q,
+        u_b,
+        road_length=params.road_length,
+        vmax_default=params.vmax_default,
+        vmax_controlled=params.vmax_controlled,
+        G=params.G,
+        q=params.q,
+        r=params.r,
+        S=params.S,
+        P1=params.P1,
+        P2=params.P2,
+        P3=params.P3,
+        P4=params.P4,
+    )
+
+    new_state = state.copy()
+    new_state.changed_lane.fill(False)
+    new_state.last_lane_delta.fill(0)
+    new_state.vel = new_vel.astype(state.vel.dtype, copy=False)
+    new_state.pos = advance_positions_numba(state.pos, new_state.vel, state.alive, road_length=params.road_length)
+
+    validate_state(new_state, params)
+    build_occupancy(new_state, params)
+    build_body_occupancy(new_state, params)
+
+    desired = np.zeros(normalized.vehicle_id.shape[0], dtype=state.vel.dtype)
+    applied = np.zeros(normalized.vehicle_id.shape[0], dtype=state.vel.dtype)
+    clipped = np.zeros(normalized.vehicle_id.shape[0], dtype=np.bool_)
+    for row, vid in enumerate(normalized.vehicle_id):
+        idx = vid_to_idx[int(vid)]
+        desired[row] = np.asarray(desired_by_idx[idx], dtype=state.vel.dtype)
+        applied[row] = new_state.vel[idx]
+        clipped[row] = bool(normalized.speed_delta_provided[row] and int(desired_by_idx[idx]) > int(new_state.vel[idx]))
+
+    return new_state, desired, applied, clipped, False
+
+
+def _step_with_controlled_lateral_actions(
+    state: TrafficState,
+    params: SimulationParams,
+    topology: RingTopology,
+    rng: np.random.Generator,
+    actions,
+    *,
+    require_all_controlled: bool,
+    optimized_speed_longitudinal: bool,
+):
     if not isinstance(topology, RingTopology):
         raise ValueError("topology must be RingTopology")
     if topology.boundary != "periodic":
@@ -461,10 +552,16 @@ def step_with_controlled_lateral_actions_reference(state: TrafficState, params: 
     desired_velocity = None
     applied_velocity = None
     speed_clipped_by_safety = None
+    used_reference_longitudinal = True
     if np.any(normalized.speed_delta_provided):
-        out, desired_velocity, applied_velocity, speed_clipped_by_safety = _step_longitudinal_with_controlled_speed_actions_reference(
-            after_lane_change, params, topology, rng, normalized
-        )
+        if optimized_speed_longitudinal:
+            out, desired_velocity, applied_velocity, speed_clipped_by_safety, used_reference_longitudinal = _step_longitudinal_with_controlled_speed_actions_optimized(
+                after_lane_change, params, topology, rng, normalized
+            )
+        else:
+            out, desired_velocity, applied_velocity, speed_clipped_by_safety = _step_longitudinal_with_controlled_speed_actions_reference(
+                after_lane_change, params, topology, rng, normalized
+            )
         requested_speed_delta = normalized.speed_delta.copy()
     else:
         out = step_longitudinal_reference(after_lane_change, params, topology, rng)
@@ -485,4 +582,29 @@ def step_with_controlled_lateral_actions_reference(state: TrafficState, params: 
         applied_velocity=applied_velocity,
         speed_clipped_by_safety=speed_clipped_by_safety,
     )
+    return out, result, used_reference_longitudinal
+
+
+def step_with_controlled_lateral_actions_reference(state: TrafficState, params: SimulationParams, topology: RingTopology, rng: np.random.Generator, actions, *, require_all_controlled: bool = True):
+    out, result, _ = _step_with_controlled_lateral_actions(
+        state,
+        params,
+        topology,
+        rng,
+        actions,
+        require_all_controlled=require_all_controlled,
+        optimized_speed_longitudinal=False,
+    )
     return out, result
+
+
+def step_with_controlled_lateral_actions_optimized(state: TrafficState, params: SimulationParams, topology: RingTopology, rng: np.random.Generator, actions, *, require_all_controlled: bool = True):
+    return _step_with_controlled_lateral_actions(
+        state,
+        params,
+        topology,
+        rng,
+        actions,
+        require_all_controlled=require_all_controlled,
+        optimized_speed_longitudinal=True,
+    )
