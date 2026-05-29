@@ -17,7 +17,7 @@ longitudinal phase order in `step_reference(...)`: stochastic look-ahead via
 `r/S`, slow-to-start via `q`, perspective capping, `P1..P4` keep-speed braking
 branches, and leader-safe collision avoidance.
 
-The project is **not yet a full RL environment package**. Facade-level controlled lateral actions and local controlled-only observations are implemented, while rewards, episode semantics, Gymnasium/RLlib/PettingZoo wrappers, and full environment packaging are still planned/not implemented.
+The project is **not yet a full RL training package**. Facade-level controlled lateral actions, local controlled-only observations, an MVP reward/episode contract, and a minimal Gymnasium single-controlled-vehicle wrapper are implemented. RLlib/PettingZoo wrappers and training smoke runs are still planned/not implemented.
 
 ---
 
@@ -31,7 +31,7 @@ Current conclusion:
 - `ReferenceBackend` remains the simple reference implementation.
 - `OptimizedBackend` is a supported optional backend when required Numba kernels are available.
 - Numba remains optional. The base package must import and run without Numba installed.
-- The project is ready to begin RL environment preparation, but not ready for RL training yet.
+- The project has an MVP RL environment layer, but is not ready for RL training yet.
 
 Current readiness estimate:
 
@@ -42,9 +42,11 @@ Current readiness estimate:
 | Optional optimized backend | Supported, benchmarked, fallback-safe |
 | RL action semantics | Implemented (lateral controlled facade/reference path) |
 | Observation contract | Implemented (local controlled-only schema) |
-| Reward contract | Not implemented |
+| Reward contract | Implemented (MVP speed/lane-change/blocked/stopped components) |
+| Episode lifecycle | Implemented (fixed-horizon truncation plus optional no-alive termination) |
 | Simulator facade | Implemented |
-| Gymnasium/RLlib wrappers | Not implemented |
+| Gymnasium wrapper | Implemented (single controlled vehicle, lateral-only `Discrete(3)`) |
+| RLlib/PettingZoo wrappers | Not implemented |
 
 ---
 
@@ -85,6 +87,16 @@ Current readiness estimate:
 - Graceful fallback to reference semantics when required Numba kernels are unavailable.
 - Explicit reference fallback when any alive vehicle has `length != 1`.
 
+### RL-facing MVP
+
+- Reward schema in `snfs_traffic.rl.rewards` with components: `speed_reward`, `lane_change_penalty`, `blocked_action_penalty`, `stopped_penalty`, and `total`.
+- Episode lifecycle helpers in `snfs_traffic.rl.episode`; periodic ring-road episodes are fixed-horizon by default (`terminated=False` in normal operation, `truncated=True` at `max_steps`).
+- Stable reset/step info schema with JSON-friendly scalar metrics.
+- Optional Gymnasium wrapper `snfs_traffic.rl.env.SnfsTrafficEnv` for exactly one controlled vehicle.
+- Action space is lateral-only `Discrete(3)`: `0=keep lane`, `1=request left`, `2=request right`.
+- Observation space is a Gymnasium `Dict` using the existing local controlled-only observation vector plus lateral action mask.
+- RL training (PPO/SAC/etc.), RLlib wrappers, and PettingZoo/multi-agent wrappers remain out of scope.
+
 ### Correctness validation
 
 - Reference-vs-backend equivalence tests.
@@ -111,10 +123,6 @@ Current readiness estimate:
 
 ### RL-facing layer
 
-- Reward schema.
-- Episode semantics.
-- Metrics/info schema for RL rollouts.
-- Gymnasium environments.
 - RLlib wrappers.
 - PettingZoo/multi-agent wrappers.
 
@@ -147,6 +155,12 @@ Install with optional Numba support:
 
 ```bash
 python -m pip install -e ".[numba]"
+```
+
+Install with optional RL/Gymnasium support:
+
+```bash
+python -m pip install -e ".[rl]"
 ```
 
 No-install local development alternative:
@@ -202,7 +216,8 @@ src/snfs_traffic/
   topology/       # RingTopology and topology interfaces
   scenarios/      # initial state generation and vehicle mix metadata
   rules/          # reserved for rule/preset layer
-  observations/   # reserved for future observation builders
+  observations/   # local controlled-only observation schema
+  rl/             # reward, episode/info helpers, Gymnasium single-controlled env
   envs/           # reserved for future RL environment wrappers
   metrics/        # reserved for future rollout metrics
   io/             # reserved for future snapshots/export/import
@@ -393,6 +408,33 @@ Optimized kernels and optimized backends must be compared against this reference
 
 ---
 
+## Minimal Gymnasium MVP
+
+Install the optional RL extra before importing the Gymnasium wrapper:
+
+```bash
+python -m pip install -e ".[rl]"
+```
+
+```python
+from snfs_traffic.rl.env import SnfsTrafficEnv
+
+env = SnfsTrafficEnv(backend="reference", seed=123)
+obs, info = env.reset(seed=123)
+obs, reward, terminated, truncated, info = env.step(0)
+```
+
+MVP environment contract:
+
+- one controlled vehicle per environment;
+- lateral-only action space `Discrete(3)`: `0=keep lane`, `1=request left`, `2=request right`;
+- observation space is a Gymnasium `Dict` with the existing local controlled-only observation vector and action mask;
+- reward is deterministic and includes `speed_reward`, `lane_change_penalty`, `blocked_action_penalty`, `stopped_penalty`, and `total`;
+- current periodic ring-road episodes are fixed-horizon by default (`terminated=False` during normal operation, `truncated=True` at `max_steps`);
+- RL training, RLlib, and PettingZoo are not implemented in this MVP.
+
+---
+
 ## Benchmarking
 
 Indexing benchmark:
@@ -469,7 +511,7 @@ The current simulator uses length-aware body validity with head-based lane order
 - head ordering remains based on head cells for indexing;
 - lane changes are lateral only and do not move longitudinal position;
 - there are no same-step lateral swaps into previously occupied target cells;
-- controlled vehicles support facade-level lateral actions; full RL reward/episode/env semantics are not implemented;
+- controlled vehicles support facade-level lateral actions plus MVP reward/episode/Gymnasium wrapper semantics; full RL training stacks are not implemented;
 - open-boundary roads are not implemented;
 - current runtime invariants validate current reference semantics, not future length-aware geometry.
 
@@ -496,12 +538,12 @@ These limitations are intentional for the current core stage. Do not change them
 
 Next roadmap:
 
-1. reward schema;
-2. episode reset/termination/truncation contract;
-3. Gymnasium wrapper;
-4. optional optimized controlled-action path after profiling.
+1. random-policy smoke / tiny training smoke for the single-controlled Gymnasium MVP;
+2. training-facing polish discovered by that smoke;
+3. optional optimized controlled-action path after profiling;
+4. RLlib/PettingZoo wrappers only after the single-agent environment remains stable.
 
-The next architectural step should not be another low-level optimization pass unless performance becomes a blocker. The project is ready to continue RL-environment preparation, but not ready for RL training yet.
+The next architectural step should not be another low-level optimization pass unless performance becomes a blocker. The project has an MVP RL environment layer, but is not ready for full RL training workflows yet.
 
 
 ## Visualization

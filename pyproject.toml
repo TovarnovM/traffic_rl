@@ -28,6 +28,9 @@ viz = [
 numba = [
     "numba>=0.61",
 ]
+rl = [
+    "gymnasium>=0.29",
+]
 infra = [
     "optuna>=3.6",
     "sqlalchemy>=2.0",
