@@ -505,6 +505,21 @@ python benchmarks/bench_optimized_full_step.py \
   --out-md reports/full_rev_snfs_numba/optimized_reduced_standard.md
 ```
 
+Speed-control optimized rollout benchmark:
+
+```bash
+PYTHONPATH=src python benchmarks/bench_speed_control_rollout.py \
+  --road-length 1000 \
+  --num-lanes 4 \
+  --density 0.30 \
+  --num-controlled 1000 \
+  --steps 500 \
+  --warmup-steps 20 \
+  --seed 123
+```
+
+This compares `backend="reference"` and `backend="optimized"` for `SnfsTrafficSpeedControlMultiAgentEnv` with `MultiDiscrete([3, 3])` speed-control actions.
+
 Benchmark numbers are environment-dependent. Use them for relative comparison inside the same environment, not as absolute production-performance claims.
 
 ---
