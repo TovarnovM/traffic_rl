@@ -7,6 +7,7 @@ __all__ = [
     "EpisodeConfig",
     "RewardConfig",
     "SnfsTrafficEnv",
+    "SnfsTrafficMultiAgentEnv",
     "build_reset_info",
     "build_step_info",
     "compute_controlled_reward",
@@ -19,4 +20,8 @@ def __getattr__(name: str):
         from snfs_traffic.rl.env import SnfsTrafficEnv
 
         return SnfsTrafficEnv
+    if name == "SnfsTrafficMultiAgentEnv":
+        from snfs_traffic.rl.multiagent_env import SnfsTrafficMultiAgentEnv
+
+        return SnfsTrafficMultiAgentEnv
     raise AttributeError(name)
