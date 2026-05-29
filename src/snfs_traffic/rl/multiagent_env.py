@@ -166,13 +166,9 @@ class SnfsTrafficMultiAgentEnv(gym.Env):
                 parts.append(f"unknown/inactive extra agent actions {extra}")
             raise ValueError("; ".join(parts))
 
-        sim_actions: dict[int, int] = {}
+        sim_actions: dict[int, object] = {}
         for agent_id in self.agents:
-            action = action_dict[agent_id]
-            if not self.single_agent_action_space.contains(action):
-                raise ValueError(f"invalid action {action!r} for agent {agent_id}; expected Discrete(3) action 0=keep, 1=left, 2=right")
-            action_int = int(action)
-            sim_actions[self._agent_to_vehicle_id[agent_id]] = int(_ACTION_TO_DELTA[action_int])
+            sim_actions[self._agent_to_vehicle_id[agent_id]] = self._convert_agent_action(agent_id, action_dict[agent_id])
 
         prev_agents = list(self.agents)
         prev_agent_to_vehicle_id = dict(self._agent_to_vehicle_id)
@@ -220,6 +216,7 @@ class SnfsTrafficMultiAgentEnv(gym.Env):
                 truncated=bool(truncated),
             )
             info["agent_id"] = agent_id
+            self._add_agent_step_info(info, vehicle_id)
             infos[agent_id] = info
 
         next_active_vehicle_ids = self._active_controlled_vehicle_ids(next_state)
@@ -237,6 +234,12 @@ class SnfsTrafficMultiAgentEnv(gym.Env):
         self._done = bool(terminateds["__all__"] or truncateds["__all__"])
         observations = {} if self._done else self._build_observations()
         return observations, rewards, terminateds, truncateds, infos
+
+    def _convert_agent_action(self, agent_id: str, action: object) -> object:
+        if not self.single_agent_action_space.contains(action):
+            raise ValueError(f"invalid action {action!r} for agent {agent_id}; expected Discrete(3) action 0=keep, 1=left, 2=right")
+        action_int = int(action)
+        return int(_ACTION_TO_DELTA[action_int])
 
     def _select_controlled(self, state: TrafficState) -> TrafficState:
         """Select and mark controlled vehicles for the reset state."""
@@ -288,6 +291,9 @@ class SnfsTrafficMultiAgentEnv(gym.Env):
                 }
             observations[agent_id] = obs
         return observations
+
+    def _add_agent_step_info(self, info: dict[str, object], controlled_vehicle_id: int) -> None:
+        return None
 
     def _compute_agent_reward(
         self,

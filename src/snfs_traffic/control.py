@@ -7,6 +7,8 @@ import numpy as np
 
 from snfs_traffic.core import SimulationParams, TrafficState
 from snfs_traffic.core.indexing import MISSING_INDEX, build_body_occupancy, build_lane_order, build_occupancy, compute_neighbors
+from snfs_traffic.core.indexing_kernels import compute_cumulative_forward_gap_kernel
+from snfs_traffic.core.longitudinal_kernels import advance_positions_kernel
 from snfs_traffic.core.lane_change_kernels import (
     apply_lane_changes_kernel,
     collect_lane_change_proposals_kernel,
@@ -21,6 +23,90 @@ LANE_LEFT = -1
 LANE_STAY = 0
 LANE_RIGHT = 1
 LANE_ACTION_VALUES = (LANE_LEFT, LANE_STAY, LANE_RIGHT)
+
+@dataclass(frozen=True, slots=True)
+class ControlledVehicleAction:
+    lane_delta: int
+    speed_delta: int | None = None
+
+
+def _validate_action_delta(name: str, value: object, *, allow_none: bool) -> int | None:
+    if value is None and allow_none:
+        return None
+    if isinstance(value, (bool, np.bool_)) or not isinstance(value, (int, np.integer)):
+        raise ValueError(f"{name} must be an integer in {{-1, 0, +1}}" + (" or None" if allow_none else ""))
+    value_int = int(value)
+    if value_int not in LANE_ACTION_VALUES:
+        raise ValueError(f"{name} must be one of {{-1, 0, +1}}" + (" or None" if allow_none else ""))
+    return value_int
+
+
+def normalize_controlled_action(action: object) -> ControlledVehicleAction:
+    if isinstance(action, ControlledVehicleAction):
+        lane_delta = _validate_action_delta("lane_delta", action.lane_delta, allow_none=False)
+        speed_delta = _validate_action_delta("speed_delta", action.speed_delta, allow_none=True)
+        return ControlledVehicleAction(lane_delta=int(lane_delta), speed_delta=None if speed_delta is None else int(speed_delta))
+    if isinstance(action, tuple):
+        if len(action) != 2:
+            raise ValueError("tuple controlled actions must be (lane_delta, speed_delta)")
+        lane_delta = _validate_action_delta("lane_delta", action[0], allow_none=False)
+        speed_delta = _validate_action_delta("speed_delta", action[1], allow_none=True)
+        return ControlledVehicleAction(lane_delta=int(lane_delta), speed_delta=None if speed_delta is None else int(speed_delta))
+    lane_delta = _validate_action_delta("lane_delta", action, allow_none=False)
+    return ControlledVehicleAction(lane_delta=int(lane_delta), speed_delta=None)
+
+
+@dataclass(frozen=True, slots=True)
+class ControlledActionBatch:
+    vehicle_id: np.ndarray
+    lane_delta: np.ndarray
+    speed_delta: np.ndarray
+    speed_delta_provided: np.ndarray
+
+    def __post_init__(self) -> None:
+        if not all(isinstance(arr, np.ndarray) for arr in (self.vehicle_id, self.lane_delta, self.speed_delta, self.speed_delta_provided)):
+            raise ValueError("controlled action batch fields must be numpy arrays")
+        if self.vehicle_id.ndim != 1 or self.lane_delta.ndim != 1 or self.speed_delta.ndim != 1 or self.speed_delta_provided.ndim != 1:
+            raise ValueError("controlled action batch fields must be 1D")
+        if not (self.vehicle_id.shape == self.lane_delta.shape == self.speed_delta.shape == self.speed_delta_provided.shape):
+            raise ValueError("controlled action batch fields must have same shape")
+        if self.vehicle_id.dtype != np.int32:
+            raise ValueError("vehicle_id dtype must be int32")
+        if self.lane_delta.dtype != np.int8 or self.speed_delta.dtype != np.int8:
+            raise ValueError("lane_delta and speed_delta dtypes must be int8")
+        if self.speed_delta_provided.dtype != np.bool_:
+            raise ValueError("speed_delta_provided dtype must be bool")
+        if not all(arr.flags.c_contiguous for arr in (self.vehicle_id, self.lane_delta, self.speed_delta, self.speed_delta_provided)):
+            raise ValueError("controlled action batch fields must be C-contiguous")
+        if len(np.unique(self.vehicle_id)) != self.vehicle_id.size:
+            raise ValueError("vehicle_id values must be unique")
+        allowed = np.array(LANE_ACTION_VALUES, dtype=np.int8)
+        if not np.all(np.isin(self.lane_delta, allowed)):
+            raise ValueError("lane_delta values must be in {-1, 0, +1}")
+        if not np.all(np.isin(self.speed_delta[self.speed_delta_provided], allowed)):
+            raise ValueError("speed_delta values must be in {-1, 0, +1} when provided")
+
+    @classmethod
+    def from_mapping(cls, actions: Mapping[int, object]) -> "ControlledActionBatch":
+        ids: list[int] = []
+        lane_deltas: list[int] = []
+        speed_deltas: list[int] = []
+        speed_provided: list[bool] = []
+        try:
+            for vehicle_id, raw_action in actions.items():
+                action = normalize_controlled_action(raw_action)
+                ids.append(int(vehicle_id))
+                lane_deltas.append(int(action.lane_delta))
+                speed_deltas.append(0 if action.speed_delta is None else int(action.speed_delta))
+                speed_provided.append(action.speed_delta is not None)
+            vehicle_ids = np.asarray(ids, dtype=np.int32)
+            lane = np.asarray(lane_deltas, dtype=np.int8)
+            speed = np.asarray(speed_deltas, dtype=np.int8)
+            provided = np.asarray(speed_provided, dtype=np.bool_)
+        except (OverflowError, ValueError, TypeError) as exc:
+            raise ValueError("failed to convert mapping into ControlledActionBatch") from exc
+        return cls(np.ascontiguousarray(vehicle_ids), np.ascontiguousarray(lane), np.ascontiguousarray(speed), np.ascontiguousarray(provided))
+
 
 
 @dataclass(frozen=True, slots=True)
@@ -62,19 +148,30 @@ class ControlledActionResult:
     valid: np.ndarray
     applied: np.ndarray
     rejection_reason: tuple[str, ...]
+    requested_speed_delta: np.ndarray | None = None
+    desired_velocity: np.ndarray | None = None
+    applied_velocity: np.ndarray | None = None
+    speed_clipped_by_safety: np.ndarray | None = None
 
 
 def controlled_vehicle_ids(state: TrafficState) -> np.ndarray:
     return state.vehicle_id[state.alive & state.controlled].copy()
 
 
-def normalize_lane_actions(actions, state: TrafficState, *, require_all_controlled: bool) -> LaneActionBatch:
+def normalize_controlled_actions(actions, state: TrafficState, *, require_all_controlled: bool) -> ControlledActionBatch:
     if isinstance(actions, Mapping):
-        batch = LaneActionBatch.from_mapping(actions)
+        batch = ControlledActionBatch.from_mapping(actions)
     elif isinstance(actions, LaneActionBatch):
+        batch = ControlledActionBatch(
+            actions.vehicle_id.copy(),
+            actions.lane_delta.copy(),
+            np.zeros(actions.lane_delta.shape, dtype=np.int8),
+            np.zeros(actions.lane_delta.shape, dtype=np.bool_),
+        )
+    elif isinstance(actions, ControlledActionBatch):
         batch = actions
     else:
-        raise TypeError("actions must be Mapping[int, int] or LaneActionBatch")
+        raise TypeError("actions must be Mapping[int, object], LaneActionBatch, or ControlledActionBatch")
 
     ids = controlled_vehicle_ids(state)
     alive_ids = set(int(v) for v in ids)
@@ -83,16 +180,34 @@ def normalize_lane_actions(actions, state: TrafficState, *, require_all_controll
     for v in batch.vehicle_id:
         if int(v) not in alive_ids:
             raise ValueError(f"action vehicle_id {int(v)} is not an alive controlled vehicle")
-    action_map = {int(v): int(d) for v, d in zip(batch.vehicle_id, batch.lane_delta)}
+    action_map = {
+        int(v): (int(lane), int(speed), bool(provided))
+        for v, lane, speed, provided in zip(batch.vehicle_id, batch.lane_delta, batch.speed_delta, batch.speed_delta_provided)
+    }
     if require_all_controlled and len(action_map) != len(ids):
         raise ValueError("missing actions for alive controlled vehicles")
-    out_delta = np.zeros(ids.shape[0], dtype=np.int8)
+    out_lane = np.zeros(ids.shape[0], dtype=np.int8)
+    out_speed = np.zeros(ids.shape[0], dtype=np.int8)
+    out_provided = np.zeros(ids.shape[0], dtype=np.bool_)
     for i, vid in enumerate(ids):
         if int(vid) in action_map:
-            out_delta[i] = np.int8(action_map[int(vid)])
+            lane_delta, speed_delta, provided = action_map[int(vid)]
+            out_lane[i] = np.int8(lane_delta)
+            out_speed[i] = np.int8(speed_delta)
+            out_provided[i] = np.bool_(provided)
         elif require_all_controlled:
             raise ValueError("missing actions for alive controlled vehicles")
-    return LaneActionBatch(np.ascontiguousarray(ids.astype(state.vehicle_id.dtype)), np.ascontiguousarray(out_delta))
+    return ControlledActionBatch(
+        np.ascontiguousarray(ids.astype(state.vehicle_id.dtype)),
+        np.ascontiguousarray(out_lane),
+        np.ascontiguousarray(out_speed),
+        np.ascontiguousarray(out_provided),
+    )
+
+
+def normalize_lane_actions(actions, state: TrafficState, *, require_all_controlled: bool) -> LaneActionBatch:
+    normalized = normalize_controlled_actions(actions, state, require_all_controlled=require_all_controlled)
+    return LaneActionBatch(normalized.vehicle_id.copy(), normalized.lane_delta.copy())
 
 
 def _lateral_valid(state, lane_order, lane_counts, occupancy, body_occupancy, idx: int, target_lane: int, road_length: int):
@@ -142,6 +257,113 @@ def compute_lateral_action_mask(state: TrafficState, params: SimulationParams, t
     return vids, mask
 
 
+
+def _step_longitudinal_with_controlled_speed_actions_reference(
+    state: TrafficState,
+    params: SimulationParams,
+    topology: RingTopology,
+    rng: np.random.Generator,
+    normalized: ControlledActionBatch,
+) -> tuple[TrafficState, np.ndarray, np.ndarray, np.ndarray]:
+    occupancy = build_occupancy(state, params)
+    lane_order, lane_counts, lane_rank = build_lane_order(occupancy, n_vehicles=state.n_vehicles)
+
+    n = state.n_vehicles
+    out_vel = state.vel.astype(np.int64, copy=True)
+    v0 = state.vel.astype(np.int64, copy=False)
+    prev_pos = (state.pos.astype(np.int64) - v0) % int(params.road_length)
+    v_candidate = v0.copy()
+    speed_action_by_idx = {}
+    vid_to_idx = {int(v): i for i, v in enumerate(state.vehicle_id)}
+    for i, vid in enumerate(normalized.vehicle_id):
+        if bool(normalized.speed_delta_provided[i]):
+            speed_action_by_idx[vid_to_idx[int(vid)]] = int(normalized.speed_delta[i])
+
+    for i in range(n):
+        if not bool(state.alive[i]):
+            continue
+        lane_i = int(state.lane[i])
+        count = int(lane_counts[lane_i])
+        rank = int(lane_rank[i])
+        vmax_i = int(params.vmax_controlled if state.controlled[i] else params.vmax_default)
+        if count <= 1:
+            g = int(params.road_length - int(state.length[i]))
+            leader_v = int(v0[i])
+        else:
+            leader = int(lane_order[lane_i, (rank + 1) % count])
+            g = int((int(state.pos[leader]) - int(state.pos[i]) - int(state.length[i])) % int(params.road_length))
+            leader_v = int(v0[leader])
+
+        # Preserve the reference kernel's random draw cadence for all alive
+        # vehicles. Explicit controlled speed actions replace stochastic
+        # longitudinal update semantics only for the acting controlled vehicle.
+        u_s = float(rng.random())
+        u_q = float(rng.random())
+        u_b = float(rng.random())
+
+        if bool(state.controlled[i]) and i in speed_action_by_idx:
+            requested = int(v0[i]) + int(speed_action_by_idx[i])
+            v_candidate[i] = max(0, min(int(params.vmax_controlled), requested))
+            continue
+
+        s_i = int(params.S if u_s < float(params.r) else 1)
+        v1 = min(vmax_i, int(v0[i]) + 1) if (g > int(params.G) or int(v0[i]) < leader_v) else int(v0[i])
+        prev_gap = compute_cumulative_forward_gap_kernel(i, s_i, prev_pos, state.length, lane_order, lane_counts, lane_rank, road_length=params.road_length)
+        v2 = min(v1, int(prev_gap)) if u_q < float(params.q) else v1
+        cur_gap = compute_cumulative_forward_gap_kernel(i, s_i, state.pos, state.length, lane_order, lane_counts, lane_rank, road_length=params.road_length)
+        v3 = min(v2, int(cur_gap))
+
+        if g > int(params.G):
+            p_i = float(params.P1)
+        elif int(v0[i]) < leader_v:
+            p_i = float(params.P2)
+        elif int(v0[i]) == leader_v:
+            p_i = float(params.P3)
+        else:
+            p_i = float(params.P4)
+
+        if u_b < (1.0 - p_i):
+            next_v = max(v3 - 1, 1) if v3 > 0 else 0
+        else:
+            next_v = v3
+        v_candidate[i] = max(0, min(vmax_i, int(next_v)))
+
+    v_safe = v_candidate.copy()
+    for lane_i in range(lane_order.shape[0]):
+        count = int(lane_counts[lane_i])
+        if count <= 1:
+            continue
+        for _ in range(count):
+            for rr in range(count - 1, -1, -1):
+                i = int(lane_order[lane_i, rr])
+                j = int(lane_order[lane_i, (rr + 1) % count])
+                if not bool(state.alive[i]):
+                    continue
+                g = int((int(state.pos[j]) - int(state.pos[i]) - int(state.length[i])) % int(params.road_length))
+                v_safe[i] = min(int(v_safe[i]), g + int(v_safe[j]))
+
+    out_vel[state.alive] = np.maximum(0, v_safe[state.alive])
+    new_state = state.copy()
+    new_state.changed_lane.fill(False)
+    new_state.last_lane_delta.fill(0)
+    new_state.vel = out_vel.astype(state.vel.dtype, copy=False)
+    new_state.pos = advance_positions_kernel(state.pos, new_state.vel, state.alive, road_length=params.road_length)
+
+    validate_state(new_state, params)
+    build_occupancy(new_state, params)
+    build_body_occupancy(new_state, params)
+
+    desired = np.zeros(normalized.vehicle_id.shape[0], dtype=state.vel.dtype)
+    applied = np.zeros(normalized.vehicle_id.shape[0], dtype=state.vel.dtype)
+    clipped = np.zeros(normalized.vehicle_id.shape[0], dtype=np.bool_)
+    for row, vid in enumerate(normalized.vehicle_id):
+        idx = vid_to_idx[int(vid)]
+        desired[row] = np.asarray(v_candidate[idx], dtype=state.vel.dtype)
+        applied[row] = new_state.vel[idx]
+        clipped[row] = bool(normalized.speed_delta_provided[row] and int(v_candidate[idx]) > int(new_state.vel[idx]))
+
+    return new_state, desired, applied, clipped
+
 def step_with_controlled_lateral_actions_reference(state: TrafficState, params: SimulationParams, topology: RingTopology, rng: np.random.Generator, actions, *, require_all_controlled: bool = True):
     if not isinstance(topology, RingTopology):
         raise ValueError("topology must be RingTopology")
@@ -154,7 +376,7 @@ def step_with_controlled_lateral_actions_reference(state: TrafficState, params: 
     validate_state(state, params)
     if not isinstance(rng, np.random.Generator):
         raise TypeError("rng must be numpy.random.Generator")
-    normalized = normalize_lane_actions(actions, state, require_all_controlled=require_all_controlled)
+    normalized = normalize_controlled_actions(actions, state, require_all_controlled=require_all_controlled)
     occupancy = build_occupancy(state, params)
     body_occupancy = build_body_occupancy(state, params)
     lane_order, lane_counts, lane_rank = build_lane_order(occupancy, n_vehicles=state.n_vehicles)
@@ -235,7 +457,17 @@ def step_with_controlled_lateral_actions_reference(state: TrafficState, params: 
     build_body_occupancy(after_lane_change, params)
     saved_changed = after_lane_change.changed_lane.copy()
     saved_delta = after_lane_change.last_lane_delta.copy()
-    out = step_longitudinal_reference(after_lane_change, params, topology, rng)
+    requested_speed_delta = None
+    desired_velocity = None
+    applied_velocity = None
+    speed_clipped_by_safety = None
+    if np.any(normalized.speed_delta_provided):
+        out, desired_velocity, applied_velocity, speed_clipped_by_safety = _step_longitudinal_with_controlled_speed_actions_reference(
+            after_lane_change, params, topology, rng, normalized
+        )
+        requested_speed_delta = normalized.speed_delta.copy()
+    else:
+        out = step_longitudinal_reference(after_lane_change, params, topology, rng)
     out = out.copy()
     out.changed_lane = saved_changed
     out.last_lane_delta = saved_delta
@@ -248,5 +480,9 @@ def step_with_controlled_lateral_actions_reference(state: TrafficState, params: 
         valid=valid,
         applied=applied,
         rejection_reason=tuple(reasons),
+        requested_speed_delta=requested_speed_delta,
+        desired_velocity=desired_velocity,
+        applied_velocity=applied_velocity,
+        speed_clipped_by_safety=speed_clipped_by_safety,
     )
     return out, result

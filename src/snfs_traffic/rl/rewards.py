@@ -5,7 +5,7 @@ from typing import Mapping
 
 import numpy as np
 
-from snfs_traffic.control import LANE_STAY, LaneActionBatch
+from snfs_traffic.control import LANE_STAY, ControlledVehicleAction, LaneActionBatch
 from snfs_traffic.core import SimulationParams, TrafficState
 
 
@@ -34,7 +34,10 @@ def _requested_lane_delta(action: object, controlled_vehicle_id: int) -> int:
             return LANE_STAY
         return int(action.lane_delta[int(matches[0])])
     if isinstance(action, Mapping):
-        return int(action.get(int(controlled_vehicle_id), LANE_STAY))
+        raw_action = action.get(int(controlled_vehicle_id), LANE_STAY)
+        if isinstance(raw_action, ControlledVehicleAction):
+            return int(raw_action.lane_delta)
+        return int(raw_action)
     return LANE_STAY
 
 

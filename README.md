@@ -453,6 +453,18 @@ MVP environment contract:
 - protected hooks `_select_controlled(...)`, `_build_observations()`, and `_compute_agent_reward(...)` support lightweight subclass customization;
 - this is not a Ray/RLlib wrapper yet, but keeps the API shape compatible with a future RLlib `MultiAgentEnv` adapter.
 
+
+### Multi-agent speed-control env
+
+`SnfsTrafficSpeedControlMultiAgentEnv` extends the lightweight multi-agent env with a per-agent `MultiDiscrete([3, 3])` action space.
+
+- first component: lateral action, `0=stay`, `1=left`, `2=right`;
+- second component: speed action, `0=brake`, `1=keep speed`, `2=accelerate`;
+- speed actions map to `speed_delta ∈ {-1, 0, +1}`;
+- requested speed is clipped by `vmax_controlled` and safety/gap constraints;
+- uncontrolled HDV and priority vehicles still use normal Rev S-NFS dynamics;
+- existing lateral-only envs remain unchanged.
+
 ---
 
 ## Benchmarking
