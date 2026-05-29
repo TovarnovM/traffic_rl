@@ -9,7 +9,7 @@ Revised S-NFS phase order in the reference backend. `q` controls slow-to-start,
 `r/S` controls stochastic look-ahead, and `P1..P4` are keep-speed probabilities
 for random braking (`1 - Pk` braking probability).
 
-The project is ready to begin RL environment preparation, but not ready for RL training yet.
+The project has an MVP RL environment layer, but is not ready for RL training yet.
 
 ---
 
@@ -31,9 +31,6 @@ The project is ready to begin RL environment preparation, but not ready for RL t
 
 ### 1.2 What is not implemented yet
 
-- Reward schema.
-- Episode lifecycle.
-- Gymnasium wrapper.
 - RLlib wrapper.
 - PettingZoo/multi-agent wrapper.
 
@@ -42,10 +39,10 @@ The project is ready to begin RL environment preparation, but not ready for RL t
 | Target | Readiness | Notes |
 |---|---:|---|
 | Continue simulator-core development | High | Reference/optimized architecture is established. |
-| Begin RL environment preparation | 85–90% | Facade/actions/local observations are in place; next is reward + episode/env contracts. |
-| Start actual RL training experiments | 40–50% | Facade-level controlled lateral actions and local observations are implemented; rewards, episode semantics, metrics/info contract, and env wrappers are still missing. |
+| Begin RL environment preparation | Complete for MVP | Facade/actions/local observations, reward schema, episode lifecycle, info schema, and single-controlled Gymnasium wrapper are in place. |
+| Start actual RL training experiments | 55–65% | Next step is random-policy smoke / tiny training smoke; RLlib/PettingZoo and richer reward design remain missing. |
 
-The blocker for RL training is no longer low-level simulator correctness. The blocker is the missing RL-facing API design.
+The blocker for RL training is no longer low-level simulator correctness or the basic Gymnasium contract. The next blocker is a random-policy smoke / tiny training smoke and any training-facing polish it reveals.
 
 ---
 
@@ -303,7 +300,7 @@ simulator facade                  # implemented MVP
   |-- controlled vehicle selection
   |-- optional invariant checks
   |
-remaining RL contracts            # next: reward, episode, metrics/info
+remaining RL contracts            # implemented MVP: reward, episode, metrics/info
   |
   |-- action schema
   |-- observation schema
@@ -311,9 +308,9 @@ remaining RL contracts            # next: reward, episode, metrics/info
   |-- episode semantics
   |-- metrics/info
   |
-environment wrappers              # after contracts
+environment wrappers              # implemented MVP + future wrappers
   |
-  |-- Gymnasium single-agent
+  |-- Gymnasium single-agent        # implemented single-controlled MVP
   |-- Gymnasium vector-compatible option
   |-- multi-agent wrapper if needed
   |-- RLlib/PettingZoo only after core env is stable
@@ -329,26 +326,22 @@ core must not import gymnasium, ray, rllib, torch, matplotlib, pandas, scipy, or
 
 ## 5. What should not be done next
 
-Do not start directly with Gymnasium/RLlib wrappers.
+Do not expand directly into RLlib/PettingZoo, multi-agent wrappers, or complex training stacks before validating the single-controlled Gymnasium MVP with a random-policy smoke / tiny training smoke.
 
-Reason:
-
-A wrapper built directly on low-level `TrafficState` and backend APIs will couple RL code to simulator internals too early.
-
-Before wrappers, the project status is:
+Current wrapper-layer status is:
 
 1. simulator facade: done;
 2. controlled action contract: done for lateral facade/reference path;
 3. observation contract: done for local controlled-only schema;
-4. reward contract: pending;
-5. episode/reset contract: pending;
-6. metrics/info contract: pending.
+4. reward contract: done for MVP;
+5. episode/reset contract: done for MVP;
+6. metrics/info contract: done for MVP.
 
 Do not introduce new physics during the first RL-env preparation tasks.
 
 Do not optimize controlled-action paths or `lane_change_proposals` further unless profiling shows it blocks reward/episode/env work.
 
-Do not add action semantics inside Numba kernels first. Define reference/control semantics first, then optimize later if necessary.
+Do not add new action semantics inside Numba kernels first. Define reference/control semantics first, then optimize later if necessary.
 
 ---
 
@@ -359,11 +352,12 @@ The simulator facade milestone has been completed:
 - controlled lateral actions are implemented via reference action path;
 - local controlled-only observations are implemented.
 
-Current roadmap remains:
-1. reward schema;
-2. episode reset/termination/truncation contract;
-3. Gymnasium wrapper;
-4. optional optimized controlled-action path after profiling.
+Current roadmap status:
+1. reward schema: implemented;
+2. episode reset/termination/truncation contract: implemented;
+3. Gymnasium wrapper: implemented for one controlled vehicle;
+4. next step: random-policy smoke / tiny training smoke;
+5. optional optimized controlled-action path after profiling.
 
 ---
 
@@ -441,10 +435,9 @@ Immediate documentation needs:
 
 - keep README status current;
 - keep backend support status clear;
-- document simulator facade once added;
-- document action/observation/reward contracts before Gymnasium wrapper;
+- document random-policy smoke / tiny training smoke once added;
 - keep benchmark reports in `reports/`;
-- avoid claiming RL readiness before wrappers exist.
+- avoid claiming full RL-training readiness before smoke training exists.
 
 Recommended docs after facade milestone:
 
@@ -453,17 +446,8 @@ Recommended docs after facade milestone:
 - backend config example;
 - deterministic rollout example.
 
-Recommended docs after Tasks 25–27:
+Recommended next docs:
 
-- action schema;
-- observation schema;
-- reward components;
-- invalid action semantics;
-- episode semantics.
-
-Recommended docs after Task 29:
-
-- Gymnasium environment usage;
 - random-agent rollout example;
 - minimal training smoke example only if actually tested.
 
