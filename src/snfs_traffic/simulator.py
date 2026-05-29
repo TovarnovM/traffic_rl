@@ -6,7 +6,7 @@ from typing import Callable
 import numpy as np
 
 from snfs_traffic.backends import get_backend
-from snfs_traffic.control import normalize_lane_actions, step_with_controlled_lateral_actions_reference, controlled_vehicle_ids
+from snfs_traffic.control import step_with_controlled_lateral_actions_reference, controlled_vehicle_ids
 from snfs_traffic.core import SimulationParams, TrafficState, validate_runtime_invariants
 from snfs_traffic.core.indexing import build_occupancy
 from snfs_traffic.core.state import validate_state
