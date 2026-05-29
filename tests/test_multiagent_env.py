@@ -69,6 +69,23 @@ def test_multiagent_space_lookup_rejects_invalid_agent_id(env_cls, agent_id):
         env.get_action_space(agent_id)
 
 
+@pytest.mark.parametrize(
+    ("controlled_vehicle_ids", "message"),
+    [
+        ([], "non-empty"),
+        ([0, 0], "unique"),
+        ([0, 1.5], "integer"),
+        ([0, True], "integer"),
+        ("01", "non-empty iterable"),
+        (b"01", "non-empty iterable"),
+        (7, "non-empty iterable"),
+    ],
+)
+def test_controlled_vehicle_ids_constructor_validation(env_cls, controlled_vehicle_ids, message):
+    with pytest.raises(ValueError, match=message):
+        env_cls(backend="reference", controlled_vehicle_ids=controlled_vehicle_ids)
+
+
 def test_reset_selects_requested_number_of_agents(env_cls):
     env = env_cls(backend="reference", num_controlled=3, density=0.3)
 

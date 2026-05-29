@@ -433,6 +433,10 @@ MVP environment contract:
 - current periodic ring-road episodes are fixed-horizon by default (`terminated=False` during normal operation, `truncated=True` at `max_steps`);
 - RL training, RLlib, and PettingZoo are not implemented in this MVP.
 
+#### Customization hooks
+
+`SnfsTrafficEnv` exposes protected hooks for lightweight subclassing while the Gymnasium API is still MVP-level. Override `_compute_reward(...)` to customize reward calculation, override `_build_observation()` together with `observation_space` to customize observations, and override `_select_single_controlled(...)` to customize priority controlled-vehicle selection at reset. The default environment behavior remains the stable baseline.
+
 
 ### Lightweight multi-agent RL env
 
@@ -448,10 +452,6 @@ MVP environment contract:
 - per-agent observations use the same `{"obs", "action_mask"}` schema as the single-agent MVP;
 - protected hooks `_select_controlled(...)`, `_build_observations()`, and `_compute_agent_reward(...)` support lightweight subclass customization;
 - this is not a Ray/RLlib wrapper yet, but keeps the API shape compatible with a future RLlib `MultiAgentEnv` adapter.
-
-#### Customization hooks
-
-`SnfsTrafficEnv` exposes protected hooks for lightweight subclassing while the Gymnasium API is still MVP-level. Override `_compute_reward(...)` to customize reward calculation, override `_build_observation()` together with `observation_space` to customize observations, and override `_select_single_controlled(...)` to customize priority controlled-vehicle selection at reset. The default environment behavior remains the stable baseline.
 
 ---
 

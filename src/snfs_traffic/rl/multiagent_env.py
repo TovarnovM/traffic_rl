@@ -48,7 +48,12 @@ class SnfsTrafficMultiAgentEnv(gym.Env):
             raise ValueError("num_controlled must be an int >= 1")
         requested_ids: tuple[int, ...] | None = None
         if controlled_vehicle_ids is not None:
-            requested = tuple(controlled_vehicle_ids)
+            if isinstance(controlled_vehicle_ids, (str, bytes)):
+                raise ValueError("controlled_vehicle_ids must be a non-empty iterable of unique integer vehicle ids")
+            try:
+                requested = tuple(controlled_vehicle_ids)
+            except TypeError as exc:
+                raise ValueError("controlled_vehicle_ids must be a non-empty iterable of unique integer vehicle ids") from exc
             if not requested:
                 raise ValueError("controlled_vehicle_ids must be non-empty when provided")
             if any(isinstance(v, bool) or not isinstance(v, int) for v in requested):
