@@ -8,7 +8,10 @@ try:
     import gymnasium as gym
     from gymnasium import spaces
 except ImportError as exc:  # pragma: no cover - exercised when optional extra is absent
-    raise ImportError("snfs_traffic.rl.env requires the optional 'rl' extra: pip install snfs-traffic[rl]") from exc
+    raise ImportError(
+        "snfs_traffic.rl.env requires Gymnasium; install it with 'python -m pip install -e \".[rl]\"' "
+        "from this repository, or install 'gymnasium>=0.29'."
+    ) from exc
 
 from snfs_traffic.control import LANE_LEFT, LANE_RIGHT, LANE_STAY, ControlledActionResult
 from snfs_traffic.core import SimulationParams, TrafficState
@@ -168,7 +171,7 @@ class SnfsTrafficEnv(gym.Env):
         if matches.size == 0:
             return {
                 "obs": np.zeros(self.observation_space["obs"].shape, dtype=np.float32),
-                "action_mask": np.array([0, 1, 0], dtype=np.int8),
+                "action_mask": np.zeros(3, dtype=np.int8),
             }
         row = int(matches[0])
         return {

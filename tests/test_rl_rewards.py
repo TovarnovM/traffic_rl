@@ -140,3 +140,62 @@ def test_reward_function_does_not_mutate_states():
     for field in prev.__dataclass_fields__:
         np.testing.assert_array_equal(getattr(prev, field), getattr(prev_copy, field))
         np.testing.assert_array_equal(getattr(nxt, field), getattr(next_copy, field))
+
+
+def test_reward_remains_finite_when_vmax_controlled_is_zero():
+    params = SimulationParams(num_lanes=2, road_length=20, vmax_controlled=0)
+    prev = _state_with_controlled_vel(0)
+    nxt = _state_with_controlled_vel(0)
+
+    reward, components = compute_controlled_reward(
+        prev,
+        nxt,
+        controlled_vehicle_id=0,
+        action={0: 0},
+        action_applied=True,
+        params=params,
+        config=RewardConfig(),
+    )
+
+    assert np.isfinite(reward)
+    assert "total" in components
+    assert components["total"] == reward
+    assert all(np.isfinite(value) for value in components.values())
+
+
+def test_action_applied_none_infers_blocked_requested_lane_change_without_lane_delta():
+    params = SimulationParams(num_lanes=2, road_length=20)
+    prev = _state_with_controlled_vel(2)
+    nxt = _state_with_controlled_vel(2)
+
+    _, components = compute_controlled_reward(
+        prev,
+        nxt,
+        controlled_vehicle_id=0,
+        action={0: 1},
+        action_applied=None,
+        params=params,
+        config=RewardConfig(blocked_action_penalty=0.4),
+    )
+
+    assert components["blocked_action_penalty"] == -0.4
+
+
+def test_action_applied_none_does_not_infer_blocked_when_lane_changed():
+    params = SimulationParams(num_lanes=2, road_length=20)
+    prev = _state_with_controlled_vel(2)
+    nxt = _state_with_controlled_vel(2)
+    nxt.lane[0] = 1
+
+    _, components = compute_controlled_reward(
+        prev,
+        nxt,
+        controlled_vehicle_id=0,
+        action={0: 1},
+        action_applied=None,
+        params=params,
+        config=RewardConfig(lane_change_penalty=0.25, blocked_action_penalty=0.4),
+    )
+
+    assert components["blocked_action_penalty"] == 0.0
+    assert components["lane_change_penalty"] == -0.25

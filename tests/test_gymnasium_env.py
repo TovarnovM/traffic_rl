@@ -1,22 +1,40 @@
 import math
+import subprocess
+import sys
 
 import numpy as np
 import pytest
 
-gymnasium = pytest.importorskip("gymnasium")
-
 from snfs_traffic.rl.episode import EpisodeConfig
-from snfs_traffic.rl.env import SnfsTrafficEnv
 
 
-def test_env_constructs_with_reference_backend():
-    env = SnfsTrafficEnv(backend="reference")
+def test_base_and_rl_imports_do_not_import_gymnasium_or_env_module():
+    code = """
+import sys
+import snfs_traffic
+import snfs_traffic.rl
+assert 'snfs_traffic.rl.env' not in sys.modules
+assert 'gymnasium' not in sys.modules
+"""
+    subprocess.run([sys.executable, "-c", code], check=True)
+
+
+@pytest.fixture
+def env_cls():
+    pytest.importorskip("gymnasium")
+    from snfs_traffic.rl.env import SnfsTrafficEnv
+
+    return SnfsTrafficEnv
+
+
+def test_env_constructs_with_reference_backend(env_cls):
+    env = env_cls(backend="reference")
     assert env.action_space.n == 3
     assert env.backend_name == "reference"
 
 
-def test_reset_returns_obs_info_and_observation_is_contained():
-    env = SnfsTrafficEnv(backend="reference")
+def test_reset_returns_obs_info_and_observation_is_contained(env_cls):
+    env = env_cls(backend="reference")
     obs, info = env.reset(seed=123)
 
     assert isinstance(obs, dict)
@@ -26,13 +44,13 @@ def test_reset_returns_obs_info_and_observation_is_contained():
     assert info["backend_name"] == "reference"
 
 
-def test_action_space_sample_is_contained():
-    env = SnfsTrafficEnv(backend="reference")
+def test_action_space_sample_is_contained(env_cls):
+    env = env_cls(backend="reference")
     assert env.action_space.contains(env.action_space.sample())
 
 
-def test_one_valid_step_returns_gymnasium_tuple_and_info_schema():
-    env = SnfsTrafficEnv(backend="reference")
+def test_one_valid_step_returns_gymnasium_tuple_and_info_schema(env_cls):
+    env = env_cls(backend="reference")
     env.reset(seed=123)
 
     obs, reward, terminated, truncated, info = env.step(0)
@@ -48,8 +66,8 @@ def test_one_valid_step_returns_gymnasium_tuple_and_info_schema():
     assert "num_lane_changes" in info
 
 
-def test_episode_truncates_at_configured_max_steps():
-    env = SnfsTrafficEnv(backend="reference", episode_config=EpisodeConfig(max_steps=2))
+def test_episode_truncates_at_configured_max_steps(env_cls):
+    env = env_cls(backend="reference", episode_config=EpisodeConfig(max_steps=2))
     env.reset(seed=123)
 
     _, _, terminated1, truncated1, _ = env.step(0)
@@ -62,10 +80,10 @@ def test_episode_truncates_at_configured_max_steps():
     assert info["truncated_reason"] == "max_steps"
 
 
-def test_same_seed_and_actions_are_reproducible():
+def test_same_seed_and_actions_are_reproducible(env_cls):
     actions = [0, 1, 0, 2]
-    env1 = SnfsTrafficEnv(backend="reference", episode_config=EpisodeConfig(max_steps=10))
-    env2 = SnfsTrafficEnv(backend="reference", episode_config=EpisodeConfig(max_steps=10))
+    env1 = env_cls(backend="reference", episode_config=EpisodeConfig(max_steps=10))
+    env2 = env_cls(backend="reference", episode_config=EpisodeConfig(max_steps=10))
 
     obs1, info1 = env1.reset(seed=321)
     obs2, info2 = env2.reset(seed=321)
@@ -81,9 +99,9 @@ def test_same_seed_and_actions_are_reproducible():
         assert step1[1:] == step2[1:]
 
 
-def test_different_seeds_can_produce_different_initial_observations_or_ids():
-    env1 = SnfsTrafficEnv(backend="reference")
-    env2 = SnfsTrafficEnv(backend="reference")
+def test_different_seeds_can_produce_different_initial_observations_or_ids(env_cls):
+    env1 = env_cls(backend="reference")
+    env2 = env_cls(backend="reference")
 
     obs1, info1 = env1.reset(seed=10)
     obs2, info2 = env2.reset(seed=11)
@@ -95,16 +113,16 @@ def test_different_seeds_can_produce_different_initial_observations_or_ids():
     )
 
 
-def test_invalid_action_raises_clear_exception():
-    env = SnfsTrafficEnv(backend="reference")
+def test_invalid_action_raises_clear_exception(env_cls):
+    env = env_cls(backend="reference")
     env.reset(seed=123)
 
     with pytest.raises(ValueError, match="invalid action"):
         env.step(3)
 
 
-def test_step_after_done_requires_reset():
-    env = SnfsTrafficEnv(backend="reference", episode_config=EpisodeConfig(max_steps=1))
+def test_step_after_done_requires_reset(env_cls):
+    env = env_cls(backend="reference", episode_config=EpisodeConfig(max_steps=1))
     env.reset(seed=123)
     env.step(0)
 
@@ -112,9 +130,15 @@ def test_step_after_done_requires_reset():
         env.step(0)
 
 
-def test_base_package_import_still_works_without_importing_env_module():
-    import snfs_traffic
-    import snfs_traffic.rl as rl
+def test_missing_controlled_observation_uses_zero_action_mask(env_cls):
+    env = env_cls(backend="reference")
+    env.reset(seed=123)
+    state = env._sim.state
+    idx = int(np.flatnonzero(state.vehicle_id == env.controlled_vehicle_id)[0])
+    state.alive[idx] = False
+    env._sim.reset(state=state)
 
-    assert snfs_traffic.__version__
-    assert rl.RewardConfig is not None
+    obs = env._controlled_observation()
+
+    np.testing.assert_array_equal(obs["obs"], np.zeros_like(obs["obs"]))
+    np.testing.assert_array_equal(obs["action_mask"], np.zeros(3, dtype=np.int8))
