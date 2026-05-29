@@ -437,6 +437,22 @@ MVP environment contract:
 
 `SnfsTrafficEnv` exposes protected hooks for lightweight subclassing while the Gymnasium API is still MVP-level. Override `_compute_reward(...)` to customize reward calculation, override `_build_observation()` together with `observation_space` to customize observations, and override `_select_single_controlled(...)` to customize priority controlled-vehicle selection at reset. The default environment behavior remains the stable baseline.
 
+
+### Lightweight multi-agent RL env
+
+`SnfsTrafficMultiAgentEnv` exposes a Ray-shaped synchronous multi-agent API without depending on Ray/RLlib yet.
+
+- agents are controlled vehicles;
+- agent ids use `vehicle_<vehicle_id>`;
+- `reset()` returns observation/info dicts keyed by agent id;
+- `step(action_dict)` returns observation, reward, termination, truncation, and info dicts keyed by agent id;
+- all active agents act simultaneously;
+- `terminateds` and `truncateds` include `__all__`;
+- all agents share the same lateral-only `Discrete(3)` action space;
+- per-agent observations use the same `{"obs", "action_mask"}` schema as the single-agent MVP;
+- protected hooks `_select_controlled(...)`, `_build_observations()`, and `_compute_agent_reward(...)` support lightweight subclass customization;
+- this is not a Ray/RLlib wrapper yet, but keeps the API shape compatible with a future RLlib `MultiAgentEnv` adapter.
+
 ---
 
 ## Benchmarking
