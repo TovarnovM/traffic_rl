@@ -99,6 +99,96 @@ def test_same_seed_and_actions_are_reproducible(env_cls):
         assert step1[1:] == step2[1:]
 
 
+def test_custom_reward_hook_is_used(env_cls):
+    class ConstantRewardEnv(env_cls):
+        def _compute_reward(
+            self,
+            prev_state,
+            next_state,
+            *,
+            controlled_vehicle_id: int,
+            action: object,
+            action_applied: bool | None,
+        ):
+            return 42.0, {"custom_reward": 42.0, "total": 42.0}
+
+    env = ConstantRewardEnv(backend="reference")
+    env.reset(seed=123)
+
+    obs, reward, _, _, info = env.step(0)
+
+    assert reward == 42.0
+    assert info["reward_components"]["custom_reward"] == 42.0
+    assert info["reward_components"]["total"] == 42.0
+    assert env.observation_space.contains(obs)
+
+
+def test_custom_observation_hook_is_used(env_cls):
+    gymnasium = pytest.importorskip("gymnasium")
+    spaces = gymnasium.spaces
+
+    class TwoValueObservationEnv(env_cls):
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+            self.observation_space = spaces.Dict(
+                {
+                    "obs": spaces.Box(low=-1.0, high=1.0, shape=(2,), dtype=np.float32),
+                    "action_mask": spaces.MultiBinary(3),
+                }
+            )
+
+        def _build_observation(self):
+            base = self._controlled_observation()
+            return {
+                "obs": np.asarray([0.25, -0.25], dtype=np.float32),
+                "action_mask": base["action_mask"],
+            }
+
+    env = TwoValueObservationEnv(backend="reference")
+
+    reset_obs, _ = env.reset(seed=123)
+    step_obs, _, _, _, _ = env.step(0)
+
+    assert reset_obs["obs"].shape == (2,)
+    assert step_obs["obs"].shape == (2,)
+    assert env.observation_space.contains(reset_obs)
+    assert env.observation_space.contains(step_obs)
+
+
+def test_custom_controlled_vehicle_selection_hook_is_used(env_cls):
+    class MaxVehicleIdEnv(env_cls):
+        def _select_single_controlled(self, state):
+            alive_ids = state.vehicle_id[state.alive]
+            if alive_ids.size == 0:
+                raise ValueError("expected at least one alive vehicle")
+            selected = int(np.max(alive_ids))
+            matches = np.flatnonzero(state.vehicle_id == selected)
+            state = state.copy()
+            state.controlled[:] = False
+            state.controlled[int(matches[0])] = True
+            self._controlled_vehicle_id = selected
+            return state
+
+    env = MaxVehicleIdEnv(backend="reference")
+
+    obs, info = env.reset(seed=123)
+    state = env._sim.state
+    expected_vehicle_id = int(np.max(state.vehicle_id[state.alive]))
+
+    assert env.observation_space.contains(obs)
+    assert info["controlled_vehicle_id"] == expected_vehicle_id
+    assert env.controlled_vehicle_id == expected_vehicle_id
+    assert int(np.sum(state.controlled)) == 1
+    assert bool(state.controlled[np.flatnonzero(state.vehicle_id == expected_vehicle_id)[0]])
+
+    step_obs, reward, terminated, truncated, step_info = env.step(0)
+    assert env.observation_space.contains(step_obs)
+    assert math.isfinite(reward)
+    assert isinstance(terminated, bool)
+    assert isinstance(truncated, bool)
+    assert step_info["controlled_vehicle_id"] == expected_vehicle_id
+
+
 def test_different_seeds_can_produce_different_initial_observations_or_ids(env_cls):
     env1 = env_cls(backend="reference")
     env2 = env_cls(backend="reference")

@@ -98,7 +98,7 @@ class SnfsTrafficEnv(gym.Env):
         state = self._sim.reset(state=state, rng_seed=int(rng_seed))
         self._step_index = 0
         self._done = False
-        obs = self._controlled_observation()
+        obs = self._build_observation()
         info = build_reset_info(
             state,
             controlled_vehicle_id=self.controlled_vehicle_id,
@@ -121,14 +121,12 @@ class SnfsTrafficEnv(gym.Env):
         next_state = self._sim.step({vehicle_id: lane_delta})
         self._step_index += 1
         action_applied = self._action_applied(vehicle_id)
-        reward, components = compute_controlled_reward(
+        reward, components = self._compute_reward(
             prev_state,
             next_state,
             controlled_vehicle_id=vehicle_id,
             action={vehicle_id: lane_delta},
             action_applied=action_applied,
-            params=self.params,
-            config=self.reward_config,
         )
         terminated, truncated = compute_episode_flags(
             next_state,
@@ -137,7 +135,7 @@ class SnfsTrafficEnv(gym.Env):
             config=self.episode_config,
         )
         self._done = bool(terminated or truncated)
-        obs = self._controlled_observation()
+        obs = self._build_observation()
         info = build_step_info(
             prev_state,
             next_state,
@@ -150,7 +148,47 @@ class SnfsTrafficEnv(gym.Env):
         )
         return obs, float(reward), bool(terminated), bool(truncated), info
 
+    def _compute_reward(
+        self,
+        prev_state: TrafficState,
+        next_state: TrafficState,
+        *,
+        controlled_vehicle_id: int,
+        action: object,
+        action_applied: bool | None,
+    ) -> tuple[float, dict[str, float]]:
+        """Compute the controlled-vehicle reward for one environment step.
+
+        Subclasses may override this protected hook to customize reward logic
+        without copying :meth:`step`. The default implementation is deterministic,
+        does not consume environment RNG, and delegates to the MVP reward helper.
+        """
+        return compute_controlled_reward(
+            prev_state,
+            next_state,
+            controlled_vehicle_id=controlled_vehicle_id,
+            action=action,
+            action_applied=action_applied,
+            params=self.params,
+            config=self.reward_config,
+        )
+
+    def _build_observation(self) -> dict[str, np.ndarray]:
+        """Build the current Gymnasium observation.
+
+        Subclasses that override this hook should update ``observation_space`` to
+        match the returned schema. ``_controlled_observation`` remains available
+        as the default lower-level helper.
+        """
+        return self._controlled_observation()
+
     def _select_single_controlled(self, state: TrafficState) -> TrafficState:
+        """Select and mark the single controlled vehicle for a reset state.
+
+        This protected hook is the priority-vehicle selection extension point.
+        The default honors a constructor-provided ``controlled_vehicle_id`` or
+        otherwise draws one vehicle deterministically from the environment RNG.
+        """
         if state.n_vehicles < 1:
             raise ValueError("SnfsTrafficEnv requires at least one vehicle; increase density or road capacity")
         selected = self._requested_controlled_vehicle_id
