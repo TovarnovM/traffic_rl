@@ -111,7 +111,7 @@ if NUMBA_AVAILABLE:
 
             s_i = int(S if float(u_s[i]) < float(r) else 1)
 
-            if g > int(G) or int(v0[i]) < leader_v:
+            if g >= int(G) or int(v0[i]) <= leader_v:
                 v1 = min(vmax_i, int(v0[i]) + 1)
             else:
                 v1 = int(v0[i])
@@ -238,7 +238,7 @@ if NUMBA_AVAILABLE:
 
             s_i = int(S if float(u_s[i]) < float(r) else 1)
 
-            if g > int(G) or int(v0[i]) < leader_v:
+            if g >= int(G) or int(v0[i]) <= leader_v:
                 v1 = min(vmax_i, int(v0[i]) + 1)
             else:
                 v1 = int(v0[i])

@@ -55,7 +55,7 @@ def compute_longitudinal_velocities_kernel(
         u_s = float(rng.random()); u_q = float(rng.random()); u_b = float(rng.random())
         s_i = int(S if u_s < float(r) else 1)
 
-        v1 = min(vmax_i, int(v0[i]) + 1) if (g > int(G) or int(v0[i]) < leader_v) else int(v0[i])
+        v1 = min(vmax_i, int(v0[i]) + 1) if (g >= int(G) or int(v0[i]) <= leader_v) else int(v0[i])
 
         prev_gap = compute_cumulative_forward_gap_kernel(i, s_i, prev_pos, length, lane_order, lane_counts, lane_rank, road_length=road_length)
         v2 = min(v1, int(prev_gap)) if u_q < float(q) else v1

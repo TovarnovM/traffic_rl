@@ -313,7 +313,7 @@ def _step_longitudinal_with_controlled_speed_actions_reference(
             continue
 
         s_i = int(params.S if u_s < float(params.r) else 1)
-        v1 = min(vmax_i, int(v0[i]) + 1) if (g > int(params.G) or int(v0[i]) < leader_v) else int(v0[i])
+        v1 = min(vmax_i, int(v0[i]) + 1) if (g >= int(params.G) or int(v0[i]) <= leader_v) else int(v0[i])
         prev_gap = compute_cumulative_forward_gap_kernel(i, s_i, prev_pos, state.length, lane_order, lane_counts, lane_rank, road_length=params.road_length)
         v2 = min(v1, int(prev_gap)) if u_q < float(params.q) else v1
         cur_gap = compute_cumulative_forward_gap_kernel(i, s_i, state.pos, state.length, lane_order, lane_counts, lane_rank, road_length=params.road_length)
