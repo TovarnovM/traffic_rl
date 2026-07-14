@@ -43,3 +43,17 @@ PYTHONPATH=src python -u research/train_pv_graph_ppo.py \
   --stop-timesteps 2000000 \
   --checkpoint-freq 5 \
   --out-dir /workspace/artifacts/rl/pv_graph_ppo/rho_030_av_095
+
+
+PYTHONPATH=src python -u research/evaluate_pv_graph_ppo.py \
+  --checkpoint /workspace/artifacts/rl/pv_graph_ppo/rho_030_av_095/checkpoints \
+  --densities 0.30 \
+  --runs 20 \
+  --workers 20 \
+  --chunksize 1 \
+  --warmup-steps 1000 \
+  --measure-steps 2000 \
+  --backend optimized \
+  --no-validate \
+  --out-dir /workspace/artifacts/rl/pv_graph_ppo/rho_030_av_095/evaluation_rho_030 \
+  --prefix pv_graph_ppo_rho_030
