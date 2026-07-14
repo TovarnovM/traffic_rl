@@ -57,3 +57,16 @@ PYTHONPATH=src python -u research/evaluate_pv_graph_ppo.py \
   --no-validate \
   --out-dir /workspace/artifacts/rl/pv_graph_ppo/rho_030_av_095/evaluation_rho_030 \
   --prefix pv_graph_ppo_rho_030
+
+PYTHONPATH=src python -u research/evaluate_pv_graph_ppo.py \
+  --checkpoint /workspace/artifacts/rl/pv_graph_ppo/rho_030_av_095/checkpoints \
+  --densities 0.05,0.1,0.15,0.2,0.25,0.30,0.35,0.4,0.5,0.6,0.7,0.8,0.9 \
+  --runs 20 \
+  --workers 20 \
+  --chunksize 1 \
+  --warmup-steps 1000 \
+  --measure-steps 2000 \
+  --backend optimized \
+  --no-validate \
+  --out-dir /workspace/artifacts/rl/pv_graph_ppo/rho_030_av_095/evaluation_rho_005_09 \
+  --prefix pv_graph_ppo_rho_005_09 
