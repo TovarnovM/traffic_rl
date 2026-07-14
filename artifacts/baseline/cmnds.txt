@@ -1,7 +1,7 @@
 cd /workspace
 
 
-PYTHONPATH=src python /workspace/src/snfs_traffic/baseline/priority_baselines.py \
+PYTHONPATH=src python /workspace/research/priority_baselines.py \
   --road-length 1000 \
   --num-lanes 4 \
   --priority-scenarios one,two-g,two-2g \
