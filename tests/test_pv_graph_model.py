@@ -9,7 +9,16 @@ torch = pytest.importorskip("torch")
 pytest.importorskip("ray")
 
 from snfs_traffic.rl.centralized_pv_env import CentralizedPvEnv  # noqa: E402
-from snfs_traffic.rl.graph_ppo import PvGraphTorchModel  # noqa: E402
+from ray.rllib.algorithms.ppo.ppo_torch_policy import PPOTorchPolicy  # noqa: E402
+from snfs_traffic.rl.graph_ppo import (  # noqa: E402
+    FactorizedPPOTorchPolicy,
+    PvGraphTorchModel,
+)
+
+
+def test_factorized_policy_overrides_current_rllib_ppo_loss():
+    assert issubclass(FactorizedPPOTorchPolicy, PPOTorchPolicy)
+    assert FactorizedPPOTorchPolicy.loss is not PPOTorchPolicy.loss
 
 
 def test_graph_model_emits_one_masked_categorical_head_per_slot_and_one_value():
