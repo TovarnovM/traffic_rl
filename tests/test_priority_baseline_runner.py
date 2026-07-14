@@ -8,9 +8,7 @@ from pathlib import Path
 def _load_runner():
     path = (
         Path(__file__).resolve().parents[1]
-        / "src"
-        / "snfs_traffic"
-        / "baseline"
+        / "research"
         / "priority_baselines.py"
     )
     spec = importlib.util.spec_from_file_location(
