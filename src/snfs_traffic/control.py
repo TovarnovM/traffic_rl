@@ -5,13 +5,14 @@ from typing import Mapping
 
 import numpy as np
 
-from snfs_traffic.core import SimulationParams, TrafficState
+from snfs_traffic.core import SimulationParams, TrafficState, high_speed_vehicle_mask
 from snfs_traffic.core.indexing import MISSING_INDEX, build_body_occupancy, build_lane_order, build_occupancy, compute_neighbors
 from snfs_traffic.core.indexing_kernels import compute_cumulative_forward_gap_kernel
 from snfs_traffic.core.longitudinal_kernels import advance_positions_kernel
 from snfs_traffic.core.longitudinal_numba import (
     NUMBA_AVAILABLE as LONG_NUMBA_AVAILABLE,
     advance_positions_numba,
+    compute_longitudinal_velocities_numba,
     compute_longitudinal_velocities_controlled_speed_numba,
     draw_longitudinal_randoms,
 )
@@ -20,6 +21,10 @@ from snfs_traffic.core.lane_change_kernels import (
     collect_lane_change_proposals_kernel,
     resolve_lane_change_conflicts_kernel,
     target_lane_neighbors_at_pos_kernel,
+)
+from snfs_traffic.core.lane_change_numba import (
+    NUMBA_AVAILABLE as LANE_NUMBA_AVAILABLE,
+    collect_lane_change_proposals_numba,
 )
 from snfs_traffic.core.state import validate_state
 from snfs_traffic.core.step_reference import step_longitudinal_reference
@@ -160,6 +165,18 @@ class ControlledActionResult:
     speed_clipped_by_safety: np.ndarray | None = None
 
 
+@dataclass(frozen=True, slots=True)
+class LateralOverrideResult:
+    """Outcome of rule-based lateral requests for arbitrary alive vehicles."""
+
+    vehicle_id: np.ndarray
+    requested_lane_delta: np.ndarray
+    applied_lane_delta: np.ndarray
+    valid: np.ndarray
+    applied: np.ndarray
+    rejection_reason: tuple[str, ...]
+
+
 def controlled_vehicle_ids(state: TrafficState) -> np.ndarray:
     return state.vehicle_id[state.alive & state.controlled].copy()
 
@@ -281,6 +298,7 @@ def _step_longitudinal_with_controlled_speed_actions_reference(
     v_candidate = v0.copy()
     speed_action_by_idx = {}
     vid_to_idx = {int(v): i for i, v in enumerate(state.vehicle_id)}
+    high_speed = high_speed_vehicle_mask(state)
     for i, vid in enumerate(normalized.vehicle_id):
         if bool(normalized.speed_delta_provided[i]):
             speed_action_by_idx[vid_to_idx[int(vid)]] = int(normalized.speed_delta[i])
@@ -291,7 +309,7 @@ def _step_longitudinal_with_controlled_speed_actions_reference(
         lane_i = int(state.lane[i])
         count = int(lane_counts[lane_i])
         rank = int(lane_rank[i])
-        vmax_i = int(params.vmax_controlled if state.controlled[i] else params.vmax_default)
+        vmax_i = int(params.vmax_controlled if high_speed[i] else params.vmax_default)
         if count <= 1:
             g = int(params.road_length - int(state.length[i]))
             leader_v = int(v0[i])
@@ -319,7 +337,7 @@ def _step_longitudinal_with_controlled_speed_actions_reference(
         cur_gap = compute_cumulative_forward_gap_kernel(i, s_i, state.pos, state.length, lane_order, lane_counts, lane_rank, road_length=params.road_length)
         v3 = min(v2, int(cur_gap))
 
-        if g > int(params.G):
+        if g >= int(params.G):
             p_i = float(params.P1)
         elif int(v0[i]) < leader_v:
             p_i = float(params.P2)
@@ -402,7 +420,7 @@ def _step_longitudinal_with_controlled_speed_actions_optimized(
         state.pos,
         state.vel,
         state.alive,
-        state.controlled,
+        high_speed_vehicle_mask(state),
         has_speed_delta_by_idx,
         speed_delta_by_idx,
         lane_order,
@@ -524,7 +542,7 @@ def _step_with_controlled_lateral_actions(
 
     alive_uncontrolled = state.alive & ~state.controlled
     proposals_un = collect_lane_change_proposals_kernel(
-        state.lane, state.pos, state.vel, state.length, alive_uncontrolled, state.controlled, body_occupancy, lane_order, lane_counts,
+        state.lane, state.pos, state.vel, state.length, alive_uncontrolled, high_speed_vehicle_mask(state), body_occupancy, lane_order, lane_counts,
         front_id, front_gap, num_lanes=params.num_lanes, road_length=params.road_length, vmax_default=params.vmax_default,
         vmax_controlled=params.vmax_controlled, p_lane_change=params.p_lane_change, rng=rng,
     )
@@ -608,3 +626,275 @@ def step_with_controlled_lateral_actions_optimized(state: TrafficState, params: 
         require_all_controlled=require_all_controlled,
         optimized_speed_longitudinal=True,
     )
+
+
+def normalize_lateral_overrides(actions: Mapping[int, int], state: TrafficState) -> LaneActionBatch:
+    """Normalize rule overrides keyed by any alive vehicle id."""
+
+    if not isinstance(actions, Mapping):
+        raise TypeError("lateral overrides must be a mapping of vehicle_id to lane_delta")
+    alive_ids = {int(vehicle_id) for vehicle_id in state.vehicle_id[state.alive]}
+    normalized: list[tuple[int, int]] = []
+    for raw_vehicle_id, raw_delta in actions.items():
+        if isinstance(raw_vehicle_id, (bool, np.bool_)) or not isinstance(raw_vehicle_id, (int, np.integer)):
+            raise ValueError("lateral override vehicle ids must be integers")
+        vehicle_id = int(raw_vehicle_id)
+        if vehicle_id not in alive_ids:
+            raise ValueError(f"lateral override vehicle_id {vehicle_id} is not alive")
+        delta = _validate_action_delta("lane_delta", raw_delta, allow_none=False)
+        normalized.append((vehicle_id, int(delta)))
+    normalized.sort(key=lambda item: item[0])
+    ids = np.ascontiguousarray(np.asarray([item[0] for item in normalized], dtype=np.int32))
+    deltas = np.ascontiguousarray(np.asarray([item[1] for item in normalized], dtype=np.int8))
+    return LaneActionBatch(ids, deltas)
+
+
+def _step_longitudinal_after_override(
+    state: TrafficState,
+    params: SimulationParams,
+    topology: RingTopology,
+    rng: np.random.Generator,
+    *,
+    optimized: bool,
+) -> tuple[TrafficState, bool]:
+    if not optimized or not LONG_NUMBA_AVAILABLE or np.any(state.length[state.alive] != 1):
+        return step_longitudinal_reference(state, params, topology, rng), True
+
+    occupancy = build_occupancy(state, params)
+    lane_order, lane_counts, lane_rank = build_lane_order(occupancy, n_vehicles=state.n_vehicles)
+    u_s, u_q, u_b = draw_longitudinal_randoms(state.alive, rng)
+    new_vel = compute_longitudinal_velocities_numba(
+        state.lane,
+        state.pos,
+        state.vel,
+        state.alive,
+        high_speed_vehicle_mask(state),
+        lane_order,
+        lane_counts,
+        lane_rank,
+        u_s,
+        u_q,
+        u_b,
+        road_length=params.road_length,
+        vmax_default=params.vmax_default,
+        vmax_controlled=params.vmax_controlled,
+        G=params.G,
+        q=params.q,
+        r=params.r,
+        S=params.S,
+        P1=params.P1,
+        P2=params.P2,
+        P3=params.P3,
+        P4=params.P4,
+    )
+    out = state.copy()
+    out.changed_lane.fill(False)
+    out.last_lane_delta.fill(0)
+    out.vel = new_vel.astype(state.vel.dtype, copy=False)
+    out.pos = advance_positions_numba(state.pos, out.vel, state.alive, road_length=params.road_length)
+    validate_state(out, params)
+    build_occupancy(out, params)
+    build_body_occupancy(out, params)
+    return out, False
+
+
+def _step_with_lateral_overrides(
+    state: TrafficState,
+    params: SimulationParams,
+    topology: RingTopology,
+    rng: np.random.Generator,
+    actions: Mapping[int, int],
+    *,
+    optimized: bool,
+) -> tuple[TrafficState, LateralOverrideResult, bool]:
+    """Overlay explicit requests on the native Revised S-NFS lateral phase."""
+
+    if not isinstance(topology, RingTopology):
+        raise ValueError("topology must be RingTopology")
+    if topology.boundary != "periodic":
+        raise ValueError("topology.boundary must be periodic")
+    if topology.num_lanes != params.num_lanes or topology.length != params.road_length:
+        raise ValueError("topology must match params")
+    if not isinstance(rng, np.random.Generator):
+        raise TypeError("rng must be numpy.random.Generator")
+    validate_state(state, params)
+    normalized = normalize_lateral_overrides(actions, state)
+
+    occupancy = build_occupancy(state, params)
+    body_occupancy = build_body_occupancy(state, params)
+    lane_order, lane_counts, lane_rank = build_lane_order(occupancy, n_vehicles=state.n_vehicles)
+    front_id, _back_id, front_gap, _back_gap = compute_neighbors(
+        state, lane_order, lane_counts, lane_rank, topology
+    )
+    high_speed = high_speed_vehicle_mask(state)
+    vid_to_idx = {int(vehicle_id): idx for idx, vehicle_id in enumerate(state.vehicle_id)}
+
+    valid = np.zeros(normalized.vehicle_id.shape, dtype=np.bool_)
+    applied = np.zeros(normalized.vehicle_id.shape, dtype=np.bool_)
+    applied_delta = np.zeros(normalized.vehicle_id.shape, dtype=np.int8)
+    reasons = [""] * normalized.vehicle_id.size
+    explicit_proposals: dict[tuple[int, int], list[tuple[int, int, int]]] = {}
+    native_alive = state.alive.copy()
+
+    for row, (vehicle_id, requested_delta) in enumerate(
+        zip(normalized.vehicle_id, normalized.lane_delta)
+    ):
+        idx = vid_to_idx[int(vehicle_id)]
+        native_alive[idx] = False
+        delta = int(requested_delta)
+        if delta == LANE_STAY:
+            valid[row] = True
+            continue
+        target_lane = int(state.lane[idx]) + delta
+        if target_lane < 0 or target_lane >= params.num_lanes:
+            reasons[row] = "out_of_bounds"
+            continue
+        ok, reason = _lateral_valid(
+            state,
+            lane_order,
+            lane_counts,
+            occupancy,
+            body_occupancy,
+            idx,
+            target_lane,
+            params.road_length,
+        )
+        if not ok:
+            reasons[row] = reason
+            continue
+        valid[row] = True
+        explicit_proposals.setdefault((target_lane, int(state.pos[idx])), []).append(
+            (row, idx, target_lane)
+        )
+
+    accepted_explicit: dict[int, int] = {}
+    reserved_targets: set[tuple[int, int]] = set()
+    reserved_body_cells: set[tuple[int, int]] = set()
+    for key, candidates in explicit_proposals.items():
+        if len(candidates) > 1:
+            for row, _idx, _target_lane in candidates:
+                valid[row] = False
+                reasons[row] = "override_conflict"
+            continue
+        row, idx, target_lane = candidates[0]
+        candidate_cells = {
+            (target_lane, (int(state.pos[idx]) + offset) % params.road_length)
+            for offset in range(int(state.length[idx]))
+        }
+        if not candidate_cells.isdisjoint(reserved_body_cells):
+            valid[row] = False
+            reasons[row] = "override_conflict"
+            continue
+        accepted_explicit[idx] = target_lane
+        reserved_targets.add(key)
+        reserved_body_cells.update(candidate_cells)
+        applied[row] = True
+        applied_delta[row] = np.int8(target_lane - int(state.lane[idx]))
+
+    unit_length = not np.any(state.length[state.alive] != 1)
+    used_reference_lane = not (optimized and LANE_NUMBA_AVAILABLE and unit_length)
+    if used_reference_lane:
+        native_proposals = collect_lane_change_proposals_kernel(
+            state.lane,
+            state.pos,
+            state.vel,
+            state.length,
+            native_alive,
+            high_speed,
+            body_occupancy,
+            lane_order,
+            lane_counts,
+            front_id,
+            front_gap,
+            num_lanes=params.num_lanes,
+            road_length=params.road_length,
+            vmax_default=params.vmax_default,
+            vmax_controlled=params.vmax_controlled,
+            p_lane_change=params.p_lane_change,
+            rng=rng,
+        )
+    else:
+        native_proposals = collect_lane_change_proposals_numba(
+            lane=state.lane,
+            pos=state.pos,
+            vel=state.vel,
+            alive=native_alive,
+            controlled=high_speed,
+            occupancy=occupancy,
+            lane_order=lane_order,
+            lane_counts=lane_counts,
+            front_id=front_id,
+            front_gap=front_gap,
+            num_lanes=params.num_lanes,
+            road_length=params.road_length,
+            vmax_default=params.vmax_default,
+            vmax_controlled=params.vmax_controlled,
+            p_lane_change=params.p_lane_change,
+            rng=rng,
+        )
+    native_proposals = {
+        key: candidates for key, candidates in native_proposals.items() if key not in reserved_targets
+    }
+    accepted_native = resolve_lane_change_conflicts_kernel(
+        native_proposals,
+        rng,
+        pos=state.pos,
+        length=state.length,
+        road_length=params.road_length,
+        reserved_body_cells=reserved_body_cells,
+    )
+    accepted = dict(accepted_native)
+    accepted.update(accepted_explicit)
+    new_lane, new_changed, new_delta = apply_lane_changes_kernel(
+        state.lane, state.changed_lane, state.last_lane_delta, accepted
+    )
+    after_lane = state.copy()
+    after_lane.lane = new_lane
+    after_lane.changed_lane = new_changed
+    after_lane.last_lane_delta = new_delta
+    build_body_occupancy(after_lane, params)
+
+    saved_changed = after_lane.changed_lane.copy()
+    saved_delta = after_lane.last_lane_delta.copy()
+    out, used_reference_longitudinal = _step_longitudinal_after_override(
+        after_lane, params, topology, rng, optimized=optimized
+    )
+    out = out.copy()
+    out.changed_lane = saved_changed
+    out.last_lane_delta = saved_delta
+    validate_state(out, params)
+    build_occupancy(out, params)
+    build_body_occupancy(out, params)
+
+    result = LateralOverrideResult(
+        vehicle_id=normalized.vehicle_id.copy(),
+        requested_lane_delta=normalized.lane_delta.copy(),
+        applied_lane_delta=applied_delta,
+        valid=valid,
+        applied=applied,
+        rejection_reason=tuple(reasons),
+    )
+    return out, result, bool(used_reference_lane or used_reference_longitudinal)
+
+
+def step_with_lateral_overrides_reference(
+    state: TrafficState,
+    params: SimulationParams,
+    topology: RingTopology,
+    rng: np.random.Generator,
+    actions: Mapping[int, int],
+) -> tuple[TrafficState, LateralOverrideResult]:
+    out, result, _used_reference = _step_with_lateral_overrides(
+        state, params, topology, rng, actions, optimized=False
+    )
+    return out, result
+
+
+def step_with_lateral_overrides_optimized(
+    state: TrafficState,
+    params: SimulationParams,
+    topology: RingTopology,
+    rng: np.random.Generator,
+    actions: Mapping[int, int],
+) -> tuple[TrafficState, LateralOverrideResult, bool]:
+    return _step_with_lateral_overrides(state, params, topology, rng, actions, optimized=True)

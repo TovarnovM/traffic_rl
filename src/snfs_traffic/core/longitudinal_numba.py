@@ -129,7 +129,7 @@ if NUMBA_AVAILABLE:
             )
             v3 = min(v2, int(cur_gap))
 
-            if g > int(G):
+            if g >= int(G):
                 p_i = float(P1)
             elif int(v0[i]) < leader_v:
                 p_i = float(P2)
@@ -256,7 +256,7 @@ if NUMBA_AVAILABLE:
             )
             v3 = min(v2, int(cur_gap))
 
-            if g > int(G):
+            if g >= int(G):
                 p_i = float(P1)
             elif int(v0[i]) < leader_v:
                 p_i = float(P2)

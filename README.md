@@ -17,7 +17,11 @@ longitudinal phase order in `step_reference(...)`: stochastic look-ahead via
 `r/S`, slow-to-start via `q`, perspective capping, `P1..P4` keep-speed braking
 branches, and leader-safe collision avoidance.
 
-The project is **not yet a full RL training package**. Facade-level controlled lateral actions, local controlled-only observations, an MVP reward/episode contract, and a minimal Gymnasium single-controlled-vehicle wrapper are implemented. RLlib/PettingZoo wrappers and training smoke runs are still planned/not implemented.
+The project now includes a first end-to-end local RL training path. Alongside
+the simulator and priority-vehicle Baseline 1/2 experiments, it provides a
+single-agent PV coordinator, a fixed padded graph observation, and a compact
+Graph-PPO implementation for RLlib. This is still a research MVP rather than a
+general-purpose RL training package.
 
 ---
 
@@ -31,7 +35,8 @@ Current conclusion:
 - `ReferenceBackend` remains the simple reference implementation.
 - `OptimizedBackend` is a supported optional backend when required Numba kernels are available.
 - Numba remains optional. The base package must import and run without Numba installed.
-- The project has an MVP RL environment layer, but is not ready for RL training yet.
+- The project has an MVP centralized Graph-PPO path ready for local smoke runs
+  and initial training experiments.
 
 Current readiness estimate:
 
@@ -46,7 +51,10 @@ Current readiness estimate:
 | Episode lifecycle | Implemented (fixed-horizon truncation plus optional no-alive termination) |
 | Simulator facade | Implemented |
 | Gymnasium wrapper | Implemented (single controlled vehicle, lateral-only `Discrete(3)`) |
-| RLlib/PettingZoo wrappers | Not implemented |
+| Multi-agent/RLlib env | Implemented; subclasses RLlib `MultiAgentEnv` when Ray is installed |
+| Priority Baseline 1/2 | Implemented with paired runner and metrics |
+| Centralized PV Graph-PPO | Implemented as a local-training research MVP |
+| PettingZoo wrapper | Not implemented |
 
 ---
 
@@ -93,9 +101,35 @@ Current readiness estimate:
 - Episode lifecycle helpers in `snfs_traffic.rl.episode`; periodic ring-road episodes are fixed-horizon by default (`terminated=False` in normal operation, `truncated=True` at `max_steps`).
 - Stable reset/step info schema with JSON-friendly scalar metrics.
 - Optional Gymnasium wrapper `snfs_traffic.rl.env.SnfsTrafficEnv` for exactly one controlled vehicle.
+- Synchronous `SnfsTrafficMultiAgentEnv` and speed-control extension; the former
+  is a real RLlib `MultiAgentEnv` subclass when the optional Ray extra is installed.
 - Action space is lateral-only `Discrete(3)`: `0=keep lane`, `1=request left`, `2=request right`.
 - Observation space is a Gymnasium `Dict` using the existing local controlled-only observation vector plus lateral action mask.
-- RL training (PPO/SAC/etc.), RLlib wrappers, and PettingZoo/multi-agent wrappers remain out of scope.
+- General-purpose RL policies and PettingZoo remain out of scope.
+
+### Priority-vehicle baselines
+
+- Explicit uncontrolled PV role with `vmax_controlled` and native S-NFS behavior.
+- Reproducible one-PV and same-lane two-PV (`G`, `2G`) placement.
+- Baseline 1 HDV flow and Baseline 2 yielding rule with safe deferral/cooldown.
+- Fair 5%/10%/20% matched rule-based AV subsets.
+- Paired fundamental diagrams, all/PV speeds, worst-PV metrics, lap metrics,
+  background-flow constraint, bootstrap intervals, CSV/JSON, and plots.
+- Protocol and commands: `src/snfs_traffic/baseline/PRIORITY_BASELINES.md`.
+
+### Centralized PV Graph-PPO MVP
+
+- One single-agent coordinator associated with the priority vehicle.
+- A configurable local PV window; nearby AVs are graph vertices, while nearby
+  HDVs are encoded in vertex features.
+- Fixed-size padded observations and masks keep the RLlib tensor contract
+  stable while physical vehicles enter and leave the PV neighborhood.
+- Six physical neighbor relations and two message-passing layers with a shared
+  per-node lateral-action head.
+- Native Revised S-NFS behavior outside the controlled neighborhood.
+- PV-speed reward with small applied/rejected intervention regularizers and no
+  aggregate-flow reward term.
+- Local RLlib runner with progress output and periodic checkpoints.
 
 ### Correctness validation
 
@@ -123,14 +157,14 @@ Current readiness estimate:
 
 ### RL-facing layer
 
-- RLlib wrappers.
-- PettingZoo/multi-agent wrappers.
+- Recurrent/temporal graph state beyond the current Markov observation.
+- Multi-PV centralized coordination and additional RL algorithms.
+- PettingZoo adapter.
 
 ### Physics/model extensions
 
-- Length-aware multi-cell occupancy.
-- Length-aware bumper-to-bumper gaps.
-- Body-cell bus collision geometry.
+- Road networks and junctions beyond the periodic ring.
+- Calibrated heterogeneous human-driver parameter sets.
 - Open-boundary topology.
 - Open-boundary step semantics.
 - New simulator physics beyond the current Revised S-NFS core.
@@ -161,6 +195,12 @@ Install with optional RL/Gymnasium support:
 
 ```bash
 python -m pip install -e ".[rl]"
+```
+
+Install with RLlib support:
+
+```bash
+python -m pip install -e ".[rl,ray]"
 ```
 
 No-install local development alternative:
@@ -214,12 +254,12 @@ src/snfs_traffic/
   backends/       # ReferenceBackend, OptimizedBackend, backend selector
   core/           # state, params, indexing, lane-change, longitudinal, reference step
   topology/       # RingTopology and topology interfaces
-  scenarios/      # initial state generation and vehicle mix metadata
-  rules/          # reserved for rule/preset layer
+  scenarios/      # initial states, vehicle mix, and priority placement
+  rules/          # priority-yield baseline controller
   observations/   # local controlled-only observation schema
-  rl/             # reward, episode/info helpers, Gymnasium single-controlled env
+  rl/             # reward/episode helpers and single-/multi-agent envs
   envs/           # reserved for future RL environment wrappers
-  metrics/        # reserved for future rollout metrics
+  metrics/        # priority-flow, speed, lap, and paired statistics
   io/             # reserved for future snapshots/export/import
 
 benchmarks/       # benchmark CLIs and benchmark-local profiling
@@ -431,7 +471,7 @@ MVP environment contract:
 - observation space is a Gymnasium `Dict` with the existing local controlled-only observation vector and action mask;
 - reward is deterministic and includes `speed_reward`, `lane_change_penalty`, `blocked_action_penalty`, `stopped_penalty`, and `total`;
 - current periodic ring-road episodes are fixed-horizon by default (`terminated=False` during normal operation, `truncated=True` at `max_steps`);
-- RL training, RLlib, and PettingZoo are not implemented in this MVP.
+- RL training policies and PettingZoo are not implemented in this single-agent MVP.
 
 #### Customization hooks
 
@@ -440,7 +480,9 @@ MVP environment contract:
 
 ### Lightweight multi-agent RL env
 
-`SnfsTrafficMultiAgentEnv` exposes a Ray-shaped synchronous multi-agent API without depending on Ray/RLlib yet.
+`SnfsTrafficMultiAgentEnv` exposes a synchronous multi-agent API. Ray remains
+optional: with `.[ray]` installed, the class directly subclasses RLlib's
+`MultiAgentEnv`; otherwise it retains the same lightweight Gymnasium API.
 
 - agents are controlled vehicles;
 - agent ids use `vehicle_<vehicle_id>`;
@@ -451,7 +493,8 @@ MVP environment contract:
 - all agents share the same lateral-only `Discrete(3)` action space;
 - per-agent observations use the same `{"obs", "action_mask"}` schema as the single-agent MVP;
 - protected hooks `_select_controlled(...)`, `_build_observations()`, and `_compute_agent_reward(...)` support lightweight subclass customization;
-- this is not a Ray/RLlib wrapper yet, but keeps the API shape compatible with a future RLlib `MultiAgentEnv` adapter.
+- constructor seeding produces a reproducible sequence of distinct episodes;
+- lateral masks use the exact action order `stay, left, right`.
 
 
 ### Multi-agent speed-control env
@@ -464,6 +507,36 @@ MVP environment contract:
 - requested speed is clipped by `vmax_controlled` and safety/gap constraints;
 - uncontrolled HDV and priority vehicles still use normal Rev S-NFS dynamics;
 - existing lateral-only envs remain unchanged.
+
+### Centralized PV Graph-PPO
+
+Install the local training dependencies:
+
+```bash
+python -m pip install -e ".[rl,ray,numba]"
+```
+
+Run the integration smoke first:
+
+```bash
+PYTHONPATH=src python research/train_pv_graph_ppo.py --smoke
+```
+
+Start a local training run, for example:
+
+```bash
+PYTHONPATH=src python research/train_pv_graph_ppo.py \
+  --density 0.20 \
+  --av-fraction 0.95 \
+  --workers 8 \
+  --iterations 1000 \
+  --out-dir artifacts/rl/pv_graph_ppo
+```
+
+The environment exposes one fixed-size `MultiDiscrete` action vector. For each
+active AV node, action indices are `0=left`, `1=stay`, and `2=right`; padded
+nodes are masked to `stay`. AVs outside the local graph keep native Revised
+S-NFS lane-changing behavior.
 
 ---
 
@@ -558,7 +631,9 @@ The current simulator uses length-aware body validity with head-based lane order
 - head ordering remains based on head cells for indexing;
 - lane changes are lateral only and do not move longitudinal position;
 - there are no same-step lateral swaps into previously occupied target cells;
-- controlled vehicles support facade-level lateral actions plus MVP reward/episode/Gymnasium wrapper semantics; full RL training stacks are not implemented;
+- controlled vehicles support facade-level lateral actions plus MVP
+  reward/episode/Gymnasium wrapper semantics; the centralized PV Graph-PPO path
+  is implemented, while broader RL training stacks are not;
 - open-boundary roads are not implemented;
 - current runtime invariants validate current reference semantics, not future length-aware geometry.
 
@@ -585,12 +660,15 @@ These limitations are intentional for the current core stage. Do not change them
 
 Next roadmap:
 
-1. random-policy smoke / tiny training smoke for the single-controlled Gymnasium MVP;
-2. training-facing polish discovered by that smoke;
-3. optional optimized controlled-action path after profiling;
-4. RLlib/PettingZoo wrappers only after the single-agent environment remains stable.
+1. freeze the Baseline 1/2 pilot density region from paired results;
+2. run the Graph-PPO integration smoke in the target local environment;
+3. train and evaluate the centralized PV coordinator against paired baselines;
+4. add temporal state or multi-PV coordination only when experiments justify it;
+5. add PettingZoo only if a downstream integration requires it.
 
-The next architectural step should not be another low-level optimization pass unless performance becomes a blocker. The project has an MVP RL environment layer, but is not ready for full RL training workflows yet.
+The next architectural step should be driven by the first local Graph-PPO
+learning curves and baseline comparisons, not by another low-level optimization
+pass unless performance becomes a blocker.
 
 
 ## Visualization

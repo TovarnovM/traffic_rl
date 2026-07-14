@@ -6,7 +6,7 @@ from snfs_traffic.core.backend import StepBackend
 from snfs_traffic.core.indexing_numba import NUMBA_AVAILABLE as INDEX_NUMBA_AVAILABLE, build_index_and_neighbors_numba
 from snfs_traffic.core.lane_change_kernels import apply_lane_changes_kernel, resolve_lane_change_conflicts_kernel
 from snfs_traffic.core.lane_change_numba import NUMBA_AVAILABLE as LANE_NUMBA_AVAILABLE, collect_lane_change_proposals_numba
-from snfs_traffic.core.longitudinal_kernels import compute_longitudinal_velocities_kernel
+from snfs_traffic.core.longitudinal_kernels import compute_longitudinal_velocities_kernel  # noqa: F401
 from snfs_traffic.core.longitudinal_numba import (
     NUMBA_AVAILABLE as LONG_NUMBA_AVAILABLE,
     advance_positions_numba,
@@ -14,6 +14,7 @@ from snfs_traffic.core.longitudinal_numba import (
     draw_longitudinal_randoms,
 )
 from snfs_traffic.core.params import SimulationParams
+from snfs_traffic.core.roles import high_speed_vehicle_mask
 from snfs_traffic.core.state import TrafficState, validate_state
 from snfs_traffic.core.indexing import build_occupancy
 from snfs_traffic.core.step_reference import step_reference
@@ -56,8 +57,9 @@ class OptimizedBackend:
         occupancy, lane_order, lane_counts, _, front_id, _, front_gap, _ = build_index_and_neighbors_numba(
             state.lane, state.pos, state.alive, num_lanes=params.num_lanes, road_length=params.road_length
         )
+        high_speed = high_speed_vehicle_mask(state)
         proposals = collect_lane_change_proposals_numba(
-            lane=state.lane, pos=state.pos, vel=state.vel, alive=state.alive, controlled=state.controlled,
+            lane=state.lane, pos=state.pos, vel=state.vel, alive=state.alive, controlled=high_speed,
             occupancy=occupancy, lane_order=lane_order, lane_counts=lane_counts, front_id=front_id, front_gap=front_gap,
             num_lanes=params.num_lanes, road_length=params.road_length, vmax_default=params.vmax_default,
             vmax_controlled=params.vmax_controlled, p_lane_change=params.p_lane_change, rng=rng
@@ -76,7 +78,7 @@ class OptimizedBackend:
             after_lane.pos,
             after_lane.vel,
             after_lane.alive,
-            after_lane.controlled,
+            high_speed_vehicle_mask(after_lane),
             lane_order2,
             lane_counts2,
             lane_rank2,

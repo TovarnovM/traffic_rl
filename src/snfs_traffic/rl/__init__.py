@@ -9,6 +9,9 @@ __all__ = [
     "SnfsTrafficEnv",
     "SnfsTrafficMultiAgentEnv",
     "SnfsTrafficSpeedControlMultiAgentEnv",
+    "CentralizedPvEnv",
+    "PvSpeedRewardConfig",
+    "compute_pv_speed_reward",
     "build_reset_info",
     "build_step_info",
     "compute_controlled_reward",
@@ -29,4 +32,20 @@ def __getattr__(name: str):
         from snfs_traffic.rl.speed_control_multiagent_env import SnfsTrafficSpeedControlMultiAgentEnv
 
         return SnfsTrafficSpeedControlMultiAgentEnv
+    if name in {
+        "CentralizedPvEnv",
+        "PvSpeedRewardConfig",
+        "compute_pv_speed_reward",
+    }:
+        from snfs_traffic.rl.centralized_pv_env import (
+            CentralizedPvEnv,
+            PvSpeedRewardConfig,
+            compute_pv_speed_reward,
+        )
+
+        return {
+            "CentralizedPvEnv": CentralizedPvEnv,
+            "PvSpeedRewardConfig": PvSpeedRewardConfig,
+            "compute_pv_speed_reward": compute_pv_speed_reward,
+        }[name]
     raise AttributeError(name)

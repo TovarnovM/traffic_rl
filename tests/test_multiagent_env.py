@@ -192,6 +192,46 @@ def test_reproducibility_with_same_seed_and_actions(env_cls):
             break
 
 
+def test_constructor_seed_produces_reproducible_but_distinct_reset_sequence(env_cls):
+    kwargs = dict(backend="reference", num_controlled=3, density=0.3, seed=987)
+    env1 = env_cls(**kwargs)
+    env2 = env_cls(**kwargs)
+
+    env1.reset()
+    env2.reset()
+    first1 = env1._sim.state
+    first2 = env2._sim.state
+    env1.reset()
+    env2.reset()
+    second1 = env1._sim.state
+    second2 = env2._sim.state
+
+    for field in ("lane", "pos", "controlled"):
+        np.testing.assert_array_equal(getattr(first1, field), getattr(first2, field))
+        np.testing.assert_array_equal(getattr(second1, field), getattr(second2, field))
+    assert not (
+        np.array_equal(first1.lane, second1.lane)
+        and np.array_equal(first1.pos, second1.pos)
+        and np.array_equal(first1.controlled, second1.controlled)
+    )
+
+
+def test_action_mask_matches_discrete_action_order_stay_left_right(env_cls):
+    env = env_cls(backend="reference", num_controlled=3, density=0.3)
+    observations, _infos = env.reset(seed=123)
+    raw_batch = env._sim.observe(env._obs_config)
+    raw_by_id = {
+        int(vehicle_id): raw_batch.action_mask[row]
+        for row, vehicle_id in enumerate(raw_batch.vehicle_id)
+    }
+
+    for agent_id, observation in observations.items():
+        vehicle_id = env._agent_to_vehicle_id[agent_id]
+        expected = np.asarray(raw_by_id[vehicle_id][[1, 0, 2]], dtype=np.int8)
+        np.testing.assert_array_equal(observation["action_mask"], expected)
+        assert int(observation["action_mask"][0]) == 1
+
+
 def _assert_same_multiagent_result(env1, env2, obs1, obs2, infos1, infos2):
     assert env1.agents == env2.agents
     assert set(obs1) == set(obs2)

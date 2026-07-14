@@ -13,6 +13,7 @@ from snfs_traffic.core.indexing import build_body_occupancy, build_lane_order, b
 from snfs_traffic.core.lane_change_reference import step_lane_change_reference
 from snfs_traffic.core.longitudinal_kernels import advance_positions_kernel, compute_longitudinal_velocities_kernel
 from snfs_traffic.core.params import SimulationParams
+from snfs_traffic.core.roles import high_speed_vehicle_mask
 from snfs_traffic.core.state import TrafficState, validate_state
 from snfs_traffic.topology import RingTopology
 
@@ -53,7 +54,7 @@ def step_longitudinal_reference(
         state.vel,
         state.length,
         state.alive,
-        state.controlled,
+        high_speed_vehicle_mask(state),
         lane_order,
         lane_counts,
         lane_rank,

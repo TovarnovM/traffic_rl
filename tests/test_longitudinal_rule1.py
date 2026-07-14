@@ -189,6 +189,15 @@ def test_controlled_speed_none_uses_corrected_legacy_rule1_in_reference_path() -
     assert int(out.vel[1]) == 1
 
 
+def test_gap_equal_G_uses_P1_probability_branch() -> None:
+    params = _params(road_length=30, G=5, q=0.0, P1=1.0, P4=0.0)
+    state = _state(pos=(0, 6), vel=(2, 1))
+
+    vel = _step_reference_velocity(state, params)
+
+    assert int(vel[0]) == 3
+
+
 def test_explicit_speed_delta_zero_and_plus_one_semantics_are_unchanged() -> None:
     params = _params(road_length=20)
     topology = RingTopology(num_lanes=params.num_lanes, length=params.road_length)
