@@ -14,6 +14,11 @@ except ImportError as exc:  # pragma: no cover - exercised when optional extra i
         "'python -m pip install -e \".[rl]\"' from this repository, or install 'gymnasium>=0.29'."
     ) from exc
 
+try:  # Keep Ray an optional dependency while becoming a real RLlib env when installed.
+    from ray.rllib.env.multi_agent_env import MultiAgentEnv as _MultiAgentEnvBase
+except ImportError:  # pragma: no cover - exercised in the lightweight install
+    _MultiAgentEnvBase = gym.Env
+
 from snfs_traffic.control import LANE_LEFT, LANE_RIGHT, LANE_STAY, ControlledActionResult
 from snfs_traffic.core import SimulationParams, TrafficState
 from snfs_traffic.observations import LOCAL_OBSERVATION_FEATURES, LocalObservationConfig
@@ -25,8 +30,8 @@ from snfs_traffic.simulator import ScenarioConfig, TrafficSimulator
 _ACTION_TO_DELTA = {0: LANE_STAY, 1: LANE_LEFT, 2: LANE_RIGHT}
 
 
-class SnfsTrafficMultiAgentEnv(gym.Env):
-    """Ray-shaped synchronous multi-agent wrapper for controlled vehicles."""
+class SnfsTrafficMultiAgentEnv(_MultiAgentEnvBase):
+    """Synchronous multi-agent environment compatible with RLlib's API."""
 
     metadata = {"render_modes": []}
 
@@ -44,6 +49,7 @@ class SnfsTrafficMultiAgentEnv(gym.Env):
         seed: int | None = None,
         scenario_seed: int | None = None,
     ) -> None:
+        super().__init__()
         if isinstance(num_controlled, bool) or not isinstance(num_controlled, int) or num_controlled < 1:
             raise ValueError("num_controlled must be an int >= 1")
         requested_ids: tuple[int, ...] | None = None
@@ -74,6 +80,7 @@ class SnfsTrafficMultiAgentEnv(gym.Env):
         self._selected_controlled_count = len(requested_ids) if requested_ids is not None else int(num_controlled)
         self._step_index = 0
         self._done = True
+        self._seed_initialized = False
         self._obs_config = LocalObservationConfig(dtype=np.float32)
         self._sim = TrafficSimulator(
             params=self.params,
@@ -116,13 +123,14 @@ class SnfsTrafficMultiAgentEnv(gym.Env):
         return self.single_agent_action_space
 
     def reset(self, *, seed: int | None = None, options: dict[str, Any] | None = None):
-        env_seed = seed if seed is not None else self._initial_seed
+        env_seed = seed
+        if env_seed is None and not self._seed_initialized:
+            env_seed = self._initial_seed
         super().reset(seed=env_seed)
+        self._seed_initialized = True
         options = options or {}
         scenario_seed = options.get("scenario_seed", self._scenario_seed)
-        if scenario_seed is None:
-            scenario_seed = seed if seed is not None else self._initial_seed
-        rng_seed = options.get("rng_seed", seed if seed is not None else self._initial_seed)
+        rng_seed = options.get("rng_seed")
         if scenario_seed is None:
             scenario_seed = int(self.np_random.integers(0, np.iinfo(np.int32).max))
         if rng_seed is None:
@@ -287,7 +295,9 @@ class SnfsTrafficMultiAgentEnv(gym.Env):
             else:
                 obs = {
                     "obs": np.asarray(batch.obs[row], dtype=np.float32),
-                    "action_mask": np.asarray(batch.action_mask[row], dtype=np.int8),
+                    # Observation kernels expose [left, stay, right], whereas
+                    # this environment's Discrete actions are [stay, left, right].
+                    "action_mask": np.asarray(batch.action_mask[row][[1, 0, 2]], dtype=np.int8),
                 }
             observations[agent_id] = obs
         return observations

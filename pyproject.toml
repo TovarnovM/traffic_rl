@@ -24,6 +24,7 @@ viz = [
     "pygame>=2.5",
     "imageio>=2.34",
     "imageio-ffmpeg>=0.4",
+    "matplotlib>=3.8",
 ]
 numba = [
     "numba>=0.61",
@@ -37,5 +38,6 @@ infra = [
     "psycopg2-binary>=2.9",
 ]
 ray = [
-    "ray>=2.9",
+    "ray[rllib]>=2.9,<3",
+    "torch>=2.2",
 ]

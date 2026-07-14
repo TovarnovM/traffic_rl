@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 import numpy as np
-from snfs_traffic.core.indexing_kernels import compute_cumulative_forward_gap_kernel, compute_forward_empty_gap_kernel
+from snfs_traffic.core.indexing_kernels import compute_cumulative_forward_gap_kernel
 
 
 def compute_longitudinal_velocities_kernel(
@@ -63,7 +63,7 @@ def compute_longitudinal_velocities_kernel(
         cur_gap = compute_cumulative_forward_gap_kernel(i, s_i, pos, length, lane_order, lane_counts, lane_rank, road_length=road_length)
         v3 = min(v2, int(cur_gap))
 
-        if g > int(G):
+        if g >= int(G):
             p_i = float(P1)
         elif int(v0[i]) < leader_v:
             p_i = float(P2)

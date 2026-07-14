@@ -15,6 +15,7 @@ from .step_reference import step_longitudinal_reference, step_reference
 from .lane_change_reference import step_lane_change_reference
 from .invariants import validate_runtime_invariants
 from .backend import StepBackend, ReferenceBackend, get_reference_backend
+from .roles import PRIORITY_VEH_TYPE, high_speed_vehicle_mask, priority_vehicle_mask
 
 __all__ = [
     "SimulationParams",
@@ -36,4 +37,7 @@ __all__ = [
     "StepBackend",
     "ReferenceBackend",
     "get_reference_backend",
+    "PRIORITY_VEH_TYPE",
+    "high_speed_vehicle_mask",
+    "priority_vehicle_mask",
 ]

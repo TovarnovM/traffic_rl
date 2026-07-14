@@ -6,6 +6,7 @@ import numpy as np
 
 from snfs_traffic.core.indexing import build_body_occupancy, build_lane_order, build_occupancy, compute_neighbors
 from snfs_traffic.core.params import SimulationParams
+from snfs_traffic.core.roles import high_speed_vehicle_mask
 from snfs_traffic.core.state import TrafficState, validate_state
 from snfs_traffic.topology import RingTopology
 
@@ -47,12 +48,13 @@ def validate_runtime_invariants(
     if np.any(state.vel[alive] < 0):
         raise ValueError("alive vehicle velocity must be >= 0")
 
-    alive_controlled = alive & state.controlled
-    alive_uncontrolled = alive & ~state.controlled
-    if np.any(state.vel[alive_uncontrolled] > params.vmax_default):
-        raise ValueError("uncontrolled alive vehicle velocity exceeds params.vmax_default")
-    if np.any(state.vel[alive_controlled] > params.vmax_controlled):
-        raise ValueError("controlled alive vehicle velocity exceeds params.vmax_controlled")
+    high_speed = high_speed_vehicle_mask(state)
+    alive_high_speed = alive & high_speed
+    alive_default_speed = alive & ~high_speed
+    if np.any(state.vel[alive_default_speed] > params.vmax_default):
+        raise ValueError("uncontrolled non-priority alive vehicle velocity exceeds params.vmax_default")
+    if np.any(state.vel[alive_high_speed] > params.vmax_controlled):
+        raise ValueError("controlled or priority alive vehicle velocity exceeds params.vmax_controlled")
 
     if np.any(~np.isin(state.last_lane_delta, np.array([-1, 0, 1], dtype=state.last_lane_delta.dtype))):
         raise ValueError("last_lane_delta must be one of {-1, 0, +1}")
