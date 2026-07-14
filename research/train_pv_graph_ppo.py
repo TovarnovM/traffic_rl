@@ -127,7 +127,6 @@ def _configure_training(config, args):
                 "hidden_dim": args.hidden_dim,
                 "message_layers": args.message_layers,
             },
-            "_disable_preprocessor_api": True,
             "vf_share_layers": True,
         },
     }

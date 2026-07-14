@@ -10,6 +10,7 @@ pytest.importorskip("ray")
 
 from snfs_traffic.rl.centralized_pv_env import CentralizedPvEnv  # noqa: E402
 from ray.rllib.algorithms.ppo.ppo_torch_policy import PPOTorchPolicy  # noqa: E402
+from ray.rllib.models.preprocessors import get_preprocessor  # noqa: E402
 from snfs_traffic.rl.graph_ppo import (  # noqa: E402
     FactorizedPPOTorchPolicy,
     PvGraphTorchModel,
@@ -44,7 +45,6 @@ def test_graph_model_emits_one_masked_categorical_head_per_slot_and_one_value():
         int(np.sum(env.action_space.nvec)),
         {
             "custom_model_config": {"hidden_dim": 32, "message_layers": 2},
-            "_disable_preprocessor_api": True,
         },
         "test_pv_graph_model",
     )
@@ -63,3 +63,10 @@ def test_graph_model_emits_one_masked_categorical_head_per_slot_and_one_value():
     invalid = torch.from_numpy(observation["action_mask"] == 0).unsqueeze(0)
     assert torch.all(logits[invalid] < -1.0e8)
     assert torch.isfinite(model.value_function()).all()
+
+    preprocessor = get_preprocessor(env.observation_space)(env.observation_space)
+    flat_observation = preprocessor.transform(observation)
+    flat_logits, _state = model.forward(
+        {"obs": torch.from_numpy(flat_observation).unsqueeze(0)}, [], None
+    )
+    assert flat_logits.shape == (1, int(np.sum(env.action_space.nvec)))

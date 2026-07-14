@@ -7,6 +7,8 @@ per-node logits required for nodewise PPO clipping.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
+
 try:
     import torch
     import torch.nn as nn
@@ -21,6 +23,7 @@ try:
     from ray.rllib.algorithms.ppo import PPO
     from ray.rllib.algorithms.ppo.ppo_torch_policy import PPOTorchPolicy
     from ray.rllib.evaluation.postprocessing import Postprocessing
+    from ray.rllib.models.modelv2 import restore_original_dimensions
     from ray.rllib.models.torch.torch_modelv2 import TorchModelV2
     from ray.rllib.policy.sample_batch import SampleBatch
 except ImportError as exc:  # pragma: no cover - optional dependency guard
@@ -82,6 +85,7 @@ class PvGraphTorchModel(TorchModelV2, nn.Module):
         num_outputs: int,
         model_config,
         name: str,
+        **custom_options,
     ) -> None:
         TorchModelV2.__init__(
             self, obs_space, action_space, num_outputs, model_config, name
@@ -100,6 +104,7 @@ class PvGraphTorchModel(TorchModelV2, nn.Module):
                 f"graph model requires {expected_outputs} action logits, got {num_outputs}"
             )
         custom = dict(model_config.get("custom_model_config", {}))
+        custom.update(custom_options)
         hidden_dim = int(custom.get("hidden_dim", 64))
         message_layers = int(custom.get("message_layers", 2))
         if hidden_dim < 1 or message_layers < 1:
@@ -140,6 +145,13 @@ class PvGraphTorchModel(TorchModelV2, nn.Module):
 
     def forward(self, input_dict, state, seq_lens):
         obs = input_dict["obs"]
+        if not isinstance(obs, Mapping):
+            obs = restore_original_dimensions(obs, self.obs_space, "torch")
+        if not isinstance(obs, Mapping):
+            raise TypeError(
+                "PV graph model expected a Dict observation after RLlib "
+                f"restoration, got {type(obs).__name__}"
+            )
         node_features = obs["node_features"].float()
         node_mask = obs["node_mask"].float()
         neighbor_index = obs["neighbor_index"].long()
