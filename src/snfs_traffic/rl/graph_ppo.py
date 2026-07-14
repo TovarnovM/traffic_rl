@@ -284,10 +284,18 @@ def factorized_ppo_loss(policy, model, dist_class, train_batch):
     return total_loss
 
 
-FactorizedPPOTorchPolicy = PPOTorchPolicy.with_updates(
-    name="FactorizedPPOTorchPolicy",
-    loss_fn=factorized_ppo_loss,
-)
+class FactorizedPPOTorchPolicy(PPOTorchPolicy):
+    """PPO Torch policy with the nodewise factorized loss.
+
+    Current RLlib releases expose ``PPOTorchPolicy`` as a normal class whose
+    ``loss`` method is intended to be overridden.  Older generated-policy
+    examples used ``with_updates()``, but that factory is no longer present in
+    recent Ray versions.  Direct subclassing also works with the older classic
+    Policy stack used by this training runner.
+    """
+
+    def loss(self, model, dist_class, train_batch):
+        return factorized_ppo_loss(self, model, dist_class, train_batch)
 
 
 class FactorizedGraphPPO(PPO):
