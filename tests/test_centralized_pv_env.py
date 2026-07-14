@@ -13,6 +13,7 @@ from snfs_traffic.rl.centralized_pv_env import (  # noqa: E402
     PvSpeedRewardConfig,
     compute_pv_speed_reward,
 )
+from snfs_traffic.observations import PvGraphConfig  # noqa: E402
 from snfs_traffic.scenarios import AV_VEH_TYPE  # noqa: E402
 
 
@@ -60,6 +61,11 @@ def test_reward_is_pv_speed_with_only_two_count_regularizers():
     }
 
 
+def test_graph_cooldown_default_is_one_step_and_zero_remains_valid():
+    assert PvGraphConfig().cooldown_steps == 1
+    assert PvGraphConfig(cooldown_steps=0).cooldown_steps == 0
+
+
 def test_reset_returns_fixed_padded_graph_and_never_sets_controlled_flag():
     env = _env()
     observation, info = env.reset(seed=77)
@@ -91,6 +97,10 @@ def test_all_stay_step_is_valid_and_reward_matches_reported_pv_speed():
     assert info["applied_count"] == 0
     assert info["rejected_count"] == 0
     assert reward == pytest.approx(info["pv_speed"] / env.params.vmax_controlled)
+    assert info["episode_mean_pv_speed"] == pytest.approx(info["pv_speed"])
+    assert info["density"] == pytest.approx(0.20)
+    assert info["av_fraction"] == pytest.approx(0.95)
+    assert info["condition_key"] == "rho_0p200_av_0p950"
 
 
 def test_episode_truncates_and_requires_reset():
@@ -149,3 +159,45 @@ def test_equal_seeds_and_actions_are_reproducible():
     for key in first_step[0]:
         np.testing.assert_array_equal(first_step[0][key], second_step[0][key])
     assert first_step[1:] == second_step[1:]
+
+
+def test_reset_grid_covers_every_pair_and_caches_warmup_once_per_density():
+    first = _env(
+        density_values=[0.10, 0.20],
+        av_fraction_values=[0.50, 1.0],
+        warmup_steps=2,
+        warmup_cache=True,
+    )
+    second = _env(
+        density_values=[0.10, 0.20],
+        av_fraction_values=[0.50, 1.0],
+        warmup_steps=2,
+        warmup_cache=True,
+    )
+
+    def reset_sequence(env):
+        infos = []
+        for index in range(4):
+            _observation, info = env.reset(seed=91 if index == 0 else None)
+            infos.append(info)
+        return infos
+
+    first_infos = reset_sequence(first)
+    second_infos = reset_sequence(second)
+    first_pairs = [
+        (info["density"], info["av_fraction"]) for info in first_infos
+    ]
+    second_pairs = [
+        (info["density"], info["av_fraction"]) for info in second_infos
+    ]
+
+    assert set(first_pairs) == {
+        (0.10, 0.50),
+        (0.10, 1.0),
+        (0.20, 0.50),
+        (0.20, 1.0),
+    }
+    assert first_pairs == second_pairs
+    assert sum(not info["warmup_cache_hit"] for info in first_infos) == 2
+    assert sum(info["warmup_cache_hit"] for info in first_infos) == 2
+    assert first_infos[-1]["warmup_cache_size"] == 2

@@ -85,7 +85,7 @@ class PvGraphConfig:
     front_distance: int = 30
     back_distance: int = 10
     sensor_distance: int = 60
-    cooldown_steps: int = 5
+    cooldown_steps: int = 1
 
     def __post_init__(self) -> None:
         for name, value, minimum in (

@@ -2,11 +2,13 @@
 """Paired evaluation of a trained centralized PV Graph-PPO policy.
 
 For every ``(density, run)`` this script creates one warmed HDV snapshot, tags
-the same priority vehicle, selects the same AV fleet, and then replays three
+the same priority vehicle, selects the same AV fleet, and then replays five
 measurement modes with the same simulator RNG seed:
 
 * Baseline 1: HDV traffic without yielding;
 * Baseline 2 matched: the deterministic yield rule controls the selected AVs;
+* Graph noop: every in-window AV is explicitly told to stay in its lane;
+* Left-if-safe: every in-window AV moves left whenever its mask permits it;
 * Graph-PPO: the restored policy controls those same AVs near the PV.
 
 The RLlib checkpoint is restored once in the parent process.  Only the small
@@ -55,7 +57,16 @@ from snfs_traffic.simulator import ScenarioConfig, TrafficSimulator
 
 BASELINE1 = "baseline1_hdv"
 BASELINE2 = "baseline2_matched"
+GRAPH_NOOP = "graph_noop"
+LEFT_IF_SAFE = "left_if_safe"
 GRAPH_PPO = "graph_ppo"
+MEASUREMENT_MODES = (
+    BASELINE1,
+    BASELINE2,
+    GRAPH_NOOP,
+    LEFT_IF_SAFE,
+    GRAPH_PPO,
+)
 ACTION_INDEX_TO_DELTA = np.asarray([-1, 0, 1], dtype=np.int8)
 
 SUMMARY_METRICS = (
@@ -72,6 +83,9 @@ SUMMARY_METRICS = (
     "rule_applied",
     "rule_rejected",
     "active_av_count_mean",
+    "policy_left_requests",
+    "policy_right_requests",
+    "policy_stay_actions",
 )
 
 DEFAULT_ENV_CONFIG: dict[str, Any] = {
@@ -82,7 +96,7 @@ DEFAULT_ENV_CONFIG: dict[str, Any] = {
     "front_distance": 30,
     "back_distance": 10,
     "sensor_distance": 60,
-    "cooldown_steps": 5,
+    "cooldown_steps": 1,
     "warmup_steps": 1000,
     "episode_steps": 1000,
     "backend": "optimized",
@@ -226,7 +240,7 @@ def _evaluation_config(
     config["yield_cooldown_steps"] = int(
         args.yield_cooldown_steps
         if args.yield_cooldown_steps is not None
-        else config["cooldown_steps"]
+        else 5
     )
     config["seed"] = int(args.seed)
     config["hidden_dim"] = int(
@@ -424,6 +438,21 @@ def _policy_action(observation: Mapping[str, np.ndarray]) -> np.ndarray:
         logits = _POLICY_MODEL(tensors)
     logits = logits[0]
     return _TORCH.argmax(logits, dim=-1).cpu().numpy().astype(np.int64)
+
+
+def _graph_action(graph, mode: str) -> np.ndarray:
+    """Return the learned action or one of the two deterministic ablations."""
+
+    if mode == GRAPH_PPO:
+        return _policy_action(graph.as_dict())
+    action = np.ones(graph.node_mask.shape, dtype=np.int64)
+    if mode == GRAPH_NOOP:
+        return action
+    if mode == LEFT_IF_SAFE:
+        active = graph.node_mask.astype(bool)
+        action[active & graph.action_mask[:, 0].astype(bool)] = 0
+        return action
+    raise ValueError(f"unknown graph-controller mode: {mode}")
 
 
 def _restore_policy(
@@ -625,6 +654,7 @@ def _measure_graph_ppo(
     initial_state,
     priority_id: int,
     measurement_rng_seed: int,
+    action_mode: str,
 ) -> tuple[dict[str, Any], str]:
     sim = TrafficSimulator(
         params=params,
@@ -662,7 +692,7 @@ def _measure_graph_ppo(
             cooldown_by_vehicle_id=cooldowns,
         )
         active_counts.append(graph.active_count)
-        action = _policy_action(graph.as_dict())
+        action = _graph_action(graph, action_mode)
         overrides: dict[int, int] = {}
         for slot in range(graph.active_count):
             vehicle_id = int(graph.vehicle_id[slot])
@@ -767,17 +797,20 @@ def run_replication(spec: WorkerSpec) -> list[dict[str, Any]]:
                 eligible_vehicle_ids=av_ids,
             ),
         ),
+        (GRAPH_NOOP, av_state, None),
+        (LEFT_IF_SAFE, av_state, None),
         (GRAPH_PPO, av_state, None),
     )
     rows: list[dict[str, Any]] = []
     for mode, initial_state, controller in mode_specs:
-        if mode == GRAPH_PPO:
+        if mode in (GRAPH_NOOP, LEFT_IF_SAFE, GRAPH_PPO):
             summary, measurement_backend = _measure_graph_ppo(
                 config,
                 params,
                 initial_state=initial_state,
                 priority_id=priority_id,
                 measurement_rng_seed=measurement_rng_seed,
+                action_mode=mode,
             )
         else:
             summary, measurement_backend = _measure_native_or_rule(
@@ -859,7 +892,12 @@ def _paired_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     )
     for density_index, run_index in run_keys:
         treatment = indexed[(density_index, run_index, GRAPH_PPO)]
-        for comparison_mode in (BASELINE1, BASELINE2):
+        for comparison_mode in (
+            BASELINE1,
+            BASELINE2,
+            GRAPH_NOOP,
+            LEFT_IF_SAFE,
+        ):
             comparison = indexed[(density_index, run_index, comparison_mode)]
             background_flow = float(comparison["flow_background"])
             pv_speed = float(comparison["mean_speed_priority"])
@@ -993,11 +1031,23 @@ def _write_plot(
         print("warning: matplotlib is unavailable; PNG plot was skipped", flush=True)
         return False
 
-    colors = {BASELINE1: "#6b7280", BASELINE2: "#2563eb", GRAPH_PPO: "#dc2626"}
-    labels = {BASELINE1: "Baseline 1 (HDV)", BASELINE2: "Baseline 2 (matched)", GRAPH_PPO: "Graph-PPO"}
+    colors = {
+        BASELINE1: "#6b7280",
+        BASELINE2: "#2563eb",
+        GRAPH_NOOP: "#7c3aed",
+        LEFT_IF_SAFE: "#059669",
+        GRAPH_PPO: "#dc2626",
+    }
+    labels = {
+        BASELINE1: "Baseline 1 (HDV)",
+        BASELINE2: "Baseline 2 (matched)",
+        GRAPH_NOOP: "Graph noop",
+        LEFT_IF_SAFE: "Left-if-safe",
+        GRAPH_PPO: "Graph-PPO",
+    }
     fig, axes = plt.subplots(1, 3, figsize=(15, 4.5))
 
-    for mode in (BASELINE1, BASELINE2, GRAPH_PPO):
+    for mode in MEASUREMENT_MODES:
         values = sorted(
             (row for row in summary if row["mode"] == mode),
             key=lambda row: float(row["requested_density"]),
@@ -1014,7 +1064,7 @@ def _write_plot(
     axes[0].set_ylabel("Mean speed [cells/step]")
     axes[0].legend(fontsize=8)
 
-    for comparison in (BASELINE1, BASELINE2):
+    for comparison in (BASELINE1, BASELINE2, GRAPH_NOOP, LEFT_IF_SAFE):
         values = sorted(
             (row for row in paired if row["comparison_mode"] == comparison),
             key=lambda row: float(row["requested_density"]),
@@ -1034,7 +1084,7 @@ def _write_plot(
     axes[1].set_ylabel("Delta speed [cells/step]")
     axes[1].legend(fontsize=8)
 
-    for comparison in (BASELINE1, BASELINE2):
+    for comparison in (BASELINE1, BASELINE2, GRAPH_NOOP, LEFT_IF_SAFE):
         values = sorted(
             (row for row in paired if row["comparison_mode"] == comparison),
             key=lambda row: float(row["requested_density"]),
@@ -1171,7 +1221,7 @@ def main(argv: list[str] | None = None) -> int:
     workers = min(workers, len(tasks))
     print(
         f"evaluation=starting tasks={len(tasks)} workers={workers} "
-        f"modes=3 measure_steps={config['measure_steps']}",
+        f"modes={len(MEASUREMENT_MODES)} measure_steps={config['measure_steps']}",
         flush=True,
     )
     started = time.perf_counter()
@@ -1206,7 +1256,7 @@ def main(argv: list[str] | None = None) -> int:
         key=lambda row: (
             int(row["density_index"]),
             int(row["run_index"]),
-            (BASELINE1, BASELINE2, GRAPH_PPO).index(str(row["mode"])),
+            MEASUREMENT_MODES.index(str(row["mode"])),
         )
     )
 

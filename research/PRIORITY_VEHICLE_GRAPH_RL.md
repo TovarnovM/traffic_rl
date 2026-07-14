@@ -80,10 +80,13 @@ Matched-режимы нужны для честного сравнения пр�
 
 ### 3.2. Правило уступания Baseline2
 
-Текущие значения по умолчанию:
+Текущие значения по умолчанию для зафиксированного Baseline2:
 
 - расстояние обнаружения PV сзади — 30 ячеек;
 - cooldown после реально выполненного перестроения — 5 шагов.
+
+Этот cooldown намеренно не меняется вместе с RL environment: иначе новые
+результаты перестали бы быть сопоставимыми с уже рассчитанным baseline.
 
 Для каждого автомобиля, которому разрешено применять правило:
 
@@ -357,7 +360,7 @@ Embedding активных вершин усредняются, объединя
 - локальный `ray.init()`, без облачной train-среды;
 - CPU rollout workers и одна GPU для policy/learner.
 
-Запущенная конфигурация:
+Запущенная исходная конфигурация при `ρ=0.30`:
 
 ```bash
 PYTHONPATH=src python -u research/train_pv_graph_ppo.py \
@@ -397,21 +400,41 @@ PYTHONPATH=src python -u research/train_pv_graph_ppo.py \
 Обучение останавливается по первому достигнутому пределу: 1000 итераций или
 2 000 000 sampled environment steps.
 
+Для следующих запусков Graph-PPO cooldown по умолчанию равен одному шагу;
+`--cooldown-steps 0` полностью его отключает. Environment также принимает
+дискретные сетки `--train-densities` и `--train-av-fractions`. На каждом reset
+выбирается очередная пара из перемешанного полного цикла, поэтому все сочетания
+покрываются до начала следующего цикла.
+
+Warmup выполняется до назначения AV, поэтому он зависит от плотности, но не от
+доли AV. По умолчанию каждый rollout worker лениво сохраняет один полностью
+прогретый HDV snapshot на плотность и повторно использует его копии с новыми
+seed назначения PV/AV и измерительной динамики. Это сокращает число warmup для
+сетки `R` плотностей и `F` долей с `R×F` до `R` на worker. Независимый warmup на
+каждом reset можно вернуть флагом `--no-warmup-cache`.
+
+Для короткого mixed-condition fine-tuning существующая политика загружается
+через `--restore-checkpoint PATH`; `--iterations` после этого задаёт число
+дополнительных вызовов обучения, а `--stop-timesteps` остаётся абсолютным
+пределом lifetime sampled steps.
+
 ### Артефакты обучения
 
 В `out-dir` сохраняются:
 
 - `run_config.json` — аргументы, env config и версия Ray;
-- `train_metrics.jsonl` — iteration, sampled steps, episode return, loss и
-  elapsed time;
-- `checkpoints/` — checkpoint каждые 5 итераций;
+- `train_metrics.jsonl` — iteration, sampled steps, episode return, loss,
+  средняя скорость PV в целом и отдельно для каждой пары `ρ × AV fraction`;
+- `checkpoints/` — уникально именованный checkpoint с iteration и sampled steps
+  каждые 5 итераций;
 - финальный checkpoint;
 - checkpoint при корректном прерывании через `Ctrl+C`.
 
 В консоли после каждой итерации печатается прогресс вида:
 
 ```text
-[iteration/iterations] steps=... return=... loss=... elapsed=...s
+[local/iterations] train_iter=... steps=... return=... v_pv=... loss=... \
+  elapsed=...s v_pv_by_condition=[rho_..._av_...=...]
 ```
 
 Важно: `episode_return_mean` — сумма reward за эпизод, а не непосредственно
@@ -441,7 +464,8 @@ Smoke автоматически использует маленькую дор�
 | `src/snfs_traffic/observations/pv_graph.py` | Выбор AV, признаки, рёбра, padding и masks |
 | `src/snfs_traffic/rl/centralized_pv_env.py` | Single-agent Gymnasium environment и reward |
 | `src/snfs_traffic/rl/graph_ppo.py` | GNN, actor/critic и factorized PPO loss |
-| `research/train_pv_graph_ppo.py` | Локальный RLlib training runner, progress и checkpoints |
+| `research/train_pv_graph_ppo.py` | Mixed-condition RLlib training, resume, progress и checkpoints |
+| `research/evaluate_pv_graph_ppo.py` | Парная оценка Graph-PPO, baseline и абляций `noop`/`left-if-safe` |
 | `tests/test_centralized_pv_env.py` | Reward, reset/step, cooldown и воспроизводимость |
 | `tests/test_pv_graph_observation.py` | Периодическая геометрия, HDV-признаки, masks и padding |
 | `tests/test_pv_graph_model.py` | Logits, value, action mask и RLlib observation restoration |
@@ -462,8 +486,8 @@ Smoke автоматически использует маленькую дор�
 
 - RL environment поддерживает только один PV; два PV пока есть только в
   baseline runner;
-- текущая политика обучается только при `ρ=0.30`, поэтому обобщение на другие
-  плотности пока не проверено;
+- исходная политика обучена только при `ρ=0.30`; mixed-condition runner
+  реализован, но качество fine-tuning ещё должно быть измерено;
 - текущий запуск использует 95% AV, а не 100%; значение `1.0` поддерживается
   environment и должно стать отдельным экспериментом;
 - policy не имеет temporal memory;

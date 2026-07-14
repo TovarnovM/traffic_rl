@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from itertools import product
 from typing import Any, Mapping
 
 import numpy as np
@@ -37,6 +38,57 @@ from snfs_traffic.simulator import ScenarioConfig, TrafficSimulator
 
 
 _ACTION_INDEX_TO_DELTA = np.asarray([-1, 0, 1], dtype=np.int8)
+
+
+def _float_grid(
+    raw_value: Any,
+    *,
+    fallback: float,
+    name: str,
+    lower: float,
+    upper: float,
+    lower_inclusive: bool,
+    upper_inclusive: bool,
+) -> tuple[float, ...]:
+    """Parse one scalar or a sequence into a validated, de-duplicated grid."""
+
+    if raw_value is None:
+        values = [fallback]
+    elif isinstance(raw_value, str):
+        values = [part.strip() for part in raw_value.split(",") if part.strip()]
+    elif np.isscalar(raw_value):
+        values = [raw_value]
+    else:
+        values = list(raw_value)
+    if not values:
+        raise ValueError(f"{name} must contain at least one value")
+
+    parsed: list[float] = []
+    for raw in values:
+        if isinstance(raw, (bool, np.bool_)):
+            raise ValueError(f"{name} values must be finite numbers")
+        try:
+            value = float(raw)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f"{name} values must be finite numbers") from exc
+        lower_ok = value >= lower if lower_inclusive else value > lower
+        upper_ok = value <= upper if upper_inclusive else value < upper
+        if not np.isfinite(value) or not lower_ok or not upper_ok:
+            interval = (
+                f"{'[' if lower_inclusive else '('}{lower}, {upper}"
+                f"{']' if upper_inclusive else ')'}"
+            )
+            raise ValueError(f"{name} values must be in {interval}")
+        if value not in parsed:
+            parsed.append(value)
+    return tuple(parsed)
+
+
+def _condition_key(density: float, av_fraction: float) -> str:
+    def token(value: float) -> str:
+        return f"{value:.3f}".replace(".", "p")
+
+    return f"rho_{token(density)}_av_{token(av_fraction)}"
 
 
 @dataclass(frozen=True, slots=True)
@@ -125,25 +177,48 @@ class CentralizedPvEnv(gym.Env):
             front_distance=int(raw_config.get("front_distance", 30)),
             back_distance=int(raw_config.get("back_distance", 10)),
             sensor_distance=int(raw_config.get("sensor_distance", 60)),
-            cooldown_steps=int(raw_config.get("cooldown_steps", 5)),
+            cooldown_steps=int(raw_config.get("cooldown_steps", 1)),
         )
         self.graph_config.validate_for(self.params)
         self.reward_config = PvSpeedRewardConfig(
             applied_penalty=float(raw_config.get("applied_penalty", 0.001)),
             rejected_penalty=float(raw_config.get("rejected_penalty", 0.002)),
         )
-        self._density = float(raw_config.get("density", 0.20))
-        self._av_fraction = float(raw_config.get("av_fraction", 0.95))
+        scalar_density = float(raw_config.get("density", 0.20))
+        scalar_av_fraction = float(raw_config.get("av_fraction", 0.95))
+        self._density_values = _float_grid(
+            raw_config.get("density_values"),
+            fallback=scalar_density,
+            name="density_values",
+            lower=0.0,
+            upper=1.0,
+            lower_inclusive=False,
+            upper_inclusive=False,
+        )
+        self._av_fraction_values = _float_grid(
+            raw_config.get("av_fraction_values"),
+            fallback=scalar_av_fraction,
+            name="av_fraction_values",
+            lower=0.0,
+            upper=1.0,
+            lower_inclusive=True,
+            upper_inclusive=True,
+        )
+        self._condition_pairs = tuple(
+            product(self._density_values, self._av_fraction_values)
+        )
+        self._condition_order: list[int] = []
+        self._condition_cycle = 0
+        self._density = self._density_values[0]
+        self._av_fraction = self._av_fraction_values[0]
         self._warmup_steps = int(raw_config.get("warmup_steps", 1000))
+        self._warmup_cache_enabled = bool(raw_config.get("warmup_cache", True))
+        self._warmup_cache: dict[float, tuple[Any, int, int]] = {}
         self._episode_steps = int(raw_config.get("episode_steps", 1000))
         self._backend = str(raw_config.get("backend", "optimized"))
         self._validate = bool(raw_config.get("validate", False))
         base_seed = int(raw_config.get("seed", 0))
         self._initial_seed = base_seed + worker_index * 100_000 + vector_index * 1_000
-        if not 0.0 < self._density < 1.0:
-            raise ValueError("density must be in (0, 1)")
-        if not 0.0 <= self._av_fraction <= 1.0:
-            raise ValueError("av_fraction must be in [0, 1]")
         if self._warmup_steps < 0:
             raise ValueError("warmup_steps must be >= 0")
         if self._episode_steps < 1:
@@ -164,6 +239,9 @@ class CentralizedPvEnv(gym.Env):
         self._cooldown_by_vehicle_id: dict[int, int] = {}
         self._current_graph: PvGraphObservation | None = None
         self._step_index = 0
+        self._pv_speed_sum = 0.0
+        self._episode_applied_count = 0
+        self._episode_rejected_count = 0
         self._done = True
         self._seed_initialized = False
 
@@ -222,6 +300,32 @@ class CentralizedPvEnv(gym.Env):
     def _next_seed(self) -> int:
         return int(self.np_random.integers(0, np.iinfo(np.int32).max))
 
+    def _sample_condition(self) -> tuple[float, float]:
+        """Visit every configured pair once before reshuffling the grid."""
+
+        if not self._condition_order:
+            self._condition_order = [
+                int(index)
+                for index in self.np_random.permutation(len(self._condition_pairs))
+            ]
+            self._condition_cycle += 1
+        pair_index = self._condition_order.pop()
+        density, av_fraction = self._condition_pairs[pair_index]
+        return float(density), float(av_fraction)
+
+    def _new_simulator(self, *, scenario_seed: int) -> TrafficSimulator:
+        return TrafficSimulator(
+            params=self.params,
+            backend=self._backend,
+            rng_seed=self._initial_seed,
+            scenario=ScenarioConfig(
+                density=self._density,
+                seed=scenario_seed,
+                vehicle_mix=VehicleMix(),
+            ),
+            validate=self._validate,
+        )
+
     def reset(
         self,
         *,
@@ -232,6 +336,10 @@ class CentralizedPvEnv(gym.Env):
         if env_seed is None and not self._seed_initialized:
             env_seed = self._initial_seed
         super().reset(seed=env_seed)
+        if seed is not None:
+            self._condition_order.clear()
+            self._condition_cycle = 0
+            self._warmup_cache.clear()
         self._seed_initialized = True
         options = options or {}
         def option_seed(name: str) -> int:
@@ -243,12 +351,27 @@ class CentralizedPvEnv(gym.Env):
         av_selection_seed = option_seed("av_selection_seed")
         measurement_rng_seed = option_seed("measurement_rng_seed")
 
-        state = self._sim.reset(
-            scenario_seed=scenario_seed,
-            rng_seed=warmup_rng_seed,
-        )
-        for _ in range(self._warmup_steps):
-            state = self._sim.step()
+        self._density, self._av_fraction = self._sample_condition()
+        cached_warmup = self._warmup_cache.get(self._density)
+        warmup_cache_hit = self._warmup_cache_enabled and cached_warmup is not None
+        if warmup_cache_hit:
+            state, scenario_seed, warmup_rng_seed = cached_warmup
+            state = state.copy()
+            self._sim = self._new_simulator(scenario_seed=scenario_seed)
+        else:
+            self._sim = self._new_simulator(scenario_seed=scenario_seed)
+            state = self._sim.reset(
+                scenario_seed=scenario_seed,
+                rng_seed=warmup_rng_seed,
+            )
+            for _ in range(self._warmup_steps):
+                state = self._sim.step()
+            if self._warmup_cache_enabled:
+                self._warmup_cache[self._density] = (
+                    state.copy(),
+                    scenario_seed,
+                    warmup_rng_seed,
+                )
         assignment = assign_priority_vehicles(
             state,
             PriorityVehicleConfig(count=1, placement="random", seed=assignment_seed),
@@ -266,6 +389,9 @@ class CentralizedPvEnv(gym.Env):
         state = self._sim.reset(state=state, rng_seed=measurement_rng_seed)
         self._cooldown_by_vehicle_id.clear()
         self._step_index = 0
+        self._pv_speed_sum = 0.0
+        self._episode_applied_count = 0
+        self._episode_rejected_count = 0
         self._done = False
         observation = self._build_observation(state)
         info = {
@@ -275,6 +401,12 @@ class CentralizedPvEnv(gym.Env):
             "fleet_av_count": len(av_vehicle_ids),
             "density": self._density,
             "av_fraction": self._av_fraction,
+            "condition_key": _condition_key(self._density, self._av_fraction),
+            "condition_cycle": self._condition_cycle,
+            "condition_count": len(self._condition_pairs),
+            "warmup_steps": self._warmup_steps,
+            "warmup_cache_hit": warmup_cache_hit,
+            "warmup_cache_size": len(self._warmup_cache),
             "backend_name": self._sim.backend_name,
             "scenario_seed": scenario_seed,
             "warmup_rng_seed": warmup_rng_seed,
@@ -367,6 +499,9 @@ class CentralizedPvEnv(gym.Env):
             rejected_count=rejected_count,
             config=self.reward_config,
         )
+        self._pv_speed_sum += float(pv_speed)
+        self._episode_applied_count += applied_count
+        self._episode_rejected_count += rejected_count
         truncated = self._step_index >= self._episode_steps
         self._done = bool(terminated or truncated)
         if terminated:
@@ -382,12 +517,18 @@ class CentralizedPvEnv(gym.Env):
             "priority_vehicle_id": self.priority_vehicle_id,
             "pv_speed": pv_speed,
             "pv_speed_norm": pv_speed / max(self.params.vmax_controlled, 1),
+            "episode_mean_pv_speed": self._pv_speed_sum / self._step_index,
             "active_av_count": active_count,
             "next_active_av_count": (
                 0 if terminated else self._current_graph.active_count
             ),
             "applied_count": applied_count,
             "rejected_count": rejected_count,
+            "episode_applied_count": self._episode_applied_count,
+            "episode_rejected_count": self._episode_rejected_count,
+            "density": self._density,
+            "av_fraction": self._av_fraction,
+            "condition_key": _condition_key(self._density, self._av_fraction),
             "reward_components": reward_components,
             "backend_name": (
                 self._sim.last_step_info.backend_name

@@ -70,3 +70,43 @@ PYTHONPATH=src python -u research/evaluate_pv_graph_ppo.py \
   --no-validate \
   --out-dir /workspace/artifacts/rl/pv_graph_ppo/rho_030_av_095/evaluation_rho_005_09 \
   --prefix pv_graph_ppo_rho_005_09 
+
+
+
+========================
+PYTHONPATH=src python -u research/train_pv_graph_ppo.py \
+  --road-length 1000 \
+  --num-lanes 4 \
+  --train-densities 0.10,0.20,0.30,0.40 \
+  --train-av-fractions 0.9,0.95,1.00 \
+  --front-distance 30 \
+  --back-distance 10 \
+  --sensor-distance 60 \
+  --cooldown-steps 1 \
+  --warmup-steps 1000 \
+  --warmup-cache \
+  --episode-steps 1000 \
+  --backend optimized \
+  --applied-penalty 0.001 \
+  --rejected-penalty 0.002 \
+  --hidden-dim 128 \
+  --message-layers 3 \
+  --gamma 0.995 \
+  --gae-lambda 0.95 \
+  --clip-param 0.20 \
+  --lr 0.0002 \
+  --entropy-coeff 0.01 \
+  --vf-loss-coeff 1.0 \
+  --vf-clip-param 10.0 \
+  --workers 32 \
+  --envs-per-worker 1 \
+  --num-gpus 1 \
+  --rollout-fragment-length 256 \
+  --train-batch-size 16384 \
+  --minibatch-size 1024 \
+  --epochs 6 \
+  --iterations 2000 \
+  --stop-timesteps 20000000 \
+  --checkpoint-freq 25 \
+  --seed 20260715 \
+  --out-dir /workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m
