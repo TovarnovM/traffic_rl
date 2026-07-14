@@ -149,15 +149,10 @@ bench_grid_out/
 *.zip
 
 dataset/*.parquet
-artifacts/
-artifacts_cat/
-artifacts_fd/
-ansamble_stats/
 dataset/wdrops/*.parquet
 models/
 dataset_v2/
 tmp/
-artifacts_*
 bench_cache/
 dataset_v2_np_shards/
 dataset_v2_catboost_pool/

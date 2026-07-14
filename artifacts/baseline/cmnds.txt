@@ -1,0 +1,20 @@
+cd /workspace
+
+
+PYTHONPATH=src python /workspace/src/snfs_traffic/baseline/priority_baselines.py \
+  --road-length 1000 \
+  --num-lanes 4 \
+  --priority-scenarios one,two-g,two-2g \
+  --matched-fractions 0.05,0.10,0.20 \
+  --density-min 0.05 \
+  --density-max 0.90 \
+  --density-count 18 \
+  --runs 10 \
+  --warmup-steps 1000 \
+  --measure-steps 2000 \
+  --backend auto \
+  --workers 24 \
+  --chunksize 1 \
+  --no-validate \
+  --out-dir /workspace/artifacts/baseline/rho_005_090 \
+  --prefix priority_baselines_rho_005_090
