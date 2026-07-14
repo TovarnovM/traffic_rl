@@ -130,20 +130,24 @@ def _configure_training(config, args):
             "vf_share_layers": True,
         },
     }
-    if "lambda_" in parameters:
-        kwargs["lambda_"] = args.gae_lambda
-    elif "lambda" in parameters:  # pragma: no cover - future compatibility
-        kwargs["lambda"] = args.gae_lambda
-    if "train_batch_size" in parameters:
-        kwargs["train_batch_size"] = args.train_batch_size
-    if "sgd_minibatch_size" in parameters:
-        kwargs["sgd_minibatch_size"] = args.minibatch_size
-    elif "minibatch_size" in parameters:
-        kwargs["minibatch_size"] = args.minibatch_size
-    if "num_sgd_iter" in parameters:
-        kwargs["num_sgd_iter"] = args.epochs
-    elif "num_epochs" in parameters:
-        kwargs["num_epochs"] = args.epochs
+    def training_field(*names: str) -> str:
+        for name in names:
+            if name in parameters or hasattr(config, name):
+                return name
+        joined = ", ".join(names)
+        raise RuntimeError(
+            f"RLlib PPOConfig exposes none of the expected training fields: {joined}"
+        )
+
+    # Recent RLlib releases moved these settings to AlgorithmConfig.training's
+    # **kwargs, so they are attributes on PPOConfig but are absent from the
+    # inspected PPOConfig.training signature. Prefer the current names, while
+    # retaining support for older Ray releases.
+    kwargs[training_field("lambda_", "lambda")] = args.gae_lambda
+    kwargs[
+        training_field("minibatch_size", "sgd_minibatch_size")
+    ] = args.minibatch_size
+    kwargs[training_field("num_epochs", "num_sgd_iter")] = args.epochs
     return config.training(**kwargs)
 
 
