@@ -159,3 +159,4 @@ dataset_v2_catboost_pool/
 dataset_v2_sample_catboost_pool/
 datasets/
 benchmark_results/
+artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m/checkpoints/periodic_iter_*
