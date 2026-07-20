@@ -1,0 +1,77 @@
+{
+  "checkpoint": "/workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m/checkpoints/periodic_iter_001100_steps_000018022400",
+  "config": {
+    "G": 15,
+    "P1": 0.999,
+    "P2": 0.99,
+    "P3": 0.98,
+    "P4": 0.01,
+    "S": 2,
+    "applied_penalty": 0.001,
+    "av_fraction": 0.9,
+    "av_fraction_values": [
+      0.9,
+      0.95,
+      1.0
+    ],
+    "back_distance": 10,
+    "backend": "optimized",
+    "cooldown_steps": 1,
+    "density": 0.2,
+    "density_values": [
+      0.1,
+      0.2,
+      0.3,
+      0.4
+    ],
+    "episode_steps": 1000,
+    "front_distance": 30,
+    "hidden_dim": 128,
+    "measure_steps": 2000,
+    "message_layers": 3,
+    "num_lanes": 4,
+    "p_lane_change": 0.5,
+    "q": 0.99,
+    "r": 0.99,
+    "rejected_penalty": 0.002,
+    "road_length": 1000,
+    "seed": 410001,
+    "sensor_distance": 60,
+    "torch_threads": 1,
+    "validate": false,
+    "vmax_hdv": 5,
+    "vmax_priority": 6,
+    "warmup_cache": true,
+    "warmup_steps": 1000,
+    "yield_cooldown_steps": 1,
+    "yield_distance": 30
+  },
+  "densities": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6
+  ],
+  "elapsed_seconds": 5457.505221752013,
+  "outputs": {
+    "paired_csv": "/workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m/evaluation_post_training/final_test/av_0p90/test_av_0p90_paired.csv",
+    "paired_summary_csv": "/workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m/evaluation_post_training/final_test/av_0p90/test_av_0p90_paired_summary.csv",
+    "plot_png": "/workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m/evaluation_post_training/final_test/av_0p90/test_av_0p90.png",
+    "runs_csv": "/workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m/evaluation_post_training/final_test/av_0p90/test_av_0p90_runs.csv",
+    "summary_csv": "/workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m/evaluation_post_training/final_test/av_0p90/test_av_0p90_summary.csv"
+  },
+  "restore_smoke": {
+    "action_shape": [
+      164
+    ],
+    "active_av_count": 48,
+    "checkpoint": "/workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m/checkpoints/periodic_iter_001100_steps_000018022400",
+    "non_stay_actions": 15,
+    "status": "passed"
+  },
+  "run_config": "/workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m/run_config.json",
+  "runs": 20,
+  "workers": 10
+}

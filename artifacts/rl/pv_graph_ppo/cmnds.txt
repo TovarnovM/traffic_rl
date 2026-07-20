@@ -1,0 +1,194 @@
+cd /workspace
+export PYTHONPATH=src
+
+RUN=/workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m
+CKPT_ROOT="$RUN/checkpoints"
+EVAL_ROOT="$RUN/evaluation_post_training"
+
+mkdir -p "$EVAL_ROOT"
+
+
+
+
+
+
+test -s "$RUN/run_config.json"
+test -s "$RUN/train_metrics.jsonl"
+test -d "$CKPT_ROOT"
+
+find "$CKPT_ROOT" -maxdepth 1 -mindepth 1 -type d \
+  -printf '%f\n' | sort -V | tail -n 15
+
+
+FINAL="$(find "$CKPT_ROOT" -maxdepth 1 -mindepth 1 -type d \
+  -name 'final_iter_*' | sort -V | tail -n 1)"
+
+test -n "$FINAL"
+test -d "$FINAL"
+echo "FINAL=$FINAL"
+
+
+
+
+
+
+
+
+
+PYTHONPATH=src python -u research/evaluate_pv_graph_ppo.py \
+  --checkpoint "$FINAL" \
+  --densities 0.30 \
+  --av-fraction 1.00 \
+  --cooldown-steps 1 \
+  --yield-cooldown-steps 1 \
+  --smoke \
+  --out-dir "$EVAL_ROOT/restore_smoke" \
+  --prefix restore_smoke
+
+
+
+
+C900="$CKPT_ROOT/periodic_iter_000900_steps_000014745600"
+C1000="$CKPT_ROOT/periodic_iter_001000_steps_000016384000"
+C1100="$CKPT_ROOT/periodic_iter_001100_steps_000018022400"
+C1200="$CKPT_ROOT/periodic_iter_001200_steps_000019660800"
+
+test -d "$C900"
+test -d "$C1000"
+test -d "$C1100"
+test -d "$C1200"
+test -d "$FINAL"
+
+CANDIDATES=(
+  "iter0900|$C900"
+  "iter1000|$C1000"
+  "iter1100|$C1100"
+  "iter1200|$C1200"
+  "final|$FINAL"
+)
+
+SELECTION_ROOT="$EVAL_ROOT/checkpoint_selection"
+mkdir -p "$SELECTION_ROOT"
+
+for ITEM in "${CANDIDATES[@]}"; do
+  LABEL="${ITEM%%|*}"
+  CKPT="${ITEM#*|}"
+
+  echo ">> evaluating $LABEL: $CKPT"
+
+  PYTHONPATH=src python -u research/evaluate_pv_graph_ppo.py \
+    --checkpoint "$CKPT" \
+    --densities 0.30 \
+    --av-fraction 1.00 \
+    --runs 20 \
+    --seed 310001 \
+    --workers 20 \
+    --chunksize 1 \
+    --torch-threads 1 \
+    --warmup-steps 1000 \
+    --measure-steps 2000 \
+    --backend optimized \
+    --cooldown-steps 1 \
+    --yield-distance 30 \
+    --yield-cooldown-steps 1 \
+    --out-dir "$SELECTION_ROOT/$LABEL" \
+    --prefix selection
+done
+
+
+
+BEST="$CKPT_ROOT/periodic_iter_001100_steps_000018022400"
+
+TEST_ROOT="$EVAL_ROOT/final_test"
+mkdir -p "$TEST_ROOT"
+
+for AV in 0.90 0.95 1.00; do
+  TAG="${AV/./p}"
+
+  echo ">> final test, AV=$AV"
+
+  PYTHONPATH=src python -u research/evaluate_pv_graph_ppo.py \
+    --checkpoint "$BEST" \
+    --densities 0.10,0.20,0.30,0.40,0.50,0.60 \
+    --av-fraction "$AV" \
+    --runs 20 \
+    --seed 410001 \
+    --workers 10 \
+    --chunksize 1 \
+    --torch-threads 1 \
+    --warmup-steps 1000 \
+    --measure-steps 2000 \
+    --backend optimized \
+    --cooldown-steps 1 \
+    --yield-distance 30 \
+    --yield-cooldown-steps 1 \
+    --out-dir "$TEST_ROOT/av_$TAG" \
+    --prefix "test_av_$TAG"
+done
+
+
+
+export PYTHONPATH=src
+
+RUN=/workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m
+CKPT_ROOT="$RUN/checkpoints"
+EVAL_ROOT="$RUN/evaluation_post_training"
+BEST="$CKPT_ROOT/periodic_iter_001100_steps_000018022400"
+TEST_ROOT_CD5="$EVAL_ROOT/final_test_yield_cd5"
+mkdir -p "$TEST_ROOT_CD5"
+
+for AV in 0.90 0.95 1.00; do
+  TAG="${AV/./p}"
+
+  echo ">> final test, AV=$AV, Baseline2 cooldown=5"
+
+  PYTHONPATH=src python -u research/evaluate_pv_graph_ppo.py \
+    --checkpoint "$BEST" \
+    --densities 0.10,0.20,0.30,0.40,0.50,0.60 \
+    --av-fraction "$AV" \
+    --runs 20 \
+    --seed 410001 \
+    --workers 30 \
+    --chunksize 1 \
+    --torch-threads 1 \
+    --warmup-steps 1000 \
+    --measure-steps 2000 \
+    --backend optimized \
+    --cooldown-steps 1 \
+    --yield-distance 30 \
+    --yield-cooldown-steps 5 \
+    --out-dir "$TEST_ROOT_CD5/av_$TAG" \
+    --prefix "test_cd5_av_$TAG"
+done
+
+
+
+
+
+
+cd /workspace
+export PYTHONPATH=src:research
+
+RUN=/workspace/artifacts/rl/pv_nongraph_ppo/mixed_node_mlp_matched_20m
+
+python -u research/nograph/select_pv_policy_checkpoint.py \
+  --policy-kind nongraph \
+  --checkpoint-root "$RUN/checkpoints" \
+  --checkpoint-iterations 900,1000,1100,1200 \
+  --include-final \
+  --selection-density 0.30 \
+  --selection-av-fraction 1.00 \
+  --selection-runs 20 \
+  --selection-seed 310001 \
+  --full-densities 0.10,0.20,0.30,0.40,0.50,0.60 \
+  --full-av-fractions 0.90,0.95,1.00 \
+  --full-runs 20 \
+  --full-seed 410001 \
+  --workers 10 \
+  --chunksize 1 \
+  --torch-threads 1 \
+  --warmup-steps 1000 \
+  --measure-steps 2000 \
+  --yield-cooldown-steps 1 \
+  --backend optimized \
+  --out-dir "$RUN/evaluation_selected"
