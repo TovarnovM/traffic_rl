@@ -1,0 +1,76 @@
+{
+  "checkpoint": "/workspace/artifacts/rl/pv_nongraph_ppo/mixed_grid_cnn_matched_20m/checkpoints/periodic_iter_001075_steps_000017314560",
+  "config": {
+    "G": 15,
+    "P1": 0.999,
+    "P2": 0.99,
+    "P3": 0.98,
+    "P4": 0.01,
+    "S": 2,
+    "applied_penalty": 0.001,
+    "av_fraction": 1.0,
+    "av_fraction_values": [
+      0.9,
+      0.95,
+      1.0
+    ],
+    "back_distance": 10,
+    "backend": "optimized",
+    "cooldown_steps": 1,
+    "density": 0.2,
+    "density_values": [
+      0.1,
+      0.2,
+      0.3,
+      0.4
+    ],
+    "episode_steps": 1000,
+    "front_distance": 30,
+    "hidden_dim": 64,
+    "measure_steps": 2000,
+    "message_layers": 2,
+    "model_preset": "grid-cnn-matched",
+    "num_lanes": 4,
+    "p_lane_change": 0.5,
+    "q": 0.99,
+    "r": 0.99,
+    "rejected_penalty": 0.002,
+    "road_length": 1000,
+    "seed": 310001,
+    "sensor_distance": 60,
+    "torch_threads": 1,
+    "validate": false,
+    "vmax_hdv": 5,
+    "vmax_priority": 6,
+    "warmup_cache": true,
+    "warmup_steps": 1000,
+    "yield_cooldown_steps": 1,
+    "yield_distance": 30
+  },
+  "densities": [
+    0.3
+  ],
+  "elapsed_seconds": 366.67018106702017,
+  "model_preset": "grid-cnn-matched",
+  "outputs": {
+    "paired_csv": "/workspace/artifacts/rl/pv_nongraph_ppo/mixed_grid_cnn_matched_20m/evaluation_selected/selection/iter_001075/selection_iter_001075_paired.csv",
+    "paired_summary_csv": "/workspace/artifacts/rl/pv_nongraph_ppo/mixed_grid_cnn_matched_20m/evaluation_selected/selection/iter_001075/selection_iter_001075_paired_summary.csv",
+    "plot_png": null,
+    "runs_csv": "/workspace/artifacts/rl/pv_nongraph_ppo/mixed_grid_cnn_matched_20m/evaluation_selected/selection/iter_001075/selection_iter_001075_runs.csv",
+    "summary_csv": "/workspace/artifacts/rl/pv_nongraph_ppo/mixed_grid_cnn_matched_20m/evaluation_selected/selection/iter_001075/selection_iter_001075_summary.csv"
+  },
+  "restore_smoke": {
+    "action_shape": [
+      164
+    ],
+    "active_av_count": 48,
+    "checkpoint": "/workspace/artifacts/rl/pv_nongraph_ppo/mixed_grid_cnn_matched_20m/checkpoints/periodic_iter_001075_steps_000017314560",
+    "model_parameter_count": 353124,
+    "model_preset": "grid-cnn-matched",
+    "non_stay_actions": 12,
+    "status": "passed"
+  },
+  "run_config": "/workspace/artifacts/rl/pv_nongraph_ppo/mixed_grid_cnn_matched_20m/run_config.json",
+  "runs": 20,
+  "workers": 20
+}

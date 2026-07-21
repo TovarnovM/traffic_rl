@@ -1,0 +1,230 @@
+{
+  "av_fractions": [
+    0.9,
+    0.95,
+    1.0
+  ],
+  "baseline1_reuse": "Baseline1 is simulated once per (density, run) and copied into each AV-fraction group; warmup and PV assignment are also shared.",
+  "bootstrap_samples": 10000,
+  "checkpoints": {
+    "graph_ppo": "/workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m/checkpoints/periodic_iter_001100_steps_000018022400",
+    "grid_cnn_ppo": "/workspace/artifacts/rl/pv_nongraph_ppo/mixed_grid_cnn_matched_20m/checkpoints/periodic_iter_001000_steps_000016085760",
+    "node_mlp_ppo": "/workspace/artifacts/rl/pv_nongraph_ppo/mixed_node_mlp_matched_20m/checkpoints/periodic_iter_000900_steps_000014745600"
+  },
+  "chunksize": 1,
+  "confidence": 0.95,
+  "config": {
+    "G": 15,
+    "P1": 0.999,
+    "P2": 0.99,
+    "P3": 0.98,
+    "P4": 0.01,
+    "S": 2,
+    "applied_penalty": 0.001,
+    "av_fraction": 0.9,
+    "av_fraction_values": [
+      0.9,
+      0.95,
+      1.0
+    ],
+    "back_distance": 10,
+    "backend": "optimized",
+    "cooldown_steps": 1,
+    "density": 0.2,
+    "density_values": [
+      0.1,
+      0.2,
+      0.3,
+      0.4
+    ],
+    "episode_steps": 1000,
+    "front_distance": 30,
+    "grid_cnn_model_preset": "grid-cnn-matched",
+    "hidden_dim": 128,
+    "measure_steps": 2000,
+    "message_layers": 3,
+    "node_mlp_model_preset": "node-mlp-matched",
+    "num_lanes": 4,
+    "p_lane_change": 0.5,
+    "q": 0.99,
+    "r": 0.99,
+    "rejected_penalty": 0.002,
+    "road_length": 1000,
+    "seed": 510001,
+    "sensor_distance": 60,
+    "torch_threads": 1,
+    "validate": false,
+    "vmax_hdv": 5,
+    "vmax_priority": 6,
+    "warmup_cache": true,
+    "warmup_steps": 1000,
+    "yield_cooldown_steps": 1,
+    "yield_distance": 30
+  },
+  "densities": [
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.25,
+    0.3,
+    0.35,
+    0.4,
+    0.45,
+    0.5,
+    0.55,
+    0.6,
+    0.65,
+    0.7,
+    0.75,
+    0.8,
+    0.85,
+    0.9
+  ],
+  "elapsed_seconds": 53934.165523679,
+  "modes": [
+    "baseline1_hdv",
+    "baseline2_matched",
+    "noop",
+    "left_if_safe",
+    "graph_ppo",
+    "node_mlp_ppo",
+    "grid_cnn_ppo"
+  ],
+  "paired_csv_rows": 34020,
+  "pairings": [
+    {
+      "comparison_mode": "baseline1_hdv",
+      "treatment_mode": "baseline2_matched"
+    },
+    {
+      "comparison_mode": "baseline1_hdv",
+      "treatment_mode": "noop"
+    },
+    {
+      "comparison_mode": "baseline2_matched",
+      "treatment_mode": "noop"
+    },
+    {
+      "comparison_mode": "baseline1_hdv",
+      "treatment_mode": "left_if_safe"
+    },
+    {
+      "comparison_mode": "baseline2_matched",
+      "treatment_mode": "left_if_safe"
+    },
+    {
+      "comparison_mode": "noop",
+      "treatment_mode": "left_if_safe"
+    },
+    {
+      "comparison_mode": "baseline1_hdv",
+      "treatment_mode": "graph_ppo"
+    },
+    {
+      "comparison_mode": "baseline2_matched",
+      "treatment_mode": "graph_ppo"
+    },
+    {
+      "comparison_mode": "noop",
+      "treatment_mode": "graph_ppo"
+    },
+    {
+      "comparison_mode": "left_if_safe",
+      "treatment_mode": "graph_ppo"
+    },
+    {
+      "comparison_mode": "baseline1_hdv",
+      "treatment_mode": "node_mlp_ppo"
+    },
+    {
+      "comparison_mode": "baseline2_matched",
+      "treatment_mode": "node_mlp_ppo"
+    },
+    {
+      "comparison_mode": "noop",
+      "treatment_mode": "node_mlp_ppo"
+    },
+    {
+      "comparison_mode": "left_if_safe",
+      "treatment_mode": "node_mlp_ppo"
+    },
+    {
+      "comparison_mode": "baseline1_hdv",
+      "treatment_mode": "grid_cnn_ppo"
+    },
+    {
+      "comparison_mode": "baseline2_matched",
+      "treatment_mode": "grid_cnn_ppo"
+    },
+    {
+      "comparison_mode": "noop",
+      "treatment_mode": "grid_cnn_ppo"
+    },
+    {
+      "comparison_mode": "left_if_safe",
+      "treatment_mode": "grid_cnn_ppo"
+    },
+    {
+      "comparison_mode": "node_mlp_ppo",
+      "treatment_mode": "graph_ppo"
+    },
+    {
+      "comparison_mode": "grid_cnn_ppo",
+      "treatment_mode": "graph_ppo"
+    },
+    {
+      "comparison_mode": "grid_cnn_ppo",
+      "treatment_mode": "node_mlp_ppo"
+    }
+  ],
+  "plots": [
+    "/workspace/artifacts/rl/pv_architecture_comparison/dense_rho_005_090_runs30/final_dense_architectures_overview.png",
+    "/workspace/artifacts/rl/pv_architecture_comparison/dense_rho_005_090_runs30/final_dense_architectures_delta_vs_baseline2.png"
+  ],
+  "restore_smokes": {
+    "graph_ppo": {
+      "action_shape": [
+        164
+      ],
+      "active_av_count": 48,
+      "checkpoint": "/workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m/checkpoints/periodic_iter_001100_steps_000018022400",
+      "non_stay_actions": 15,
+      "status": "passed"
+    },
+    "grid_cnn_ppo": {
+      "action_shape": [
+        164
+      ],
+      "active_av_count": 48,
+      "checkpoint": "/workspace/artifacts/rl/pv_nongraph_ppo/mixed_grid_cnn_matched_20m/checkpoints/periodic_iter_001000_steps_000016085760",
+      "model_parameter_count": 353124,
+      "model_preset": "grid-cnn-matched",
+      "non_stay_actions": 13,
+      "status": "passed"
+    },
+    "node_mlp_ppo": {
+      "action_shape": [
+        164
+      ],
+      "active_av_count": 48,
+      "checkpoint": "/workspace/artifacts/rl/pv_nongraph_ppo/mixed_node_mlp_matched_20m/checkpoints/periodic_iter_000900_steps_000014745600",
+      "model_parameter_count": 354308,
+      "model_preset": "node-mlp-matched",
+      "non_stay_actions": 11,
+      "status": "passed"
+    }
+  },
+  "run_configs": {
+    "graph_ppo": "/workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m/run_config.json",
+    "grid_cnn_ppo": "/workspace/artifacts/rl/pv_nongraph_ppo/mixed_grid_cnn_matched_20m/run_config.json",
+    "node_mlp_ppo": "/workspace/artifacts/rl/pv_nongraph_ppo/mixed_node_mlp_matched_20m/run_config.json"
+  },
+  "runs": 30,
+  "runs_csv_rows": 11340,
+  "seed": 510001,
+  "simulated_trajectories": 10260,
+  "task_count": 540,
+  "torch_threads": 1,
+  "workers": 30
+}
