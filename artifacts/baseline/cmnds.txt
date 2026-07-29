@@ -1,0 +1,197 @@
+cd /workspace
+
+
+PYTHONPATH=src python /workspace/research/priority_baselines.py \
+  --road-length 1000 \
+  --num-lanes 4 \
+  --priority-scenarios one,two-g,two-2g \
+  --matched-fractions 0.05,0.20,0.35,0.5,0.65,0.8,0.95 \
+  --density-min 0.05 \
+  --density-max 0.90 \
+  --density-count 18 \
+  --runs 10 \
+  --warmup-steps 1000 \
+  --measure-steps 2000 \
+  --backend optimized \
+  --workers 28 \
+  --chunksize 1 \
+  --no-validate \
+  --out-dir /workspace/artifacts/baseline/rho_005_090 \
+  --prefix priority_baselines_rho_005_090
+
+
+
+PYTHONPATH=src python -u research/train_pv_graph_ppo.py \
+  --road-length 1000 \
+  --num-lanes 4 \
+  --density 0.30 \
+  --av-fraction 0.95 \
+  --front-distance 30 \
+  --back-distance 10 \
+  --sensor-distance 60 \
+  --cooldown-steps 5 \
+  --warmup-steps 1000 \
+  --episode-steps 1000 \
+  --backend optimized \
+  --workers 16 \
+  --num-gpus 1 \
+  --rollout-fragment-length 128 \
+  --train-batch-size 4096 \
+  --minibatch-size 256 \
+  --epochs 5 \
+  --iterations 1000 \
+  --stop-timesteps 2000000 \
+  --checkpoint-freq 5 \
+  --out-dir /workspace/artifacts/rl/pv_graph_ppo/rho_030_av_095
+
+
+PYTHONPATH=src python -u research/evaluate_pv_graph_ppo.py \
+  --checkpoint /workspace/artifacts/rl/pv_graph_ppo/rho_030_av_095/checkpoints \
+  --densities 0.30 \
+  --runs 20 \
+  --workers 20 \
+  --chunksize 1 \
+  --warmup-steps 1000 \
+  --measure-steps 2000 \
+  --backend optimized \
+  --no-validate \
+  --out-dir /workspace/artifacts/rl/pv_graph_ppo/rho_030_av_095/evaluation_rho_030 \
+  --prefix pv_graph_ppo_rho_030
+
+PYTHONPATH=src python -u research/evaluate_pv_graph_ppo.py \
+  --checkpoint /workspace/artifacts/rl/pv_graph_ppo/rho_030_av_095/checkpoints \
+  --densities 0.05,0.1,0.15,0.2,0.25,0.30,0.35,0.4,0.5,0.6,0.7,0.8,0.9 \
+  --runs 20 \
+  --workers 20 \
+  --chunksize 1 \
+  --warmup-steps 1000 \
+  --measure-steps 2000 \
+  --backend optimized \
+  --no-validate \
+  --out-dir /workspace/artifacts/rl/pv_graph_ppo/rho_030_av_095/evaluation_rho_005_09 \
+  --prefix pv_graph_ppo_rho_005_09 
+
+
+
+========================
+PYTHONPATH=src python -u research/train_pv_graph_ppo.py \
+  --road-length 1000 \
+  --num-lanes 4 \
+  --train-densities 0.10,0.20,0.30,0.40 \
+  --train-av-fractions 0.9,0.95,1.00 \
+  --front-distance 30 \
+  --back-distance 10 \
+  --sensor-distance 60 \
+  --cooldown-steps 1 \
+  --warmup-steps 1000 \
+  --warmup-cache \
+  --episode-steps 1000 \
+  --backend optimized \
+  --applied-penalty 0.001 \
+  --rejected-penalty 0.002 \
+  --hidden-dim 128 \
+  --message-layers 3 \
+  --gamma 0.995 \
+  --gae-lambda 0.95 \
+  --clip-param 0.20 \
+  --lr 0.0002 \
+  --entropy-coeff 0.01 \
+  --vf-loss-coeff 1.0 \
+  --vf-clip-param 10.0 \
+  --workers 32 \
+  --envs-per-worker 1 \
+  --num-gpus 1 \
+  --rollout-fragment-length 256 \
+  --train-batch-size 16384 \
+  --minibatch-size 1024 \
+  --epochs 6 \
+  --iterations 2000 \
+  --stop-timesteps 20000000 \
+  --checkpoint-freq 25 \
+  --seed 20260715 \
+  --out-dir /workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m
+
+
+================================
+cd /workspace
+
+
+PYTHONPATH=src:research \
+python -u research/nograph/train_pv_nongraph_ppo.py \
+  --model-preset node-mlp-matched \
+  --road-length 1000 \
+  --num-lanes 4 \
+  --train-densities 0.10,0.20,0.30,0.40 \
+  --train-av-fractions 0.9,0.95,1.00 \
+  --front-distance 30 \
+  --back-distance 10 \
+  --sensor-distance 60 \
+  --cooldown-steps 1 \
+  --warmup-steps 1000 \
+  --warmup-cache \
+  --episode-steps 1000 \
+  --backend optimized \
+  --applied-penalty 0.001 \
+  --rejected-penalty 0.002 \
+  --gamma 0.995 \
+  --gae-lambda 0.95 \
+  --clip-param 0.20 \
+  --lr 0.0002 \
+  --entropy-coeff 0.01 \
+  --vf-loss-coeff 1.0 \
+  --vf-clip-param 10.0 \
+  --workers 32 \
+  --envs-per-worker 1 \
+  --num-gpus 1 \
+  --rollout-fragment-length 256 \
+  --train-batch-size 16384 \
+  --minibatch-size 1024 \
+  --epochs 6 \
+  --iterations 2000 \
+  --stop-timesteps 20000000 \
+  --checkpoint-freq 25 \
+  --seed 20260715 \
+  --out-dir /workspace/artifacts/rl/pv_nongraph_ppo/mixed_node_mlp_matched_20m
+
+
+
+
+cd /workspace
+
+
+PYTHONPATH=src:research \
+python -u research/nograph/train_pv_nongraph_ppo.py \
+  --model-preset grid-cnn-matched \
+  --road-length 1000 \
+  --num-lanes 4 \
+  --train-densities 0.10,0.20,0.30,0.40 \
+  --train-av-fractions 0.9,0.95,1.00 \
+  --front-distance 30 \
+  --back-distance 10 \
+  --sensor-distance 60 \
+  --cooldown-steps 1 \
+  --warmup-steps 1000 \
+  --warmup-cache \
+  --episode-steps 1000 \
+  --backend optimized \
+  --applied-penalty 0.001 \
+  --rejected-penalty 0.002 \
+  --gamma 0.995 \
+  --gae-lambda 0.95 \
+  --clip-param 0.20 \
+  --lr 0.0002 \
+  --entropy-coeff 0.01 \
+  --vf-loss-coeff 1.0 \
+  --vf-clip-param 10.0 \
+  --workers 32 \
+  --envs-per-worker 1 \
+  --num-gpus 1 \
+  --rollout-fragment-length 256 \
+  --train-batch-size 16384 \
+  --minibatch-size 1024 \
+  --epochs 6 \
+  --iterations 2000 \
+  --stop-timesteps 20000000 \
+  --checkpoint-freq 25 \
+  --seed 20260715 \
+  --out-dir /workspace/artifacts/rl/pv_nongraph_ppo/mixed_grid_cnn_matched_20m

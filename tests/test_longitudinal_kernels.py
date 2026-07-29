@@ -55,5 +55,6 @@ def test_p1_branch_active():
 def test_stopped_vehicle_not_accelerated_by_brake_rule():
     s=_state([0,0],[0,1],[0,0])
     rng=FakeRng([0.9,0.9,0.0, 0.9,0.9,0.0])
-    out=_run(s,P1=1.0,P2=1.0,P3=0.0,P4=1.0,rng=rng)
+    # Keep rule3/current-gap clipping local to the immediately adjacent leader.
+    out=_run(s,P1=1.0,P2=1.0,P3=0.0,P4=1.0,S=1,rng=rng)
     assert int(out[0]) == 0

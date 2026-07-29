@@ -1,0 +1,121 @@
+Выбор Grid-CNN checkpoint
+
+CNN_RUN=/workspace/artifacts/rl/pv_nongraph_ppo/mixed_grid_cnn_matched_20m
+CNN_SELECTION="$CNN_RUN/evaluation_selected"
+
+PYTHONPATH="/workspace:/workspace/research${PYTHONPATH:+:$PYTHONPATH}" python -u research/nograph/select_pv_policy_checkpoint.py \
+  --policy-kind nongraph \
+  --checkpoint-root "$CNN_RUN/checkpoints" \
+  --checkpoint-iterations 850,900,950,1000,1050,1075,1080 \
+  --no-include-final \
+  --selection-density 0.30 \
+  --selection-av-fraction 1.00 \
+  --selection-runs 20 \
+  --selection-seed 310001 \
+  --workers 20 \
+  --chunksize 1 \
+  --torch-threads 1 \
+  --warmup-steps 1000 \
+  --measure-steps 2000 \
+  --yield-cooldown-steps 1 \
+  --backend optimized \
+  --skip-full \
+  --out-dir "$CNN_SELECTION"
+
+
+
+Получить выбранный путь:
+CNN_BEST="$(
+  python -c 'import json,sys; print(json.load(open(sys.argv[1]))["winner"]["checkpoint"])' \
+    "$CNN_SELECTION/checkpoint_selection.json"
+)"
+
+echo "CNN_BEST=$CNN_BEST"
+test -d "$CNN_BEST"
+
+
+Подготовить пути трёх победителей
+
+cd /workspace
+export PYTHONPATH=src:research:research/nograph
+
+GRAPH_RUN=/workspace/artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m
+NODE_RUN=/workspace/artifacts/rl/pv_nongraph_ppo/mixed_node_mlp_matched_20m
+CNN_RUN=/workspace/artifacts/rl/pv_nongraph_ppo/mixed_grid_cnn_matched_20m
+
+GRAPH_BEST="$GRAPH_RUN/checkpoints/periodic_iter_001100_steps_000018022400"
+
+NODE_BEST="$(
+  python -c 'import json,sys; print(json.load(open(sys.argv[1]))["winner"]["checkpoint"])' \
+    "$NODE_RUN/evaluation_selected/checkpoint_selection.json"
+)"
+
+CNN_BEST="$(
+  python -c 'import json,sys; print(json.load(open(sys.argv[1]))["winner"]["checkpoint"])' \
+    "$CNN_RUN/evaluation_selected/checkpoint_selection.json"
+)"
+
+test -d "$GRAPH_BEST"
+test -d "$NODE_BEST"
+test -d "$CNN_BEST"
+
+printf 'Graph: %s\nNode:  %s\nCNN:   %s\n' \
+  "$GRAPH_BEST" "$NODE_BEST" "$CNN_BEST"
+
+
+Обязательный совместный smoke
+
+PYTHONPATH=src:research:research/nograph \
+python -u research/evaluate_pv_architectures.py \
+  --graph-checkpoint "$GRAPH_BEST" \
+  --node-mlp-checkpoint "$NODE_BEST" \
+  --grid-cnn-checkpoint "$CNN_BEST" \
+  --road-length 1000 \
+  --num-lanes 4 \
+  --front-distance 30 \
+  --back-distance 10 \
+  --sensor-distance 60 \
+  --cooldown-steps 1 \
+  --yield-distance 30 \
+  --yield-cooldown-steps 1 \
+  --workers 1 \
+  --torch-threads 1 \
+  --bootstrap-samples 100 \
+  --no-plot \
+  --smoke \
+  --out-dir /workspace/artifacts/rl/pv_architecture_comparison/smoke \
+  --prefix combined_smoke
+
+
+
+Итоговая плотная матрица
+
+OUT=/workspace/artifacts/rl/pv_architecture_comparison/dense_rho_005_090_runs30
+
+PYTHONPATH=src:research:research/nograph \
+python -u research/evaluate_pv_architectures.py \
+  --graph-checkpoint "$GRAPH_BEST" \
+  --node-mlp-checkpoint "$NODE_BEST" \
+  --grid-cnn-checkpoint "$CNN_BEST" \
+  --road-length 1000 \
+  --num-lanes 4 \
+  --densities 0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90 \
+  --av-fractions 0.90,0.95,1.00 \
+  --runs 30 \
+  --seed 510001 \
+  --front-distance 30 \
+  --back-distance 10 \
+  --sensor-distance 60 \
+  --cooldown-steps 1 \
+  --yield-distance 30 \
+  --yield-cooldown-steps 1 \
+  --warmup-steps 1000 \
+  --measure-steps 2000 \
+  --backend optimized \
+  --workers 30 \
+  --chunksize 1 \
+  --torch-threads 1 \
+  --bootstrap-samples 10000 \
+  --no-validate \
+  --out-dir "$OUT" \
+  --prefix final_dense_architectures

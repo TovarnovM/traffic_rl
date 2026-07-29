@@ -6,7 +6,13 @@ from typing import Callable
 import numpy as np
 
 from snfs_traffic.backends import get_backend
-from snfs_traffic.control import normalize_lane_actions, step_with_controlled_lateral_actions_reference, controlled_vehicle_ids
+from snfs_traffic.control import (
+    controlled_vehicle_ids,
+    step_with_lateral_overrides_optimized,
+    step_with_lateral_overrides_reference,
+    step_with_controlled_lateral_actions_optimized,
+    step_with_controlled_lateral_actions_reference,
+)
 from snfs_traffic.core import SimulationParams, TrafficState, validate_runtime_invariants
 from snfs_traffic.core.indexing import build_occupancy
 from snfs_traffic.core.state import validate_state
@@ -66,7 +72,8 @@ class TrafficSimulator:
     def last_step_info(self): return self._last
     @property
     def state(self):
-        if self._state is None: raise RuntimeError("simulator is not reset")
+        if self._state is None:
+            raise RuntimeError("simulator is not reset")
         return self._state.copy()
 
     def reset(self, *, seed: int | None = None, scenario_seed: int | None = None, rng_seed: int | None = None, state: TrafficState | None = None) -> TrafficState:
@@ -92,8 +99,50 @@ class TrafficSimulator:
             nxt = self._backend.step(self._state, self._params, self._topology, self._rng)
             info = SimulatorStepInfo(step=self._step_count + 1, backend_name=self._backend_name, actions_supplied=False, used_reference_action_path=False, controlled_vehicle_ids=controlled_vehicle_ids(self._state))
         else:
-            nxt, result = step_with_controlled_lateral_actions_reference(self._state, self._params, self._topology, self._rng, actions, require_all_controlled=self._require_all)
-            info = SimulatorStepInfo(step=self._step_count + 1, backend_name=f"{self._backend_name}+reference-action", actions_supplied=True, used_reference_action_path=True, controlled_vehicle_ids=controlled_vehicle_ids(self._state), action_result=result)
+            if self._backend_name == "optimized":
+                nxt, result, used_reference_action_path = step_with_controlled_lateral_actions_optimized(
+                    self._state, self._params, self._topology, self._rng, actions, require_all_controlled=self._require_all
+                )
+                action_backend_name = f"{self._backend_name}+{'reference-action' if used_reference_action_path else 'optimized-action'}"
+            else:
+                nxt, result = step_with_controlled_lateral_actions_reference(self._state, self._params, self._topology, self._rng, actions, require_all_controlled=self._require_all)
+                used_reference_action_path = True
+                action_backend_name = f"{self._backend_name}+reference-action"
+            info = SimulatorStepInfo(step=self._step_count + 1, backend_name=action_backend_name, actions_supplied=True, used_reference_action_path=used_reference_action_path, controlled_vehicle_ids=controlled_vehicle_ids(self._state), action_result=result)
+        if self._validate:
+            validate_runtime_invariants(nxt, self._params, self._topology)
+        self._state = nxt
+        self._step_count += 1
+        self._last = info
+        return self._state.copy()
+
+    def step_lateral_overrides(self, overrides) -> TrafficState:
+        """Apply rule requests while preserving native behavior for all other vehicles."""
+
+        if self._state is None or self._rng is None:
+            raise RuntimeError("simulator is not reset")
+        if self._backend_name == "optimized":
+            nxt, result, used_reference_action_path = step_with_lateral_overrides_optimized(
+                self._state, self._params, self._topology, self._rng, overrides
+            )
+            action_backend_name = (
+                f"{self._backend_name}+"
+                f"{'reference-override' if used_reference_action_path else 'optimized-override'}"
+            )
+        else:
+            nxt, result = step_with_lateral_overrides_reference(
+                self._state, self._params, self._topology, self._rng, overrides
+            )
+            used_reference_action_path = True
+            action_backend_name = f"{self._backend_name}+reference-override"
+        info = SimulatorStepInfo(
+            step=self._step_count + 1,
+            backend_name=action_backend_name,
+            actions_supplied=True,
+            used_reference_action_path=used_reference_action_path,
+            controlled_vehicle_ids=controlled_vehicle_ids(self._state),
+            action_result=result,
+        )
         if self._validate:
             validate_runtime_invariants(nxt, self._params, self._topology)
         self._state = nxt

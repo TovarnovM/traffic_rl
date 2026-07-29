@@ -7,3 +7,4 @@ optuna>=3.6
 sqlalchemy>=2.0
 psycopg2-binary>=2.9
 ray>=2.9
+ipykernel
