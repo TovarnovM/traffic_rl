@@ -1,0 +1,19 @@
+{
+  "main_tables": [
+    "main_table_01.tex",
+    "main_table_02.tex",
+    "main_table_03.tex",
+    "main_table_04.tex",
+    "main_table_05.tex"
+  ],
+  "supplementary_tables": [
+    "revision_supplement_table_01.tex",
+    "revision_supplement_table_02.tex",
+    "revision_supplement_table_03.tex",
+    "revision_recorded_pairs.tex",
+    "revision_supplement_table_04.tex"
+  ],
+  "additional_domain_blocks": "revision_all42domains.tex",
+  "format": "Original final table-only TeX and numerical CSV; no full article source. TeX uses the documented host macros and original equation references.",
+  "historical_note": "Last supplementary table is the separate historical E1 multiplicity audit; it is not the new crossed-bootstrap cohort."
+}

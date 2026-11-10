@@ -1,0 +1,27 @@
+\begin{table*}[t]
+\centering
+\caption{Exact order and normalisation of the 48 node features. In the local-lane blocks, $\lambda\in\{\ell_i-1,\ell_i,\ell_i+1\}$ denotes the left, same, and right lanes, respectively. The implementation field names contain \texttt{gap}, but these observation entries store directed occupied-cell distances $\delta^\pm$, not the empty-cell gaps in Eqs.~\eqref{eq:periodic-gaps} and~\eqref{eq:lane-gaps}.}
+\label{tab:node-schema}
+\begingroup
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}cP{0.30\textwidth}P{0.58\textwidth}@{}}
+\toprule
+Index & Field(s), in tensor order & Definition \\
+\midrule
+0 & \texttt{pv\_relative\_position} & $\Delta x_i^{\PV}/D_{\mathrm{front}}$ if $\Delta x_i^{\PV}\geq0$; otherwise $\Delta x_i^{\PV}/D_{\mathrm{back}}$. \\
+1 & \texttt{lane\_norm} & $\ell_i/L_\ell$. \\
+2 & \texttt{pv\_relative\_lane} & $(\ell_i-\ell_{\PV})/L_\ell$. \\
+3 & \texttt{speed\_norm} & $v_i/V_*$. \\
+4 & \texttt{pv\_relative\_speed} & $(v_i-v_{\PV})/V_*$. \\
+5 & \texttt{last\_lane\_delta} & Last executed lane delta in $\{-1,0,+1\}$. \\
+6 & \texttt{cooldown\_norm} & Remaining cooldown $c_i/\max\{C,1\}$, where $C$ is the configured cooldown. \\
+7--17 & \texttt{left\_*} & The 11-field local-lane block below for $\lambda=\ell_i-1$. \\
+18--28 & \texttt{same\_*} & The same block for $\lambda=\ell_i$. \\
+29--39 & \texttt{right\_*} & The same block for $\lambda=\ell_i+1$. \\
+40--43 & \texttt{nearest\_hdv\_front\_*} & $\bigl(P_h^+,\delta^+(i,h)/R_{\mathrm{s}},(\ell_h-\ell_i)/L_\ell,(v_h-v_i)/V_*\bigr)$ for the longitudinally nearest HDV ahead across all lanes. \\
+44--47 & \texttt{nearest\_hdv\_back\_*} & $\bigl(P_h^-,\delta^-(i,h)/R_{\mathrm{s}},(\ell_h-\ell_i)/L_\ell,(v_h-v_i)/V_*\bigr)$ for the longitudinally nearest HDV behind across all lanes. \\
+\bottomrule
+\end{tabular}
+\endgroup
+\end{table*}

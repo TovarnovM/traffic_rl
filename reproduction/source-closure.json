@@ -1,0 +1,976 @@
+{
+  "src/snfs_traffic/simulator.py": {
+    "sha256": "000c29b6dd029b514149d605652cfc3d6be1d1ce9a4b98276be7b6ccdb5672b6",
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "numpy",
+      "snfs_traffic.backends",
+      "snfs_traffic.control",
+      "snfs_traffic.core",
+      "snfs_traffic.core.indexing",
+      "snfs_traffic.core.state",
+      "snfs_traffic.observations",
+      "snfs_traffic.scenarios",
+      "snfs_traffic.topology",
+      "typing"
+    ]
+  },
+  "src/snfs_traffic/control.py": {
+    "sha256": "7e0eb44662607f1b0e8dce048beeade4f45a60a7295af45930f4942a54ffde0b",
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "numpy",
+      "snfs_traffic.core",
+      "snfs_traffic.core.indexing",
+      "snfs_traffic.core.indexing_kernels",
+      "snfs_traffic.core.lane_change_kernels",
+      "snfs_traffic.core.lane_change_numba",
+      "snfs_traffic.core.longitudinal_kernels",
+      "snfs_traffic.core.longitudinal_numba",
+      "snfs_traffic.core.state",
+      "snfs_traffic.core.step_reference",
+      "snfs_traffic.topology",
+      "typing"
+    ]
+  },
+  "src/snfs_traffic/__init__.py": {
+    "sha256": "92a6b0b93bf0f4258961dec4f6b6247417de71265de0a1cef0d1cae1be266065",
+    "imports": []
+  },
+  "src/snfs_traffic/topology/ring.py": {
+    "sha256": "af6303a1ecb80b42f2c33cd99652b2c64c889ec7fd5aa68f60eaa34958639d73",
+    "imports": [
+      ".base",
+      "__future__",
+      "dataclasses",
+      "numpy"
+    ]
+  },
+  "src/snfs_traffic/topology/base.py": {
+    "sha256": "64467f03b84cd982be304f128f44f3a8f99126b2055318103ca0b07e38286a21",
+    "imports": [
+      "__future__",
+      "numpy",
+      "typing"
+    ]
+  },
+  "src/snfs_traffic/topology/__init__.py": {
+    "sha256": "464ae34c3ea54946edc323296e553d0eb6de9fe2274056734e57d18a359b5cd3",
+    "imports": [
+      ".base",
+      ".ring"
+    ]
+  },
+  "src/snfs_traffic/rl/rewards.py": {
+    "sha256": "1271c16a011eedf3da23612c04167e91e3e4c8cca1f63f0737d2a77ebbce70de",
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "numpy",
+      "snfs_traffic.control",
+      "snfs_traffic.core",
+      "typing"
+    ]
+  },
+  "src/snfs_traffic/rl/graph_ppo.py": {
+    "sha256": "b2b140b93958641525898587163bc1fdf6b4fba101945bf111bfaa77af8a53ed",
+    "imports": [
+      "__future__",
+      "collections.abc",
+      "ray.rllib.algorithms.ppo",
+      "ray.rllib.algorithms.ppo.ppo_torch_policy",
+      "ray.rllib.evaluation.postprocessing",
+      "ray.rllib.models.modelv2",
+      "ray.rllib.models.torch.torch_modelv2",
+      "ray.rllib.policy.sample_batch",
+      "torch",
+      "torch.nn",
+      "torch.nn.functional"
+    ]
+  },
+  "src/snfs_traffic/rl/nongraph_ppo.py": {
+    "sha256": "5eea819d8b701a8205352b274c38984a7352631279c240778aab710be0b3dda7",
+    "imports": [
+      "__future__",
+      "collections.abc",
+      "dataclasses",
+      "ray.rllib.models.modelv2",
+      "ray.rllib.models.torch.torch_modelv2",
+      "snfs_traffic.rl.graph_ppo",
+      "torch",
+      "torch.nn",
+      "torch.nn.functional"
+    ]
+  },
+  "src/snfs_traffic/rl/speed_control_multiagent_env.py": {
+    "sha256": "5589d00215203e0a1d504e8268766a9951fe58bf2c707eb6667344eaef939d4c",
+    "imports": [
+      "__future__",
+      "gymnasium",
+      "numpy",
+      "snfs_traffic.control",
+      "snfs_traffic.rl.multiagent_env"
+    ]
+  },
+  "src/snfs_traffic/rl/centralized_pv_env.py": {
+    "sha256": "032e1e1c0243b66a56e8fceab003a3da92d4424eb3540e0d51206b8023dbcc76",
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "gymnasium",
+      "itertools",
+      "numpy",
+      "snfs_traffic.control",
+      "snfs_traffic.core",
+      "snfs_traffic.observations",
+      "snfs_traffic.scenarios",
+      "snfs_traffic.simulator",
+      "typing"
+    ]
+  },
+  "src/snfs_traffic/rl/episode.py": {
+    "sha256": "987b7ebd908b7e2ead87c18621eda468cb5fc2261749c8f54ed7960a0ba351c7",
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "numpy",
+      "snfs_traffic.core"
+    ]
+  },
+  "src/snfs_traffic/rl/env.py": {
+    "sha256": "7f9ebf9f22c822ce4f2f17ace00be7f55dea42a8de49a5a299b664194f7819de",
+    "imports": [
+      "__future__",
+      "gymnasium",
+      "numpy",
+      "snfs_traffic.control",
+      "snfs_traffic.core",
+      "snfs_traffic.observations",
+      "snfs_traffic.rl.episode",
+      "snfs_traffic.rl.rewards",
+      "snfs_traffic.scenarios",
+      "snfs_traffic.simulator",
+      "typing"
+    ]
+  },
+  "src/snfs_traffic/rl/multiagent_env.py": {
+    "sha256": "7f248a1573447093cdd2f46022dc61436f238ce4ccabce5c76b97aa2dac3b6ce",
+    "imports": [
+      "__future__",
+      "collections.abc",
+      "gymnasium",
+      "numpy",
+      "ray.rllib.env.multi_agent_env",
+      "snfs_traffic.control",
+      "snfs_traffic.core",
+      "snfs_traffic.observations",
+      "snfs_traffic.rl.episode",
+      "snfs_traffic.rl.rewards",
+      "snfs_traffic.scenarios",
+      "snfs_traffic.simulator",
+      "typing"
+    ]
+  },
+  "src/snfs_traffic/rl/__init__.py": {
+    "sha256": "1ecdd4e44680964b71f07f3e6b2457816206dced3f8d5160814c71cd557f8ad6",
+    "imports": [
+      "__future__",
+      "snfs_traffic.rl.centralized_pv_env",
+      "snfs_traffic.rl.env",
+      "snfs_traffic.rl.episode",
+      "snfs_traffic.rl.multiagent_env",
+      "snfs_traffic.rl.rewards",
+      "snfs_traffic.rl.speed_control_multiagent_env"
+    ]
+  },
+  "src/snfs_traffic/io/__init__.py": {
+    "sha256": "6bd02539a6e9b744146458b8d5d8e30dd0f4d89e4e2ab7bd4aa068bbbd9ecb15",
+    "imports": []
+  },
+  "src/snfs_traffic/envs/__init__.py": {
+    "sha256": "6e2915c1368965352ce2f6cccbb6219df7c7f801ade64348513ee3dd5e5b885a",
+    "imports": []
+  },
+  "src/snfs_traffic/scenarios/priority.py": {
+    "sha256": "c8c8a3d593a5fde91543074fb0557fb94336b932c59cd719ba59729c212b2d65",
+    "imports": [
+      ".init",
+      "__future__",
+      "dataclasses",
+      "numpy",
+      "snfs_traffic.core"
+    ]
+  },
+  "src/snfs_traffic/scenarios/init.py": {
+    "sha256": "7f6a7d72290df1ee2fb5b569c3ff79471d4247f2673eabb4dbaf7e4455c9a09c",
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "numpy",
+      "snfs_traffic.core",
+      "snfs_traffic.core.types"
+    ]
+  },
+  "src/snfs_traffic/scenarios/__init__.py": {
+    "sha256": "71ed37ebbba12e8e9d52439066eb022a0fc7bf777eb07b6294efd78a22592e5a",
+    "imports": [
+      ".init",
+      ".priority",
+      "snfs_traffic.core"
+    ]
+  },
+  "src/snfs_traffic/core/indexing_numba.py": {
+    "sha256": "c466e5c98067387e4861166bdd06b30e8d2db76f9744c01e6c053bb5c62318c4",
+    "imports": [
+      "__future__",
+      "numba",
+      "numpy",
+      "snfs_traffic.core.indexing_kernels"
+    ]
+  },
+  "src/snfs_traffic/core/indexing_kernels.py": {
+    "sha256": "31bde98e74beefd189f87d6fe9c39cd547c7a03c8d140c2286e5c3ab3d6c0e81",
+    "imports": [
+      "__future__",
+      "numpy"
+    ]
+  },
+  "src/snfs_traffic/core/types.py": {
+    "sha256": "0536741b9d0bda513bd0941a8aaf8e2d0e36addb4194d8c6d7c84c001b943f98",
+    "imports": [
+      "numpy"
+    ]
+  },
+  "src/snfs_traffic/core/longitudinal_numba.py": {
+    "sha256": "c66e169b26a0d1040d0220ddc00f683056bd31e3623881241642a7c83cb539b9",
+    "imports": [
+      "__future__",
+      "numba",
+      "numpy"
+    ]
+  },
+  "src/snfs_traffic/core/backend.py": {
+    "sha256": "07c892d684c41c9d6ab763ddb6f65e5d8b91d57f7e45f1039fb669f6207b01a8",
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "numpy",
+      "snfs_traffic.core.params",
+      "snfs_traffic.core.state",
+      "snfs_traffic.core.step_reference",
+      "snfs_traffic.topology",
+      "typing"
+    ]
+  },
+  "src/snfs_traffic/core/invariants.py": {
+    "sha256": "b5d88310b9337dfbee90af55d89c7b874b348e8e1783cd30d93dcbc737c3e46e",
+    "imports": [
+      "__future__",
+      "numpy",
+      "snfs_traffic.core.indexing",
+      "snfs_traffic.core.params",
+      "snfs_traffic.core.roles",
+      "snfs_traffic.core.state",
+      "snfs_traffic.topology"
+    ]
+  },
+  "src/snfs_traffic/core/roles.py": {
+    "sha256": "549914787df1dc0e8a90af27aa752200ff52f4e30d15868d562bfebedee66fc9",
+    "imports": [
+      ".state",
+      "__future__",
+      "numpy",
+      "typing"
+    ]
+  },
+  "src/snfs_traffic/core/state.py": {
+    "sha256": "741972dcaa358242a6ef6be7d1dc03ed225e8187aadcba4a0868f2eccb7d92e8",
+    "imports": [
+      ".params",
+      ".roles",
+      ".types",
+      "dataclasses",
+      "numpy"
+    ]
+  },
+  "src/snfs_traffic/core/params.py": {
+    "sha256": "befb483b628bebe810bc46442d4f58a7a6ae1bfc67f92076a234b476560f3cf1",
+    "imports": [
+      ".types",
+      "dataclasses",
+      "numpy"
+    ]
+  },
+  "src/snfs_traffic/core/__init__.py": {
+    "sha256": "b6576b356a9f03ac5133ab6ad4d6866352e95a783e643e37087db6130f5d2751",
+    "imports": [
+      ".backend",
+      ".indexing",
+      ".invariants",
+      ".lane_change_reference",
+      ".params",
+      ".roles",
+      ".state",
+      ".step_reference"
+    ]
+  },
+  "src/snfs_traffic/core/step_reference.py": {
+    "sha256": "9077cf8d4b0344cb89b162c10f5bfce881b6d6b49436c5785791621bfa17d3a8",
+    "imports": [
+      "__future__",
+      "numpy",
+      "snfs_traffic.core.indexing",
+      "snfs_traffic.core.lane_change_reference",
+      "snfs_traffic.core.longitudinal_kernels",
+      "snfs_traffic.core.params",
+      "snfs_traffic.core.roles",
+      "snfs_traffic.core.state",
+      "snfs_traffic.topology"
+    ]
+  },
+  "src/snfs_traffic/core/lane_change_numba.py": {
+    "sha256": "af04496bc7468754a90b745bb13a23a679f4e5c9f6aa508d467cbc86e8b6184f",
+    "imports": [
+      "__future__",
+      "numba",
+      "numpy",
+      "snfs_traffic.core.indexing"
+    ]
+  },
+  "src/snfs_traffic/core/longitudinal_kernels.py": {
+    "sha256": "c1103f7ceacaadb2a9dc6f5fa628083944f88362e79605be856be1baf3f139df",
+    "imports": [
+      "__future__",
+      "numpy",
+      "snfs_traffic.core.indexing_kernels"
+    ]
+  },
+  "src/snfs_traffic/core/lane_change_reference.py": {
+    "sha256": "9ae1481db9bfe82169d5a3ca3afc812c123c86a8ab1f7091e8c3f898de4a5d4c",
+    "imports": [
+      "__future__",
+      "numpy",
+      "snfs_traffic.core.indexing",
+      "snfs_traffic.core.lane_change_kernels",
+      "snfs_traffic.core.params",
+      "snfs_traffic.core.roles",
+      "snfs_traffic.core.state",
+      "snfs_traffic.topology"
+    ]
+  },
+  "src/snfs_traffic/core/indexing.py": {
+    "sha256": "f432fd7860aa18ba7993f6de616b838a76f4df48c50b437e95bec84d7d772196",
+    "imports": [
+      "__future__",
+      "numpy",
+      "snfs_traffic.core.indexing_kernels",
+      "snfs_traffic.core.params",
+      "snfs_traffic.core.state",
+      "snfs_traffic.topology"
+    ]
+  },
+  "src/snfs_traffic/core/lane_change_kernels.py": {
+    "sha256": "68c4b0fd69125bebed96b4b1d86a033130e67edad051828957b0630438492c41",
+    "imports": [
+      "__future__",
+      "numpy",
+      "snfs_traffic.core.indexing"
+    ]
+  },
+  "src/snfs_traffic/observations/pv_graph.py": {
+    "sha256": "01f3e38ca2f1c44da6019c6d011a9f9c6a296fa23cd035aeb9ef6341669e8d2a",
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "numpy",
+      "snfs_traffic.control",
+      "snfs_traffic.core",
+      "snfs_traffic.scenarios",
+      "snfs_traffic.topology",
+      "typing"
+    ]
+  },
+  "src/snfs_traffic/observations/__init__.py": {
+    "sha256": "14084963af89523007471a54afc39aab9bf06cefc9573af392086e2bb1e11083",
+    "imports": [
+      ".local",
+      ".pv_graph"
+    ]
+  },
+  "src/snfs_traffic/observations/local.py": {
+    "sha256": "3d083a6ddae50bac142fcf31f3e66f01319fc681fc2307a7eb42598dff7f0051",
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "numpy",
+      "snfs_traffic.control",
+      "snfs_traffic.core",
+      "snfs_traffic.core.indexing",
+      "snfs_traffic.core.lane_change_kernels",
+      "snfs_traffic.core.state",
+      "snfs_traffic.topology"
+    ]
+  },
+  "src/snfs_traffic/rules/priority_yield.py": {
+    "sha256": "6f86ef5f670018d65f361b79523bae79a7570d08af77931289c69004c46ff193",
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "numpy",
+      "snfs_traffic.control",
+      "snfs_traffic.core",
+      "snfs_traffic.core.indexing",
+      "snfs_traffic.core.lane_change_kernels",
+      "snfs_traffic.topology",
+      "types",
+      "typing"
+    ]
+  },
+  "src/snfs_traffic/rules/__init__.py": {
+    "sha256": "2104cf2fb0950bfdfcb486e1b38a58560721711c6c37e40b74eb34fec3eece17",
+    "imports": [
+      ".priority_yield"
+    ]
+  },
+  "src/snfs_traffic/visualization/video.py": {
+    "sha256": "44ec309ebf2a5f45bd0e2bb2b2dd3867aebeb58d58884f08848ca8ae23bf151f",
+    "imports": [
+      "__future__",
+      "imageio",
+      "imageio.v2",
+      "numpy",
+      "pathlib",
+      "typing"
+    ]
+  },
+  "src/snfs_traffic/visualization/__init__.py": {
+    "sha256": "b22b36c20776a2929c090794523418c3cdc343aeabef22de7600e9a007ef45f6",
+    "imports": [
+      ".road",
+      ".video"
+    ]
+  },
+  "src/snfs_traffic/visualization/road.py": {
+    "sha256": "22f18869f4881b40fe7d728c5faea6becb4a2d24cfd140176435683776db4908",
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "numpy",
+      "os",
+      "pygame",
+      "pygame.surfarray",
+      "snfs_traffic.core",
+      "snfs_traffic.scenarios",
+      "snfs_traffic.topology",
+      "typing"
+    ]
+  },
+  "src/snfs_traffic/visualization/demo.py": {
+    "sha256": "fd66bf0b1f456fc0d3c366db57ab7ebbbe8d1ca1f551be0b2f424bd8df8c1bf7",
+    "imports": [
+      "__future__",
+      "argparse",
+      "numpy",
+      "snfs_traffic.backends",
+      "snfs_traffic.core",
+      "snfs_traffic.scenarios",
+      "snfs_traffic.topology",
+      "snfs_traffic.visualization"
+    ]
+  },
+  "src/snfs_traffic/metrics/priority.py": {
+    "sha256": "8ca00b377936501b009088bd39d9681745eb629ddd2f7b5052355cedb268fc32",
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "numpy",
+      "snfs_traffic.control",
+      "snfs_traffic.core",
+      "snfs_traffic.rules",
+      "typing"
+    ]
+  },
+  "src/snfs_traffic/metrics/__init__.py": {
+    "sha256": "647e9c4653c3dc6c3a0bcc2e5487d5c1e5f737b9e2e17889a9110a84992cb681",
+    "imports": [
+      ".priority"
+    ]
+  },
+  "src/snfs_traffic/backends/__init__.py": {
+    "sha256": "02d38ac059597d7ccb76fb78359385b3d2648504769d0e3c744d8182be6d3eec",
+    "imports": [
+      "__future__",
+      "snfs_traffic.backends.optimized",
+      "snfs_traffic.core.backend",
+      "snfs_traffic.core.indexing_numba",
+      "snfs_traffic.core.lane_change_numba",
+      "snfs_traffic.core.longitudinal_numba"
+    ]
+  },
+  "src/snfs_traffic/backends/optimized.py": {
+    "sha256": "d9364e545abd959a55183486fb12cddfa01e7a2dcda83439ca3d783861f69ab1",
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "numpy",
+      "snfs_traffic.core.backend",
+      "snfs_traffic.core.indexing",
+      "snfs_traffic.core.indexing_numba",
+      "snfs_traffic.core.lane_change_kernels",
+      "snfs_traffic.core.lane_change_numba",
+      "snfs_traffic.core.longitudinal_kernels",
+      "snfs_traffic.core.longitudinal_numba",
+      "snfs_traffic.core.params",
+      "snfs_traffic.core.roles",
+      "snfs_traffic.core.state",
+      "snfs_traffic.core.step_reference",
+      "snfs_traffic.topology"
+    ]
+  },
+  "research/train_pv_graph_ppo.py": {
+    "sha256": "9b93d7ff96f2e567b9b06f772542b4a598bc6e164bd7726e6ce69491ca440b3b",
+    "imports": [
+      "__future__",
+      "argparse",
+      "inspect",
+      "json",
+      "os",
+      "pathlib",
+      "ray",
+      "ray.rllib.algorithms.callbacks",
+      "ray.rllib.algorithms.ppo",
+      "ray.rllib.callbacks.callbacks",
+      "ray.rllib.models",
+      "ray.tune.registry",
+      "re",
+      "snfs_traffic.rl.centralized_pv_env",
+      "snfs_traffic.rl.graph_ppo",
+      "time",
+      "typing"
+    ]
+  },
+  "research/evaluate_pv_graph_ppo.py": {
+    "sha256": "ee3dd6566d5298bda240ccb6f3d2bd78a3f763f4f5b6c99d33b42564b474f4ed",
+    "imports": [
+      "__future__",
+      "argparse",
+      "csv",
+      "dataclasses",
+      "json",
+      "math",
+      "matplotlib",
+      "matplotlib.pyplot",
+      "multiprocessing",
+      "numpy",
+      "os",
+      "pathlib",
+      "ray",
+      "ray.rllib.algorithms.ppo",
+      "ray.rllib.models",
+      "ray.tune.registry",
+      "re",
+      "snfs_traffic.control",
+      "snfs_traffic.core",
+      "snfs_traffic.metrics",
+      "snfs_traffic.observations",
+      "snfs_traffic.rl.centralized_pv_env",
+      "snfs_traffic.rl.graph_ppo",
+      "snfs_traffic.rules",
+      "snfs_traffic.scenarios",
+      "snfs_traffic.simulator",
+      "statistics",
+      "sys",
+      "time",
+      "torch",
+      "torch.nn",
+      "torch.nn.functional",
+      "train_pv_graph_ppo",
+      "typing"
+    ]
+  },
+  "research/evaluate_pv_architectures.py": {
+    "sha256": "9f48bf1515514d9e87d5150eb174f898d2628602440ba10d08e8f070b9291f59",
+    "imports": [
+      "__future__",
+      "argparse",
+      "dataclasses",
+      "evaluate_pv_graph_ppo",
+      "evaluate_pv_nongraph_ppo",
+      "json",
+      "math",
+      "matplotlib",
+      "matplotlib.pyplot",
+      "multiprocessing",
+      "numpy",
+      "os",
+      "pathlib",
+      "snfs_traffic.control",
+      "snfs_traffic.metrics",
+      "snfs_traffic.observations",
+      "snfs_traffic.rules",
+      "snfs_traffic.scenarios",
+      "snfs_traffic.simulator",
+      "sys",
+      "time",
+      "torch",
+      "typing"
+    ]
+  },
+  "research/priority_baselines.py": {
+    "sha256": "75202be952c56e88e90125dffb318e2f21f32750e3312b1729cc539d78bf3a12",
+    "imports": [
+      "__future__",
+      "argparse",
+      "csv",
+      "dataclasses",
+      "json",
+      "math",
+      "matplotlib.pyplot",
+      "multiprocessing",
+      "numpy",
+      "os",
+      "pathlib",
+      "snfs_traffic.control",
+      "snfs_traffic.core",
+      "snfs_traffic.metrics",
+      "snfs_traffic.rules",
+      "snfs_traffic.scenarios",
+      "snfs_traffic.simulator",
+      "statistics",
+      "time",
+      "typing"
+    ]
+  },
+  "research/fundamental_diagram_hdv_flow_mp.py": {
+    "sha256": "aeb9eb706b39e9a9c11d5d55443867bcc30357b0d49a2c55e9f626ceddc29eca",
+    "imports": [
+      "__future__",
+      "argparse",
+      "csv",
+      "dataclasses",
+      "json",
+      "math",
+      "matplotlib.pyplot",
+      "multiprocessing",
+      "numpy",
+      "os",
+      "pathlib",
+      "snfs_traffic.core",
+      "snfs_traffic.scenarios",
+      "snfs_traffic.simulator",
+      "statistics",
+      "time",
+      "typing"
+    ]
+  },
+  "research/ring_4lane_video.py": {
+    "sha256": "1ec78fb3c0a6aed9f911a722c1480a08cb98b0db8e69ff8da6d73b666b401aab",
+    "imports": [
+      "__future__",
+      "argparse",
+      "numpy",
+      "pathlib",
+      "snfs_traffic.core",
+      "snfs_traffic.scenarios",
+      "snfs_traffic.simulator",
+      "snfs_traffic.topology",
+      "snfs_traffic.visualization"
+    ]
+  },
+  "research/nograph/train_pv_nongraph_ppo.py": {
+    "sha256": "c24d90790fb3ba1c6007436d0f9108b4b7ec25482952f7a7fabf90bc7096e31c",
+    "imports": [
+      "__future__",
+      "argparse",
+      "inspect",
+      "json",
+      "os",
+      "pathlib",
+      "ray",
+      "ray.rllib.algorithms.ppo",
+      "ray.rllib.models",
+      "ray.tune.registry",
+      "snfs_traffic.rl.centralized_pv_env",
+      "snfs_traffic.rl.nongraph_ppo",
+      "sys",
+      "time",
+      "train_pv_graph_ppo"
+    ]
+  },
+  "research/nograph/evaluate_pv_nongraph_ppo.py": {
+    "sha256": "69c7df82ce2b93379981bc3a0206bb136f6aef7c905a7dfd4e8a6e9fb3fed485",
+    "imports": [
+      "__future__",
+      "argparse",
+      "evaluate_pv_graph_ppo",
+      "json",
+      "matplotlib",
+      "matplotlib.pyplot",
+      "multiprocessing",
+      "numpy",
+      "os",
+      "pathlib",
+      "ray",
+      "ray.rllib.algorithms.ppo",
+      "ray.rllib.models",
+      "ray.tune.registry",
+      "snfs_traffic.control",
+      "snfs_traffic.metrics",
+      "snfs_traffic.observations",
+      "snfs_traffic.rl.centralized_pv_env",
+      "snfs_traffic.rl.nongraph_ppo",
+      "snfs_traffic.rules",
+      "snfs_traffic.scenarios",
+      "snfs_traffic.simulator",
+      "sys",
+      "time",
+      "torch",
+      "train_pv_graph_ppo",
+      "train_pv_nongraph_ppo",
+      "typing"
+    ]
+  },
+  "research/nograph/select_pv_nongraph_checkpoint.py": {
+    "sha256": "34cdd125a22b99517e90efa6d6db78403daca1c1f6623f2bcffbd71774734e67",
+    "imports": [
+      "__future__",
+      "argparse",
+      "csv",
+      "evaluate_pv_graph_ppo",
+      "evaluate_pv_nongraph_ppo",
+      "json",
+      "pathlib",
+      "re",
+      "subprocess",
+      "sys",
+      "typing"
+    ]
+  },
+  "research/nograph/select_pv_policy_checkpoint.py": {
+    "sha256": "f65984d683d83b0f9b55bf794e7abc65ad9623b56524c71932b2f40f563d5fa7",
+    "imports": [
+      "select_pv_nongraph_checkpoint"
+    ]
+  },
+  "research/nograph/compare_pv_architectures.py": {
+    "sha256": "8b47d44cb38864de36a44f537020936d1adb5244dee76f505f2dcb1ffe25cee5",
+    "imports": [
+      "__future__",
+      "argparse",
+      "csv",
+      "evaluate_pv_graph_ppo",
+      "itertools",
+      "json",
+      "math",
+      "matplotlib",
+      "matplotlib.pyplot",
+      "numpy",
+      "pathlib",
+      "snfs_traffic.metrics",
+      "sys",
+      "typing"
+    ]
+  },
+  "physica_a_revision_r1/analysis/e3_gpu_pilot.py": {
+    "sha256": "d90f5f76b8fe60327d1a663b39a9b6264fd87e6d257544e18f52caea2dba45a2",
+    "imports": [
+      "__future__",
+      "argparse",
+      "dataclasses",
+      "datetime",
+      "hashlib",
+      "importlib.metadata",
+      "importlib.util",
+      "inspect",
+      "json",
+      "math",
+      "os",
+      "pathlib",
+      "ray",
+      "ray.rllib.algorithms.ppo",
+      "ray.rllib.models",
+      "ray.tune.registry",
+      "resource",
+      "snfs_traffic.rl.centralized_pv_env",
+      "snfs_traffic.rl.graph_ppo",
+      "snfs_traffic.rl.nongraph_ppo",
+      "sys",
+      "tempfile",
+      "time",
+      "torch",
+      "types",
+      "uuid"
+    ]
+  },
+  "physica_a_revision_r1/analysis/e3_distributed_pilot.py": {
+    "sha256": "6b32e682468dda4cc671449eb107a2ca2c20bbfe7d09dadb3decf6353b759f63",
+    "imports": [
+      "__future__",
+      "argparse",
+      "datetime",
+      "hashlib",
+      "importlib.util",
+      "inspect",
+      "json",
+      "math",
+      "os",
+      "pathlib",
+      "ray",
+      "ray.rllib.algorithms.ppo",
+      "ray.rllib.models",
+      "ray.tune.registry",
+      "snfs_traffic.rl.centralized_pv_env",
+      "snfs_traffic.rl.graph_ppo",
+      "snfs_traffic.rl.nongraph_ppo",
+      "sys",
+      "time",
+      "torch",
+      "traceback",
+      "types"
+    ]
+  },
+  "physica_a_revision_r1/analysis/w7_train.py": {
+    "sha256": "40eb38dd20cc9f19eb8cc3e765986d1fd009ce7b724028ef5f44627a2ba76ceb",
+    "imports": [
+      "__future__",
+      "argparse",
+      "collections",
+      "contextlib",
+      "e3_distributed_pilot",
+      "fcntl",
+      "importlib.util",
+      "json",
+      "math",
+      "os",
+      "pathlib",
+      "ray",
+      "ray.rllib.models",
+      "ray.tune.registry",
+      "re",
+      "signal",
+      "snfs_traffic.rl.centralized_pv_env",
+      "snfs_traffic.rl.graph_ppo",
+      "sys",
+      "time",
+      "torch",
+      "uuid"
+    ]
+  },
+  "mc_toolkit/operations/paper_outputs/cli.py": {
+    "sha256": "36d4800f20b8cf9b0456d92a0042d222f72ebb9228fd27618bd34a68f1935e70",
+    "imports": [
+      "__future__",
+      "argparse",
+      "data",
+      "dataset",
+      "hashlib",
+      "json",
+      "pathlib",
+      "render",
+      "shutil",
+      "sys"
+    ]
+  },
+  "mc_toolkit/operations/paper_outputs/data.py": {
+    "sha256": "562e2fc83e34dff1b65b5fae811cc132e65df0828665866c4170f797e4174ba6",
+    "imports": [
+      "collections",
+      "csv",
+      "dataset",
+      "gzip",
+      "hashlib",
+      "inference",
+      "json",
+      "lzma",
+      "math",
+      "numpy",
+      "pathlib",
+      "physica_mc",
+      "physica_mc.statistics",
+      "physica_test_plan",
+      "physica_test_store"
+    ]
+  },
+  "mc_toolkit/operations/paper_outputs/inference.py": {
+    "sha256": "c91202898d6ca391f6c1aaca52ed332fbc9c552a2d9f20b54d8c6dd55980064f",
+    "imports": [
+      "dataclasses",
+      "math",
+      "numpy",
+      "physica_mc",
+      "physica_mc.reporting"
+    ]
+  },
+  "mc_toolkit/operations/paper_outputs/render.py": {
+    "sha256": "6381999ecd1abb4da28b843f2cb76355d777c2b30bc5acc3c92db6e39b113d58",
+    "imports": [
+      ".style",
+      "__future__",
+      "collections",
+      "csv",
+      "errno",
+      "hashlib",
+      "html",
+      "json",
+      "math",
+      "matplotlib",
+      "matplotlib.colors",
+      "matplotlib.patches",
+      "matplotlib.pyplot",
+      "numpy",
+      "pathlib",
+      "re",
+      "shutil",
+      "style",
+      "textwrap"
+    ]
+  },
+  "mc_toolkit/operations/paper_outputs/style.py": {
+    "sha256": "a3c72e3da6ffcbf07161b7e35e34e80d0c0fe77a43bcb52f86ef02da216135be",
+    "imports": []
+  },
+  "mc_toolkit/operations/fresh_test/dataset.py": {
+    "sha256": "4e15e2945ff8bd6a1eb3bed9c5b2b816247de490454f7150e573e3780f6a8382",
+    "imports": [
+      "collections",
+      "datetime",
+      "fcntl",
+      "pathlib",
+      "physica_test_plan",
+      "physica_test_store",
+      "slurm_map.common",
+      "sys"
+    ]
+  },
+  "mc_toolkit/operations/fresh_test/source/physica_test_plan.py": {
+    "sha256": "d84e1e7fca61db74db55fcaa997a664e0d365031d9016a69b4292f05de79e4a7",
+    "imports": [
+      "collections",
+      "hashlib",
+      "json",
+      "pathlib",
+      "re"
+    ]
+  },
+  "mc_toolkit/operations/fresh_test/source/physica_test_store.py": {
+    "sha256": "707f92b74ed1e45e3333452669ce7d71099d816c54e3f3d40cc5de2321354b1f",
+    "imports": [
+      "contextlib",
+      "gzip",
+      "hashlib",
+      "json",
+      "math",
+      "os",
+      "pathlib",
+      "physica_mc",
+      "re",
+      "shutil",
+      "stat",
+      "tarfile",
+      "tempfile",
+      "zlib"
+    ]
+  }
+}

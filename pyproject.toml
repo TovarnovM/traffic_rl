@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "snfs-traffic"
-version = "0.1.0"
-description = "High-performance Revised S-NFS traffic simulator for future multi-agent reinforcement learning experiments."
+version = "1.1.0"
+description = "Revised S-NFS traffic simulation and priority-vehicle reinforcement learning."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

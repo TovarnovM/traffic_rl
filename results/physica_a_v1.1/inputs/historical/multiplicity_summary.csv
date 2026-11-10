@@ -1,0 +1,9 @@
+family,family_m,treatment_mode,comparison_mode,conditions,bh_positive,bh_negative,bh_nonrejected,bh_mc_sensitive,by_positive,by_negative,by_nonrejected,by_mc_sensitive,raw_positive,raw_negative,raw_nonrejected,not_testable
+architecture,108,graph_ppo,node_mlp_ppo,54,9,2,43,0,3,1,50,1,12,3,39,0
+architecture,108,graph_ppo,grid_cnn_ppo,54,13,4,37,0,5,1,48,0,15,6,33,0
+versus_B2,162,graph_ppo,baseline2_matched,54,27,10,17,0,22,3,29,0,28,10,16,0
+versus_B2,162,node_mlp_ppo,baseline2_matched,54,22,10,22,0,19,5,30,0,24,12,18,0
+versus_B2,162,grid_cnn_ppo,baseline2_matched,54,28,6,20,0,23,2,29,0,30,9,15,0
+versus_original_heuristic,162,graph_ppo,left_if_safe,54,5,2,47,3,1,1,52,0,11,2,41,0
+versus_original_heuristic,162,node_mlp_ppo,left_if_safe,54,0,0,54,0,0,0,54,0,0,0,54,0
+versus_original_heuristic,162,grid_cnn_ppo,left_if_safe,54,0,0,54,0,0,0,54,0,8,1,45,0

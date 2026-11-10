@@ -1,0 +1,347 @@
+{
+  "total": 38,
+  "main": 8,
+  "supplementary": 30,
+  "figures": [
+    {
+      "path": "figures/main_architecture.pdf",
+      "sha256": "2d26048fc2700f53efdebbabafc317a3e16e241773652db34bfee193bfe2617a",
+      "bytes": 26380,
+      "category": "main",
+      "generator_group": "global",
+      "generated_name": "main_architecture.pdf",
+      "publication_name": "revision_main_architecture.pdf"
+    },
+    {
+      "path": "figures/main_cost_screen.pdf",
+      "sha256": "f7d1eb2c629fc2cda48ad071a92efdebd0a9d4cce44b0b445e80f2cdae14afc3",
+      "bytes": 19085,
+      "category": "main",
+      "generator_group": "global",
+      "generated_name": "main_cost_screen.pdf",
+      "publication_name": "revision_main_cost_screen.pdf"
+    },
+    {
+      "path": "figures/main_length.pdf",
+      "sha256": "bcc62a281bc2cf912c29d3ef08c3d242efadcfcb367e0b9dda926f3114eff9e6",
+      "bytes": 27958,
+      "category": "main",
+      "generator_group": "global",
+      "generated_name": "main_length.pdf",
+      "publication_name": "revision_main_length.pdf"
+    },
+    {
+      "path": "figures/main_local_cost.pdf",
+      "sha256": "ce2778693a8e0aff14f2c5628271529cfa10016dc86d92b0fe757e784d242489",
+      "bytes": 30701,
+      "category": "main",
+      "generator_group": "local",
+      "generated_name": "main_local_cost.pdf",
+      "publication_name": "revision_main_local_cost.pdf"
+    },
+    {
+      "path": "figures/main_mechanism.pdf",
+      "sha256": "baee88ac6828240db494d6a0fb52dd95236f5fd6e67337cb0ea28b089a0b6e62",
+      "bytes": 30969,
+      "category": "main",
+      "generator_group": "local",
+      "generated_name": "main_mechanism.pdf",
+      "publication_name": "revision_main_mechanism.pdf"
+    },
+    {
+      "path": "figures/main_mobility.pdf",
+      "sha256": "49d52c3966e59db49865326eb73810a67482dc156387a9265cd0efcb9a0cf9d1",
+      "bytes": 34702,
+      "category": "main",
+      "generator_group": "global",
+      "generated_name": "main_mobility.pdf",
+      "publication_name": "revision_main_mobility.pdf"
+    },
+    {
+      "path": "figures/main_penetration.pdf",
+      "sha256": "2663504ee782952885c7b7397d803e425215daaa5652d43ec6d9cf0d4b1b9fa1",
+      "bytes": 30140,
+      "category": "main",
+      "generator_group": "global",
+      "generated_name": "main_penetration.pdf",
+      "publication_name": "revision_main_penetration.pdf"
+    },
+    {
+      "path": "figures/method_schematic.pdf",
+      "sha256": "fc2a4a1ef1ddd6aad186e78b6a2184a76bc47ec6d4918af5de6bcd88e8bcfca6",
+      "bytes": 30815,
+      "category": "main",
+      "generation": "original vector master, copied"
+    },
+    {
+      "path": "figures/recorded_rho0.10_f0.90.pdf",
+      "sha256": "f71dcf6e51b04a18b46623279c331b62e4d74c87b66151fba97af1216fc05483",
+      "bytes": 25887,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "recorded_rho0.10_f0.90.pdf",
+      "publication_name": "revision_recorded_rho0.10_f0.90.pdf"
+    },
+    {
+      "path": "figures/recorded_rho0.10_f0.95.pdf",
+      "sha256": "1a3ae0611923043ac4bcf1437822fb3a20dabc71966e8d02d41e6c669b482d9b",
+      "bytes": 23031,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "recorded_rho0.10_f0.95.pdf",
+      "publication_name": "revision_recorded_rho0.10_f0.95.pdf"
+    },
+    {
+      "path": "figures/recorded_rho0.10_f1.00.pdf",
+      "sha256": "b0a327905c30779e4ebdda71e1934caaf8666b59a58611708ef75e7baec019b6",
+      "bytes": 18191,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "recorded_rho0.10_f1.00.pdf",
+      "publication_name": "revision_recorded_rho0.10_f1.00.pdf"
+    },
+    {
+      "path": "figures/recorded_rho0.20_f0.90.pdf",
+      "sha256": "57a82b8662e1e29a90e7456098d5f4d6f3f8615632b2622e4f2ba1535af6a5f9",
+      "bytes": 36167,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "recorded_rho0.20_f0.90.pdf",
+      "publication_name": "revision_recorded_rho0.20_f0.90.pdf"
+    },
+    {
+      "path": "figures/recorded_rho0.20_f0.95.pdf",
+      "sha256": "e88035c447a981b2f19f01b3599fc3790bb839e81220dbee260c816225eb7900",
+      "bytes": 32056,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "recorded_rho0.20_f0.95.pdf",
+      "publication_name": "revision_recorded_rho0.20_f0.95.pdf"
+    },
+    {
+      "path": "figures/recorded_rho0.20_f1.00.pdf",
+      "sha256": "db454ac2c74f20f3002e8028b6c629f3975edc31eb3535e86cf01ff47bf71a70",
+      "bytes": 22462,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "recorded_rho0.20_f1.00.pdf",
+      "publication_name": "revision_recorded_rho0.20_f1.00.pdf"
+    },
+    {
+      "path": "figures/recorded_rho0.30_f0.90.pdf",
+      "sha256": "31523c2ca5681d48f79f90f8bd0d93e9933090e16b148c59411a5ca3d2841e3e",
+      "bytes": 37688,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "recorded_rho0.30_f0.90.pdf",
+      "publication_name": "revision_recorded_rho0.30_f0.90.pdf"
+    },
+    {
+      "path": "figures/recorded_rho0.30_f0.95.pdf",
+      "sha256": "4f81d1a2808a93a78a6a06ed81261fbd25ab2d29bcf9ea06fe42ff26bdc15151",
+      "bytes": 36451,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "recorded_rho0.30_f0.95.pdf",
+      "publication_name": "revision_recorded_rho0.30_f0.95.pdf"
+    },
+    {
+      "path": "figures/recorded_rho0.30_f1.00.pdf",
+      "sha256": "17fb1c0c423f22a1ad39d38bf528418b1c3d1311bb988f066c3d98ca4558b748",
+      "bytes": 21726,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "recorded_rho0.30_f1.00.pdf",
+      "publication_name": "revision_recorded_rho0.30_f1.00.pdf"
+    },
+    {
+      "path": "figures/recorded_rho0.60_f0.90.pdf",
+      "sha256": "bb4dc525ff2ff9d6c02e75249eddd5c6e094df4ac7cca2d39b3fe4b50705ee1a",
+      "bytes": 32671,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "recorded_rho0.60_f0.90.pdf",
+      "publication_name": "revision_recorded_rho0.60_f0.90.pdf"
+    },
+    {
+      "path": "figures/recorded_rho0.60_f0.95.pdf",
+      "sha256": "02d523dcd46b683c75ccb377c3d832cba0c297c01dcbb31170d2131cdb0116a4",
+      "bytes": 33093,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "recorded_rho0.60_f0.95.pdf",
+      "publication_name": "revision_recorded_rho0.60_f0.95.pdf"
+    },
+    {
+      "path": "figures/recorded_rho0.60_f1.00.pdf",
+      "sha256": "b08c17ba739df14c7844a61c2d89a9d58d8719bba5307e754023c0cacc97d20a",
+      "bytes": 31210,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "recorded_rho0.60_f1.00.pdf",
+      "publication_name": "revision_recorded_rho0.60_f1.00.pdf"
+    },
+    {
+      "path": "figures/supp_lap_availability.pdf",
+      "sha256": "e2cbf9899ba44d95b4777ec97dc013ec9e294301744e69788a445009e04362ca",
+      "bytes": 40927,
+      "category": "supplementary",
+      "generator_group": "global",
+      "generated_name": "supp_lap_availability.pdf",
+      "publication_name": "revision_supp_lap_availability.pdf"
+    },
+    {
+      "path": "figures/supp_lap_time.pdf",
+      "sha256": "0dc1df1fa2e01448f7da57cfda770af4bfbdc1dd8a2ef880bbc3c51d522639be",
+      "bytes": 54963,
+      "category": "supplementary",
+      "generator_group": "global",
+      "generated_name": "supp_lap_time.pdf",
+      "publication_name": "revision_supp_lap_time.pdf"
+    },
+    {
+      "path": "figures/supp_local_delay_empty.pdf",
+      "sha256": "ed62ebd313d6a98ed97e225f123a874ce701b812903be4cdecde7041be2b831c",
+      "bytes": 29881,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "supp_local_delay_empty.pdf",
+      "publication_name": "revision_supp_local_delay_empty.pdf"
+    },
+    {
+      "path": "figures/supp_local_density_flow.pdf",
+      "sha256": "3010cc2a779cd6e11182af5eaa105d45b321af5023f3f6b816880a2128e58d59",
+      "bytes": 30372,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "supp_local_density_flow.pdf",
+      "publication_name": "revision_supp_local_density_flow.pdf"
+    },
+    {
+      "path": "figures/supp_local_grid.pdf",
+      "sha256": "c373339a0b61589aea6a717c8eff8592a2b2bb7fe387bd99ba42ad7a885bcf27",
+      "bytes": 30179,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "supp_local_grid.pdf",
+      "publication_name": "revision_supp_local_grid.pdf"
+    },
+    {
+      "path": "figures/supp_local_length.pdf",
+      "sha256": "bec07b2956fb8579ec2bdde8039ec4b740ab12ecf5c8dfa0a21974bf84c0ef77",
+      "bytes": 28955,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "supp_local_length.pdf",
+      "publication_name": "revision_supp_local_length.pdf"
+    },
+    {
+      "path": "figures/supp_local_node.pdf",
+      "sha256": "d253f3cb697854e4a5300142672fc9af6545a23eb873b543894a38a806f0c031",
+      "bytes": 30173,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "supp_local_node.pdf",
+      "publication_name": "revision_supp_local_node.pdf"
+    },
+    {
+      "path": "figures/supp_local_penetration.pdf",
+      "sha256": "e06798d6baad95e5ec2d3c1da1290b14eec21da4fcf5fab72ace5f15b555ede1",
+      "bytes": 34582,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "supp_local_penetration.pdf",
+      "publication_name": "revision_supp_local_penetration.pdf"
+    },
+    {
+      "path": "figures/supp_main_lines.pdf",
+      "sha256": "6bd7c290429de50502627a8e1e194330c86e3d1310a4a6039a38a2b2c062f95f",
+      "bytes": 43699,
+      "category": "supplementary",
+      "generator_group": "global",
+      "generated_name": "supp_main_lines.pdf",
+      "publication_name": "revision_supp_main_lines.pdf"
+    },
+    {
+      "path": "figures/supp_onset.pdf",
+      "sha256": "9e90c179aaa6078444f91b17a29e422a52bc21e6ec1d0f9095bfc7ebc2a88c7d",
+      "bytes": 78073,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "supp_onset.pdf",
+      "publication_name": "revision_supp_onset.pdf"
+    },
+    {
+      "path": "figures/supp_penalties_pv.pdf",
+      "sha256": "034f406bf59b85a5b9a73f1fcfc4e03764ab6ad64cdf249b3996178237d7ccf2",
+      "bytes": 19718,
+      "category": "supplementary",
+      "generator_group": "global",
+      "generated_name": "supp_penalties_pv.pdf",
+      "publication_name": "revision_supp_penalties_pv.pdf"
+    },
+    {
+      "path": "figures/supp_penalties_r.pdf",
+      "sha256": "9d985b5491a4f320cb0cb2232120d3171a1112ab1315f1f048c43e2536fb2667",
+      "bytes": 24808,
+      "category": "supplementary",
+      "generator_group": "global",
+      "generated_name": "supp_penalties_r.pdf",
+      "publication_name": "revision_supp_penalties_r.pdf"
+    },
+    {
+      "path": "figures/supp_spatial.pdf",
+      "sha256": "2a3e9b20f14a3a59fb35314077bd426577f0419233abf6d19cb92d26657913ff",
+      "bytes": 84971,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "supp_spatial.pdf",
+      "publication_name": "revision_supp_spatial.pdf"
+    },
+    {
+      "path": "figures/supp_stopped.pdf",
+      "sha256": "8d21a1d4977d0229dcffbcc90d9e10e616236f3e08f9dbed93b2a87ce5d841a0",
+      "bytes": 54820,
+      "category": "supplementary",
+      "generator_group": "global",
+      "generated_name": "supp_stopped.pdf",
+      "publication_name": "revision_supp_stopped.pdf"
+    },
+    {
+      "path": "figures/supp_temporal.pdf",
+      "sha256": "bf544497ec42e077526aafcdda201323d9d303a182b2cf0d9d8b680a4cc78982",
+      "bytes": 86846,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "supp_temporal.pdf",
+      "publication_name": "revision_supp_temporal.pdf"
+    },
+    {
+      "path": "figures/supp_window_sensitivity.pdf",
+      "sha256": "86201ffeb436891f7837d33efe954ca68c52ade70a75c280386251f13416d706",
+      "bytes": 26864,
+      "category": "supplementary",
+      "generator_group": "local",
+      "generated_name": "supp_window_sensitivity.pdf",
+      "publication_name": "revision_supp_window_sensitivity.pdf"
+    },
+    {
+      "path": "figures/validation_main.pdf",
+      "sha256": "d6d387f342a351723debcee0cb11ca935e7be1216f68d5353a90120c6532a273",
+      "bytes": 26439,
+      "category": "supplementary",
+      "generator_group": "validation",
+      "generated_name": "selection--validation--1.0--candidate--1000--validation-V--complete--1--9c8c6c99870b.pdf",
+      "publication_name": "revision_validation_main.pdf"
+    },
+    {
+      "path": "figures/validation_penalties.pdf",
+      "sha256": "646a1f70da94708195ff448af6d2d7364493c8b070dec0e8af4930a79d6eb078",
+      "bytes": 19923,
+      "category": "supplementary",
+      "generator_group": "global",
+      "generated_name": "validation_penalties.pdf",
+      "publication_name": "revision_validation_penalties.pdf"
+    }
+  ]
+}

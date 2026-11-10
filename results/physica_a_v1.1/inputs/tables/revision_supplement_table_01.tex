@@ -1,0 +1,26 @@
+\begin{table}[htbp]
+\centering\small
+\caption{All 15 training lines and validation-selected iterations. $S_{.93}$ selects the same checkpoint as $S_0$ in every line. ``---'' is validation-infeasible, not a substituted checkpoint. The W7 $S_{.95}$ column describes validation only: fresh W7 comparisons use $S_0$ exclusively. Every $S_{.97}$/$S_{.99}$ line is infeasible.}
+\label{tab:training-roster}
+\begin{tabular}{lrrrr}
+\toprule
+Line & Penalty scale & Master seed & $S_0=S_{.93}$ & $S_{.95}$\\
+\midrule
+Graph 1 &1&1510000001&900&900\\
+Graph 2 &1&1520000001&1221&1221\\
+Graph 3 &1&1530000001&500&---\\
+Node 1 &1&1540000001&1000&1000\\
+Node 2 &1&1550000001&1221&1221\\
+Node 3 &1&1560000001&1000&1000\\
+Grid 1 &1&1570000001&900&900\\
+Grid 2 &1&1580000001&400&600\\
+Grid 3 &1&1590000001&900&700\\
+Graph half 1 &.5&1610000001&400&400\\
+Graph half 2 &.5&1620000001&1200&1200\\
+Graph half 3 &.5&1630000001&1100&1100\\
+Graph double 1 &2&1640000001&1221&1221\\
+Graph double 2 &2&1650000001&1221&1221\\
+Graph double 3 &2&1660000001&1200&1200\\
+\bottomrule
+\end{tabular}
+\end{table}

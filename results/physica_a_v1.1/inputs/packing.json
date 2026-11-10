@@ -1,0 +1,119 @@
+{
+  "compression": "gzip level 9, mtime=0, empty filename; CSV DictWriter CRLF, UTF-8; strings unchanged",
+  "local_rows": 109536,
+  "projection_rows": 109584,
+  "episode_identity_rows": 8640,
+  "unique_physical_episodes": 7770,
+  "trace_rows": {
+    "recorded_rho0.10_f0.90": 12006,
+    "recorded_rho0.10_f0.95": 12006,
+    "recorded_rho0.10_f1.00": 12006,
+    "recorded_rho0.20_f0.90": 12006,
+    "recorded_rho0.20_f0.95": 12006,
+    "recorded_rho0.20_f1.00": 12006,
+    "recorded_rho0.30_f0.90": 12006,
+    "recorded_rho0.30_f0.95": 12006,
+    "recorded_rho0.30_f1.00": 12006,
+    "recorded_rho0.60_f0.90": 12006,
+    "recorded_rho0.60_f0.95": 12006,
+    "recorded_rho0.60_f1.00": 12006
+  },
+  "payloads": {
+    "global-data/points.csv.gz": {
+      "sha256": "6a8ebf5e02d189f189861a6ad504411fe262aff70a7dfc3cc139c37a80f2eb5c",
+      "payload_sha256": "4e14265cdcb45737d155b18865a392c9ce8d1df1207eca56ccafca209717c268",
+      "bytes": 1887626,
+      "payload_bytes": 42589539
+    },
+    "local/episode_identity.csv.gz": {
+      "sha256": "877a342573fe07983fccdb91380f6e0e19fd70c06796e7a26e8343b1d0a15b9f",
+      "payload_sha256": "dd7944677c7fb4dce5bc54cc7a5b93fa4891ab34b25f5c69bd036b1f31cc7b77",
+      "bytes": 406101,
+      "payload_bytes": 1971931
+    },
+    "local/points.csv.gz": {
+      "sha256": "9d8de313ace80c9a1d3a1a3da82a2213c971d5cc7e84ae763c323dcc2888b2bd",
+      "payload_sha256": "f44132327c83236bc5a3e0a7bbae9d94516fc895a0191eecf7fa45040005d6c9",
+      "bytes": 3431037,
+      "payload_bytes": 57786330
+    },
+    "local/projection.csv.gz": {
+      "sha256": "c5f4966170a9edf89c40342e34286ef63edfac68bdbb765b65c3b1c066ab2a8f",
+      "payload_sha256": "ed33ac2681ff24a82289d19077a19de68d41b09cc182b686219eefc674c0ed84",
+      "bytes": 625419,
+      "payload_bytes": 14075344
+    },
+    "recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--30ea06f0e4c3.csv.gz": {
+      "sha256": "c6cd603fe9dfcaa0838732ac2865f10630dff7959bb6121cb3c258ee6a97234a",
+      "payload_sha256": "b94e7d56c3e1c781caa9b98febad11b62e2f7e51fce2e0bc7361f42e2cdefb60",
+      "bytes": 83307,
+      "payload_bytes": 1833671
+    },
+    "recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--d2ab4896b0e4.csv.gz": {
+      "sha256": "48c19e1718a1e5403ca15e6f3a7a79be422ebb926290348eee741f48c74d0857",
+      "payload_sha256": "ad6097de281fb97b18d89f10b73638e9c5e8e8a9b68056e84040f4916b2487c8",
+      "bytes": 82842,
+      "payload_bytes": 1833702
+    },
+    "recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--6d3d2773b011.csv.gz": {
+      "sha256": "c5c099a0aa5eb30bdf5c8840e8cbd5d191699ac2ebd08c329fa7faa09e1427f0",
+      "payload_sha256": "1621e4b8ab9f29ab8cc7f20d388940c1122b618d036558ea9921cbc61981c523",
+      "bytes": 81455,
+      "payload_bytes": 1833761
+    },
+    "recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--3f5e99c8c52c.csv.gz": {
+      "sha256": "9b9da7da1d2f792d20a6dfa56e0073032c5ff6aed8eb70d808b8cebe355ae7b2",
+      "payload_sha256": "bdce8176f934544eb9099fc43a75d7e4761aaba7137ca225369f6042509d648e",
+      "bytes": 84270,
+      "payload_bytes": 1833038
+    },
+    "recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--10f0e1307e8c.csv.gz": {
+      "sha256": "d9dbf86bc3cb80cb80dfc8d8ea2cb1ed2dc2506b3efb2c3d495a723baf5c9dcf",
+      "payload_sha256": "220f28ce8a4a1a272cb6b510f57e53ac46f23aa394ce94792d837b54a00d513a",
+      "bytes": 84154,
+      "payload_bytes": 1833205
+    },
+    "recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--54a5edd14228.csv.gz": {
+      "sha256": "ff5132115cda584eb27754fc860ff686d202d4dccf8d5cacfeb1fbc9ed30794a",
+      "payload_sha256": "7485894cf463f924aed4a9064d0691c11de2b55e5542ded37cce582cce9db790",
+      "bytes": 83303,
+      "payload_bytes": 1833610
+    },
+    "recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--24074569caa2.csv.gz": {
+      "sha256": "30205d4c218d5f48816c6f7e842ee5ea780d4ca73063e8cd99ff3f9d05a14dde",
+      "payload_sha256": "0b30b320ebf10e0de6c32a085f10eedc85fabaa81b37e015ef734639d183b4df",
+      "bytes": 83639,
+      "payload_bytes": 1832787
+    },
+    "recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c09dcdc6330.csv.gz": {
+      "sha256": "bf0bd382b49980af9501848d621d0c7b269e6ca325d4cc67fc7b16e8c2eb33b0",
+      "payload_sha256": "91936c37196f317e9290bc56d3222d9feeac5a35b5633242b9e97d7997552024",
+      "bytes": 84164,
+      "payload_bytes": 1832975
+    },
+    "recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--3f264c4dfe64.csv.gz": {
+      "sha256": "55da4fdfd2b731da31fe44627860b8a0c62b41b110f62d7da1e63bf0a716d327",
+      "payload_sha256": "cfee7a501f9e15f30c9019eca78a17bcbe32d278ef6e2dc7744a53e59ad74bea",
+      "bytes": 83194,
+      "payload_bytes": 1833557
+    },
+    "recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--e4451c205144.csv.gz": {
+      "sha256": "7e328fd78fe81ec3e2a79aae299f3bc793c957efb618da23b5f1633e57ae4a03",
+      "payload_sha256": "81c2f9ea73613eb574e67c140a5aeb8394551b42549ea6428466b579b73fef0c",
+      "bytes": 77811,
+      "payload_bytes": 1830487
+    },
+    "recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c28db439888.csv.gz": {
+      "sha256": "7b7228ded00c201145399c886c5915e4a0ee111192c17211f6611615c572b5f0",
+      "payload_sha256": "76763d4bc1b71c73a40040359da8c656015c7751e329b8c79dee66addb747bff",
+      "bytes": 78013,
+      "payload_bytes": 1831534
+    },
+    "recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--8831928d10d2.csv.gz": {
+      "sha256": "2f862831469a7d51316edac3253defcdfd46fde0e236354c1b43679a91de22c1",
+      "payload_sha256": "00d524427a67b115576f03d4472344d46249c9700e60fb1e274ac4cb81c5fb5c",
+      "bytes": 80161,
+      "payload_bytes": 1832330
+    }
+  }
+}

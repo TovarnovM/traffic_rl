@@ -1,0 +1,29 @@
+\begin{table}[pos=tbp]
+\centering
+\caption{Common simulator, learning, and evaluation parameters. Distances, speeds, and times are in lattice units.}
+\label{tab:parameters}
+\begingroup
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+Group & Parameter & Value \\
+\midrule
+Road & lanes $M$; length $L$ & $4$; $1000$ (transfer: $2000$) \\
+Population & $V_{\HDV}$; $V_{\PV}$ & $5$; $6$ \\
+Population & body length $b_i$ & $1$ cell for every vehicle \\
+S-NFS & $G,q,r,S$ & $15,0.99,0.99,2$ \\
+Persistence & $P_1,P_2,P_3,P_4$ & $0.999,0.99,0.98,0.01$ \\
+Lateral & native $p_{\mathrm{lc}}$; cooldown & $0.5$; $1$ step \\
+Locality & front/back; sensor; yield & $30/10$; $60$; $30$ \\
+Training & warm-up; episode & $1000$; $1000$ steps \\
+Training & completed steps; lines per setting & $20{,}004{,}864$; $3$ \\
+Sampling & actors; fragment; batch & $64$; $256$; $16{,}384$ \\
+Optimisation & minibatch; epochs; GPU & $1024$; $6$; $1$ \\
+Evaluation & warm-up; measurement & $1000$; $2000$ steps \\
+Validation & conditions; environments & $12$; $20$ per condition \\
+Fresh test & environments; crossed resamples & $30$; $49{,}999$ \\
+Selection screens & paired ratio to B1 & $\tau\in\{.93,.95,.97,.99\}$ \\
+\bottomrule
+\end{tabular}
+\endgroup
+\end{table}

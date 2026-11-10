@@ -1,0 +1,50 @@
+{
+  "future-plan.json": {
+    "sha256": "6eb54810d23f938c5979dde838382f4c388323ddb16aa4fdb475a103c96a0881",
+    "bytes": 28102756
+  },
+  "selection-freeze.json": {
+    "sha256": "62c8ecb63011b5ee59450954726819ba1595a87a79564452f4f8ba3a7a8a265b",
+    "bytes": 447124
+  },
+  "selected-weights.json": {
+    "sha256": "71c1ef04de603ee63a1642126b6c222c249514ff91007681cf59e87845124da6",
+    "bytes": 28938
+  },
+  "policies.json": {
+    "sha256": "b79715dcb87016ce84f7302ea0ec6e77dce0e894f16d2352602486dc46eb61cd",
+    "bytes": 9312
+  },
+  "test-seeds.json": {
+    "sha256": "71e97edea941d49fd649d8b960e263684a8013c8ab8b0b98a421667ea79790a4",
+    "bytes": 149191
+  },
+  "panels.json": {
+    "sha256": "57955d6092e9c0fc9d7b3489e055cc7b1a1b9c47708dc8271c3041b639d0255a",
+    "bytes": 2726678
+  },
+  "SAP.json": {
+    "sha256": "63dc8b975ce73ea853323a482b37134e7ab3438ed6d8542ec9eb91d5659d59d1",
+    "bytes": 7490
+  },
+  "analysis-full12.json": {
+    "sha256": "7e2232d6c928e87c816ef9008c50edaef6522372a56c224655d72d39984c0710",
+    "bytes": 2282
+  },
+  "analysis-mechanism.json": {
+    "sha256": "8b8424daea52e11a3d7460bd7a8fbd363f610080c5b4f692f3f317d22f61e49c",
+    "bytes": 3864
+  },
+  "FREEZE_MANIFEST.json": {
+    "sha256": "cf3717f4e55cde16ff2f013a9813f95c98caa070fac4094bc9030d3de84ddad4",
+    "bytes": 13183
+  },
+  "execution-requirements.json": {
+    "sha256": "c6d5bb744cee7db1db48a0b4f4c3b1612f1f96e7c015e41b7e83cce93fee7db4",
+    "bytes": 716321
+  },
+  "b1-logical-references.json": {
+    "sha256": "4dae74e9d726f58be1b2583a5fe28a27df625c1b643a586f6b76922d8e529189",
+    "bytes": 265653
+  }
+}

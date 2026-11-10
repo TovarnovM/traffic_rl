@@ -1,0 +1,6507 @@
+{
+  "bank": "fresh_test_710000001_v1",
+  "blocks": [
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 710002001,
+        "measurement": 710000194,
+        "pv_assignment": 710001001,
+        "scenario": 710000012,
+        "warmup": 710000098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 710012001,
+        "measurement": 710010194,
+        "pv_assignment": 710011001,
+        "scenario": 710010012,
+        "warmup": 710010098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 710022001,
+        "measurement": 710020194,
+        "pv_assignment": 710021001,
+        "scenario": 710020012,
+        "warmup": 710020098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 710032001,
+        "measurement": 710030194,
+        "pv_assignment": 710031001,
+        "scenario": 710030012,
+        "warmup": 710030098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 710042001,
+        "measurement": 710040194,
+        "pv_assignment": 710041001,
+        "scenario": 710040012,
+        "warmup": 710040098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 710052001,
+        "measurement": 710050194,
+        "pv_assignment": 710051001,
+        "scenario": 710050012,
+        "warmup": 710050098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 710062001,
+        "measurement": 710060194,
+        "pv_assignment": 710061001,
+        "scenario": 710060012,
+        "warmup": 710060098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 710072001,
+        "measurement": 710070194,
+        "pv_assignment": 710071001,
+        "scenario": 710070012,
+        "warmup": 710070098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 710082001,
+        "measurement": 710080194,
+        "pv_assignment": 710081001,
+        "scenario": 710080012,
+        "warmup": 710080098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 710092001,
+        "measurement": 710090194,
+        "pv_assignment": 710091001,
+        "scenario": 710090012,
+        "warmup": 710090098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 710102001,
+        "measurement": 710100194,
+        "pv_assignment": 710101001,
+        "scenario": 710100012,
+        "warmup": 710100098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 710112001,
+        "measurement": 710110194,
+        "pv_assignment": 710111001,
+        "scenario": 710110012,
+        "warmup": 710110098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 710122001,
+        "measurement": 710120194,
+        "pv_assignment": 710121001,
+        "scenario": 710120012,
+        "warmup": 710120098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 710132001,
+        "measurement": 710130194,
+        "pv_assignment": 710131001,
+        "scenario": 710130012,
+        "warmup": 710130098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 710142001,
+        "measurement": 710140194,
+        "pv_assignment": 710141001,
+        "scenario": 710140012,
+        "warmup": 710140098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 710152001,
+        "measurement": 710150194,
+        "pv_assignment": 710151001,
+        "scenario": 710150012,
+        "warmup": 710150098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 710162001,
+        "measurement": 710160194,
+        "pv_assignment": 710161001,
+        "scenario": 710160012,
+        "warmup": 710160098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 710172001,
+        "measurement": 710170194,
+        "pv_assignment": 710171001,
+        "scenario": 710170012,
+        "warmup": 710170098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 710182001,
+        "measurement": 710180194,
+        "pv_assignment": 710181001,
+        "scenario": 710180012,
+        "warmup": 710180098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 710192001,
+        "measurement": 710190194,
+        "pv_assignment": 710191001,
+        "scenario": 710190012,
+        "warmup": 710190098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 710202001,
+        "measurement": 710200194,
+        "pv_assignment": 710201001,
+        "scenario": 710200012,
+        "warmup": 710200098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 710212001,
+        "measurement": 710210194,
+        "pv_assignment": 710211001,
+        "scenario": 710210012,
+        "warmup": 710210098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 710222001,
+        "measurement": 710220194,
+        "pv_assignment": 710221001,
+        "scenario": 710220012,
+        "warmup": 710220098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 710232001,
+        "measurement": 710230194,
+        "pv_assignment": 710231001,
+        "scenario": 710230012,
+        "warmup": 710230098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 710242001,
+        "measurement": 710240194,
+        "pv_assignment": 710241001,
+        "scenario": 710240012,
+        "warmup": 710240098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 710252001,
+        "measurement": 710250194,
+        "pv_assignment": 710251001,
+        "scenario": 710250012,
+        "warmup": 710250098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 710262001,
+        "measurement": 710260194,
+        "pv_assignment": 710261001,
+        "scenario": 710260012,
+        "warmup": 710260098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 710272001,
+        "measurement": 710270194,
+        "pv_assignment": 710271001,
+        "scenario": 710270012,
+        "warmup": 710270098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 710282001,
+        "measurement": 710280194,
+        "pv_assignment": 710281001,
+        "scenario": 710280012,
+        "warmup": 710280098
+      }
+    },
+    {
+      "density": 0.05,
+      "density_index": 0,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 710292001,
+        "measurement": 710290194,
+        "pv_assignment": 710291001,
+        "scenario": 710290012,
+        "warmup": 710290098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 711002001,
+        "measurement": 711000194,
+        "pv_assignment": 711001001,
+        "scenario": 711000012,
+        "warmup": 711000098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 711012001,
+        "measurement": 711010194,
+        "pv_assignment": 711011001,
+        "scenario": 711010012,
+        "warmup": 711010098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 711022001,
+        "measurement": 711020194,
+        "pv_assignment": 711021001,
+        "scenario": 711020012,
+        "warmup": 711020098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 711032001,
+        "measurement": 711030194,
+        "pv_assignment": 711031001,
+        "scenario": 711030012,
+        "warmup": 711030098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 711042001,
+        "measurement": 711040194,
+        "pv_assignment": 711041001,
+        "scenario": 711040012,
+        "warmup": 711040098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 711052001,
+        "measurement": 711050194,
+        "pv_assignment": 711051001,
+        "scenario": 711050012,
+        "warmup": 711050098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 711062001,
+        "measurement": 711060194,
+        "pv_assignment": 711061001,
+        "scenario": 711060012,
+        "warmup": 711060098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 711072001,
+        "measurement": 711070194,
+        "pv_assignment": 711071001,
+        "scenario": 711070012,
+        "warmup": 711070098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 711082001,
+        "measurement": 711080194,
+        "pv_assignment": 711081001,
+        "scenario": 711080012,
+        "warmup": 711080098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 711092001,
+        "measurement": 711090194,
+        "pv_assignment": 711091001,
+        "scenario": 711090012,
+        "warmup": 711090098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 711102001,
+        "measurement": 711100194,
+        "pv_assignment": 711101001,
+        "scenario": 711100012,
+        "warmup": 711100098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 711112001,
+        "measurement": 711110194,
+        "pv_assignment": 711111001,
+        "scenario": 711110012,
+        "warmup": 711110098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 711122001,
+        "measurement": 711120194,
+        "pv_assignment": 711121001,
+        "scenario": 711120012,
+        "warmup": 711120098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 711132001,
+        "measurement": 711130194,
+        "pv_assignment": 711131001,
+        "scenario": 711130012,
+        "warmup": 711130098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 711142001,
+        "measurement": 711140194,
+        "pv_assignment": 711141001,
+        "scenario": 711140012,
+        "warmup": 711140098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 711152001,
+        "measurement": 711150194,
+        "pv_assignment": 711151001,
+        "scenario": 711150012,
+        "warmup": 711150098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 711162001,
+        "measurement": 711160194,
+        "pv_assignment": 711161001,
+        "scenario": 711160012,
+        "warmup": 711160098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 711172001,
+        "measurement": 711170194,
+        "pv_assignment": 711171001,
+        "scenario": 711170012,
+        "warmup": 711170098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 711182001,
+        "measurement": 711180194,
+        "pv_assignment": 711181001,
+        "scenario": 711180012,
+        "warmup": 711180098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 711192001,
+        "measurement": 711190194,
+        "pv_assignment": 711191001,
+        "scenario": 711190012,
+        "warmup": 711190098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 711202001,
+        "measurement": 711200194,
+        "pv_assignment": 711201001,
+        "scenario": 711200012,
+        "warmup": 711200098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 711212001,
+        "measurement": 711210194,
+        "pv_assignment": 711211001,
+        "scenario": 711210012,
+        "warmup": 711210098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 711222001,
+        "measurement": 711220194,
+        "pv_assignment": 711221001,
+        "scenario": 711220012,
+        "warmup": 711220098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 711232001,
+        "measurement": 711230194,
+        "pv_assignment": 711231001,
+        "scenario": 711230012,
+        "warmup": 711230098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 711242001,
+        "measurement": 711240194,
+        "pv_assignment": 711241001,
+        "scenario": 711240012,
+        "warmup": 711240098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 711252001,
+        "measurement": 711250194,
+        "pv_assignment": 711251001,
+        "scenario": 711250012,
+        "warmup": 711250098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 711262001,
+        "measurement": 711260194,
+        "pv_assignment": 711261001,
+        "scenario": 711260012,
+        "warmup": 711260098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 711272001,
+        "measurement": 711270194,
+        "pv_assignment": 711271001,
+        "scenario": 711270012,
+        "warmup": 711270098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 711282001,
+        "measurement": 711280194,
+        "pv_assignment": 711281001,
+        "scenario": 711280012,
+        "warmup": 711280098
+      }
+    },
+    {
+      "density": 0.1,
+      "density_index": 1,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 711292001,
+        "measurement": 711290194,
+        "pv_assignment": 711291001,
+        "scenario": 711290012,
+        "warmup": 711290098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 712002001,
+        "measurement": 712000194,
+        "pv_assignment": 712001001,
+        "scenario": 712000012,
+        "warmup": 712000098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 712012001,
+        "measurement": 712010194,
+        "pv_assignment": 712011001,
+        "scenario": 712010012,
+        "warmup": 712010098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 712022001,
+        "measurement": 712020194,
+        "pv_assignment": 712021001,
+        "scenario": 712020012,
+        "warmup": 712020098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 712032001,
+        "measurement": 712030194,
+        "pv_assignment": 712031001,
+        "scenario": 712030012,
+        "warmup": 712030098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 712042001,
+        "measurement": 712040194,
+        "pv_assignment": 712041001,
+        "scenario": 712040012,
+        "warmup": 712040098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 712052001,
+        "measurement": 712050194,
+        "pv_assignment": 712051001,
+        "scenario": 712050012,
+        "warmup": 712050098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 712062001,
+        "measurement": 712060194,
+        "pv_assignment": 712061001,
+        "scenario": 712060012,
+        "warmup": 712060098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 712072001,
+        "measurement": 712070194,
+        "pv_assignment": 712071001,
+        "scenario": 712070012,
+        "warmup": 712070098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 712082001,
+        "measurement": 712080194,
+        "pv_assignment": 712081001,
+        "scenario": 712080012,
+        "warmup": 712080098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 712092001,
+        "measurement": 712090194,
+        "pv_assignment": 712091001,
+        "scenario": 712090012,
+        "warmup": 712090098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 712102001,
+        "measurement": 712100194,
+        "pv_assignment": 712101001,
+        "scenario": 712100012,
+        "warmup": 712100098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 712112001,
+        "measurement": 712110194,
+        "pv_assignment": 712111001,
+        "scenario": 712110012,
+        "warmup": 712110098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 712122001,
+        "measurement": 712120194,
+        "pv_assignment": 712121001,
+        "scenario": 712120012,
+        "warmup": 712120098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 712132001,
+        "measurement": 712130194,
+        "pv_assignment": 712131001,
+        "scenario": 712130012,
+        "warmup": 712130098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 712142001,
+        "measurement": 712140194,
+        "pv_assignment": 712141001,
+        "scenario": 712140012,
+        "warmup": 712140098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 712152001,
+        "measurement": 712150194,
+        "pv_assignment": 712151001,
+        "scenario": 712150012,
+        "warmup": 712150098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 712162001,
+        "measurement": 712160194,
+        "pv_assignment": 712161001,
+        "scenario": 712160012,
+        "warmup": 712160098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 712172001,
+        "measurement": 712170194,
+        "pv_assignment": 712171001,
+        "scenario": 712170012,
+        "warmup": 712170098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 712182001,
+        "measurement": 712180194,
+        "pv_assignment": 712181001,
+        "scenario": 712180012,
+        "warmup": 712180098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 712192001,
+        "measurement": 712190194,
+        "pv_assignment": 712191001,
+        "scenario": 712190012,
+        "warmup": 712190098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 712202001,
+        "measurement": 712200194,
+        "pv_assignment": 712201001,
+        "scenario": 712200012,
+        "warmup": 712200098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 712212001,
+        "measurement": 712210194,
+        "pv_assignment": 712211001,
+        "scenario": 712210012,
+        "warmup": 712210098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 712222001,
+        "measurement": 712220194,
+        "pv_assignment": 712221001,
+        "scenario": 712220012,
+        "warmup": 712220098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 712232001,
+        "measurement": 712230194,
+        "pv_assignment": 712231001,
+        "scenario": 712230012,
+        "warmup": 712230098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 712242001,
+        "measurement": 712240194,
+        "pv_assignment": 712241001,
+        "scenario": 712240012,
+        "warmup": 712240098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 712252001,
+        "measurement": 712250194,
+        "pv_assignment": 712251001,
+        "scenario": 712250012,
+        "warmup": 712250098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 712262001,
+        "measurement": 712260194,
+        "pv_assignment": 712261001,
+        "scenario": 712260012,
+        "warmup": 712260098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 712272001,
+        "measurement": 712270194,
+        "pv_assignment": 712271001,
+        "scenario": 712270012,
+        "warmup": 712270098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 712282001,
+        "measurement": 712280194,
+        "pv_assignment": 712281001,
+        "scenario": 712280012,
+        "warmup": 712280098
+      }
+    },
+    {
+      "density": 0.15,
+      "density_index": 2,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 712292001,
+        "measurement": 712290194,
+        "pv_assignment": 712291001,
+        "scenario": 712290012,
+        "warmup": 712290098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 713002001,
+        "measurement": 713000194,
+        "pv_assignment": 713001001,
+        "scenario": 713000012,
+        "warmup": 713000098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 713012001,
+        "measurement": 713010194,
+        "pv_assignment": 713011001,
+        "scenario": 713010012,
+        "warmup": 713010098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 713022001,
+        "measurement": 713020194,
+        "pv_assignment": 713021001,
+        "scenario": 713020012,
+        "warmup": 713020098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 713032001,
+        "measurement": 713030194,
+        "pv_assignment": 713031001,
+        "scenario": 713030012,
+        "warmup": 713030098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 713042001,
+        "measurement": 713040194,
+        "pv_assignment": 713041001,
+        "scenario": 713040012,
+        "warmup": 713040098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 713052001,
+        "measurement": 713050194,
+        "pv_assignment": 713051001,
+        "scenario": 713050012,
+        "warmup": 713050098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 713062001,
+        "measurement": 713060194,
+        "pv_assignment": 713061001,
+        "scenario": 713060012,
+        "warmup": 713060098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 713072001,
+        "measurement": 713070194,
+        "pv_assignment": 713071001,
+        "scenario": 713070012,
+        "warmup": 713070098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 713082001,
+        "measurement": 713080194,
+        "pv_assignment": 713081001,
+        "scenario": 713080012,
+        "warmup": 713080098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 713092001,
+        "measurement": 713090194,
+        "pv_assignment": 713091001,
+        "scenario": 713090012,
+        "warmup": 713090098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 713102001,
+        "measurement": 713100194,
+        "pv_assignment": 713101001,
+        "scenario": 713100012,
+        "warmup": 713100098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 713112001,
+        "measurement": 713110194,
+        "pv_assignment": 713111001,
+        "scenario": 713110012,
+        "warmup": 713110098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 713122001,
+        "measurement": 713120194,
+        "pv_assignment": 713121001,
+        "scenario": 713120012,
+        "warmup": 713120098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 713132001,
+        "measurement": 713130194,
+        "pv_assignment": 713131001,
+        "scenario": 713130012,
+        "warmup": 713130098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 713142001,
+        "measurement": 713140194,
+        "pv_assignment": 713141001,
+        "scenario": 713140012,
+        "warmup": 713140098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 713152001,
+        "measurement": 713150194,
+        "pv_assignment": 713151001,
+        "scenario": 713150012,
+        "warmup": 713150098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 713162001,
+        "measurement": 713160194,
+        "pv_assignment": 713161001,
+        "scenario": 713160012,
+        "warmup": 713160098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 713172001,
+        "measurement": 713170194,
+        "pv_assignment": 713171001,
+        "scenario": 713170012,
+        "warmup": 713170098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 713182001,
+        "measurement": 713180194,
+        "pv_assignment": 713181001,
+        "scenario": 713180012,
+        "warmup": 713180098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 713192001,
+        "measurement": 713190194,
+        "pv_assignment": 713191001,
+        "scenario": 713190012,
+        "warmup": 713190098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 713202001,
+        "measurement": 713200194,
+        "pv_assignment": 713201001,
+        "scenario": 713200012,
+        "warmup": 713200098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 713212001,
+        "measurement": 713210194,
+        "pv_assignment": 713211001,
+        "scenario": 713210012,
+        "warmup": 713210098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 713222001,
+        "measurement": 713220194,
+        "pv_assignment": 713221001,
+        "scenario": 713220012,
+        "warmup": 713220098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 713232001,
+        "measurement": 713230194,
+        "pv_assignment": 713231001,
+        "scenario": 713230012,
+        "warmup": 713230098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 713242001,
+        "measurement": 713240194,
+        "pv_assignment": 713241001,
+        "scenario": 713240012,
+        "warmup": 713240098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 713252001,
+        "measurement": 713250194,
+        "pv_assignment": 713251001,
+        "scenario": 713250012,
+        "warmup": 713250098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 713262001,
+        "measurement": 713260194,
+        "pv_assignment": 713261001,
+        "scenario": 713260012,
+        "warmup": 713260098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 713272001,
+        "measurement": 713270194,
+        "pv_assignment": 713271001,
+        "scenario": 713270012,
+        "warmup": 713270098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 713282001,
+        "measurement": 713280194,
+        "pv_assignment": 713281001,
+        "scenario": 713280012,
+        "warmup": 713280098
+      }
+    },
+    {
+      "density": 0.2,
+      "density_index": 3,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 713292001,
+        "measurement": 713290194,
+        "pv_assignment": 713291001,
+        "scenario": 713290012,
+        "warmup": 713290098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 714002001,
+        "measurement": 714000194,
+        "pv_assignment": 714001001,
+        "scenario": 714000012,
+        "warmup": 714000098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 714012001,
+        "measurement": 714010194,
+        "pv_assignment": 714011001,
+        "scenario": 714010012,
+        "warmup": 714010098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 714022001,
+        "measurement": 714020194,
+        "pv_assignment": 714021001,
+        "scenario": 714020012,
+        "warmup": 714020098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 714032001,
+        "measurement": 714030194,
+        "pv_assignment": 714031001,
+        "scenario": 714030012,
+        "warmup": 714030098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 714042001,
+        "measurement": 714040194,
+        "pv_assignment": 714041001,
+        "scenario": 714040012,
+        "warmup": 714040098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 714052001,
+        "measurement": 714050194,
+        "pv_assignment": 714051001,
+        "scenario": 714050012,
+        "warmup": 714050098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 714062001,
+        "measurement": 714060194,
+        "pv_assignment": 714061001,
+        "scenario": 714060012,
+        "warmup": 714060098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 714072001,
+        "measurement": 714070194,
+        "pv_assignment": 714071001,
+        "scenario": 714070012,
+        "warmup": 714070098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 714082001,
+        "measurement": 714080194,
+        "pv_assignment": 714081001,
+        "scenario": 714080012,
+        "warmup": 714080098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 714092001,
+        "measurement": 714090194,
+        "pv_assignment": 714091001,
+        "scenario": 714090012,
+        "warmup": 714090098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 714102001,
+        "measurement": 714100194,
+        "pv_assignment": 714101001,
+        "scenario": 714100012,
+        "warmup": 714100098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 714112001,
+        "measurement": 714110194,
+        "pv_assignment": 714111001,
+        "scenario": 714110012,
+        "warmup": 714110098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 714122001,
+        "measurement": 714120194,
+        "pv_assignment": 714121001,
+        "scenario": 714120012,
+        "warmup": 714120098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 714132001,
+        "measurement": 714130194,
+        "pv_assignment": 714131001,
+        "scenario": 714130012,
+        "warmup": 714130098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 714142001,
+        "measurement": 714140194,
+        "pv_assignment": 714141001,
+        "scenario": 714140012,
+        "warmup": 714140098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 714152001,
+        "measurement": 714150194,
+        "pv_assignment": 714151001,
+        "scenario": 714150012,
+        "warmup": 714150098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 714162001,
+        "measurement": 714160194,
+        "pv_assignment": 714161001,
+        "scenario": 714160012,
+        "warmup": 714160098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 714172001,
+        "measurement": 714170194,
+        "pv_assignment": 714171001,
+        "scenario": 714170012,
+        "warmup": 714170098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 714182001,
+        "measurement": 714180194,
+        "pv_assignment": 714181001,
+        "scenario": 714180012,
+        "warmup": 714180098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 714192001,
+        "measurement": 714190194,
+        "pv_assignment": 714191001,
+        "scenario": 714190012,
+        "warmup": 714190098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 714202001,
+        "measurement": 714200194,
+        "pv_assignment": 714201001,
+        "scenario": 714200012,
+        "warmup": 714200098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 714212001,
+        "measurement": 714210194,
+        "pv_assignment": 714211001,
+        "scenario": 714210012,
+        "warmup": 714210098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 714222001,
+        "measurement": 714220194,
+        "pv_assignment": 714221001,
+        "scenario": 714220012,
+        "warmup": 714220098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 714232001,
+        "measurement": 714230194,
+        "pv_assignment": 714231001,
+        "scenario": 714230012,
+        "warmup": 714230098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 714242001,
+        "measurement": 714240194,
+        "pv_assignment": 714241001,
+        "scenario": 714240012,
+        "warmup": 714240098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 714252001,
+        "measurement": 714250194,
+        "pv_assignment": 714251001,
+        "scenario": 714250012,
+        "warmup": 714250098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 714262001,
+        "measurement": 714260194,
+        "pv_assignment": 714261001,
+        "scenario": 714260012,
+        "warmup": 714260098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 714272001,
+        "measurement": 714270194,
+        "pv_assignment": 714271001,
+        "scenario": 714270012,
+        "warmup": 714270098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 714282001,
+        "measurement": 714280194,
+        "pv_assignment": 714281001,
+        "scenario": 714280012,
+        "warmup": 714280098
+      }
+    },
+    {
+      "density": 0.25,
+      "density_index": 4,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 714292001,
+        "measurement": 714290194,
+        "pv_assignment": 714291001,
+        "scenario": 714290012,
+        "warmup": 714290098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 715002001,
+        "measurement": 715000194,
+        "pv_assignment": 715001001,
+        "scenario": 715000012,
+        "warmup": 715000098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 715012001,
+        "measurement": 715010194,
+        "pv_assignment": 715011001,
+        "scenario": 715010012,
+        "warmup": 715010098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 715022001,
+        "measurement": 715020194,
+        "pv_assignment": 715021001,
+        "scenario": 715020012,
+        "warmup": 715020098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 715032001,
+        "measurement": 715030194,
+        "pv_assignment": 715031001,
+        "scenario": 715030012,
+        "warmup": 715030098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 715042001,
+        "measurement": 715040194,
+        "pv_assignment": 715041001,
+        "scenario": 715040012,
+        "warmup": 715040098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 715052001,
+        "measurement": 715050194,
+        "pv_assignment": 715051001,
+        "scenario": 715050012,
+        "warmup": 715050098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 715062001,
+        "measurement": 715060194,
+        "pv_assignment": 715061001,
+        "scenario": 715060012,
+        "warmup": 715060098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 715072001,
+        "measurement": 715070194,
+        "pv_assignment": 715071001,
+        "scenario": 715070012,
+        "warmup": 715070098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 715082001,
+        "measurement": 715080194,
+        "pv_assignment": 715081001,
+        "scenario": 715080012,
+        "warmup": 715080098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 715092001,
+        "measurement": 715090194,
+        "pv_assignment": 715091001,
+        "scenario": 715090012,
+        "warmup": 715090098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 715102001,
+        "measurement": 715100194,
+        "pv_assignment": 715101001,
+        "scenario": 715100012,
+        "warmup": 715100098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 715112001,
+        "measurement": 715110194,
+        "pv_assignment": 715111001,
+        "scenario": 715110012,
+        "warmup": 715110098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 715122001,
+        "measurement": 715120194,
+        "pv_assignment": 715121001,
+        "scenario": 715120012,
+        "warmup": 715120098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 715132001,
+        "measurement": 715130194,
+        "pv_assignment": 715131001,
+        "scenario": 715130012,
+        "warmup": 715130098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 715142001,
+        "measurement": 715140194,
+        "pv_assignment": 715141001,
+        "scenario": 715140012,
+        "warmup": 715140098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 715152001,
+        "measurement": 715150194,
+        "pv_assignment": 715151001,
+        "scenario": 715150012,
+        "warmup": 715150098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 715162001,
+        "measurement": 715160194,
+        "pv_assignment": 715161001,
+        "scenario": 715160012,
+        "warmup": 715160098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 715172001,
+        "measurement": 715170194,
+        "pv_assignment": 715171001,
+        "scenario": 715170012,
+        "warmup": 715170098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 715182001,
+        "measurement": 715180194,
+        "pv_assignment": 715181001,
+        "scenario": 715180012,
+        "warmup": 715180098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 715192001,
+        "measurement": 715190194,
+        "pv_assignment": 715191001,
+        "scenario": 715190012,
+        "warmup": 715190098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 715202001,
+        "measurement": 715200194,
+        "pv_assignment": 715201001,
+        "scenario": 715200012,
+        "warmup": 715200098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 715212001,
+        "measurement": 715210194,
+        "pv_assignment": 715211001,
+        "scenario": 715210012,
+        "warmup": 715210098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 715222001,
+        "measurement": 715220194,
+        "pv_assignment": 715221001,
+        "scenario": 715220012,
+        "warmup": 715220098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 715232001,
+        "measurement": 715230194,
+        "pv_assignment": 715231001,
+        "scenario": 715230012,
+        "warmup": 715230098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 715242001,
+        "measurement": 715240194,
+        "pv_assignment": 715241001,
+        "scenario": 715240012,
+        "warmup": 715240098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 715252001,
+        "measurement": 715250194,
+        "pv_assignment": 715251001,
+        "scenario": 715250012,
+        "warmup": 715250098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 715262001,
+        "measurement": 715260194,
+        "pv_assignment": 715261001,
+        "scenario": 715260012,
+        "warmup": 715260098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 715272001,
+        "measurement": 715270194,
+        "pv_assignment": 715271001,
+        "scenario": 715270012,
+        "warmup": 715270098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 715282001,
+        "measurement": 715280194,
+        "pv_assignment": 715281001,
+        "scenario": 715280012,
+        "warmup": 715280098
+      }
+    },
+    {
+      "density": 0.3,
+      "density_index": 5,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 715292001,
+        "measurement": 715290194,
+        "pv_assignment": 715291001,
+        "scenario": 715290012,
+        "warmup": 715290098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 716002001,
+        "measurement": 716000194,
+        "pv_assignment": 716001001,
+        "scenario": 716000012,
+        "warmup": 716000098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 716012001,
+        "measurement": 716010194,
+        "pv_assignment": 716011001,
+        "scenario": 716010012,
+        "warmup": 716010098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 716022001,
+        "measurement": 716020194,
+        "pv_assignment": 716021001,
+        "scenario": 716020012,
+        "warmup": 716020098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 716032001,
+        "measurement": 716030194,
+        "pv_assignment": 716031001,
+        "scenario": 716030012,
+        "warmup": 716030098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 716042001,
+        "measurement": 716040194,
+        "pv_assignment": 716041001,
+        "scenario": 716040012,
+        "warmup": 716040098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 716052001,
+        "measurement": 716050194,
+        "pv_assignment": 716051001,
+        "scenario": 716050012,
+        "warmup": 716050098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 716062001,
+        "measurement": 716060194,
+        "pv_assignment": 716061001,
+        "scenario": 716060012,
+        "warmup": 716060098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 716072001,
+        "measurement": 716070194,
+        "pv_assignment": 716071001,
+        "scenario": 716070012,
+        "warmup": 716070098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 716082001,
+        "measurement": 716080194,
+        "pv_assignment": 716081001,
+        "scenario": 716080012,
+        "warmup": 716080098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 716092001,
+        "measurement": 716090194,
+        "pv_assignment": 716091001,
+        "scenario": 716090012,
+        "warmup": 716090098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 716102001,
+        "measurement": 716100194,
+        "pv_assignment": 716101001,
+        "scenario": 716100012,
+        "warmup": 716100098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 716112001,
+        "measurement": 716110194,
+        "pv_assignment": 716111001,
+        "scenario": 716110012,
+        "warmup": 716110098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 716122001,
+        "measurement": 716120194,
+        "pv_assignment": 716121001,
+        "scenario": 716120012,
+        "warmup": 716120098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 716132001,
+        "measurement": 716130194,
+        "pv_assignment": 716131001,
+        "scenario": 716130012,
+        "warmup": 716130098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 716142001,
+        "measurement": 716140194,
+        "pv_assignment": 716141001,
+        "scenario": 716140012,
+        "warmup": 716140098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 716152001,
+        "measurement": 716150194,
+        "pv_assignment": 716151001,
+        "scenario": 716150012,
+        "warmup": 716150098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 716162001,
+        "measurement": 716160194,
+        "pv_assignment": 716161001,
+        "scenario": 716160012,
+        "warmup": 716160098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 716172001,
+        "measurement": 716170194,
+        "pv_assignment": 716171001,
+        "scenario": 716170012,
+        "warmup": 716170098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 716182001,
+        "measurement": 716180194,
+        "pv_assignment": 716181001,
+        "scenario": 716180012,
+        "warmup": 716180098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 716192001,
+        "measurement": 716190194,
+        "pv_assignment": 716191001,
+        "scenario": 716190012,
+        "warmup": 716190098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 716202001,
+        "measurement": 716200194,
+        "pv_assignment": 716201001,
+        "scenario": 716200012,
+        "warmup": 716200098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 716212001,
+        "measurement": 716210194,
+        "pv_assignment": 716211001,
+        "scenario": 716210012,
+        "warmup": 716210098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 716222001,
+        "measurement": 716220194,
+        "pv_assignment": 716221001,
+        "scenario": 716220012,
+        "warmup": 716220098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 716232001,
+        "measurement": 716230194,
+        "pv_assignment": 716231001,
+        "scenario": 716230012,
+        "warmup": 716230098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 716242001,
+        "measurement": 716240194,
+        "pv_assignment": 716241001,
+        "scenario": 716240012,
+        "warmup": 716240098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 716252001,
+        "measurement": 716250194,
+        "pv_assignment": 716251001,
+        "scenario": 716250012,
+        "warmup": 716250098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 716262001,
+        "measurement": 716260194,
+        "pv_assignment": 716261001,
+        "scenario": 716260012,
+        "warmup": 716260098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 716272001,
+        "measurement": 716270194,
+        "pv_assignment": 716271001,
+        "scenario": 716270012,
+        "warmup": 716270098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 716282001,
+        "measurement": 716280194,
+        "pv_assignment": 716281001,
+        "scenario": 716280012,
+        "warmup": 716280098
+      }
+    },
+    {
+      "density": 0.35,
+      "density_index": 6,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 716292001,
+        "measurement": 716290194,
+        "pv_assignment": 716291001,
+        "scenario": 716290012,
+        "warmup": 716290098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 717002001,
+        "measurement": 717000194,
+        "pv_assignment": 717001001,
+        "scenario": 717000012,
+        "warmup": 717000098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 717012001,
+        "measurement": 717010194,
+        "pv_assignment": 717011001,
+        "scenario": 717010012,
+        "warmup": 717010098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 717022001,
+        "measurement": 717020194,
+        "pv_assignment": 717021001,
+        "scenario": 717020012,
+        "warmup": 717020098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 717032001,
+        "measurement": 717030194,
+        "pv_assignment": 717031001,
+        "scenario": 717030012,
+        "warmup": 717030098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 717042001,
+        "measurement": 717040194,
+        "pv_assignment": 717041001,
+        "scenario": 717040012,
+        "warmup": 717040098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 717052001,
+        "measurement": 717050194,
+        "pv_assignment": 717051001,
+        "scenario": 717050012,
+        "warmup": 717050098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 717062001,
+        "measurement": 717060194,
+        "pv_assignment": 717061001,
+        "scenario": 717060012,
+        "warmup": 717060098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 717072001,
+        "measurement": 717070194,
+        "pv_assignment": 717071001,
+        "scenario": 717070012,
+        "warmup": 717070098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 717082001,
+        "measurement": 717080194,
+        "pv_assignment": 717081001,
+        "scenario": 717080012,
+        "warmup": 717080098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 717092001,
+        "measurement": 717090194,
+        "pv_assignment": 717091001,
+        "scenario": 717090012,
+        "warmup": 717090098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 717102001,
+        "measurement": 717100194,
+        "pv_assignment": 717101001,
+        "scenario": 717100012,
+        "warmup": 717100098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 717112001,
+        "measurement": 717110194,
+        "pv_assignment": 717111001,
+        "scenario": 717110012,
+        "warmup": 717110098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 717122001,
+        "measurement": 717120194,
+        "pv_assignment": 717121001,
+        "scenario": 717120012,
+        "warmup": 717120098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 717132001,
+        "measurement": 717130194,
+        "pv_assignment": 717131001,
+        "scenario": 717130012,
+        "warmup": 717130098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 717142001,
+        "measurement": 717140194,
+        "pv_assignment": 717141001,
+        "scenario": 717140012,
+        "warmup": 717140098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 717152001,
+        "measurement": 717150194,
+        "pv_assignment": 717151001,
+        "scenario": 717150012,
+        "warmup": 717150098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 717162001,
+        "measurement": 717160194,
+        "pv_assignment": 717161001,
+        "scenario": 717160012,
+        "warmup": 717160098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 717172001,
+        "measurement": 717170194,
+        "pv_assignment": 717171001,
+        "scenario": 717170012,
+        "warmup": 717170098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 717182001,
+        "measurement": 717180194,
+        "pv_assignment": 717181001,
+        "scenario": 717180012,
+        "warmup": 717180098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 717192001,
+        "measurement": 717190194,
+        "pv_assignment": 717191001,
+        "scenario": 717190012,
+        "warmup": 717190098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 717202001,
+        "measurement": 717200194,
+        "pv_assignment": 717201001,
+        "scenario": 717200012,
+        "warmup": 717200098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 717212001,
+        "measurement": 717210194,
+        "pv_assignment": 717211001,
+        "scenario": 717210012,
+        "warmup": 717210098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 717222001,
+        "measurement": 717220194,
+        "pv_assignment": 717221001,
+        "scenario": 717220012,
+        "warmup": 717220098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 717232001,
+        "measurement": 717230194,
+        "pv_assignment": 717231001,
+        "scenario": 717230012,
+        "warmup": 717230098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 717242001,
+        "measurement": 717240194,
+        "pv_assignment": 717241001,
+        "scenario": 717240012,
+        "warmup": 717240098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 717252001,
+        "measurement": 717250194,
+        "pv_assignment": 717251001,
+        "scenario": 717250012,
+        "warmup": 717250098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 717262001,
+        "measurement": 717260194,
+        "pv_assignment": 717261001,
+        "scenario": 717260012,
+        "warmup": 717260098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 717272001,
+        "measurement": 717270194,
+        "pv_assignment": 717271001,
+        "scenario": 717270012,
+        "warmup": 717270098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 717282001,
+        "measurement": 717280194,
+        "pv_assignment": 717281001,
+        "scenario": 717280012,
+        "warmup": 717280098
+      }
+    },
+    {
+      "density": 0.4,
+      "density_index": 7,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 717292001,
+        "measurement": 717290194,
+        "pv_assignment": 717291001,
+        "scenario": 717290012,
+        "warmup": 717290098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 718002001,
+        "measurement": 718000194,
+        "pv_assignment": 718001001,
+        "scenario": 718000012,
+        "warmup": 718000098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 718012001,
+        "measurement": 718010194,
+        "pv_assignment": 718011001,
+        "scenario": 718010012,
+        "warmup": 718010098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 718022001,
+        "measurement": 718020194,
+        "pv_assignment": 718021001,
+        "scenario": 718020012,
+        "warmup": 718020098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 718032001,
+        "measurement": 718030194,
+        "pv_assignment": 718031001,
+        "scenario": 718030012,
+        "warmup": 718030098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 718042001,
+        "measurement": 718040194,
+        "pv_assignment": 718041001,
+        "scenario": 718040012,
+        "warmup": 718040098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 718052001,
+        "measurement": 718050194,
+        "pv_assignment": 718051001,
+        "scenario": 718050012,
+        "warmup": 718050098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 718062001,
+        "measurement": 718060194,
+        "pv_assignment": 718061001,
+        "scenario": 718060012,
+        "warmup": 718060098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 718072001,
+        "measurement": 718070194,
+        "pv_assignment": 718071001,
+        "scenario": 718070012,
+        "warmup": 718070098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 718082001,
+        "measurement": 718080194,
+        "pv_assignment": 718081001,
+        "scenario": 718080012,
+        "warmup": 718080098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 718092001,
+        "measurement": 718090194,
+        "pv_assignment": 718091001,
+        "scenario": 718090012,
+        "warmup": 718090098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 718102001,
+        "measurement": 718100194,
+        "pv_assignment": 718101001,
+        "scenario": 718100012,
+        "warmup": 718100098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 718112001,
+        "measurement": 718110194,
+        "pv_assignment": 718111001,
+        "scenario": 718110012,
+        "warmup": 718110098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 718122001,
+        "measurement": 718120194,
+        "pv_assignment": 718121001,
+        "scenario": 718120012,
+        "warmup": 718120098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 718132001,
+        "measurement": 718130194,
+        "pv_assignment": 718131001,
+        "scenario": 718130012,
+        "warmup": 718130098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 718142001,
+        "measurement": 718140194,
+        "pv_assignment": 718141001,
+        "scenario": 718140012,
+        "warmup": 718140098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 718152001,
+        "measurement": 718150194,
+        "pv_assignment": 718151001,
+        "scenario": 718150012,
+        "warmup": 718150098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 718162001,
+        "measurement": 718160194,
+        "pv_assignment": 718161001,
+        "scenario": 718160012,
+        "warmup": 718160098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 718172001,
+        "measurement": 718170194,
+        "pv_assignment": 718171001,
+        "scenario": 718170012,
+        "warmup": 718170098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 718182001,
+        "measurement": 718180194,
+        "pv_assignment": 718181001,
+        "scenario": 718180012,
+        "warmup": 718180098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 718192001,
+        "measurement": 718190194,
+        "pv_assignment": 718191001,
+        "scenario": 718190012,
+        "warmup": 718190098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 718202001,
+        "measurement": 718200194,
+        "pv_assignment": 718201001,
+        "scenario": 718200012,
+        "warmup": 718200098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 718212001,
+        "measurement": 718210194,
+        "pv_assignment": 718211001,
+        "scenario": 718210012,
+        "warmup": 718210098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 718222001,
+        "measurement": 718220194,
+        "pv_assignment": 718221001,
+        "scenario": 718220012,
+        "warmup": 718220098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 718232001,
+        "measurement": 718230194,
+        "pv_assignment": 718231001,
+        "scenario": 718230012,
+        "warmup": 718230098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 718242001,
+        "measurement": 718240194,
+        "pv_assignment": 718241001,
+        "scenario": 718240012,
+        "warmup": 718240098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 718252001,
+        "measurement": 718250194,
+        "pv_assignment": 718251001,
+        "scenario": 718250012,
+        "warmup": 718250098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 718262001,
+        "measurement": 718260194,
+        "pv_assignment": 718261001,
+        "scenario": 718260012,
+        "warmup": 718260098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 718272001,
+        "measurement": 718270194,
+        "pv_assignment": 718271001,
+        "scenario": 718270012,
+        "warmup": 718270098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 718282001,
+        "measurement": 718280194,
+        "pv_assignment": 718281001,
+        "scenario": 718280012,
+        "warmup": 718280098
+      }
+    },
+    {
+      "density": 0.45,
+      "density_index": 8,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 718292001,
+        "measurement": 718290194,
+        "pv_assignment": 718291001,
+        "scenario": 718290012,
+        "warmup": 718290098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 719002001,
+        "measurement": 719000194,
+        "pv_assignment": 719001001,
+        "scenario": 719000012,
+        "warmup": 719000098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 719012001,
+        "measurement": 719010194,
+        "pv_assignment": 719011001,
+        "scenario": 719010012,
+        "warmup": 719010098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 719022001,
+        "measurement": 719020194,
+        "pv_assignment": 719021001,
+        "scenario": 719020012,
+        "warmup": 719020098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 719032001,
+        "measurement": 719030194,
+        "pv_assignment": 719031001,
+        "scenario": 719030012,
+        "warmup": 719030098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 719042001,
+        "measurement": 719040194,
+        "pv_assignment": 719041001,
+        "scenario": 719040012,
+        "warmup": 719040098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 719052001,
+        "measurement": 719050194,
+        "pv_assignment": 719051001,
+        "scenario": 719050012,
+        "warmup": 719050098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 719062001,
+        "measurement": 719060194,
+        "pv_assignment": 719061001,
+        "scenario": 719060012,
+        "warmup": 719060098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 719072001,
+        "measurement": 719070194,
+        "pv_assignment": 719071001,
+        "scenario": 719070012,
+        "warmup": 719070098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 719082001,
+        "measurement": 719080194,
+        "pv_assignment": 719081001,
+        "scenario": 719080012,
+        "warmup": 719080098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 719092001,
+        "measurement": 719090194,
+        "pv_assignment": 719091001,
+        "scenario": 719090012,
+        "warmup": 719090098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 719102001,
+        "measurement": 719100194,
+        "pv_assignment": 719101001,
+        "scenario": 719100012,
+        "warmup": 719100098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 719112001,
+        "measurement": 719110194,
+        "pv_assignment": 719111001,
+        "scenario": 719110012,
+        "warmup": 719110098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 719122001,
+        "measurement": 719120194,
+        "pv_assignment": 719121001,
+        "scenario": 719120012,
+        "warmup": 719120098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 719132001,
+        "measurement": 719130194,
+        "pv_assignment": 719131001,
+        "scenario": 719130012,
+        "warmup": 719130098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 719142001,
+        "measurement": 719140194,
+        "pv_assignment": 719141001,
+        "scenario": 719140012,
+        "warmup": 719140098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 719152001,
+        "measurement": 719150194,
+        "pv_assignment": 719151001,
+        "scenario": 719150012,
+        "warmup": 719150098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 719162001,
+        "measurement": 719160194,
+        "pv_assignment": 719161001,
+        "scenario": 719160012,
+        "warmup": 719160098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 719172001,
+        "measurement": 719170194,
+        "pv_assignment": 719171001,
+        "scenario": 719170012,
+        "warmup": 719170098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 719182001,
+        "measurement": 719180194,
+        "pv_assignment": 719181001,
+        "scenario": 719180012,
+        "warmup": 719180098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 719192001,
+        "measurement": 719190194,
+        "pv_assignment": 719191001,
+        "scenario": 719190012,
+        "warmup": 719190098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 719202001,
+        "measurement": 719200194,
+        "pv_assignment": 719201001,
+        "scenario": 719200012,
+        "warmup": 719200098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 719212001,
+        "measurement": 719210194,
+        "pv_assignment": 719211001,
+        "scenario": 719210012,
+        "warmup": 719210098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 719222001,
+        "measurement": 719220194,
+        "pv_assignment": 719221001,
+        "scenario": 719220012,
+        "warmup": 719220098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 719232001,
+        "measurement": 719230194,
+        "pv_assignment": 719231001,
+        "scenario": 719230012,
+        "warmup": 719230098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 719242001,
+        "measurement": 719240194,
+        "pv_assignment": 719241001,
+        "scenario": 719240012,
+        "warmup": 719240098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 719252001,
+        "measurement": 719250194,
+        "pv_assignment": 719251001,
+        "scenario": 719250012,
+        "warmup": 719250098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 719262001,
+        "measurement": 719260194,
+        "pv_assignment": 719261001,
+        "scenario": 719260012,
+        "warmup": 719260098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 719272001,
+        "measurement": 719270194,
+        "pv_assignment": 719271001,
+        "scenario": 719270012,
+        "warmup": 719270098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 719282001,
+        "measurement": 719280194,
+        "pv_assignment": 719281001,
+        "scenario": 719280012,
+        "warmup": 719280098
+      }
+    },
+    {
+      "density": 0.5,
+      "density_index": 9,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 719292001,
+        "measurement": 719290194,
+        "pv_assignment": 719291001,
+        "scenario": 719290012,
+        "warmup": 719290098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 720002001,
+        "measurement": 720000194,
+        "pv_assignment": 720001001,
+        "scenario": 720000012,
+        "warmup": 720000098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 720012001,
+        "measurement": 720010194,
+        "pv_assignment": 720011001,
+        "scenario": 720010012,
+        "warmup": 720010098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 720022001,
+        "measurement": 720020194,
+        "pv_assignment": 720021001,
+        "scenario": 720020012,
+        "warmup": 720020098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 720032001,
+        "measurement": 720030194,
+        "pv_assignment": 720031001,
+        "scenario": 720030012,
+        "warmup": 720030098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 720042001,
+        "measurement": 720040194,
+        "pv_assignment": 720041001,
+        "scenario": 720040012,
+        "warmup": 720040098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 720052001,
+        "measurement": 720050194,
+        "pv_assignment": 720051001,
+        "scenario": 720050012,
+        "warmup": 720050098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 720062001,
+        "measurement": 720060194,
+        "pv_assignment": 720061001,
+        "scenario": 720060012,
+        "warmup": 720060098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 720072001,
+        "measurement": 720070194,
+        "pv_assignment": 720071001,
+        "scenario": 720070012,
+        "warmup": 720070098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 720082001,
+        "measurement": 720080194,
+        "pv_assignment": 720081001,
+        "scenario": 720080012,
+        "warmup": 720080098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 720092001,
+        "measurement": 720090194,
+        "pv_assignment": 720091001,
+        "scenario": 720090012,
+        "warmup": 720090098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 720102001,
+        "measurement": 720100194,
+        "pv_assignment": 720101001,
+        "scenario": 720100012,
+        "warmup": 720100098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 720112001,
+        "measurement": 720110194,
+        "pv_assignment": 720111001,
+        "scenario": 720110012,
+        "warmup": 720110098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 720122001,
+        "measurement": 720120194,
+        "pv_assignment": 720121001,
+        "scenario": 720120012,
+        "warmup": 720120098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 720132001,
+        "measurement": 720130194,
+        "pv_assignment": 720131001,
+        "scenario": 720130012,
+        "warmup": 720130098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 720142001,
+        "measurement": 720140194,
+        "pv_assignment": 720141001,
+        "scenario": 720140012,
+        "warmup": 720140098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 720152001,
+        "measurement": 720150194,
+        "pv_assignment": 720151001,
+        "scenario": 720150012,
+        "warmup": 720150098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 720162001,
+        "measurement": 720160194,
+        "pv_assignment": 720161001,
+        "scenario": 720160012,
+        "warmup": 720160098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 720172001,
+        "measurement": 720170194,
+        "pv_assignment": 720171001,
+        "scenario": 720170012,
+        "warmup": 720170098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 720182001,
+        "measurement": 720180194,
+        "pv_assignment": 720181001,
+        "scenario": 720180012,
+        "warmup": 720180098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 720192001,
+        "measurement": 720190194,
+        "pv_assignment": 720191001,
+        "scenario": 720190012,
+        "warmup": 720190098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 720202001,
+        "measurement": 720200194,
+        "pv_assignment": 720201001,
+        "scenario": 720200012,
+        "warmup": 720200098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 720212001,
+        "measurement": 720210194,
+        "pv_assignment": 720211001,
+        "scenario": 720210012,
+        "warmup": 720210098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 720222001,
+        "measurement": 720220194,
+        "pv_assignment": 720221001,
+        "scenario": 720220012,
+        "warmup": 720220098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 720232001,
+        "measurement": 720230194,
+        "pv_assignment": 720231001,
+        "scenario": 720230012,
+        "warmup": 720230098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 720242001,
+        "measurement": 720240194,
+        "pv_assignment": 720241001,
+        "scenario": 720240012,
+        "warmup": 720240098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 720252001,
+        "measurement": 720250194,
+        "pv_assignment": 720251001,
+        "scenario": 720250012,
+        "warmup": 720250098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 720262001,
+        "measurement": 720260194,
+        "pv_assignment": 720261001,
+        "scenario": 720260012,
+        "warmup": 720260098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 720272001,
+        "measurement": 720270194,
+        "pv_assignment": 720271001,
+        "scenario": 720270012,
+        "warmup": 720270098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 720282001,
+        "measurement": 720280194,
+        "pv_assignment": 720281001,
+        "scenario": 720280012,
+        "warmup": 720280098
+      }
+    },
+    {
+      "density": 0.55,
+      "density_index": 10,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 720292001,
+        "measurement": 720290194,
+        "pv_assignment": 720291001,
+        "scenario": 720290012,
+        "warmup": 720290098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 721002001,
+        "measurement": 721000194,
+        "pv_assignment": 721001001,
+        "scenario": 721000012,
+        "warmup": 721000098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 721012001,
+        "measurement": 721010194,
+        "pv_assignment": 721011001,
+        "scenario": 721010012,
+        "warmup": 721010098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 721022001,
+        "measurement": 721020194,
+        "pv_assignment": 721021001,
+        "scenario": 721020012,
+        "warmup": 721020098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 721032001,
+        "measurement": 721030194,
+        "pv_assignment": 721031001,
+        "scenario": 721030012,
+        "warmup": 721030098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 721042001,
+        "measurement": 721040194,
+        "pv_assignment": 721041001,
+        "scenario": 721040012,
+        "warmup": 721040098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 721052001,
+        "measurement": 721050194,
+        "pv_assignment": 721051001,
+        "scenario": 721050012,
+        "warmup": 721050098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 721062001,
+        "measurement": 721060194,
+        "pv_assignment": 721061001,
+        "scenario": 721060012,
+        "warmup": 721060098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 721072001,
+        "measurement": 721070194,
+        "pv_assignment": 721071001,
+        "scenario": 721070012,
+        "warmup": 721070098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 721082001,
+        "measurement": 721080194,
+        "pv_assignment": 721081001,
+        "scenario": 721080012,
+        "warmup": 721080098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 721092001,
+        "measurement": 721090194,
+        "pv_assignment": 721091001,
+        "scenario": 721090012,
+        "warmup": 721090098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 721102001,
+        "measurement": 721100194,
+        "pv_assignment": 721101001,
+        "scenario": 721100012,
+        "warmup": 721100098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 721112001,
+        "measurement": 721110194,
+        "pv_assignment": 721111001,
+        "scenario": 721110012,
+        "warmup": 721110098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 721122001,
+        "measurement": 721120194,
+        "pv_assignment": 721121001,
+        "scenario": 721120012,
+        "warmup": 721120098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 721132001,
+        "measurement": 721130194,
+        "pv_assignment": 721131001,
+        "scenario": 721130012,
+        "warmup": 721130098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 721142001,
+        "measurement": 721140194,
+        "pv_assignment": 721141001,
+        "scenario": 721140012,
+        "warmup": 721140098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 721152001,
+        "measurement": 721150194,
+        "pv_assignment": 721151001,
+        "scenario": 721150012,
+        "warmup": 721150098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 721162001,
+        "measurement": 721160194,
+        "pv_assignment": 721161001,
+        "scenario": 721160012,
+        "warmup": 721160098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 721172001,
+        "measurement": 721170194,
+        "pv_assignment": 721171001,
+        "scenario": 721170012,
+        "warmup": 721170098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 721182001,
+        "measurement": 721180194,
+        "pv_assignment": 721181001,
+        "scenario": 721180012,
+        "warmup": 721180098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 721192001,
+        "measurement": 721190194,
+        "pv_assignment": 721191001,
+        "scenario": 721190012,
+        "warmup": 721190098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 721202001,
+        "measurement": 721200194,
+        "pv_assignment": 721201001,
+        "scenario": 721200012,
+        "warmup": 721200098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 721212001,
+        "measurement": 721210194,
+        "pv_assignment": 721211001,
+        "scenario": 721210012,
+        "warmup": 721210098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 721222001,
+        "measurement": 721220194,
+        "pv_assignment": 721221001,
+        "scenario": 721220012,
+        "warmup": 721220098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 721232001,
+        "measurement": 721230194,
+        "pv_assignment": 721231001,
+        "scenario": 721230012,
+        "warmup": 721230098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 721242001,
+        "measurement": 721240194,
+        "pv_assignment": 721241001,
+        "scenario": 721240012,
+        "warmup": 721240098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 721252001,
+        "measurement": 721250194,
+        "pv_assignment": 721251001,
+        "scenario": 721250012,
+        "warmup": 721250098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 721262001,
+        "measurement": 721260194,
+        "pv_assignment": 721261001,
+        "scenario": 721260012,
+        "warmup": 721260098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 721272001,
+        "measurement": 721270194,
+        "pv_assignment": 721271001,
+        "scenario": 721270012,
+        "warmup": 721270098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 721282001,
+        "measurement": 721280194,
+        "pv_assignment": 721281001,
+        "scenario": 721280012,
+        "warmup": 721280098
+      }
+    },
+    {
+      "density": 0.6,
+      "density_index": 11,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 721292001,
+        "measurement": 721290194,
+        "pv_assignment": 721291001,
+        "scenario": 721290012,
+        "warmup": 721290098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 722002001,
+        "measurement": 722000194,
+        "pv_assignment": 722001001,
+        "scenario": 722000012,
+        "warmup": 722000098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 722012001,
+        "measurement": 722010194,
+        "pv_assignment": 722011001,
+        "scenario": 722010012,
+        "warmup": 722010098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 722022001,
+        "measurement": 722020194,
+        "pv_assignment": 722021001,
+        "scenario": 722020012,
+        "warmup": 722020098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 722032001,
+        "measurement": 722030194,
+        "pv_assignment": 722031001,
+        "scenario": 722030012,
+        "warmup": 722030098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 722042001,
+        "measurement": 722040194,
+        "pv_assignment": 722041001,
+        "scenario": 722040012,
+        "warmup": 722040098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 722052001,
+        "measurement": 722050194,
+        "pv_assignment": 722051001,
+        "scenario": 722050012,
+        "warmup": 722050098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 722062001,
+        "measurement": 722060194,
+        "pv_assignment": 722061001,
+        "scenario": 722060012,
+        "warmup": 722060098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 722072001,
+        "measurement": 722070194,
+        "pv_assignment": 722071001,
+        "scenario": 722070012,
+        "warmup": 722070098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 722082001,
+        "measurement": 722080194,
+        "pv_assignment": 722081001,
+        "scenario": 722080012,
+        "warmup": 722080098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 722092001,
+        "measurement": 722090194,
+        "pv_assignment": 722091001,
+        "scenario": 722090012,
+        "warmup": 722090098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 722102001,
+        "measurement": 722100194,
+        "pv_assignment": 722101001,
+        "scenario": 722100012,
+        "warmup": 722100098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 722112001,
+        "measurement": 722110194,
+        "pv_assignment": 722111001,
+        "scenario": 722110012,
+        "warmup": 722110098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 722122001,
+        "measurement": 722120194,
+        "pv_assignment": 722121001,
+        "scenario": 722120012,
+        "warmup": 722120098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 722132001,
+        "measurement": 722130194,
+        "pv_assignment": 722131001,
+        "scenario": 722130012,
+        "warmup": 722130098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 722142001,
+        "measurement": 722140194,
+        "pv_assignment": 722141001,
+        "scenario": 722140012,
+        "warmup": 722140098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 722152001,
+        "measurement": 722150194,
+        "pv_assignment": 722151001,
+        "scenario": 722150012,
+        "warmup": 722150098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 722162001,
+        "measurement": 722160194,
+        "pv_assignment": 722161001,
+        "scenario": 722160012,
+        "warmup": 722160098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 722172001,
+        "measurement": 722170194,
+        "pv_assignment": 722171001,
+        "scenario": 722170012,
+        "warmup": 722170098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 722182001,
+        "measurement": 722180194,
+        "pv_assignment": 722181001,
+        "scenario": 722180012,
+        "warmup": 722180098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 722192001,
+        "measurement": 722190194,
+        "pv_assignment": 722191001,
+        "scenario": 722190012,
+        "warmup": 722190098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 722202001,
+        "measurement": 722200194,
+        "pv_assignment": 722201001,
+        "scenario": 722200012,
+        "warmup": 722200098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 722212001,
+        "measurement": 722210194,
+        "pv_assignment": 722211001,
+        "scenario": 722210012,
+        "warmup": 722210098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 722222001,
+        "measurement": 722220194,
+        "pv_assignment": 722221001,
+        "scenario": 722220012,
+        "warmup": 722220098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 722232001,
+        "measurement": 722230194,
+        "pv_assignment": 722231001,
+        "scenario": 722230012,
+        "warmup": 722230098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 722242001,
+        "measurement": 722240194,
+        "pv_assignment": 722241001,
+        "scenario": 722240012,
+        "warmup": 722240098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 722252001,
+        "measurement": 722250194,
+        "pv_assignment": 722251001,
+        "scenario": 722250012,
+        "warmup": 722250098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 722262001,
+        "measurement": 722260194,
+        "pv_assignment": 722261001,
+        "scenario": 722260012,
+        "warmup": 722260098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 722272001,
+        "measurement": 722270194,
+        "pv_assignment": 722271001,
+        "scenario": 722270012,
+        "warmup": 722270098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 722282001,
+        "measurement": 722280194,
+        "pv_assignment": 722281001,
+        "scenario": 722280012,
+        "warmup": 722280098
+      }
+    },
+    {
+      "density": 0.65,
+      "density_index": 12,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 722292001,
+        "measurement": 722290194,
+        "pv_assignment": 722291001,
+        "scenario": 722290012,
+        "warmup": 722290098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 723002001,
+        "measurement": 723000194,
+        "pv_assignment": 723001001,
+        "scenario": 723000012,
+        "warmup": 723000098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 723012001,
+        "measurement": 723010194,
+        "pv_assignment": 723011001,
+        "scenario": 723010012,
+        "warmup": 723010098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 723022001,
+        "measurement": 723020194,
+        "pv_assignment": 723021001,
+        "scenario": 723020012,
+        "warmup": 723020098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 723032001,
+        "measurement": 723030194,
+        "pv_assignment": 723031001,
+        "scenario": 723030012,
+        "warmup": 723030098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 723042001,
+        "measurement": 723040194,
+        "pv_assignment": 723041001,
+        "scenario": 723040012,
+        "warmup": 723040098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 723052001,
+        "measurement": 723050194,
+        "pv_assignment": 723051001,
+        "scenario": 723050012,
+        "warmup": 723050098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 723062001,
+        "measurement": 723060194,
+        "pv_assignment": 723061001,
+        "scenario": 723060012,
+        "warmup": 723060098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 723072001,
+        "measurement": 723070194,
+        "pv_assignment": 723071001,
+        "scenario": 723070012,
+        "warmup": 723070098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 723082001,
+        "measurement": 723080194,
+        "pv_assignment": 723081001,
+        "scenario": 723080012,
+        "warmup": 723080098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 723092001,
+        "measurement": 723090194,
+        "pv_assignment": 723091001,
+        "scenario": 723090012,
+        "warmup": 723090098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 723102001,
+        "measurement": 723100194,
+        "pv_assignment": 723101001,
+        "scenario": 723100012,
+        "warmup": 723100098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 723112001,
+        "measurement": 723110194,
+        "pv_assignment": 723111001,
+        "scenario": 723110012,
+        "warmup": 723110098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 723122001,
+        "measurement": 723120194,
+        "pv_assignment": 723121001,
+        "scenario": 723120012,
+        "warmup": 723120098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 723132001,
+        "measurement": 723130194,
+        "pv_assignment": 723131001,
+        "scenario": 723130012,
+        "warmup": 723130098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 723142001,
+        "measurement": 723140194,
+        "pv_assignment": 723141001,
+        "scenario": 723140012,
+        "warmup": 723140098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 723152001,
+        "measurement": 723150194,
+        "pv_assignment": 723151001,
+        "scenario": 723150012,
+        "warmup": 723150098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 723162001,
+        "measurement": 723160194,
+        "pv_assignment": 723161001,
+        "scenario": 723160012,
+        "warmup": 723160098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 723172001,
+        "measurement": 723170194,
+        "pv_assignment": 723171001,
+        "scenario": 723170012,
+        "warmup": 723170098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 723182001,
+        "measurement": 723180194,
+        "pv_assignment": 723181001,
+        "scenario": 723180012,
+        "warmup": 723180098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 723192001,
+        "measurement": 723190194,
+        "pv_assignment": 723191001,
+        "scenario": 723190012,
+        "warmup": 723190098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 723202001,
+        "measurement": 723200194,
+        "pv_assignment": 723201001,
+        "scenario": 723200012,
+        "warmup": 723200098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 723212001,
+        "measurement": 723210194,
+        "pv_assignment": 723211001,
+        "scenario": 723210012,
+        "warmup": 723210098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 723222001,
+        "measurement": 723220194,
+        "pv_assignment": 723221001,
+        "scenario": 723220012,
+        "warmup": 723220098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 723232001,
+        "measurement": 723230194,
+        "pv_assignment": 723231001,
+        "scenario": 723230012,
+        "warmup": 723230098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 723242001,
+        "measurement": 723240194,
+        "pv_assignment": 723241001,
+        "scenario": 723240012,
+        "warmup": 723240098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 723252001,
+        "measurement": 723250194,
+        "pv_assignment": 723251001,
+        "scenario": 723250012,
+        "warmup": 723250098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 723262001,
+        "measurement": 723260194,
+        "pv_assignment": 723261001,
+        "scenario": 723260012,
+        "warmup": 723260098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 723272001,
+        "measurement": 723270194,
+        "pv_assignment": 723271001,
+        "scenario": 723270012,
+        "warmup": 723270098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 723282001,
+        "measurement": 723280194,
+        "pv_assignment": 723281001,
+        "scenario": 723280012,
+        "warmup": 723280098
+      }
+    },
+    {
+      "density": 0.7,
+      "density_index": 13,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 723292001,
+        "measurement": 723290194,
+        "pv_assignment": 723291001,
+        "scenario": 723290012,
+        "warmup": 723290098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 724002001,
+        "measurement": 724000194,
+        "pv_assignment": 724001001,
+        "scenario": 724000012,
+        "warmup": 724000098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 724012001,
+        "measurement": 724010194,
+        "pv_assignment": 724011001,
+        "scenario": 724010012,
+        "warmup": 724010098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 724022001,
+        "measurement": 724020194,
+        "pv_assignment": 724021001,
+        "scenario": 724020012,
+        "warmup": 724020098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 724032001,
+        "measurement": 724030194,
+        "pv_assignment": 724031001,
+        "scenario": 724030012,
+        "warmup": 724030098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 724042001,
+        "measurement": 724040194,
+        "pv_assignment": 724041001,
+        "scenario": 724040012,
+        "warmup": 724040098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 724052001,
+        "measurement": 724050194,
+        "pv_assignment": 724051001,
+        "scenario": 724050012,
+        "warmup": 724050098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 724062001,
+        "measurement": 724060194,
+        "pv_assignment": 724061001,
+        "scenario": 724060012,
+        "warmup": 724060098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 724072001,
+        "measurement": 724070194,
+        "pv_assignment": 724071001,
+        "scenario": 724070012,
+        "warmup": 724070098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 724082001,
+        "measurement": 724080194,
+        "pv_assignment": 724081001,
+        "scenario": 724080012,
+        "warmup": 724080098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 724092001,
+        "measurement": 724090194,
+        "pv_assignment": 724091001,
+        "scenario": 724090012,
+        "warmup": 724090098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 724102001,
+        "measurement": 724100194,
+        "pv_assignment": 724101001,
+        "scenario": 724100012,
+        "warmup": 724100098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 724112001,
+        "measurement": 724110194,
+        "pv_assignment": 724111001,
+        "scenario": 724110012,
+        "warmup": 724110098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 724122001,
+        "measurement": 724120194,
+        "pv_assignment": 724121001,
+        "scenario": 724120012,
+        "warmup": 724120098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 724132001,
+        "measurement": 724130194,
+        "pv_assignment": 724131001,
+        "scenario": 724130012,
+        "warmup": 724130098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 724142001,
+        "measurement": 724140194,
+        "pv_assignment": 724141001,
+        "scenario": 724140012,
+        "warmup": 724140098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 724152001,
+        "measurement": 724150194,
+        "pv_assignment": 724151001,
+        "scenario": 724150012,
+        "warmup": 724150098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 724162001,
+        "measurement": 724160194,
+        "pv_assignment": 724161001,
+        "scenario": 724160012,
+        "warmup": 724160098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 724172001,
+        "measurement": 724170194,
+        "pv_assignment": 724171001,
+        "scenario": 724170012,
+        "warmup": 724170098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 724182001,
+        "measurement": 724180194,
+        "pv_assignment": 724181001,
+        "scenario": 724180012,
+        "warmup": 724180098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 724192001,
+        "measurement": 724190194,
+        "pv_assignment": 724191001,
+        "scenario": 724190012,
+        "warmup": 724190098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 724202001,
+        "measurement": 724200194,
+        "pv_assignment": 724201001,
+        "scenario": 724200012,
+        "warmup": 724200098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 724212001,
+        "measurement": 724210194,
+        "pv_assignment": 724211001,
+        "scenario": 724210012,
+        "warmup": 724210098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 724222001,
+        "measurement": 724220194,
+        "pv_assignment": 724221001,
+        "scenario": 724220012,
+        "warmup": 724220098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 724232001,
+        "measurement": 724230194,
+        "pv_assignment": 724231001,
+        "scenario": 724230012,
+        "warmup": 724230098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 724242001,
+        "measurement": 724240194,
+        "pv_assignment": 724241001,
+        "scenario": 724240012,
+        "warmup": 724240098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 724252001,
+        "measurement": 724250194,
+        "pv_assignment": 724251001,
+        "scenario": 724250012,
+        "warmup": 724250098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 724262001,
+        "measurement": 724260194,
+        "pv_assignment": 724261001,
+        "scenario": 724260012,
+        "warmup": 724260098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 724272001,
+        "measurement": 724270194,
+        "pv_assignment": 724271001,
+        "scenario": 724270012,
+        "warmup": 724270098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 724282001,
+        "measurement": 724280194,
+        "pv_assignment": 724281001,
+        "scenario": 724280012,
+        "warmup": 724280098
+      }
+    },
+    {
+      "density": 0.75,
+      "density_index": 14,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 724292001,
+        "measurement": 724290194,
+        "pv_assignment": 724291001,
+        "scenario": 724290012,
+        "warmup": 724290098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 725002001,
+        "measurement": 725000194,
+        "pv_assignment": 725001001,
+        "scenario": 725000012,
+        "warmup": 725000098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 725012001,
+        "measurement": 725010194,
+        "pv_assignment": 725011001,
+        "scenario": 725010012,
+        "warmup": 725010098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 725022001,
+        "measurement": 725020194,
+        "pv_assignment": 725021001,
+        "scenario": 725020012,
+        "warmup": 725020098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 725032001,
+        "measurement": 725030194,
+        "pv_assignment": 725031001,
+        "scenario": 725030012,
+        "warmup": 725030098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 725042001,
+        "measurement": 725040194,
+        "pv_assignment": 725041001,
+        "scenario": 725040012,
+        "warmup": 725040098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 725052001,
+        "measurement": 725050194,
+        "pv_assignment": 725051001,
+        "scenario": 725050012,
+        "warmup": 725050098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 725062001,
+        "measurement": 725060194,
+        "pv_assignment": 725061001,
+        "scenario": 725060012,
+        "warmup": 725060098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 725072001,
+        "measurement": 725070194,
+        "pv_assignment": 725071001,
+        "scenario": 725070012,
+        "warmup": 725070098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 725082001,
+        "measurement": 725080194,
+        "pv_assignment": 725081001,
+        "scenario": 725080012,
+        "warmup": 725080098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 725092001,
+        "measurement": 725090194,
+        "pv_assignment": 725091001,
+        "scenario": 725090012,
+        "warmup": 725090098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 725102001,
+        "measurement": 725100194,
+        "pv_assignment": 725101001,
+        "scenario": 725100012,
+        "warmup": 725100098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 725112001,
+        "measurement": 725110194,
+        "pv_assignment": 725111001,
+        "scenario": 725110012,
+        "warmup": 725110098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 725122001,
+        "measurement": 725120194,
+        "pv_assignment": 725121001,
+        "scenario": 725120012,
+        "warmup": 725120098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 725132001,
+        "measurement": 725130194,
+        "pv_assignment": 725131001,
+        "scenario": 725130012,
+        "warmup": 725130098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 725142001,
+        "measurement": 725140194,
+        "pv_assignment": 725141001,
+        "scenario": 725140012,
+        "warmup": 725140098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 725152001,
+        "measurement": 725150194,
+        "pv_assignment": 725151001,
+        "scenario": 725150012,
+        "warmup": 725150098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 725162001,
+        "measurement": 725160194,
+        "pv_assignment": 725161001,
+        "scenario": 725160012,
+        "warmup": 725160098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 725172001,
+        "measurement": 725170194,
+        "pv_assignment": 725171001,
+        "scenario": 725170012,
+        "warmup": 725170098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 725182001,
+        "measurement": 725180194,
+        "pv_assignment": 725181001,
+        "scenario": 725180012,
+        "warmup": 725180098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 725192001,
+        "measurement": 725190194,
+        "pv_assignment": 725191001,
+        "scenario": 725190012,
+        "warmup": 725190098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 725202001,
+        "measurement": 725200194,
+        "pv_assignment": 725201001,
+        "scenario": 725200012,
+        "warmup": 725200098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 725212001,
+        "measurement": 725210194,
+        "pv_assignment": 725211001,
+        "scenario": 725210012,
+        "warmup": 725210098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 725222001,
+        "measurement": 725220194,
+        "pv_assignment": 725221001,
+        "scenario": 725220012,
+        "warmup": 725220098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 725232001,
+        "measurement": 725230194,
+        "pv_assignment": 725231001,
+        "scenario": 725230012,
+        "warmup": 725230098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 725242001,
+        "measurement": 725240194,
+        "pv_assignment": 725241001,
+        "scenario": 725240012,
+        "warmup": 725240098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 725252001,
+        "measurement": 725250194,
+        "pv_assignment": 725251001,
+        "scenario": 725250012,
+        "warmup": 725250098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 725262001,
+        "measurement": 725260194,
+        "pv_assignment": 725261001,
+        "scenario": 725260012,
+        "warmup": 725260098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 725272001,
+        "measurement": 725270194,
+        "pv_assignment": 725271001,
+        "scenario": 725270012,
+        "warmup": 725270098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 725282001,
+        "measurement": 725280194,
+        "pv_assignment": 725281001,
+        "scenario": 725280012,
+        "warmup": 725280098
+      }
+    },
+    {
+      "density": 0.8,
+      "density_index": 15,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 725292001,
+        "measurement": 725290194,
+        "pv_assignment": 725291001,
+        "scenario": 725290012,
+        "warmup": 725290098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 726002001,
+        "measurement": 726000194,
+        "pv_assignment": 726001001,
+        "scenario": 726000012,
+        "warmup": 726000098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 726012001,
+        "measurement": 726010194,
+        "pv_assignment": 726011001,
+        "scenario": 726010012,
+        "warmup": 726010098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 726022001,
+        "measurement": 726020194,
+        "pv_assignment": 726021001,
+        "scenario": 726020012,
+        "warmup": 726020098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 726032001,
+        "measurement": 726030194,
+        "pv_assignment": 726031001,
+        "scenario": 726030012,
+        "warmup": 726030098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 726042001,
+        "measurement": 726040194,
+        "pv_assignment": 726041001,
+        "scenario": 726040012,
+        "warmup": 726040098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 726052001,
+        "measurement": 726050194,
+        "pv_assignment": 726051001,
+        "scenario": 726050012,
+        "warmup": 726050098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 726062001,
+        "measurement": 726060194,
+        "pv_assignment": 726061001,
+        "scenario": 726060012,
+        "warmup": 726060098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 726072001,
+        "measurement": 726070194,
+        "pv_assignment": 726071001,
+        "scenario": 726070012,
+        "warmup": 726070098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 726082001,
+        "measurement": 726080194,
+        "pv_assignment": 726081001,
+        "scenario": 726080012,
+        "warmup": 726080098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 726092001,
+        "measurement": 726090194,
+        "pv_assignment": 726091001,
+        "scenario": 726090012,
+        "warmup": 726090098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 726102001,
+        "measurement": 726100194,
+        "pv_assignment": 726101001,
+        "scenario": 726100012,
+        "warmup": 726100098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 726112001,
+        "measurement": 726110194,
+        "pv_assignment": 726111001,
+        "scenario": 726110012,
+        "warmup": 726110098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 726122001,
+        "measurement": 726120194,
+        "pv_assignment": 726121001,
+        "scenario": 726120012,
+        "warmup": 726120098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 726132001,
+        "measurement": 726130194,
+        "pv_assignment": 726131001,
+        "scenario": 726130012,
+        "warmup": 726130098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 726142001,
+        "measurement": 726140194,
+        "pv_assignment": 726141001,
+        "scenario": 726140012,
+        "warmup": 726140098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 726152001,
+        "measurement": 726150194,
+        "pv_assignment": 726151001,
+        "scenario": 726150012,
+        "warmup": 726150098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 726162001,
+        "measurement": 726160194,
+        "pv_assignment": 726161001,
+        "scenario": 726160012,
+        "warmup": 726160098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 726172001,
+        "measurement": 726170194,
+        "pv_assignment": 726171001,
+        "scenario": 726170012,
+        "warmup": 726170098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 726182001,
+        "measurement": 726180194,
+        "pv_assignment": 726181001,
+        "scenario": 726180012,
+        "warmup": 726180098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 726192001,
+        "measurement": 726190194,
+        "pv_assignment": 726191001,
+        "scenario": 726190012,
+        "warmup": 726190098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 726202001,
+        "measurement": 726200194,
+        "pv_assignment": 726201001,
+        "scenario": 726200012,
+        "warmup": 726200098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 726212001,
+        "measurement": 726210194,
+        "pv_assignment": 726211001,
+        "scenario": 726210012,
+        "warmup": 726210098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 726222001,
+        "measurement": 726220194,
+        "pv_assignment": 726221001,
+        "scenario": 726220012,
+        "warmup": 726220098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 726232001,
+        "measurement": 726230194,
+        "pv_assignment": 726231001,
+        "scenario": 726230012,
+        "warmup": 726230098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 726242001,
+        "measurement": 726240194,
+        "pv_assignment": 726241001,
+        "scenario": 726240012,
+        "warmup": 726240098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 726252001,
+        "measurement": 726250194,
+        "pv_assignment": 726251001,
+        "scenario": 726250012,
+        "warmup": 726250098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 726262001,
+        "measurement": 726260194,
+        "pv_assignment": 726261001,
+        "scenario": 726260012,
+        "warmup": 726260098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 726272001,
+        "measurement": 726270194,
+        "pv_assignment": 726271001,
+        "scenario": 726270012,
+        "warmup": 726270098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 726282001,
+        "measurement": 726280194,
+        "pv_assignment": 726281001,
+        "scenario": 726280012,
+        "warmup": 726280098
+      }
+    },
+    {
+      "density": 0.85,
+      "density_index": 16,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 726292001,
+        "measurement": 726290194,
+        "pv_assignment": 726291001,
+        "scenario": 726290012,
+        "warmup": 726290098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 0,
+      "seeds": {
+        "av_selection": 727002001,
+        "measurement": 727000194,
+        "pv_assignment": 727001001,
+        "scenario": 727000012,
+        "warmup": 727000098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 1,
+      "seeds": {
+        "av_selection": 727012001,
+        "measurement": 727010194,
+        "pv_assignment": 727011001,
+        "scenario": 727010012,
+        "warmup": 727010098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 2,
+      "seeds": {
+        "av_selection": 727022001,
+        "measurement": 727020194,
+        "pv_assignment": 727021001,
+        "scenario": 727020012,
+        "warmup": 727020098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 3,
+      "seeds": {
+        "av_selection": 727032001,
+        "measurement": 727030194,
+        "pv_assignment": 727031001,
+        "scenario": 727030012,
+        "warmup": 727030098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 4,
+      "seeds": {
+        "av_selection": 727042001,
+        "measurement": 727040194,
+        "pv_assignment": 727041001,
+        "scenario": 727040012,
+        "warmup": 727040098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 5,
+      "seeds": {
+        "av_selection": 727052001,
+        "measurement": 727050194,
+        "pv_assignment": 727051001,
+        "scenario": 727050012,
+        "warmup": 727050098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 6,
+      "seeds": {
+        "av_selection": 727062001,
+        "measurement": 727060194,
+        "pv_assignment": 727061001,
+        "scenario": 727060012,
+        "warmup": 727060098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 7,
+      "seeds": {
+        "av_selection": 727072001,
+        "measurement": 727070194,
+        "pv_assignment": 727071001,
+        "scenario": 727070012,
+        "warmup": 727070098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 8,
+      "seeds": {
+        "av_selection": 727082001,
+        "measurement": 727080194,
+        "pv_assignment": 727081001,
+        "scenario": 727080012,
+        "warmup": 727080098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 9,
+      "seeds": {
+        "av_selection": 727092001,
+        "measurement": 727090194,
+        "pv_assignment": 727091001,
+        "scenario": 727090012,
+        "warmup": 727090098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 10,
+      "seeds": {
+        "av_selection": 727102001,
+        "measurement": 727100194,
+        "pv_assignment": 727101001,
+        "scenario": 727100012,
+        "warmup": 727100098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 11,
+      "seeds": {
+        "av_selection": 727112001,
+        "measurement": 727110194,
+        "pv_assignment": 727111001,
+        "scenario": 727110012,
+        "warmup": 727110098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 12,
+      "seeds": {
+        "av_selection": 727122001,
+        "measurement": 727120194,
+        "pv_assignment": 727121001,
+        "scenario": 727120012,
+        "warmup": 727120098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 13,
+      "seeds": {
+        "av_selection": 727132001,
+        "measurement": 727130194,
+        "pv_assignment": 727131001,
+        "scenario": 727130012,
+        "warmup": 727130098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 14,
+      "seeds": {
+        "av_selection": 727142001,
+        "measurement": 727140194,
+        "pv_assignment": 727141001,
+        "scenario": 727140012,
+        "warmup": 727140098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 15,
+      "seeds": {
+        "av_selection": 727152001,
+        "measurement": 727150194,
+        "pv_assignment": 727151001,
+        "scenario": 727150012,
+        "warmup": 727150098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 16,
+      "seeds": {
+        "av_selection": 727162001,
+        "measurement": 727160194,
+        "pv_assignment": 727161001,
+        "scenario": 727160012,
+        "warmup": 727160098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 17,
+      "seeds": {
+        "av_selection": 727172001,
+        "measurement": 727170194,
+        "pv_assignment": 727171001,
+        "scenario": 727170012,
+        "warmup": 727170098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 18,
+      "seeds": {
+        "av_selection": 727182001,
+        "measurement": 727180194,
+        "pv_assignment": 727181001,
+        "scenario": 727180012,
+        "warmup": 727180098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 19,
+      "seeds": {
+        "av_selection": 727192001,
+        "measurement": 727190194,
+        "pv_assignment": 727191001,
+        "scenario": 727190012,
+        "warmup": 727190098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 20,
+      "seeds": {
+        "av_selection": 727202001,
+        "measurement": 727200194,
+        "pv_assignment": 727201001,
+        "scenario": 727200012,
+        "warmup": 727200098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 21,
+      "seeds": {
+        "av_selection": 727212001,
+        "measurement": 727210194,
+        "pv_assignment": 727211001,
+        "scenario": 727210012,
+        "warmup": 727210098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 22,
+      "seeds": {
+        "av_selection": 727222001,
+        "measurement": 727220194,
+        "pv_assignment": 727221001,
+        "scenario": 727220012,
+        "warmup": 727220098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 23,
+      "seeds": {
+        "av_selection": 727232001,
+        "measurement": 727230194,
+        "pv_assignment": 727231001,
+        "scenario": 727230012,
+        "warmup": 727230098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 24,
+      "seeds": {
+        "av_selection": 727242001,
+        "measurement": 727240194,
+        "pv_assignment": 727241001,
+        "scenario": 727240012,
+        "warmup": 727240098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 25,
+      "seeds": {
+        "av_selection": 727252001,
+        "measurement": 727250194,
+        "pv_assignment": 727251001,
+        "scenario": 727250012,
+        "warmup": 727250098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 26,
+      "seeds": {
+        "av_selection": 727262001,
+        "measurement": 727260194,
+        "pv_assignment": 727261001,
+        "scenario": 727260012,
+        "warmup": 727260098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 27,
+      "seeds": {
+        "av_selection": 727272001,
+        "measurement": 727270194,
+        "pv_assignment": 727271001,
+        "scenario": 727270012,
+        "warmup": 727270098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 28,
+      "seeds": {
+        "av_selection": 727282001,
+        "measurement": 727280194,
+        "pv_assignment": 727281001,
+        "scenario": 727280012,
+        "warmup": 727280098
+      }
+    },
+    {
+      "density": 0.9,
+      "density_index": 17,
+      "replicate": 29,
+      "seeds": {
+        "av_selection": 727292001,
+        "measurement": 727290194,
+        "pv_assignment": 727291001,
+        "scenario": 727290012,
+        "warmup": 727290098
+      }
+    }
+  ],
+  "collision_audit": {
+    "historical_evidence": {
+      "bytes": 15417,
+      "path": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/science-validation-20261106/admission/protocol/E2_SEED_RESERVATION_AUDIT.json",
+      "sha256": "2664f7717b391d36eea0eee13f86f7055f21d21fec1a3f7afb15fb63edf62c6c"
+    },
+    "limits": "Historical audit covers its registered inputs; not a proof about unknown jobs or internal training reset streams. Recheck registered bank usage before later execution.",
+    "pilot_overlap": 0,
+    "validation_overlap": 0
+  },
+  "distinct_scalar_seeds": 2700,
+  "distinct_seed_vectors": 540,
+  "new_outcomes_read": false,
+  "pairing": "Within one length/density/replicate only; methods and fractions share roads. Length is part of schema.pairing_key. Never pool lengths or claim cross-length pairing from numeric seeds.",
+  "recipe_sha256": "f06d6b6d2ca6dfa5bc9d42872f2ccc18ebcdeb2f30dd2f222d170169e634ffc4",
+  "reuse": "L1000 E5 uses existing main B1 observations with identical science dependencies and mechanism logs. L2000 B1 is always newly evaluated.",
+  "scope": {
+    "E5_L1000": "density indices 3,5,11; same blocks across all additional fractions",
+    "E5_L2000": "density indices 3,5,11; same numeric vectors, DIFFERENT scenario/pairing identities",
+    "W7_L1000": "density indices 1,3,5,11",
+    "main_L1000": "all blocks"
+  }
+}

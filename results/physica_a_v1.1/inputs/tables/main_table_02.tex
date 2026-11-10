@@ -1,0 +1,20 @@
+\begin{table*}[t]
+\centering
+\caption{Control modes used in the evaluation with a common one-step cooldown. All non-Baseline-1 modes use the same seed-determined AV identities for a given penetration.}
+\label{tab:controls}
+\begingroup
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}P{0.17\textwidth}P{0.24\textwidth}P{0.34\textwidth}P{0.18\textwidth}@{}}
+\toprule
+Mode & Traffic and interface & Lateral behaviour & Isolated question \\
+\midrule
+Baseline 1 (HDV) & One PV; all remaining vehicles are HDVs; no override interface & Native Revised S-NFS incentive--safety rule only & What happens without cooperative AVs? \\
+Baseline 2 (matched) & Same fraction and IDs of AVs as the policy modes & If a same-lane PV is within 30 cells behind, choose the safe adjacent lane with maximum clearance; one-step cooldown & Does a transparent reactive yielding rule suffice? \\
+noop & Same AV set and local centralised interface as PPO & Active AVs receive stay; vehicles outside the window remain native & Does the interface or suppression of native lateral motion explain the result? \\
+left-if-safe & Same AV set, window, mask, and cooldown as PPO & Request $-1$ whenever permitted by the mask; otherwise stay & Can a direction-fixed safe corridor heuristic match learning? \\
+$H_2$ & Same interface; selected from four throttling strengths using validation & Left-if-safe with a private physical-ID intervention clock; non-stay requests forbidden for two subsequent steps after an applied own non-stay request & What does learning add under a common validation background-flow screen? \\
+\bottomrule
+\end{tabular}
+\endgroup
+\end{table*}

@@ -1,0 +1,15 @@
+\begin{table*}[t]
+\centering
+\caption{Main frozen checkpoint selections. Iterations are ordered by training line 1/2/3; every line has the same 13 candidates and terminal budget. $S_{.93}$ selects the same weights as $S_0$. The infeasible Graph line is retained in the record, not replaced or dropped after inspecting test performance. Full master seeds and W7 selections are given in the supplement.}
+\label{tab:checkpoint-selection}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}lrccc@{}}
+\toprule
+Encoder & Lines & $S_0$ and $S_{.93}$ iterations & $S_{.95}$ iterations & $S_{.95}$ support \\
+\midrule
+\input{tables/checkpoint_selection_rows.tex}
+\end{tabular}
+\endgroup
+\end{table*}

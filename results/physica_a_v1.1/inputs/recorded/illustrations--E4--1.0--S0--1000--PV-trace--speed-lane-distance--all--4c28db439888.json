@@ -1,0 +1,337 @@
+{
+  "schema_version": 1,
+  "id": "illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c28db439888",
+  "identity": {
+    "cohort": 1.0,
+    "density": 0.6,
+    "fraction": 0.95,
+    "panel": "E4",
+    "road_length": 1000,
+    "rule": "S0",
+    "family": "illustrations",
+    "metric": "PV-trace",
+    "layout": "speed-lane-distance"
+  },
+  "mode": "final",
+  "source_manifest": {
+    "mode": "final",
+    "selection_evidence": {
+      "Graph": "2673abc116a0a040995615c39e8ed10e8463ad2b7770fa45ef36242de461cddd",
+      "H2": "2da11b5e94df7d6bbcf93bd3b0738a55e04faaf2c2df52b936521486bc1bbef4",
+      "cell": {
+        "density": 0.6,
+        "fraction": 0.95,
+        "road_length": 1000
+      },
+      "environment": "d85ed6a6e86e802561df4a0b7765aac84240b428ca11259bb02c8c873d2e1f89",
+      "k": 3,
+      "k_planned": 3,
+      "line_means": {
+        "E3graph_s1": 0.08766666666666663,
+        "E3graph_s2": 0.004383333333333313,
+        "E3graph_s3": 0.024549999999999995
+      },
+      "median_line_mean": 0.024549999999999995,
+      "n": 90,
+      "n_planned": 90,
+      "paired_pv_effect": 0.04200000000000004,
+      "replicate": 5,
+      "rule": "frozen_median_line_then_environment",
+      "scope": "complete_E4_cell",
+      "selection": {
+        "absolute_distance_to_median": 0.005750000000000033,
+        "candidates": 30,
+        "environment": "d85ed6a6e86e802561df4a0b7765aac84240b428ca11259bb02c8c873d2e1f89",
+        "median_paired_pv_effect": 0.04775000000000007,
+        "method": null,
+        "paired_pv_effect": 0.04200000000000004,
+        "seed": 5,
+        "selection_rule": "fixed training_line; environment closest to the median paired PV effect; exact ties broken by the smallest seed; no best-trajectory or best-seed selection",
+        "training_line": "E3graph_s3"
+      },
+      "status": "selected",
+      "training_line": "E3graph_s3"
+    },
+    "identity": {
+      "cohort": 1.0,
+      "density": 0.6,
+      "fraction": 0.95,
+      "panel": "E4",
+      "road_length": 1000,
+      "rule": "S0"
+    },
+    "source_manifest": {
+      "SAP": {
+        "E5": {
+          "L1000_environment_streams": "env|rho=xx.xx",
+          "L2000_environment_streams": "env|L=2000|rho=xx.xx",
+          "cross_length_paired_inference": false,
+          "estimands": [
+            "Graph S0 minus H2",
+            "Graph S0 minus B2",
+            "Graph S0 minus B1"
+          ],
+          "intervals": "same crossed descriptive procedure; length-key extension requires focused verification before reporting",
+          "reporting": "per-cell and equal-cell summaries separately for the 18 added-fraction cells and six L2000 cells; do not pool lengths",
+          "resampling": "three Graph S0 whole lines; shared 30 environments across fractions/methods within each density AND length; same Graph training draws across panels",
+          "training_stream": "train|rule=S0|architecture=graph_ppo"
+        },
+        "R": "All panels: mean of per-environment policy/B1 quotients, never ratio of means; zero B1 => undefined, no epsilon; report each line separately. MAIN ONLY: min and pass/fail/undefined counts for selection12, transfer42 and full54. W7: nine selection-domain cells and three rho=0.60 transfer cells, plus all12. E5: report the 18 added-fraction and six L2000 transfer cells as separate panels, never nonexistent full54 coverage.",
+        "W7": {
+          "S_tau_test_scope": false,
+          "environment_streams": "same env|rho=xx.xx streams as main within L1000",
+          "estimands": [
+            "equal-12-cell mean PV speed: scale0.5 minus scale1",
+            "equal-12-cell mean PV speed: scale2 minus scale1"
+          ],
+          "intervals": "same 49999 crossed percentile procedure, descriptive; cohort-key extension must be tested before reporting, not faked as Node/Grid identities",
+          "scope": "S0 only; scales 0.5,1,2; 12 E4 cells, 30 paired environments; scale 1 reused from main",
+          "training_resampling": "three whole independent training lines per scale, independent across scales; same draws across cells and both contrasts; no pairing by ordinal",
+          "training_streams": [
+            "train|rule=S0|architecture=graph_ppo|penalty_scale=0.5",
+            "train|rule=S0|architecture=graph_ppo",
+            "train|rule=S0|architecture=graph_ppo|penalty_scale=2.0"
+          ]
+        },
+        "base_protocol": [
+          {
+            "frozen_copy": "protocol/TZ_PHYSICA_A_REVISION_R1.md",
+            "path": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/TZ_PHYSICA_A_REVISION_R1.md",
+            "sha256": "28a4c5ccd49be3f5e692578937c177335ece8a116fb52793570eab5a0f9200a6"
+          },
+          {
+            "frozen_copy": "protocol/E2_COMPARISON_PROTOCOL.md",
+            "path": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/physica_a_revision_r1/protocol/E2_COMPARISON_PROTOCOL.md",
+            "sha256": "9fe785871394ba2ee7bd7d4ae813990a88402bd8f065a957a8be8bb29ad4788c"
+          },
+          {
+            "frozen_copy": "protocol/E2_DESIGN.json",
+            "path": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/physica_a_revision_r1/protocol/E2_DESIGN.json",
+            "sha256": "b1e495041755d5174e363ec2affff07103ec055bd1b74feacd955b746e8d1d65"
+          },
+          {
+            "frozen_copy": "protocol/MC_TOOLKIT_TECHNICAL_SPEC.md",
+            "path": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/physica_a_revision_r1/protocol/MC_TOOLKIT_TECHNICAL_SPEC.md",
+            "sha256": "98593cbd29adf93242995938830e634857ebb2ab6fb2ce1cfdf05954f893943b"
+          }
+        ],
+        "core_bootstrap": {
+          "bit_generator": "PCG64",
+          "confidence": 0.95,
+          "environment_draw": "one 30-index stream per density, shared across fractions/lines/methods/rules",
+          "environment_identity": "env|rho={density:.2f}",
+          "integer_index_dtype": "int64",
+          "master_seed": 2026102401,
+          "numpy_version": "2.1.2",
+          "quantile_method": "linear",
+          "resamples": 49999,
+          "seed_derivation": "sha256(utf8(str(master) + '|' + identity)) first 8 bytes little-endian",
+          "selection_resampled": false,
+          "simultaneous_or_multiplicity_controlled": false,
+          "training_draw_S0": "independent whole-line streams per architecture; shared across cells and contrasts",
+          "training_draw_S_tau": "independent k validation-feasible whole-line streams per architecture; H fixed",
+          "training_identity": "train|rule={rule}|architecture={architecture}"
+        },
+        "diagnostics": {
+          "full12_profile_sha256": "7e2232d6c928e87c816ef9008c50edaef6522372a56c224655d72d39984c0710",
+          "illustrations": "Each of the 12 E4 cells requires all 90 paired Graph S0/H2 differences. FIRST compute each line mean paired PV-speed difference using math.fsum in replicate order divided by 30; choose the line nearest the median of the three line means, with lexical line-ID tie-break. THEN choose within that line the environment nearest the median of its 30 paired differences, with smallest-replicate tie-break. Medians use NumPy2.1.2 quantile(0.5, method=linear); no epsilon ties. Retain the matching H2 trajectory. Partial cell => no representative selection. Illustration only, never inference or policy/training-line selection.",
+          "mechanism_profile_sha256": "8b8424daea52e11a3d7460bd7a8fbd363f610080c5b4f692f3f317d22f61e49c",
+          "primary_window": "fixed_front_2",
+          "scope": "all main S0 architectures plus B1/B2/H2 on E4; all W7 and E5 tasks; no extra episodes",
+          "window_weighting": "sum velocity / vehicle-time exposure; empty exposure NA; preserve numerators/denominators"
+        },
+        "inference_limits": "Pointwise descriptive approximate intervals conditional on frozen selection, not simultaneous or multiplicity-controlled. Per-cell p-values OFF; no automatic BH/BY. k=0 or absent H => NA; k=1 environment-only.",
+        "main": {
+          "S0_k": {
+            "graph": 3,
+            "grid": 3,
+            "node": 3
+          },
+          "conditional": "Graph C95 excludes the validation-infeasible line, not a test-screen failure. Always report k/3 and individual lines; no unconditional architecture ranking.",
+          "density_bands": [
+            [
+              0.05,
+              0.15
+            ],
+            [
+              0.2,
+              0.3
+            ],
+            [
+              0.35,
+              0.9
+            ]
+          ],
+          "estimands": [
+            "Graph S0 minus Node S0",
+            "Graph S0 minus Grid S0",
+            "each architecture S_0.95 minus H_0.95"
+          ],
+          "primary_k": {
+            "graph": 2,
+            "grid": 3,
+            "node": 3
+          },
+          "sensitivity": "S_0.93 points/all-line plots and pass counts; all .97/.99 infeasible => NA, never fallback",
+          "weighting": "equal whole validation-eligible lines, 30 environments, then equal 54 cells"
+        },
+        "missing": "Affected planned full-grid estimand and CI = NA. No available-case bootstrap, no shrinking validation k, no imputation or test reselection. Technical retries retain exact task ID/seeds under separate budget.",
+        "new_diagnostic_choices": "One-step minimum durations avoid arbitrary persistence filtering; spatial lags exhaust the 41-cell map; temporal lags 0..40 and onset offsets -20..20 are fixed prospectively, not outcome-selected.",
+        "outcomes": [
+          "PV speed",
+          "PV time loss",
+          "stopped fraction",
+          "laps and availability",
+          "background throughput",
+          "paired R",
+          "local vehicle-time speed/stopped fractions",
+          "intervention/opportunity rates"
+        ],
+        "postprocess_source": {
+          "bytes": 76991,
+          "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/python/physica_mc/postprocess.py",
+          "sha256": "d0cd95cde5feb3684d466fbe2edcbcf99252bb2d85f60a1130dc5be1acc684f4"
+        },
+        "statistics_source": {
+          "bytes": 30413,
+          "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/python/physica_mc/statistics.py",
+          "sha256": "c6e8838391dcef0e00c6a84168b4c26b496716f5cdbb9710cd55f0a714fb2538"
+        },
+        "status": "prospectively_frozen_no_test_outputs"
+      },
+      "caveats": [
+        "Snapshot cutoff is not live progress.",
+        "Frames/events do not increase n.",
+        "SD is descriptive; no available-case final grids."
+      ],
+      "dataset_kind": "fresh_test",
+      "deferred_families": {
+        "events": "no supported recorded data in this extraction",
+        "mechanism": "no supported recorded data in this extraction",
+        "onset": "no supported recorded data in this extraction",
+        "profiles": "no supported recorded data in this extraction",
+        "selection": "no supported recorded data in this extraction",
+        "spatial": "no supported recorded data in this extraction",
+        "state": "no supported recorded data in this extraction",
+        "temporal": "no supported recorded data in this extraction",
+        "transitions": "no supported recorded data in this extraction",
+        "windows": "no supported recorded data in this extraction"
+      },
+      "freeze_sha256": "cf3717f4e55cde16ff2f013a9813f95c98caa070fac4094bc9030d3de84ddad4",
+      "min_repeats": 30,
+      "mode": "complete",
+      "profiles": {
+        "full12": "467c080119b4a04cd2406aceb0eeb0daf793971e31ad3c20f56cc6a39997fef9",
+        "mechanism": "f3009dbb00e333ea7a596beaa0423b2709bf6dcb09b31acbc52194cdb0c3482e"
+      },
+      "row_counts": {
+        "coverage.csv": 1023,
+        "episodes.csv": 30690,
+        "points.csv": 136626,
+        "selections.csv": 79
+      },
+      "schema_version": 1,
+      "snapshot": {
+        "created_at_utc": "2026-11-10T03:20:45.917591+00:00",
+        "index": "/workspace/.local/paper-output-final-20261110/stage-global/index.json",
+        "sha256": "9ee0c9f31015a5ebe150ed9038f207ef199fafd7bb4aaf4d2e5bc92b3f0fffa0",
+        "shared_dir": "/cluster/campaigns/physica-fresh-test-20261109T173351Z-run"
+      },
+      "sources": {
+        "frozen_root": "/workspace/.local/science-test-freeze-20261109-v2",
+        "staged_root": "/workspace/.local/paper-output-final-20261110/stage-global/results"
+      },
+      "tables": [
+        "points.csv",
+        "episodes.csv",
+        "coverage.csv",
+        "selections.csv"
+      ]
+    },
+    "episode_ids": {
+      "Graph": "2673abc116a0a040995615c39e8ed10e8463ad2b7770fa45ef36242de461cddd",
+      "H2": "2da11b5e94df7d6bbcf93bd3b0738a55e04faaf2c2df52b936521486bc1bbef4"
+    }
+  },
+  "caption": "final; n=90/90; k=3/3. Frozen DATA-selected paired illustration; not population evidence. Background speed 0..5 cells/step; empty −1 is white, PV −2 a black star; AV outlined, HDV unoutlined. All four physical lanes. Maps: recorded post-step local window [-10,+30]; PV speed 0..6. See selection evidence and episode IDs in metadata. Working atlas size: 11.8 × 9.10489 in; resizing requires visual review.",
+  "question": "What do the DATA-selected paired recorded episodes show?",
+  "render_filters": {},
+  "figure_size_inches": [
+    11.8,
+    9.104888888888892
+  ],
+  "size_policy": "working atlas; resize requires review",
+  "plotted_rows": 12006,
+  "units": [
+    "cells",
+    "cells/step",
+    "physical lane"
+  ],
+  "phases": [
+    "post-step"
+  ],
+  "statuses": [],
+  "support_kinds": [],
+  "fixed_reference_sources": [],
+  "files": [
+    "illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c28db439888.png",
+    "illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c28db439888.pdf"
+  ],
+  "points": "illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c28db439888.csv",
+  "release_provenance": {
+    "source_file": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--c87bb26f6ed6/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c28db439888.csv",
+    "source_sha256": "3f33b7d337b7f3d0f6f22ab86672b363189bbe8d31dde1497f622414ac34ef00",
+    "source_json": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--c87bb26f6ed6/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c28db439888.json",
+    "source_json_sha256": "414389096585221483e65f22373f25b158e55564af0be30a3a6ab847abf9a9e5",
+    "selection_file": "/workspace/.local/paper-output-final-20261110/global-data/illustrations.json",
+    "selection_sha256": "ff769ed8238770fe9ab6d8b743d0dd4b1ea08ae131f73baa3bf98349e0f7308d"
+  },
+  "projection": {
+    "source_sidecar": "recorded_rho0.60_f0.95.csv",
+    "source_sidecar_sha256": "5cce18828cb86fd7c90351e6c4f6e10dff40752d30aa9828f42277dd17c6e663",
+    "source_json_sha256": "414389096585221483e65f22373f25b158e55564af0be30a3a6ab847abf9a9e5",
+    "columns": [
+      "family",
+      "panel",
+      "cohort",
+      "rule",
+      "method",
+      "training_line",
+      "model_id",
+      "road_length",
+      "density",
+      "fraction",
+      "metric",
+      "window",
+      "region",
+      "lane",
+      "vehicle_group",
+      "phase",
+      "x",
+      "x_label",
+      "value",
+      "sd",
+      "ci_low",
+      "ci_high",
+      "interval_kind",
+      "n",
+      "n_planned",
+      "k",
+      "k_planned",
+      "support",
+      "support_kind",
+      "status",
+      "units",
+      "estimand",
+      "source_row",
+      "episode_id",
+      "selection_pool",
+      "displayed_episodes"
+    ],
+    "rows": 12006,
+    "sha256": "7b7228ded00c201145399c886c5915e4a0ee111192c17211f6611615c572b5f0",
+    "payload_sha256": "76763d4bc1b71c73a40040359da8c656015c7751e329b8c79dee66addb747bff",
+    "bytes": 78013,
+    "payload_bytes": 1831534
+  }
+}

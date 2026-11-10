@@ -162,3 +162,41 @@ benchmark_results/
 artifacts/rl/pv_graph_ppo/mixed_big_h128_l3_20m/checkpoints/periodic_iter_*
 artifacts/rl/pv_nongraph_ppo/mixed_node_mlp_matched_20m/checkpoints/periodic_iter_*
 artifacts/rl/pv_nongraph_ppo/mixed_grid_cnn_matched_20m/checkpoints/periodic_iter_*
+paper/
+
+# Preserve local experiments; v1.1 publishes only the Physica A release allowlist.
+/sep_research/
+
+# Private/local material is retained on disk, not part of the v1.1 tree.
+/.release-work/
+/artifacts/
+/reports/
+/paper/
+/review/
+/distil_raw/
+/physica_a_revision_r1/
+/recovery-source17-candidate/
+/finished codex tasks/
+/PLAN.md
+/RevSNFS.md
+/описание.md
+/TZ_*.md
+/review_*.md
+/.devcontainer/
+/docker_stuff/
+/docker-compose.dev.yml
+/outputs/
+/local/
+/mc_toolkit/.local/
+/mc_toolkit/build/
+
+# Keep reusable research Python, not working notebooks/command histories.
+/research/*
+!/research/*.py
+!/research/nograph/
+/research/nograph/*
+!/research/nograph/*.py
+/research/compare_pv_architectures.py
+/research/select_pv_nongraph_checkpoint.py
+/research/train_pv_nongraph_ppo.py
+/research/nograph/evaluate_pv_graph_ppo.py

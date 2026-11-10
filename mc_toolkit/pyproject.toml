@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools==72.1.0", "wheel==0.44.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "physica-mc"
+version = "0.1.0"
+description = "Autonomous Physica A Monte Carlo evaluation and reporting"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["numpy==2.1.2"]
+
+[project.optional-dependencies]
+simulator = ["numba==0.67.0"]
+inference = ["torch==2.5.1", "numba==0.67.0"]
+converter = ["torch==2.5.1", "ray[rllib]==2.57.0", "gymnasium==1.2.2", "cloudpickle==3.1.2"]
+report = ["matplotlib==3.10.0"]
+test = ["pytest==9.1.1"]
+
+[project.scripts]
+physica-mc = "physica_mc.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["physica_mc", "physica_mc.*", "snfs_traffic", "snfs_traffic.*"]
+
+[tool.setuptools.data-files]
+"share/physica-mc" = ["SCIENTIFIC_SOURCE_MANIFEST.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

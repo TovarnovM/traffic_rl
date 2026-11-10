@@ -1,0 +1,138 @@
+{
+  "E5": {
+    "L1000_environment_streams": "env|rho=xx.xx",
+    "L2000_environment_streams": "env|L=2000|rho=xx.xx",
+    "cross_length_paired_inference": false,
+    "estimands": [
+      "Graph S0 minus H2",
+      "Graph S0 minus B2",
+      "Graph S0 minus B1"
+    ],
+    "intervals": "same crossed descriptive procedure; length-key extension requires focused verification before reporting",
+    "reporting": "per-cell and equal-cell summaries separately for the 18 added-fraction cells and six L2000 cells; do not pool lengths",
+    "resampling": "three Graph S0 whole lines; shared 30 environments across fractions/methods within each density AND length; same Graph training draws across panels",
+    "training_stream": "train|rule=S0|architecture=graph_ppo"
+  },
+  "R": "All panels: mean of per-environment policy/B1 quotients, never ratio of means; zero B1 => undefined, no epsilon; report each line separately. MAIN ONLY: min and pass/fail/undefined counts for selection12, transfer42 and full54. W7: nine selection-domain cells and three rho=0.60 transfer cells, plus all12. E5: report the 18 added-fraction and six L2000 transfer cells as separate panels, never nonexistent full54 coverage.",
+  "W7": {
+    "S_tau_test_scope": false,
+    "environment_streams": "same env|rho=xx.xx streams as main within L1000",
+    "estimands": [
+      "equal-12-cell mean PV speed: scale0.5 minus scale1",
+      "equal-12-cell mean PV speed: scale2 minus scale1"
+    ],
+    "intervals": "same 49999 crossed percentile procedure, descriptive; cohort-key extension must be tested before reporting, not faked as Node/Grid identities",
+    "scope": "S0 only; scales 0.5,1,2; 12 E4 cells, 30 paired environments; scale 1 reused from main",
+    "training_resampling": "three whole independent training lines per scale, independent across scales; same draws across cells and both contrasts; no pairing by ordinal",
+    "training_streams": [
+      "train|rule=S0|architecture=graph_ppo|penalty_scale=0.5",
+      "train|rule=S0|architecture=graph_ppo",
+      "train|rule=S0|architecture=graph_ppo|penalty_scale=2.0"
+    ]
+  },
+  "base_protocol": [
+    {
+      "frozen_copy": "protocol/TZ_PHYSICA_A_REVISION_R1.md",
+      "path": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/TZ_PHYSICA_A_REVISION_R1.md",
+      "sha256": "28a4c5ccd49be3f5e692578937c177335ece8a116fb52793570eab5a0f9200a6"
+    },
+    {
+      "frozen_copy": "protocol/E2_COMPARISON_PROTOCOL.md",
+      "path": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/physica_a_revision_r1/protocol/E2_COMPARISON_PROTOCOL.md",
+      "sha256": "9fe785871394ba2ee7bd7d4ae813990a88402bd8f065a957a8be8bb29ad4788c"
+    },
+    {
+      "frozen_copy": "protocol/E2_DESIGN.json",
+      "path": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/physica_a_revision_r1/protocol/E2_DESIGN.json",
+      "sha256": "b1e495041755d5174e363ec2affff07103ec055bd1b74feacd955b746e8d1d65"
+    },
+    {
+      "frozen_copy": "protocol/MC_TOOLKIT_TECHNICAL_SPEC.md",
+      "path": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/physica_a_revision_r1/protocol/MC_TOOLKIT_TECHNICAL_SPEC.md",
+      "sha256": "98593cbd29adf93242995938830e634857ebb2ab6fb2ce1cfdf05954f893943b"
+    }
+  ],
+  "core_bootstrap": {
+    "bit_generator": "PCG64",
+    "confidence": 0.95,
+    "environment_draw": "one 30-index stream per density, shared across fractions/lines/methods/rules",
+    "environment_identity": "env|rho={density:.2f}",
+    "integer_index_dtype": "int64",
+    "master_seed": 2026102401,
+    "numpy_version": "2.1.2",
+    "quantile_method": "linear",
+    "resamples": 49999,
+    "seed_derivation": "sha256(utf8(str(master) + '|' + identity)) first 8 bytes little-endian",
+    "selection_resampled": false,
+    "simultaneous_or_multiplicity_controlled": false,
+    "training_draw_S0": "independent whole-line streams per architecture; shared across cells and contrasts",
+    "training_draw_S_tau": "independent k validation-feasible whole-line streams per architecture; H fixed",
+    "training_identity": "train|rule={rule}|architecture={architecture}"
+  },
+  "diagnostics": {
+    "full12_profile_sha256": "7e2232d6c928e87c816ef9008c50edaef6522372a56c224655d72d39984c0710",
+    "illustrations": "Each of the 12 E4 cells requires all 90 paired Graph S0/H2 differences. FIRST compute each line mean paired PV-speed difference using math.fsum in replicate order divided by 30; choose the line nearest the median of the three line means, with lexical line-ID tie-break. THEN choose within that line the environment nearest the median of its 30 paired differences, with smallest-replicate tie-break. Medians use NumPy2.1.2 quantile(0.5, method=linear); no epsilon ties. Retain the matching H2 trajectory. Partial cell => no representative selection. Illustration only, never inference or policy/training-line selection.",
+    "mechanism_profile_sha256": "8b8424daea52e11a3d7460bd7a8fbd363f610080c5b4f692f3f317d22f61e49c",
+    "primary_window": "fixed_front_2",
+    "scope": "all main S0 architectures plus B1/B2/H2 on E4; all W7 and E5 tasks; no extra episodes",
+    "window_weighting": "sum velocity / vehicle-time exposure; empty exposure NA; preserve numerators/denominators"
+  },
+  "inference_limits": "Pointwise descriptive approximate intervals conditional on frozen selection, not simultaneous or multiplicity-controlled. Per-cell p-values OFF; no automatic BH/BY. k=0 or absent H => NA; k=1 environment-only.",
+  "main": {
+    "S0_k": {
+      "graph": 3,
+      "grid": 3,
+      "node": 3
+    },
+    "conditional": "Graph C95 excludes the validation-infeasible line, not a test-screen failure. Always report k/3 and individual lines; no unconditional architecture ranking.",
+    "density_bands": [
+      [
+        0.05,
+        0.15
+      ],
+      [
+        0.2,
+        0.3
+      ],
+      [
+        0.35,
+        0.9
+      ]
+    ],
+    "estimands": [
+      "Graph S0 minus Node S0",
+      "Graph S0 minus Grid S0",
+      "each architecture S_0.95 minus H_0.95"
+    ],
+    "primary_k": {
+      "graph": 2,
+      "grid": 3,
+      "node": 3
+    },
+    "sensitivity": "S_0.93 points/all-line plots and pass counts; all .97/.99 infeasible => NA, never fallback",
+    "weighting": "equal whole validation-eligible lines, 30 environments, then equal 54 cells"
+  },
+  "missing": "Affected planned full-grid estimand and CI = NA. No available-case bootstrap, no shrinking validation k, no imputation or test reselection. Technical retries retain exact task ID/seeds under separate budget.",
+  "new_diagnostic_choices": "One-step minimum durations avoid arbitrary persistence filtering; spatial lags exhaust the 41-cell map; temporal lags 0..40 and onset offsets -20..20 are fixed prospectively, not outcome-selected.",
+  "outcomes": [
+    "PV speed",
+    "PV time loss",
+    "stopped fraction",
+    "laps and availability",
+    "background throughput",
+    "paired R",
+    "local vehicle-time speed/stopped fractions",
+    "intervention/opportunity rates"
+  ],
+  "postprocess_source": {
+    "bytes": 76991,
+    "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/python/physica_mc/postprocess.py",
+    "sha256": "d0cd95cde5feb3684d466fbe2edcbcf99252bb2d85f60a1130dc5be1acc684f4"
+  },
+  "statistics_source": {
+    "bytes": 30413,
+    "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/python/physica_mc/statistics.py",
+    "sha256": "c6e8838391dcef0e00c6a84168b4c26b496716f5cdbb9710cd55f0a714fb2538"
+  },
+  "status": "prospectively_frozen_no_test_outputs"
+}

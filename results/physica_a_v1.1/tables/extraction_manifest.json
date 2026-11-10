@@ -1,0 +1,119 @@
+[
+  {
+    "output": "tables/main_table_01.tex",
+    "source": "paper/author_sources/mst_pv_current/main.tex",
+    "source_sha256": "92a56a332e6286ed673abb763e75d2e05bc3ccd79ebfe4dbc0dff3f95a3bb72c",
+    "first_line": 301,
+    "last_line": 327,
+    "sha256": "b0dee318674f4f9ce34f4c5b6f292c88aaef6f4962ff95b6abffd3089e96e474"
+  },
+  {
+    "output": "tables/main_table_02.tex",
+    "source": "paper/author_sources/mst_pv_current/main.tex",
+    "source_sha256": "92a56a332e6286ed673abb763e75d2e05bc3ccd79ebfe4dbc0dff3f95a3bb72c",
+    "first_line": 838,
+    "last_line": 857,
+    "sha256": "f134f18af1cc90838c219168f8c6db071fa3d315b43d79de245fe02cf0d3166b"
+  },
+  {
+    "output": "tables/main_table_03.tex",
+    "source": "paper/author_sources/mst_pv_current/main.tex",
+    "source_sha256": "92a56a332e6286ed673abb763e75d2e05bc3ccd79ebfe4dbc0dff3f95a3bb72c",
+    "first_line": 933,
+    "last_line": 961,
+    "sha256": "7a9b88acb895f2f6204e78efd16d991240f2fd9b7dd4bdfa794de6b165549094"
+  },
+  {
+    "output": "tables/main_table_04.tex",
+    "source": "paper/author_sources/mst_pv_current/main.tex",
+    "source_sha256": "92a56a332e6286ed673abb763e75d2e05bc3ccd79ebfe4dbc0dff3f95a3bb72c",
+    "first_line": 977,
+    "last_line": 991,
+    "sha256": "17f86f5b9812ea1f662c3b687f35d61f30f237f983782c46aae3a3eeeff785ee"
+  },
+  {
+    "output": "tables/main_table_05.tex",
+    "source": "paper/author_sources/mst_pv_current/main.tex",
+    "source_sha256": "92a56a332e6286ed673abb763e75d2e05bc3ccd79ebfe4dbc0dff3f95a3bb72c",
+    "first_line": 1099,
+    "last_line": 1106,
+    "sha256": "30c0954bbe506a2d2956b33bbabc96e99976fc36b2db74130d9736989fb0ac1a"
+  },
+  {
+    "output": "tables/revision_supplement_table_01.tex",
+    "source": "paper/author_sources/mst_pv_current/revision_supplement.tex",
+    "source_sha256": "fcaf1eea1c0f89057c8f66428e29a9cbf837a02eefa19a408f5eb330d049ea6e",
+    "first_line": 25,
+    "last_line": 50,
+    "sha256": "7f7655034a62aec62a5e43c3b98aa89400e5980aaae69de0deea853f9ba3b73a"
+  },
+  {
+    "output": "tables/revision_supplement_table_02.tex",
+    "source": "paper/author_sources/mst_pv_current/revision_supplement.tex",
+    "source_sha256": "fcaf1eea1c0f89057c8f66428e29a9cbf837a02eefa19a408f5eb330d049ea6e",
+    "first_line": 69,
+    "last_line": 85,
+    "sha256": "b275d134c05cbbe28d97784d5667597a09e20fb1a908efe1ed68e7513913f1a8"
+  },
+  {
+    "output": "tables/revision_supplement_table_03.tex",
+    "source": "paper/author_sources/mst_pv_current/revision_supplement.tex",
+    "source_sha256": "fcaf1eea1c0f89057c8f66428e29a9cbf837a02eefa19a408f5eb330d049ea6e",
+    "first_line": 103,
+    "last_line": 108,
+    "sha256": "1b88b314ed2c58473448195054cf1f31a51cbaff06406f4d7301e60803d9becf"
+  },
+  {
+    "output": "tables/revision_supplement_table_04.tex",
+    "source": "paper/author_sources/mst_pv_current/revision_supplement.tex",
+    "source_sha256": "fcaf1eea1c0f89057c8f66428e29a9cbf837a02eefa19a408f5eb330d049ea6e",
+    "first_line": 211,
+    "last_line": 228,
+    "sha256": "9240833bf395e1f233495748c21572866c9c11976126ad8863c629fecc3aa731"
+  },
+  {
+    "output": "tables/revision_effects.csv",
+    "source": "paper/revision-20261110/source/tables/revision_effects.csv",
+    "sha256": "17ac01b79b7c748952ebd31c0bc8ab1e207ae4be47d5bc9b16161b11a445b708"
+  },
+  {
+    "output": "tables/revision_effects.tex",
+    "source": "paper/revision-20261110/source/tables/revision_effects.tex",
+    "sha256": "cf619dd3989ac35ade38bf20eb4800803ec5a179e5742e4097341370054cb361"
+  },
+  {
+    "output": "tables/revision_all42domains.csv",
+    "source": "paper/revision-20261110/source/tables/revision_all42domains.csv",
+    "sha256": "36d8d326e3cfaad35729901abb6614dfe9f8637a45ca134851c75aa76e0dc41d"
+  },
+  {
+    "output": "tables/revision_all42domains.tex",
+    "source": "paper/revision-20261110/source/tables/revision_all42domains.tex",
+    "sha256": "7724a6eccf3fb40c33a572cc36925a5ba142f495d5e4592957eb74e2d64cafe2"
+  },
+  {
+    "output": "tables/revision_background_audit.csv",
+    "source": "paper/revision-20261110/source/tables/revision_background_audit.csv",
+    "sha256": "f38b60b40be618e158dcf9b38445ee9649be5996892bf5200498e32487f1b4b1"
+  },
+  {
+    "output": "tables/revision_background_audit.tex",
+    "source": "paper/revision-20261110/source/tables/revision_background_audit.tex",
+    "sha256": "84f51a59cde476b1075cee2a1fcd2f4d78731ef8e824fb4392509aa0d39caad9"
+  },
+  {
+    "output": "tables/revision_recorded_pairs.csv",
+    "source": "paper/revision-20261110/source/tables/revision_recorded_pairs.csv",
+    "sha256": "0ef840eda553bc72f58d3118d0107de738578fba7c1230358af7240f3603ada5"
+  },
+  {
+    "output": "tables/revision_recorded_pairs.tex",
+    "source": "paper/revision-20261110/source/tables/revision_recorded_pairs.tex",
+    "sha256": "0e605281e7eb8b105e4e0f399531f2362039a62474c9bb95b4663ea7523d87af"
+  },
+  {
+    "output": "tables/checkpoint_selection_rows.tex",
+    "source": "paper/revision-20261110/source/tables/checkpoint_selection_rows.tex",
+    "sha256": "1cf3bd254cff8a5db03e5559e9f1cc9b8a5f61af0fd75cdfcf5554a7acaae916"
+  }
+]

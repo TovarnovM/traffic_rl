@@ -1,0 +1,743 @@
+[
+  {
+    "C": null,
+    "candidate_id": "iter_000900",
+    "cohort": "main",
+    "eligibility_sha256": "92134085b8dea915ec232b6db630fdbcd32bdabc60ade40dbdca4a2782967625",
+    "env_steps": 14745600,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "E3graph_s1"
+    },
+    "manifest": {
+      "bytes": 22603,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/163b5e31baa59090ac7bdcbbbed78e819339a109219833978bb65777b3671775/manifest.json",
+      "sha256": "0d7516a80b229e3030dd31bfe3bbe96a5e015522de5b7f415f1ea83f8ce39586"
+    },
+    "method": "graph",
+    "model_id": "163b5e31baa59090ac7bdcbbbed78e819339a109219833978bb65777b3671775",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261106/preparation/numeric-143-v1/bundles/E3graph_s1__iter_000900",
+      "eligibility_sha256": "92134085b8dea915ec232b6db630fdbcd32bdabc60ade40dbdca4a2782967625",
+      "identity": {
+        "candidate_id": "iter_000900",
+        "env_steps": 14745600,
+        "method": "graph",
+        "training_line": "E3graph_s1"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "0d7516a80b229e3030dd31bfe3bbe96a5e015522de5b7f415f1ea83f8ce39586"
+    },
+    "policy_id": "E3graph_s1/iter_000900",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1510000001",
+    "weights": {
+      "bytes": 1434994,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/163b5e31baa59090ac7bdcbbbed78e819339a109219833978bb65777b3671775/weights.npz",
+      "sha256": "5b9fd9681a1b7c2e4688364a326ce147c31d41e82807327b7f6901831f4cf293"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_001221",
+    "cohort": "main",
+    "eligibility_sha256": "656444509d95ff935f873bac25f7b918852f21cb26ff0e4cf416353b2a50d34d",
+    "env_steps": 20004864,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "E3graph_s2"
+    },
+    "manifest": {
+      "bytes": 22606,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/58238aca4819972494f7f474a00697a7450ea280636742bfbcca9e6b58b38839/manifest.json",
+      "sha256": "bfe7ec304d271c546e0a4d3c5690bd45a8cbad92c9ac27c0fe0a66234f38d461"
+    },
+    "method": "graph",
+    "model_id": "58238aca4819972494f7f474a00697a7450ea280636742bfbcca9e6b58b38839",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261106/preparation/numeric-143-v1/bundles/E3graph_s2__iter_001221",
+      "eligibility_sha256": "656444509d95ff935f873bac25f7b918852f21cb26ff0e4cf416353b2a50d34d",
+      "identity": {
+        "candidate_id": "iter_001221",
+        "env_steps": 20004864,
+        "method": "graph",
+        "training_line": "E3graph_s2"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "bfe7ec304d271c546e0a4d3c5690bd45a8cbad92c9ac27c0fe0a66234f38d461"
+    },
+    "policy_id": "E3graph_s2/iter_001221",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1520000001",
+    "weights": {
+      "bytes": 1434994,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/58238aca4819972494f7f474a00697a7450ea280636742bfbcca9e6b58b38839/weights.npz",
+      "sha256": "5f1b3e7a2f00a066beed5eb9af52863cc64e7c5dc02b18ecdb3b10ca6cf8fcd0"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_000500",
+    "cohort": "main",
+    "eligibility_sha256": "71bbe163dd9cdf4fecde9bfcf1d0db953a7cdaf82dd608e11301abb92742406f",
+    "env_steps": 8192000,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "E3graph_s3"
+    },
+    "manifest": {
+      "bytes": 22601,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/30997dee6364cf473eb58f4d9382fa938b3c99a323d4f9115679c7062b7d050f/manifest.json",
+      "sha256": "16d1904fc56a6e4453e546071d9fd8841d35da9bbe9de94d321f5e9a33e18279"
+    },
+    "method": "graph",
+    "model_id": "30997dee6364cf473eb58f4d9382fa938b3c99a323d4f9115679c7062b7d050f",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261106/preparation/numeric-143-v1/bundles/E3graph_s3__iter_000500",
+      "eligibility_sha256": "71bbe163dd9cdf4fecde9bfcf1d0db953a7cdaf82dd608e11301abb92742406f",
+      "identity": {
+        "candidate_id": "iter_000500",
+        "env_steps": 8192000,
+        "method": "graph",
+        "training_line": "E3graph_s3"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "16d1904fc56a6e4453e546071d9fd8841d35da9bbe9de94d321f5e9a33e18279"
+    },
+    "policy_id": "E3graph_s3/iter_000500",
+    "rules": [
+      "S0",
+      "S_0.93"
+    ],
+    "scale": 1.0,
+    "training_seed": "1530000001",
+    "weights": {
+      "bytes": 1434994,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/30997dee6364cf473eb58f4d9382fa938b3c99a323d4f9115679c7062b7d050f/weights.npz",
+      "sha256": "71364bf0360a4b9b441c73fc318bc855a4ab7c02b590fe5c742d90321e8ba2d2"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_001221",
+    "cohort": "w7",
+    "eligibility_sha256": "6b9fa8cf6b91049e88531c18e655ddc65c2d0915cf803d2e2208051bb2f5e775",
+    "env_steps": 20004864,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "w7-double-s1"
+    },
+    "manifest": {
+      "bytes": 17748,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/e18b5aee0f3daa670d1c344f02304dd4e9364e78a57d8f7caca7a07dde96686d/manifest.json",
+      "sha256": "be21afcba7bc3f7bcfa3cfcf97a49f01236b070d3672b003a6edfe4e1ae171f5"
+    },
+    "method": "graph",
+    "model_id": "e18b5aee0f3daa670d1c344f02304dd4e9364e78a57d8f7caca7a07dde96686d",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261106/preparation/numeric-143-v1/bundles/w7-double-s1__iter_001221",
+      "eligibility_sha256": "6b9fa8cf6b91049e88531c18e655ddc65c2d0915cf803d2e2208051bb2f5e775",
+      "identity": {
+        "candidate_id": "iter_001221",
+        "env_steps": 20004864,
+        "method": "graph",
+        "training_line": "w7-double-s1"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "be21afcba7bc3f7bcfa3cfcf97a49f01236b070d3672b003a6edfe4e1ae171f5"
+    },
+    "policy_id": "w7-double-s1/iter_001221",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 2.0,
+    "training_seed": "1640000001",
+    "weights": {
+      "bytes": 1434994,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/e18b5aee0f3daa670d1c344f02304dd4e9364e78a57d8f7caca7a07dde96686d/weights.npz",
+      "sha256": "fe7320f43d0647ce7c6fd2ddda8acb9e783a7d3d316d2a22a72bba20be75b7e8"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_001221",
+    "cohort": "w7",
+    "eligibility_sha256": "7e3ff99c4d0b047ce386f418e5344522ce91a46dd1b78dd2e5820a7e97fc280d",
+    "env_steps": 20004864,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "w7-double-s2"
+    },
+    "manifest": {
+      "bytes": 17748,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/ff5cdd6fcc3c899ebfb9402860dbe2a67da871d6ad8bb0cd78b1459d3cd3c7be/manifest.json",
+      "sha256": "58fa766b499754404d3acc93abdb4d916eff26b9605ddd9a56777d2884614180"
+    },
+    "method": "graph",
+    "model_id": "ff5cdd6fcc3c899ebfb9402860dbe2a67da871d6ad8bb0cd78b1459d3cd3c7be",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261108-full195/preparation/model52/output/numeric52/bundles/w7-double-s2__iter_001221",
+      "eligibility_sha256": "7e3ff99c4d0b047ce386f418e5344522ce91a46dd1b78dd2e5820a7e97fc280d",
+      "identity": {
+        "candidate_id": "iter_001221",
+        "env_steps": 20004864,
+        "method": "graph",
+        "training_line": "w7-double-s2"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "58fa766b499754404d3acc93abdb4d916eff26b9605ddd9a56777d2884614180"
+    },
+    "policy_id": "w7-double-s2/iter_001221",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 2.0,
+    "training_seed": "1650000001",
+    "weights": {
+      "bytes": 1434994,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/ff5cdd6fcc3c899ebfb9402860dbe2a67da871d6ad8bb0cd78b1459d3cd3c7be/weights.npz",
+      "sha256": "f7924f092820d995e90c3239e76e53974eeb00bc816d00e1475eaffad372536b"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_001200",
+    "cohort": "w7",
+    "eligibility_sha256": "7e3ff99c4d0b047ce386f418e5344522ce91a46dd1b78dd2e5820a7e97fc280d",
+    "env_steps": 19660800,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "w7-double-s3"
+    },
+    "manifest": {
+      "bytes": 17748,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/dc3ff52384727d5bf05e73c390b9dab7eed1c89909ad773854ec48c72c5a1a41/manifest.json",
+      "sha256": "61d7bb9efb75b7183c19eed80c394255445776db9dcacaa8f4e04e99158acca0"
+    },
+    "method": "graph",
+    "model_id": "dc3ff52384727d5bf05e73c390b9dab7eed1c89909ad773854ec48c72c5a1a41",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261108-full195/preparation/model52/output/numeric52/bundles/w7-double-s3__iter_001200",
+      "eligibility_sha256": "7e3ff99c4d0b047ce386f418e5344522ce91a46dd1b78dd2e5820a7e97fc280d",
+      "identity": {
+        "candidate_id": "iter_001200",
+        "env_steps": 19660800,
+        "method": "graph",
+        "training_line": "w7-double-s3"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "61d7bb9efb75b7183c19eed80c394255445776db9dcacaa8f4e04e99158acca0"
+    },
+    "policy_id": "w7-double-s3/iter_001200",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 2.0,
+    "training_seed": "1660000001",
+    "weights": {
+      "bytes": 1434994,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/dc3ff52384727d5bf05e73c390b9dab7eed1c89909ad773854ec48c72c5a1a41/weights.npz",
+      "sha256": "738fd6a4e980d6dc0de4a787b1b295f806beeee7c055c725fdacbbd6eacdf2b0"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_000400",
+    "cohort": "w7",
+    "eligibility_sha256": "60fbed020ea77231c15251ede0cd3eb61069e13695d275934afecbef6cc16519",
+    "env_steps": 6553600,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "w7-half-s1"
+    },
+    "manifest": {
+      "bytes": 17747,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/e04a0c74e9cf786bb706f7747ae197c4ca842e71e385535332e7f5eb91c148d1/manifest.json",
+      "sha256": "e033b5b7b188b0b5947ef701f7783874530e0f7943f485b779ab5eb3ade2fcbf"
+    },
+    "method": "graph",
+    "model_id": "e04a0c74e9cf786bb706f7747ae197c4ca842e71e385535332e7f5eb91c148d1",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261106/preparation/numeric-143-v1/bundles/w7-half-s1__iter_000400",
+      "eligibility_sha256": "60fbed020ea77231c15251ede0cd3eb61069e13695d275934afecbef6cc16519",
+      "identity": {
+        "candidate_id": "iter_000400",
+        "env_steps": 6553600,
+        "method": "graph",
+        "training_line": "w7-half-s1"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "e033b5b7b188b0b5947ef701f7783874530e0f7943f485b779ab5eb3ade2fcbf"
+    },
+    "policy_id": "w7-half-s1/iter_000400",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 0.5,
+    "training_seed": "1610000001",
+    "weights": {
+      "bytes": 1434994,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/e04a0c74e9cf786bb706f7747ae197c4ca842e71e385535332e7f5eb91c148d1/weights.npz",
+      "sha256": "aafeeca287a782bc0eb0002537671075bc8eac74c4d298b30f85cb1f5120cf82"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_001200",
+    "cohort": "w7",
+    "eligibility_sha256": "7e3ff99c4d0b047ce386f418e5344522ce91a46dd1b78dd2e5820a7e97fc280d",
+    "env_steps": 19660800,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "w7-half-s2"
+    },
+    "manifest": {
+      "bytes": 17750,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/0280bedf8f98ed5f5ed04f6f5d5bd1a686090e06bd8f6164b01a8a7b2edc40d2/manifest.json",
+      "sha256": "df740727ee55479645e123c7cc643bfaba48a92998426787178aaa8288e166be"
+    },
+    "method": "graph",
+    "model_id": "0280bedf8f98ed5f5ed04f6f5d5bd1a686090e06bd8f6164b01a8a7b2edc40d2",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261108-full195/preparation/model52/output/numeric52/bundles/w7-half-s2__iter_001200",
+      "eligibility_sha256": "7e3ff99c4d0b047ce386f418e5344522ce91a46dd1b78dd2e5820a7e97fc280d",
+      "identity": {
+        "candidate_id": "iter_001200",
+        "env_steps": 19660800,
+        "method": "graph",
+        "training_line": "w7-half-s2"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "df740727ee55479645e123c7cc643bfaba48a92998426787178aaa8288e166be"
+    },
+    "policy_id": "w7-half-s2/iter_001200",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 0.5,
+    "training_seed": "1620000001",
+    "weights": {
+      "bytes": 1434994,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/0280bedf8f98ed5f5ed04f6f5d5bd1a686090e06bd8f6164b01a8a7b2edc40d2/weights.npz",
+      "sha256": "1371f1ac29181de25f56fc1fde8d9b6926a62d9998ee3129a01215f5ebcfca31"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_001100",
+    "cohort": "w7",
+    "eligibility_sha256": "7e3ff99c4d0b047ce386f418e5344522ce91a46dd1b78dd2e5820a7e97fc280d",
+    "env_steps": 18022400,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "w7-half-s3"
+    },
+    "manifest": {
+      "bytes": 17750,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/f5a9b3951c0f8034f0e5ab40ea24f91a8fa60ad10d29b264a9c3ff93aa72dc2e/manifest.json",
+      "sha256": "2155cff5509f9364ba9c52671e43b6228d807f004c2af47e163b0da99295088d"
+    },
+    "method": "graph",
+    "model_id": "f5a9b3951c0f8034f0e5ab40ea24f91a8fa60ad10d29b264a9c3ff93aa72dc2e",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261108-full195/preparation/model52/output/numeric52/bundles/w7-half-s3__iter_001100",
+      "eligibility_sha256": "7e3ff99c4d0b047ce386f418e5344522ce91a46dd1b78dd2e5820a7e97fc280d",
+      "identity": {
+        "candidate_id": "iter_001100",
+        "env_steps": 18022400,
+        "method": "graph",
+        "training_line": "w7-half-s3"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "2155cff5509f9364ba9c52671e43b6228d807f004c2af47e163b0da99295088d"
+    },
+    "policy_id": "w7-half-s3/iter_001100",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 0.5,
+    "training_seed": "1630000001",
+    "weights": {
+      "bytes": 1434994,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/f5a9b3951c0f8034f0e5ab40ea24f91a8fa60ad10d29b264a9c3ff93aa72dc2e/weights.npz",
+      "sha256": "42c25352cc0889022d2cbd3b9be9d799319f31075d2d6d42ca2aaa25ab4c16d1"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_000900",
+    "cohort": "main",
+    "eligibility_sha256": "226a5dd53da9a909e24b00c7f9710023195b863e69b524c237afecb6d60bddf5",
+    "env_steps": 14745600,
+    "group": {
+      "architecture": "grid",
+      "family": "RL",
+      "training_line": "E3grid_s1"
+    },
+    "manifest": {
+      "bytes": 24172,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/906510729a8e8eaea487fd58573a73657d5628532815d882caae663dc241cfbc/manifest.json",
+      "sha256": "c1f84144dfa9055e4d4dc7dfd8af0c01bec1c6902a7a17801c18bc379c49f151"
+    },
+    "method": "grid",
+    "model_id": "906510729a8e8eaea487fd58573a73657d5628532815d882caae663dc241cfbc",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261106/preparation/numeric-143-v1/bundles/E3grid_s1__iter_000900",
+      "eligibility_sha256": "226a5dd53da9a909e24b00c7f9710023195b863e69b524c237afecb6d60bddf5",
+      "identity": {
+        "candidate_id": "iter_000900",
+        "env_steps": 14745600,
+        "method": "grid",
+        "training_line": "E3grid_s1"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "c1f84144dfa9055e4d4dc7dfd8af0c01bec1c6902a7a17801c18bc379c49f151"
+    },
+    "policy_id": "E3grid_s1/iter_000900",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1570000001",
+    "weights": {
+      "bytes": 1428754,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/906510729a8e8eaea487fd58573a73657d5628532815d882caae663dc241cfbc/weights.npz",
+      "sha256": "6a40b6bf12c047960318e856271c5ecb5b0d5736fa2b68261aa5574aef6dd94a"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_000400",
+    "cohort": "main",
+    "eligibility_sha256": "a9ef3bd1aa3ecbdfa74f8278a30bce8899de05f5264f997bc2e9c11eb6a7946a",
+    "env_steps": 6553600,
+    "group": {
+      "architecture": "grid",
+      "family": "RL",
+      "training_line": "E3grid_s2"
+    },
+    "manifest": {
+      "bytes": 24170,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/d654cead4b405913206583d41dea6b699ce6fef573af0ae39d97afc9a7ccc012/manifest.json",
+      "sha256": "28cbb8832f3edf2c3f2cb98bd13dbcf3539aef0bef0c859bb7d5ae83adb1a207"
+    },
+    "method": "grid",
+    "model_id": "d654cead4b405913206583d41dea6b699ce6fef573af0ae39d97afc9a7ccc012",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261106/preparation/numeric-143-v1/bundles/E3grid_s2__iter_000400",
+      "eligibility_sha256": "a9ef3bd1aa3ecbdfa74f8278a30bce8899de05f5264f997bc2e9c11eb6a7946a",
+      "identity": {
+        "candidate_id": "iter_000400",
+        "env_steps": 6553600,
+        "method": "grid",
+        "training_line": "E3grid_s2"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "28cbb8832f3edf2c3f2cb98bd13dbcf3539aef0bef0c859bb7d5ae83adb1a207"
+    },
+    "policy_id": "E3grid_s2/iter_000400",
+    "rules": [
+      "S0",
+      "S_0.93"
+    ],
+    "scale": 1.0,
+    "training_seed": "1580000001",
+    "weights": {
+      "bytes": 1428754,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/d654cead4b405913206583d41dea6b699ce6fef573af0ae39d97afc9a7ccc012/weights.npz",
+      "sha256": "c38857429b469d618daa66b6c1d7ff523bee02c4a395f049f4fce3af07484cac"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_000600",
+    "cohort": "main",
+    "eligibility_sha256": "504038ecf587976badddc7700f1c19ae08e6fdd972ae3e55d20a56c91d9c53b0",
+    "env_steps": 9830400,
+    "group": {
+      "architecture": "grid",
+      "family": "RL",
+      "training_line": "E3grid_s2"
+    },
+    "manifest": {
+      "bytes": 24170,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/de0cc61677704534110d5b2ee20114425946bd62769b0106f87acd0d1e098dd3/manifest.json",
+      "sha256": "aac615a697ee5afb2d4497b3c0f1659dc68a380eae276eb05cba648e2d20cc6c"
+    },
+    "method": "grid",
+    "model_id": "de0cc61677704534110d5b2ee20114425946bd62769b0106f87acd0d1e098dd3",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261106/preparation/numeric-143-v1/bundles/E3grid_s2__iter_000600",
+      "eligibility_sha256": "504038ecf587976badddc7700f1c19ae08e6fdd972ae3e55d20a56c91d9c53b0",
+      "identity": {
+        "candidate_id": "iter_000600",
+        "env_steps": 9830400,
+        "method": "grid",
+        "training_line": "E3grid_s2"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "aac615a697ee5afb2d4497b3c0f1659dc68a380eae276eb05cba648e2d20cc6c"
+    },
+    "policy_id": "E3grid_s2/iter_000600",
+    "rules": [
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1580000001",
+    "weights": {
+      "bytes": 1428754,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/de0cc61677704534110d5b2ee20114425946bd62769b0106f87acd0d1e098dd3/weights.npz",
+      "sha256": "0dd343ce532224a9be1f46522978e35bdf4b9b9fc16f0d55fc94155dca83f9b2"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_000700",
+    "cohort": "main",
+    "eligibility_sha256": "ac6627e2ae074f47fd47c28889ee53e2c90b5a2efe6630f9cfe3b04b24c8a608",
+    "env_steps": 11468800,
+    "group": {
+      "architecture": "grid",
+      "family": "RL",
+      "training_line": "E3grid_s3"
+    },
+    "manifest": {
+      "bytes": 24172,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/6aef533250224fdce6d8c6b79addc30f927faaa9dd7e5c85af0e3afcd4b80fbb/manifest.json",
+      "sha256": "523a4eba40beac1398e70a301fbf9df1faf73879ac7d440a5a0ca12a771b6b16"
+    },
+    "method": "grid",
+    "model_id": "6aef533250224fdce6d8c6b79addc30f927faaa9dd7e5c85af0e3afcd4b80fbb",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261106/preparation/numeric-143-v1/bundles/E3grid_s3__iter_000700",
+      "eligibility_sha256": "ac6627e2ae074f47fd47c28889ee53e2c90b5a2efe6630f9cfe3b04b24c8a608",
+      "identity": {
+        "candidate_id": "iter_000700",
+        "env_steps": 11468800,
+        "method": "grid",
+        "training_line": "E3grid_s3"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "523a4eba40beac1398e70a301fbf9df1faf73879ac7d440a5a0ca12a771b6b16"
+    },
+    "policy_id": "E3grid_s3/iter_000700",
+    "rules": [
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1590000001",
+    "weights": {
+      "bytes": 1428754,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/6aef533250224fdce6d8c6b79addc30f927faaa9dd7e5c85af0e3afcd4b80fbb/weights.npz",
+      "sha256": "f3197f6b4c471199e735ae8e39cbf3c2fc98568807e265adad3ddb2a6b312d87"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_000900",
+    "cohort": "main",
+    "eligibility_sha256": "c7788f117f5f3a8bb6a5f469b059321ebcf2a4f444871005693fb9405d1f2bd0",
+    "env_steps": 14745600,
+    "group": {
+      "architecture": "grid",
+      "family": "RL",
+      "training_line": "E3grid_s3"
+    },
+    "manifest": {
+      "bytes": 24172,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/6026f6bf6a9e7399ea6d3a3aeafdd5b9fd4281c4410d2283e4a5e8536bb5662e/manifest.json",
+      "sha256": "f0186239811ac4d8f43d4159569bce80e932c1699db188cb0d1b7ececb460bd4"
+    },
+    "method": "grid",
+    "model_id": "6026f6bf6a9e7399ea6d3a3aeafdd5b9fd4281c4410d2283e4a5e8536bb5662e",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261106/preparation/numeric-143-v1/bundles/E3grid_s3__iter_000900",
+      "eligibility_sha256": "c7788f117f5f3a8bb6a5f469b059321ebcf2a4f444871005693fb9405d1f2bd0",
+      "identity": {
+        "candidate_id": "iter_000900",
+        "env_steps": 14745600,
+        "method": "grid",
+        "training_line": "E3grid_s3"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "f0186239811ac4d8f43d4159569bce80e932c1699db188cb0d1b7ececb460bd4"
+    },
+    "policy_id": "E3grid_s3/iter_000900",
+    "rules": [
+      "S0",
+      "S_0.93"
+    ],
+    "scale": 1.0,
+    "training_seed": "1590000001",
+    "weights": {
+      "bytes": 1428754,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/6026f6bf6a9e7399ea6d3a3aeafdd5b9fd4281c4410d2283e4a5e8536bb5662e/weights.npz",
+      "sha256": "32cbb7ea8349371f2f12b592ec7b21f1ba18c853a0465289feda6e042ef3b105"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_001000",
+    "cohort": "main",
+    "eligibility_sha256": "ec2b31f23b4de7b330433228eb810b2d07d6729b13fd257576832301b9388530",
+    "env_steps": 16384000,
+    "group": {
+      "architecture": "node",
+      "family": "RL",
+      "training_line": "E3node_s1"
+    },
+    "manifest": {
+      "bytes": 22596,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/d3693911dd27b4fddfe29ea92637c535dfeeb6ce66aee55e9ef2e99eaf90c619/manifest.json",
+      "sha256": "d794354d083b733d3a19fa25d164786be007afee691b6b4a7bdd123205968784"
+    },
+    "method": "node",
+    "model_id": "d3693911dd27b4fddfe29ea92637c535dfeeb6ce66aee55e9ef2e99eaf90c619",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261106/preparation/numeric-143-v1/bundles/E3node_s1__iter_001000",
+      "eligibility_sha256": "ec2b31f23b4de7b330433228eb810b2d07d6729b13fd257576832301b9388530",
+      "identity": {
+        "candidate_id": "iter_001000",
+        "env_steps": 16384000,
+        "method": "node",
+        "training_line": "E3node_s1"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "d794354d083b733d3a19fa25d164786be007afee691b6b4a7bdd123205968784"
+    },
+    "policy_id": "E3node_s1/iter_001000",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1540000001",
+    "weights": {
+      "bytes": 1430206,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/d3693911dd27b4fddfe29ea92637c535dfeeb6ce66aee55e9ef2e99eaf90c619/weights.npz",
+      "sha256": "d90690eabfdea56e861db66491307b7dcf7f4071d60dd04b75367133bef7a72a"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_001221",
+    "cohort": "main",
+    "eligibility_sha256": "2d492fc5414d7fcf9b58e73f0668c799249a3567399dc9a14032ef3471ea7511",
+    "env_steps": 20004864,
+    "group": {
+      "architecture": "node",
+      "family": "RL",
+      "training_line": "E3node_s2"
+    },
+    "manifest": {
+      "bytes": 22596,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/b78dd41958e85e2d3d8c5ca8ceda745e2f94d6e6c050b006908c088718f6872a/manifest.json",
+      "sha256": "71dd237ccf00dcb4830ebf92ca36874affada3c262e26a9f3c98f8a96a94051b"
+    },
+    "method": "node",
+    "model_id": "b78dd41958e85e2d3d8c5ca8ceda745e2f94d6e6c050b006908c088718f6872a",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261106/preparation/numeric-143-v1/bundles/E3node_s2__iter_001221",
+      "eligibility_sha256": "2d492fc5414d7fcf9b58e73f0668c799249a3567399dc9a14032ef3471ea7511",
+      "identity": {
+        "candidate_id": "iter_001221",
+        "env_steps": 20004864,
+        "method": "node",
+        "training_line": "E3node_s2"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "71dd237ccf00dcb4830ebf92ca36874affada3c262e26a9f3c98f8a96a94051b"
+    },
+    "policy_id": "E3node_s2/iter_001221",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1550000001",
+    "weights": {
+      "bytes": 1430206,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/b78dd41958e85e2d3d8c5ca8ceda745e2f94d6e6c050b006908c088718f6872a/weights.npz",
+      "sha256": "f1a3ec8713dadf34eb4532f09e64cd541ead3914937518bfa5ad1c90eeffe5fc"
+    }
+  },
+  {
+    "C": null,
+    "candidate_id": "iter_001000",
+    "cohort": "main",
+    "eligibility_sha256": "9047be698c84d541096609b0ab875fab082c7be099f5b92960ee3d6fe6c9cb12",
+    "env_steps": 16384000,
+    "group": {
+      "architecture": "node",
+      "family": "RL",
+      "training_line": "E3node_s3"
+    },
+    "manifest": {
+      "bytes": 22596,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/09b931dd388bb5f918c2ca986a1821f32bb2e55dc50f0d8d34f8526593a97d0a/manifest.json",
+      "sha256": "b2b24c325845522686caf02d523b6a03ba916ea53872a98e5d3a5c1dd9d7f4fb"
+    },
+    "method": "node",
+    "model_id": "09b931dd388bb5f918c2ca986a1821f32bb2e55dc50f0d8d34f8526593a97d0a",
+    "original_registry_entry": {
+      "bundle_path": "/workspace/.local/science-validation-20261106/preparation/numeric-143-v1/bundles/E3node_s3__iter_001000",
+      "eligibility_sha256": "9047be698c84d541096609b0ab875fab082c7be099f5b92960ee3d6fe6c9cb12",
+      "identity": {
+        "candidate_id": "iter_001000",
+        "env_steps": 16384000,
+        "method": "node",
+        "training_line": "E3node_s3"
+      },
+      "identity_verified": true,
+      "manifest_sha256": "b2b24c325845522686caf02d523b6a03ba916ea53872a98e5d3a5c1dd9d7f4fb"
+    },
+    "policy_id": "E3node_s3/iter_001000",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1560000001",
+    "weights": {
+      "bytes": 1430206,
+      "path": "/cluster/campaigns/physica-mc-full195-20261108/inputs/models/09b931dd388bb5f918c2ca986a1821f32bb2e55dc50f0d8d34f8526593a97d0a/weights.npz",
+      "sha256": "9b079ddd29ea43f8e83702632168967f1c42bfc0acac2af296624ee02e2776b6"
+    }
+  }
+]

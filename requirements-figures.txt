@@ -1,0 +1,3 @@
+# Recorded publication rendering versions; installation not run for v1.1.
+numpy==2.1.2
+matplotlib==3.10.0

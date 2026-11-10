@@ -1,0 +1,107 @@
+[
+  {
+    "line": "E3graph_s1",
+    "architecture": "graph",
+    "seed": 1510000001,
+    "penalty_scale": 1.0,
+    "iterations": 1221
+  },
+  {
+    "line": "E3graph_s2",
+    "architecture": "graph",
+    "seed": 1520000001,
+    "penalty_scale": 1.0,
+    "iterations": 1221
+  },
+  {
+    "line": "E3graph_s3",
+    "architecture": "graph",
+    "seed": 1530000001,
+    "penalty_scale": 1.0,
+    "iterations": 1221
+  },
+  {
+    "line": "E3node_s1",
+    "architecture": "node",
+    "seed": 1540000001,
+    "penalty_scale": 1.0,
+    "iterations": 1221
+  },
+  {
+    "line": "E3node_s2",
+    "architecture": "node",
+    "seed": 1550000001,
+    "penalty_scale": 1.0,
+    "iterations": 1221
+  },
+  {
+    "line": "E3node_s3",
+    "architecture": "node",
+    "seed": 1560000001,
+    "penalty_scale": 1.0,
+    "iterations": 1221
+  },
+  {
+    "line": "E3grid_s1",
+    "architecture": "grid",
+    "seed": 1570000001,
+    "penalty_scale": 1.0,
+    "iterations": 1221
+  },
+  {
+    "line": "E3grid_s2",
+    "architecture": "grid",
+    "seed": 1580000001,
+    "penalty_scale": 1.0,
+    "iterations": 1221
+  },
+  {
+    "line": "E3grid_s3",
+    "architecture": "grid",
+    "seed": 1590000001,
+    "penalty_scale": 1.0,
+    "iterations": 1221
+  },
+  {
+    "line": "w7-half-s1",
+    "architecture": "graph",
+    "seed": 1610000001,
+    "penalty_scale": 0.5,
+    "iterations": 1221
+  },
+  {
+    "line": "w7-half-s2",
+    "architecture": "graph",
+    "seed": 1620000001,
+    "penalty_scale": 0.5,
+    "iterations": 1221
+  },
+  {
+    "line": "w7-half-s3",
+    "architecture": "graph",
+    "seed": 1630000001,
+    "penalty_scale": 0.5,
+    "iterations": 1221
+  },
+  {
+    "line": "w7-double-s1",
+    "architecture": "graph",
+    "seed": 1640000001,
+    "penalty_scale": 2.0,
+    "iterations": 1221
+  },
+  {
+    "line": "w7-double-s2",
+    "architecture": "graph",
+    "seed": 1650000001,
+    "penalty_scale": 2.0,
+    "iterations": 1221
+  },
+  {
+    "line": "w7-double-s3",
+    "architecture": "graph",
+    "seed": 1660000001,
+    "penalty_scale": 2.0,
+    "iterations": 1221
+  }
+]

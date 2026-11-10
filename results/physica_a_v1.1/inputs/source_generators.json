@@ -1,0 +1,18 @@
+{
+  "build_global_assets.py": {
+    "source": "mc_toolkit/.local/manuscript-revision-20261110/build_global_assets.py",
+    "sha256": "1b943558b0e0224fc32c410d3fbc82c78b458520a37fc74502ef71aa07e125a4"
+  },
+  "build_local_assets.py": {
+    "source": "mc_toolkit/.local/manuscript-revision-20261110/build_local_assets.py",
+    "sha256": "4aad564eb5c3621b534bdc37cfdc4351937a5ddb09f2b6c072629a65cb640337"
+  },
+  "render.py": {
+    "source": "mc_toolkit/operations/paper_outputs/render.py",
+    "sha256": "6381999ecd1abb4da28b843f2cb76355d777c2b30bc5acc3c92db6e39b113d58"
+  },
+  "style.py": {
+    "source": "mc_toolkit/operations/paper_outputs/style.py",
+    "sha256": "a3c72e3da6ffcbf07161b7e35e34e80d0c0fe77a43bcb52f86ef02da216135be"
+  }
+}

@@ -1,0 +1,482 @@
+{
+  "schema_version": 1,
+  "id": "selection--validation--1.0--candidate--1000--validation-V--complete--1--9c8c6c99870b",
+  "identity": {
+    "family": "selection",
+    "panel": "validation",
+    "cohort": "1.0",
+    "rule": "candidate",
+    "road_length": "1000",
+    "metric": "validation_V",
+    "units": "cells/step",
+    "estimand": "equal12-cell validation PV speed",
+    "phase": "",
+    "x_label": "checkpoint environment steps",
+    "layout": "complete",
+    "page": 1,
+    "facets": [
+      [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "Graph"
+      ],
+      [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "Node"
+      ],
+      [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "Grid"
+      ],
+      [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "fixed controls"
+      ]
+    ]
+  },
+  "mode": "completed_validation",
+  "source_manifest": {
+    "caveats": [
+      "Validation candidates, not training return or fresh test.",
+      "No RAW arrays are implied by historical seals; local diagnostics deferred.",
+      "Training budget is the terminal validation-pool boundary, not verified exact continuity.",
+      "Training cohorts are unknown without frozen training-line metadata."
+    ],
+    "dataset_kind": "completed_validation",
+    "deferred_families": {
+      "contrasts": "no supported recorded data in this extraction",
+      "coverage": "no supported recorded data in this extraction",
+      "events": "no supported recorded data in this extraction",
+      "mechanism": "no supported recorded data in this extraction",
+      "onset": "no supported recorded data in this extraction",
+      "profiles": "no supported recorded data in this extraction",
+      "spatial": "no supported recorded data in this extraction",
+      "state": "no supported recorded data in this extraction",
+      "temporal": "no supported recorded data in this extraction",
+      "transitions": "no supported recorded data in this extraction",
+      "windows": "no supported recorded data in this extraction"
+    },
+    "min_repeats": 5,
+    "mode": "completed_validation",
+    "schema_version": 1,
+    "snapshot": {
+      "summary": {
+        "base_manifest": {
+          "path": "/workspace/.local/science-validation-20261108-full195/validation-results/manifest.json",
+          "sha256": "5ac1c97d00c51084ac07697f52cd7f8becd3bdc85dc73f692113c5c5c1b44329"
+        },
+        "data_complete": true,
+        "equal20_required": true,
+        "final": true,
+        "format": "physica-compact-completed-v1",
+        "historical_RAW_seals_are_not_RAW_presence_claims": true,
+        "master": {
+          "path": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/science-validation-20261108-full195/preparation/master195/output/master-plan.json",
+          "sha256": "f04ec37311687cdffaa949d5a37437013a6080fd9ba285e8e0cffc89395b37ea"
+        },
+        "missing": 0,
+        "native_success_inferred": false,
+        "new_metric_schemas": {
+          "ec2da9844b200105210c8b3fab43a1b39004c823c6ef5203f3e2ff2a3075ef85": {
+            "adapter_sha256": "6b44d53cd2bfdb5e1642daa349d10cfb225d8d74bd096080a39d169712e33b45",
+            "backend": "slurm_map",
+            "formula": {
+              "R": "fsum(q_bg[policy,rho,f,rep]/q_bg[B1,rho,rep] for rep in range(20))/20",
+              "V": "fsum(fsum(pv_speed[rho,f,rep] for rep in range(20))/20 for rho,f in CONDITIONS)/12",
+              "episode_pv_speed": "result.metrics.mean_speed_priority",
+              "episode_q_bg": "result.metrics.flow_background",
+              "missing": "incomplete; no complete-case subset or imputation",
+              "selection_owner": "physica_mc.selection.select_group",
+              "thresholds": [
+                0.93,
+                0.95,
+                0.97,
+                0.99
+              ],
+              "ties": "exact binary64; smaller env_steps then candidate_id; H: C=1,2,4,8",
+              "unit": "one complete episode, never a frame/window/lap",
+              "zero_B1": "constraint_undefined; speed remains usable"
+            },
+            "formula_sha256": "ceabfe3d74759915e40b56f91f15a430ae50f88ecb548a138875204374ed9142",
+            "scientific_sources": {
+              "schema.py": "d1d15597064833b835650d5e7d7800a280194b0eaf11e9b5b7be5c8d43be615d",
+              "selection.py": "ccac94e8904b33f48dbb917489dc3fb118673e11f824219429013dde09428bd0",
+              "statistics.py": "c6e8838391dcef0e00c6a84168b4c26b496716f5cdbb9710cd55f0a714fb2538",
+              "storage.py": "007c1009e31b9db5a4b10abd6f77d76a5cdbe413a287eab2dc54420245504efc"
+            }
+          },
+          "fa4988c55f05aa9229f52ce6e379117405ba8003f78e5d23ab2f914dc947f4bd": {
+            "adapter_sha256": "7388c636b49d404b74a4a908d33dfc3d430f92d2a46b5f7a08bed790390a9b99",
+            "backend": "slurm_map",
+            "formula": {
+              "R": "fsum(q_bg[policy,rho,f,rep]/q_bg[B1,rho,rep] for rep in range(20))/20",
+              "V": "fsum(fsum(pv_speed[rho,f,rep] for rep in range(20))/20 for rho,f in CONDITIONS)/12",
+              "episode_pv_speed": "result.metrics.mean_speed_priority",
+              "episode_q_bg": "result.metrics.flow_background",
+              "missing": "incomplete; no complete-case subset or imputation",
+              "selection_owner": "physica_mc.selection.select_group",
+              "thresholds": [
+                0.93,
+                0.95,
+                0.97,
+                0.99
+              ],
+              "ties": "exact binary64; smaller env_steps then candidate_id; H: C=1,2,4,8",
+              "unit": "one complete episode, never a frame/window/lap",
+              "zero_B1": "constraint_undefined; speed remains usable"
+            },
+            "formula_sha256": "ceabfe3d74759915e40b56f91f15a430ae50f88ecb548a138875204374ed9142",
+            "scientific_sources": {
+              "schema.py": "d1d15597064833b835650d5e7d7800a280194b0eaf11e9b5b7be5c8d43be615d",
+              "selection.py": "ccac94e8904b33f48dbb917489dc3fb118673e11f824219429013dde09428bd0",
+              "statistics.py": "c6e8838391dcef0e00c6a84168b4c26b496716f5cdbb9710cd55f0a714fb2538",
+              "storage.py": "007c1009e31b9db5a4b10abd6f77d76a5cdbe413a287eab2dc54420245504efc"
+            }
+          }
+        },
+        "new_valid_runs": 20670,
+        "old_valid_runs": 27410,
+        "per_run_metrics_preserved_without_rounding": true,
+        "registration_accounting_sources_not_summed": [
+          {
+            "accounting": {
+              "history_attempts": 28118,
+              "history_cpu_seconds": 27547908,
+              "reservation_cpu_seconds_max": 5328000,
+              "whole_attempts_max": 48788,
+              "whole_cpu_seconds_max": 32875908
+            },
+            "input_binding": "142410fee20dbc603544abf7af21f8339c3810c2f5078974f34bda02583663bf",
+            "path": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-control-20261109T083612Z/launch.json",
+            "sha256": "6b1ee668996d133eb811a19886d16c326b5c1259161b338070a36511d66363ba"
+          },
+          {
+            "accounting": {
+              "history_attempts": 28134,
+              "history_cpu_seconds": 32875908,
+              "reservation_cpu_seconds_max": 5194800,
+              "whole_attempts_max": 48804,
+              "whole_cpu_seconds_max": 38070708
+            },
+            "input_binding": "142410fee20dbc603544abf7af21f8339c3810c2f5078974f34bda02583663bf",
+            "path": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-control-20261109T084118Z/launch.json",
+            "sha256": "bb48f6d720a7d3fc013983f244b88f0fad60e4d6af55ebc9ac700e27bf44de84"
+          },
+          {
+            "accounting": {
+              "history_attempts": 29472,
+              "history_cpu_seconds": 38070708,
+              "reservation_cpu_seconds_max": 12787200,
+              "whole_attempts_max": 48804,
+              "whole_cpu_seconds_max": 50857908
+            },
+            "input_binding": "ee7f229c493b9eb2ece2a68118568b46e0f42c279c5819f48c14816198e9e7b2",
+            "path": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-control18-20261109T090806Z/launch.json",
+            "sha256": "21fd4f2a6b31a4bc2ba84abd34adc9fc1aa4d2a7d64066657fc1f9897ec532b4"
+          },
+          {
+            "accounting": {
+              "history_attempts": 42958,
+              "history_cpu_seconds": 50857908,
+              "reservation_cpu_seconds_max": 9411600,
+              "whole_attempts_max": 48804,
+              "whole_cpu_seconds_max": 60269508
+            },
+            "input_binding": "cc53b260db82802a5ad52c59e067cebf181bdcaa563cf261b3854e535df18c8e",
+            "path": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-local-20261109T121318Z/launch.json",
+            "sha256": "f4c31499a4686840b19cdf42944735521f1dfea9ccf79a6c9e6f8a5f7d578bf4"
+          }
+        ],
+        "run_source_observations": [
+          {
+            "adapter_sha256": "6b44d53cd2bfdb5e1642daa349d10cfb225d8d74bd096080a39d169712e33b45",
+            "collected_valid": 0,
+            "config_sha256": "adeae37832450c83cb08c52f5b180c4de8f6ab6d9fc50b6d649216317d4e730b",
+            "control": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-control-20261109T083612Z/cpu36",
+            "shared": "/cluster/campaigns/physica-slurmmap-completion-20261109T083612Z/cpu36",
+            "tasks": 8380,
+            "tier": "cpu36"
+          },
+          {
+            "adapter_sha256": "6b44d53cd2bfdb5e1642daa349d10cfb225d8d74bd096080a39d169712e33b45",
+            "collected_valid": 0,
+            "config_sha256": "dcc59493de2bd00482981ec89286596122872623dd80c64a20f9ae766ee13582",
+            "control": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-control-20261109T083612Z/cpu72",
+            "shared": "/cluster/campaigns/physica-slurmmap-completion-20261109T083612Z/cpu72",
+            "tasks": 10056,
+            "tier": "cpu72"
+          },
+          {
+            "adapter_sha256": "6b44d53cd2bfdb5e1642daa349d10cfb225d8d74bd096080a39d169712e33b45",
+            "collected_valid": 0,
+            "config_sha256": "498e1293869bb46cf81549a26f2cde819a3c6f9eea8e1fdef80784d93b54d530",
+            "control": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-control-20261109T083612Z/cpu8",
+            "shared": "/cluster/campaigns/physica-slurmmap-completion-20261109T083612Z/cpu8",
+            "tasks": 2234,
+            "tier": "cpu8"
+          },
+          {
+            "adapter_sha256": "6b44d53cd2bfdb5e1642daa349d10cfb225d8d74bd096080a39d169712e33b45",
+            "collected_valid": 507,
+            "config_sha256": "8bf57bdf14eac3183ab6ebfdb5cd641a34cd50e8561cd2cb4d969f3c13433439",
+            "control": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-control-20261109T084118Z/cpu36",
+            "shared": "/cluster/campaigns/physica-slurmmap-completion-20261109T084118Z/cpu36",
+            "tasks": 8380,
+            "tier": "cpu36"
+          },
+          {
+            "adapter_sha256": "6b44d53cd2bfdb5e1642daa349d10cfb225d8d74bd096080a39d169712e33b45",
+            "collected_valid": 638,
+            "config_sha256": "b049f9bd5106bdae9d7462abf69174eef79abd3360f6d8d20ddf1f25728b10c8",
+            "control": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-control-20261109T084118Z/cpu72",
+            "shared": "/cluster/campaigns/physica-slurmmap-completion-20261109T084118Z/cpu72",
+            "tasks": 10056,
+            "tier": "cpu72"
+          },
+          {
+            "adapter_sha256": "6b44d53cd2bfdb5e1642daa349d10cfb225d8d74bd096080a39d169712e33b45",
+            "collected_valid": 193,
+            "config_sha256": "43a8cc2b3a7b20b8727ed0027b22a000f7fcc487806b645c26c89f4d4bb0d4d5",
+            "control": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-control-20261109T084118Z/cpu8",
+            "shared": "/cluster/campaigns/physica-slurmmap-completion-20261109T084118Z/cpu8",
+            "tasks": 2234,
+            "tier": "cpu8"
+          },
+          {
+            "adapter_sha256": "7388c636b49d404b74a4a908d33dfc3d430f92d2a46b5f7a08bed790390a9b99",
+            "collected_valid": 5042,
+            "config_sha256": "38a87b65ffae3aae2a711af97db1d9e6d44194e51d12ccc18c33ccab499705e4",
+            "control": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-control18-20261109T090806Z/cpu36",
+            "shared": "/cluster/campaigns/physica-slurmmap-completion18-20261109T090806Z/cpu36",
+            "tasks": 7837,
+            "tier": "cpu36"
+          },
+          {
+            "adapter_sha256": "7388c636b49d404b74a4a908d33dfc3d430f92d2a46b5f7a08bed790390a9b99",
+            "collected_valid": 6384,
+            "config_sha256": "6b497f0b6e0528bde039407d2a7b20ca2028f201559e6fd8555cf0c9c65670f8",
+            "control": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-control18-20261109T090806Z/cpu72",
+            "shared": "/cluster/campaigns/physica-slurmmap-completion18-20261109T090806Z/cpu72",
+            "tasks": 9405,
+            "tier": "cpu72"
+          },
+          {
+            "adapter_sha256": "7388c636b49d404b74a4a908d33dfc3d430f92d2a46b5f7a08bed790390a9b99",
+            "collected_valid": 2060,
+            "config_sha256": "082c25340fdb532ff68dc85e8f8505d6e68efa8f903db85006fcd0c4ad988b2b",
+            "control": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-control18-20261109T090806Z/cpu8",
+            "shared": "/cluster/campaigns/physica-slurmmap-completion18-20261109T090806Z/cpu8",
+            "tasks": 2090,
+            "tier": "cpu8"
+          },
+          {
+            "adapter_sha256": "7388c636b49d404b74a4a908d33dfc3d430f92d2a46b5f7a08bed790390a9b99",
+            "collected_valid": 2248,
+            "config_sha256": "fe5be70cf81982779207e07baf4e8fa9f085e9aac75e91028e0696fb8f8e5168",
+            "control": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-local-20261109T121318Z/cpu36",
+            "shared": "/cluster/campaigns/physica-slurmmap-local-20261109T121318Z/cpu36",
+            "tasks": 2248,
+            "tier": "cpu36"
+          },
+          {
+            "adapter_sha256": "7388c636b49d404b74a4a908d33dfc3d430f92d2a46b5f7a08bed790390a9b99",
+            "collected_valid": 2698,
+            "config_sha256": "3ec7725ecbe1052f193047b4b76c8cb0b3353046283374cc06d8434c4d6fe5dc",
+            "control": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-local-20261109T121318Z/cpu72",
+            "shared": "/cluster/campaigns/physica-slurmmap-local-20261109T121318Z/cpu72",
+            "tasks": 2698,
+            "tier": "cpu72"
+          },
+          {
+            "adapter_sha256": "7388c636b49d404b74a4a908d33dfc3d430f92d2a46b5f7a08bed790390a9b99",
+            "collected_valid": 600,
+            "config_sha256": "33c11eef2a424d816e21d3c4d8cf2782e8b2a9b70d7c870df72da21fb7f0de9a",
+            "control": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-local-20261109T121318Z/cpu8",
+            "shared": "/cluster/campaigns/physica-slurmmap-local-20261109T121318Z/cpu8",
+            "tasks": 600,
+            "tier": "cpu8"
+          },
+          {
+            "adapter_sha256": "7388c636b49d404b74a4a908d33dfc3d430f92d2a46b5f7a08bed790390a9b99",
+            "collected_valid": 300,
+            "config_sha256": "5e98295aea64fe659dcb098d38ca342e94358a239952337fce8e547f5a74d3dc",
+            "control": "/home/mikhail/z/traffic_rl_physica_a_revision_r1/mc_toolkit/.local/physica-slurmmap-local-20261109T121318Z/local",
+            "shared": "/cluster/campaigns/physica-slurmmap-local-20261109T121318Z/local",
+            "tasks": 300,
+            "tier": "local"
+          }
+        ],
+        "scientific_simulations_by_collector": 0,
+        "scope": 48080,
+        "selection_owner": "physica_mc.selection.select_group",
+        "source_bindings": [
+          {
+            "input_binding": "cea4a949083bd919ef8980064a0632330fb4a8b95dbc0e2a3ccc998c29ff04e7",
+            "metric_fingerprint": "e5f6c2277e62a4388b40f808982d7ec1a1fbc12283c343de762942701c363027"
+          },
+          {
+            "input_binding": "dedeb30ed99b12eade81a1a7d584ac35f60e76cf21fb6fee4ff7f44c26bd5760",
+            "metric_fingerprint": "e5f6c2277e62a4388b40f808982d7ec1a1fbc12283c343de762942701c363027"
+          },
+          {
+            "input_binding": "142410fee20dbc603544abf7af21f8339c3810c2f5078974f34bda02583663bf",
+            "metric_fingerprint": "ec2da9844b200105210c8b3fab43a1b39004c823c6ef5203f3e2ff2a3075ef85"
+          },
+          {
+            "input_binding": "cc53b260db82802a5ad52c59e067cebf181bdcaa563cf261b3854e535df18c8e",
+            "metric_fingerprint": "fa4988c55f05aa9229f52ce6e379117405ba8003f78e5d23ab2f914dc947f4bd"
+          },
+          {
+            "input_binding": "ee7f229c493b9eb2ece2a68118568b46e0f42c279c5819f48c14816198e9e7b2",
+            "metric_fingerprint": "fa4988c55f05aa9229f52ce6e379117405ba8003f78e5d23ab2f914dc947f4bd"
+          }
+        ],
+        "stage_manifest": {
+          "path": "/workspace/.local/science-validation-20261108-full195/preparation/slurmmap-completion/final-stage/manifest.json",
+          "sha256": "97ab749cc97014ec0a87eabeb34b4a66dea6b2d8aea9b4500445bc5975c15fd2"
+        },
+        "valid_runs": 48080
+      }
+    },
+    "sources": {
+      "frozen_root": "/workspace/.local/science-test-freeze-20261109-v2",
+      "root": "/workspace/.local/science-validation-20261108-full195/validation-results-completed"
+    },
+    "tables": [
+      "points.csv",
+      "episodes.csv",
+      "coverage.csv",
+      "selections.csv"
+    ],
+    "render_filters": {
+      "families": [
+        "ratio",
+        "selection"
+      ],
+      "metrics": [
+        "validation_R",
+        "validation_V",
+        "validation_feasible"
+      ],
+      "table_row_limit": 300,
+      "all_local_scopes": false,
+      "local_scope_policy": "axis marginals",
+      "local_scope_families": [
+        "windows",
+        "transitions"
+      ],
+      "local_scope_union": [
+        {
+          "window": "fixed_front_2",
+          "region": "*",
+          "lane": "all",
+          "vehicle_group": "*"
+        },
+        {
+          "window": "fixed_front_2",
+          "region": "full",
+          "lane": "*",
+          "vehicle_group": "*"
+        },
+        {
+          "window": "*",
+          "region": "full",
+          "lane": "all",
+          "vehicle_group": "background"
+        }
+      ],
+      "unscoped_local_rows": "retained",
+      "default_window_outcomes": null,
+      "window_support": "dashboards and complete CSV; explicit metrics enable standalone charts",
+      "excluded_categorical_means": [
+        "*_type/mean",
+        "*_reason/mean",
+        "*_direction_set/mean"
+      ]
+    }
+  },
+  "caption": "completed_validation; n=20/20; k=1/3. Intervals: none. Support: complete_cells=12. Recorded validation candidate curves, not training return. Infeasible selections have no replacement checkpoint. Fixed controls: x is method category, not training history; source_x/source_x_label retain recorded coordinates.",
+  "question": "Which recorded validation candidates satisfy the screen?",
+  "render_filters": {
+    "families": [
+      "ratio",
+      "selection"
+    ],
+    "metrics": [
+      "validation_R",
+      "validation_V",
+      "validation_feasible"
+    ],
+    "table_row_limit": 300,
+    "all_local_scopes": false,
+    "local_scope_policy": "axis marginals",
+    "local_scope_families": [
+      "windows",
+      "transitions"
+    ],
+    "local_scope_union": [
+      {
+        "window": "fixed_front_2",
+        "region": "*",
+        "lane": "all",
+        "vehicle_group": "*"
+      },
+      {
+        "window": "fixed_front_2",
+        "region": "full",
+        "lane": "*",
+        "vehicle_group": "*"
+      },
+      {
+        "window": "*",
+        "region": "full",
+        "lane": "all",
+        "vehicle_group": "background"
+      }
+    ],
+    "unscoped_local_rows": "retained",
+    "default_window_outcomes": null,
+    "window_support": "dashboards and complete CSV; explicit metrics enable standalone charts",
+    "excluded_categorical_means": [
+      "*_type/mean",
+      "*_reason/mean",
+      "*_direction_set/mean"
+    ]
+  },
+  "figure_size_inches": [
+    7.2,
+    6.6000000000000005
+  ],
+  "size_policy": "journal-width target; visual review required",
+  "plotted_rows": 121,
+  "units": [
+    "cells/step"
+  ],
+  "phases": [],
+  "statuses": [
+    "completed_validation"
+  ],
+  "support_kinds": [
+    "complete_cells"
+  ],
+  "files": [
+    "selection--validation--1.0--candidate--1000--validation-V--complete--1--9c8c6c99870b.png",
+    "selection--validation--1.0--candidate--1000--validation-V--complete--1--9c8c6c99870b.pdf"
+  ],
+  "points": "selection--validation--1.0--candidate--1000--validation-V--complete--1--9c8c6c99870b.csv"
+}

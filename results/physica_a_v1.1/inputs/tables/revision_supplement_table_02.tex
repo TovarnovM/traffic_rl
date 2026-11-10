@@ -1,0 +1,17 @@
+\begin{table}[htbp]
+\centering\small
+\caption{Declared domains and interpretation. A condition is a density--fraction--length cell, not an independent training. Named domains are not pooled merely because their plots share axes.}
+\label{tab:domains}
+\begin{tabular}{>{\raggedright\arraybackslash}p{.25\linewidth}p{.12\linewidth}>{\raggedright\arraybackslash}p{.53\linewidth}}
+\toprule
+Domain & Cells & Definition\\
+\midrule
+Main selection / transfer / full &12/42/54 &18 densities $.05,.10,\ldots,.90$ and fractions $.90,.95,1$ at $L=1000$; selection cells use the four validation densities.\\
+Density low / middle / high &9/9/36 &Densities $.05$--$.15$, $.20$--$.30$, $.35$--$.90$, respectively, at the three main fractions.\\
+W7 selection / transfer / all &9/3/12 &Densities $.10,.20,.30$ versus $.60$, crossed with the three main fractions. These are a bounded penalty-sensitivity domain.\\
+E4 local &12 &Densities $.10,.20,.30,.60$ and the three main fractions; nine main $S_0$ RL lines plus B1/B2/$H_2$.\\
+E5 added fractions &18 &Densities $.20,.30,.60$ and fractions $.50,.70,.96,.97,.98,.99$ at $L=1000$; Graph $S_0$ plus B1/B2/$H_2$.\\
+E5 length &6 &The same three densities at fractions $.90,1$ and $L=2000$; the same Graph weights and fixed controls.\\
+\bottomrule
+\end{tabular}
+\end{table}

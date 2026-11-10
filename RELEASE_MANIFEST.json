@@ -1,0 +1,1790 @@
+{
+  "release": "v1.1",
+  "scope": "Current Physica A main paper and supplementary results only",
+  "branch": "sep_research",
+  "file_count_including_manifest": 439,
+  "manifest_self_hash_omitted": true,
+  "scientific_source_digest": "3ff57f9e84d10390a6a184358332ea12bdf400011f2b6008d6d767030678492e",
+  "counts": {
+    "independent_training_lines": 15,
+    "selected_weight_bundles": 17,
+    "terminal_weight_bundles": 15,
+    "unique_weight_bundles": 28,
+    "final_figures": 38,
+    "main_tables": 5,
+    "supplementary_tables": 5,
+    "domain_effect_rows": 42,
+    "original_physical_test_episodes": 30690,
+    "local_diagnostic_episode_union": 7770
+  },
+  "preparation": {
+    "tests_run": false,
+    "scientific_execution": false,
+    "plots_run": false,
+    "checks": [
+      "file hashes and sizes",
+      "frozen payload identity",
+      "static Python syntax and call/path inspection",
+      "allowlist and Markdown links"
+    ],
+    "limitations": [
+      "Runtime integration and rendering are unvalidated.",
+      "The original vector schematic is copied, not claimed as a numerical redraw.",
+      "Old Git history and local excluded files are retained."
+    ]
+  },
+  "files": {
+    ".gitignore": {
+      "bytes": 3500,
+      "sha256": "84266f2aa95b7e8e8eddd945d3dc543232f681c75ab8a0f8c022f70944eca08e"
+    },
+    "README.md": {
+      "bytes": 3167,
+      "sha256": "2f55a6ff2326d4ecc560b45f0ba9e04c77be56c8026d6d5951ccb8bc4fd73026"
+    },
+    "RELEASE_FILES.txt": {
+      "bytes": 23953,
+      "sha256": "50df5ee9b1fcac672db51f202c7e8ce9ae14cae7d474d57d762fe6ac714e940e"
+    },
+    "RELEASE_NOTES.md": {
+      "bytes": 1158,
+      "sha256": "0147ccfd58304068134c2c3e1f2faca2b535ac849ff4cb0600e12c5271132d70"
+    },
+    "RELEASE_v1.1.md": {
+      "bytes": 3100,
+      "sha256": "5a2fb288e0717273988890d443ebb477e481cd4967681ee97802282878a0aa91"
+    },
+    "benchmarks/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmarks/bench_full_step_phases.py": {
+      "bytes": 15526,
+      "sha256": "7740c47f4bb747f42f1cb1535e0fbc48e84bd9ab4ada386f7aa7f5683bf74cb1"
+    },
+    "benchmarks/bench_optimized_full_step.py": {
+      "bytes": 16256,
+      "sha256": "ec9a5c97fee51043f978ec4ae19b243ce8a4473f36b81f3634e9db6078c4c374"
+    },
+    "benchmarks/bench_speed_control_rollout.py": {
+      "bytes": 8368,
+      "sha256": "6d40569d56e06ec18acec5e286a97775df20a7476bfdc6322049ec674b9006d0"
+    },
+    "benchmarks/benchmark_indexing.py": {
+      "bytes": 20515,
+      "sha256": "a649071e6113400ad2051b862f427cc77128ab85b343abd43e454fbacc80b912"
+    },
+    "mc_toolkit/README.md": {
+      "bytes": 1653,
+      "sha256": "646a880534c75448da3c7d15a9e77f9637ce007a9024f38e00f9f1412869b99a"
+    },
+    "mc_toolkit/SCIENTIFIC_SOURCE_MANIFEST.json": {
+      "bytes": 3417,
+      "sha256": "eefd528b337f52bb5dfb926c42a8e71680fa9ec248657cb3c084596ee70d2275"
+    },
+    "mc_toolkit/operations/fresh_test/dataset.py": {
+      "bytes": 10897,
+      "sha256": "4e15e2945ff8bd6a1eb3bed9c5b2b816247de490454f7150e573e3780f6a8382"
+    },
+    "mc_toolkit/operations/fresh_test/source/physica_test_plan.py": {
+      "bytes": 7797,
+      "sha256": "d84e1e7fca61db74db55fcaa997a664e0d365031d9016a69b4292f05de79e4a7"
+    },
+    "mc_toolkit/operations/fresh_test/source/physica_test_store.py": {
+      "bytes": 14142,
+      "sha256": "707f92b74ed1e45e3333452669ce7d71099d816c54e3f3d40cc5de2321354b1f"
+    },
+    "mc_toolkit/operations/paper_outputs/cli.py": {
+      "bytes": 18624,
+      "sha256": "36d4800f20b8cf9b0456d92a0042d222f72ebb9228fd27618bd34a68f1935e70"
+    },
+    "mc_toolkit/operations/paper_outputs/data.py": {
+      "bytes": 59156,
+      "sha256": "562e2fc83e34dff1b65b5fae811cc132e65df0828665866c4170f797e4174ba6"
+    },
+    "mc_toolkit/operations/paper_outputs/inference.py": {
+      "bytes": 8530,
+      "sha256": "c91202898d6ca391f6c1aaca52ed332fbc9c552a2d9f20b54d8c6dd55980064f"
+    },
+    "mc_toolkit/operations/paper_outputs/render.py": {
+      "bytes": 81082,
+      "sha256": "6381999ecd1abb4da28b843f2cb76355d777c2b30bc5acc3c92db6e39b113d58"
+    },
+    "mc_toolkit/operations/paper_outputs/style.py": {
+      "bytes": 1690,
+      "sha256": "a3c72e3da6ffcbf07161b7e35e34e80d0c0fe77a43bcb52f86ef02da216135be"
+    },
+    "mc_toolkit/operations/paper_outputs/tests/test_cli.py": {
+      "bytes": 5412,
+      "sha256": "dfea436f33595388989615ceeb9e70b6a8a5f2730ecfa9c3985aecd820656e33"
+    },
+    "mc_toolkit/operations/paper_outputs/tests/test_data.py": {
+      "bytes": 39837,
+      "sha256": "192ac7ea467f9e3cdb662d4baa03e96687d1ceeee17022d2d1a923baa77d12b4"
+    },
+    "mc_toolkit/operations/paper_outputs/tests/test_inference.py": {
+      "bytes": 4777,
+      "sha256": "6bb8adacd33e2b3c6b765065d0176fd8844f375ec4c5eb78466ac863bb0a9ed7"
+    },
+    "mc_toolkit/operations/paper_outputs/tests/test_render.py": {
+      "bytes": 59363,
+      "sha256": "7e78a4c4e66152f138e883e87eee0efe14390c9f8d09323cd41451fcd21b67d0"
+    },
+    "mc_toolkit/pyproject.toml": {
+      "bytes": 903,
+      "sha256": "2ccf0d34b1a22206d3c2e1fbccea14ac54ce8e7e3416d20899d342b7519f2e17"
+    },
+    "mc_toolkit/src/physica_mc/__init__.py": {
+      "bytes": 100,
+      "sha256": "56591291a3e18f2f47c704628405c9c8b2a2bc2384cbc81f64932b0175cb741c"
+    },
+    "mc_toolkit/src/physica_mc/__main__.py": {
+      "bytes": 79,
+      "sha256": "bd045ddd5242d002f692dac452be9afba38deef5cde541a5fc074bfef5987b91"
+    },
+    "mc_toolkit/src/physica_mc/cli.py": {
+      "bytes": 5936,
+      "sha256": "65bac45434b6e05e05a4881a82784c1a6ec93f8ce971bdec13e5bcb2ac8acc28"
+    },
+    "mc_toolkit/src/physica_mc/compat/graph.py": {
+      "bytes": 4290,
+      "sha256": "8214123be100cfa5a428b727fae814c1b972430032c1333f5ac5639ffccb466a"
+    },
+    "mc_toolkit/src/physica_mc/compat/nongraph.py": {
+      "bytes": 9888,
+      "sha256": "55d813c6278383f290821e007b20b65c49317d1cf8e7b3599af367228cc8d84b"
+    },
+    "mc_toolkit/src/physica_mc/controllers.py": {
+      "bytes": 7724,
+      "sha256": "f90cfc85ce610c8e9879f6fa4e2ae8ff1f37ca27220f1b86f6f8bd43866b67d2"
+    },
+    "mc_toolkit/src/physica_mc/diagnostics.py": {
+      "bytes": 6500,
+      "sha256": "47276b2eaede8445e0bb119f364a97e3983a36c8ffdd9d7b45919c2268bf2af0"
+    },
+    "mc_toolkit/src/physica_mc/episode.py": {
+      "bytes": 65365,
+      "sha256": "884e3812fde4ef28aaa65faf87be36798141bf70c36133588a90559782ff0f3d"
+    },
+    "mc_toolkit/src/physica_mc/model_convert.py": {
+      "bytes": 17575,
+      "sha256": "0fbe3e1660aa72eab8de017369ab106f1601bfbbbe3be0993a6d935418e695c2"
+    },
+    "mc_toolkit/src/physica_mc/models.py": {
+      "bytes": 9438,
+      "sha256": "083a21daf81485649edf4fbd5de2ed9b901743602ee08872a76ba88c39eadb94"
+    },
+    "mc_toolkit/src/physica_mc/observer.py": {
+      "bytes": 17099,
+      "sha256": "1b239f2113c55895b318fdc4b5eb0c113098265e291c4e4799af083c93dfb665"
+    },
+    "mc_toolkit/src/physica_mc/planning.py": {
+      "bytes": 24386,
+      "sha256": "a41744a2f6474c32ff3b85bfe56b911ab4f9231d178a8f036328bd6e456a6f99"
+    },
+    "mc_toolkit/src/physica_mc/postprocess.py": {
+      "bytes": 76991,
+      "sha256": "d0cd95cde5feb3684d466fbe2edcbcf99252bb2d85f60a1130dc5be1acc684f4"
+    },
+    "mc_toolkit/src/physica_mc/reporting.py": {
+      "bytes": 63310,
+      "sha256": "9600bdc544c1b831db88b26c068b7bf1505c606e7dc67ff8646c99e265d4ff83"
+    },
+    "mc_toolkit/src/physica_mc/runner.py": {
+      "bytes": 28474,
+      "sha256": "86a3d5c5a6a0173f49dc153248650416da2225568660a4d6e7937e2935b7adbf"
+    },
+    "mc_toolkit/src/physica_mc/schema.py": {
+      "bytes": 26336,
+      "sha256": "d1d15597064833b835650d5e7d7800a280194b0eaf11e9b5b7be5c8d43be615d"
+    },
+    "mc_toolkit/src/physica_mc/selection.py": {
+      "bytes": 33656,
+      "sha256": "ccac94e8904b33f48dbb917489dc3fb118673e11f824219429013dde09428bd0"
+    },
+    "mc_toolkit/src/physica_mc/slurm.py": {
+      "bytes": 26088,
+      "sha256": "176e2362658b495d4c4b4f640ca7f1433b47e6f4a73fafa9a1e67a63dfcd97c0"
+    },
+    "mc_toolkit/src/physica_mc/statistics.py": {
+      "bytes": 30413,
+      "sha256": "c6e8838391dcef0e00c6a84168b4c26b496716f5cdbb9710cd55f0a714fb2538"
+    },
+    "mc_toolkit/src/physica_mc/storage.py": {
+      "bytes": 116240,
+      "sha256": "007c1009e31b9db5a4b10abd6f77d76a5cdbe413a287eab2dc54420245504efc"
+    },
+    "mc_toolkit/src/snfs_traffic/__init__.py": {
+      "bytes": 65,
+      "sha256": "92a6b0b93bf0f4258961dec4f6b6247417de71265de0a1cef0d1cae1be266065"
+    },
+    "mc_toolkit/src/snfs_traffic/backends/__init__.py": {
+      "bytes": 1413,
+      "sha256": "02d38ac059597d7ccb76fb78359385b3d2648504769d0e3c744d8182be6d3eec"
+    },
+    "mc_toolkit/src/snfs_traffic/backends/optimized.py": {
+      "bytes": 5053,
+      "sha256": "d9364e545abd959a55183486fb12cddfa01e7a2dcda83439ca3d783861f69ab1"
+    },
+    "mc_toolkit/src/snfs_traffic/control.py": {
+      "bytes": 38851,
+      "sha256": "7e0eb44662607f1b0e8dce048beeade4f45a60a7295af45930f4942a54ffde0b"
+    },
+    "mc_toolkit/src/snfs_traffic/core/__init__.py": {
+      "bytes": 1281,
+      "sha256": "b6576b356a9f03ac5133ab6ad4d6866352e95a783e643e37087db6130f5d2751"
+    },
+    "mc_toolkit/src/snfs_traffic/core/backend.py": {
+      "bytes": 2147,
+      "sha256": "07c892d684c41c9d6ab763ddb6f65e5d8b91d57f7e45f1039fb669f6207b01a8"
+    },
+    "mc_toolkit/src/snfs_traffic/core/indexing.py": {
+      "bytes": 5978,
+      "sha256": "f432fd7860aa18ba7993f6de616b838a76f4df48c50b437e95bec84d7d772196"
+    },
+    "mc_toolkit/src/snfs_traffic/core/indexing_kernels.py": {
+      "bytes": 5809,
+      "sha256": "31bde98e74beefd189f87d6fe9c39cd547c7a03c8d140c2286e5c3ab3d6c0e81"
+    },
+    "mc_toolkit/src/snfs_traffic/core/indexing_numba.py": {
+      "bytes": 9190,
+      "sha256": "c466e5c98067387e4861166bdd06b30e8d2db76f9744c01e6c053bb5c62318c4"
+    },
+    "mc_toolkit/src/snfs_traffic/core/invariants.py": {
+      "bytes": 4236,
+      "sha256": "b5d88310b9337dfbee90af55d89c7b874b348e8e1783cd30d93dcbc737c3e46e"
+    },
+    "mc_toolkit/src/snfs_traffic/core/lane_change_kernels.py": {
+      "bytes": 7013,
+      "sha256": "68c4b0fd69125bebed96b4b1d86a033130e67edad051828957b0630438492c41"
+    },
+    "mc_toolkit/src/snfs_traffic/core/lane_change_numba.py": {
+      "bytes": 4182,
+      "sha256": "af04496bc7468754a90b745bb13a23a679f4e5c9f6aa508d467cbc86e8b6184f"
+    },
+    "mc_toolkit/src/snfs_traffic/core/lane_change_reference.py": {
+      "bytes": 3018,
+      "sha256": "9ae1481db9bfe82169d5a3ca3afc812c123c86a8ab1f7091e8c3f898de4a5d4c"
+    },
+    "mc_toolkit/src/snfs_traffic/core/longitudinal_kernels.py": {
+      "bytes": 3468,
+      "sha256": "c1103f7ceacaadb2a9dc6f5fa628083944f88362e79605be856be1baf3f139df"
+    },
+    "mc_toolkit/src/snfs_traffic/core/longitudinal_numba.py": {
+      "bytes": 12147,
+      "sha256": "c66e169b26a0d1040d0220ddc00f683056bd31e3623881241642a7c83cb539b9"
+    },
+    "mc_toolkit/src/snfs_traffic/core/params.py": {
+      "bytes": 2842,
+      "sha256": "befb483b628bebe810bc46442d4f58a7a6ae1bfc67f92076a234b476560f3cf1"
+    },
+    "mc_toolkit/src/snfs_traffic/core/roles.py": {
+      "bytes": 1028,
+      "sha256": "549914787df1dc0e8a90af27aa752200ff52f4e30d15868d562bfebedee66fc9"
+    },
+    "mc_toolkit/src/snfs_traffic/core/state.py": {
+      "bytes": 5419,
+      "sha256": "741972dcaa358242a6ef6be7d1dc03ed225e8187aadcba4a0868f2eccb7d92e8"
+    },
+    "mc_toolkit/src/snfs_traffic/core/step_reference.py": {
+      "bytes": 3823,
+      "sha256": "9077cf8d4b0344cb89b162c10f5bfce881b6d6b49436c5785791621bfa17d3a8"
+    },
+    "mc_toolkit/src/snfs_traffic/core/types.py": {
+      "bytes": 305,
+      "sha256": "0536741b9d0bda513bd0941a8aaf8e2d0e36addb4194d8c6d7c84c001b943f98"
+    },
+    "mc_toolkit/src/snfs_traffic/metrics/__init__.py": {
+      "bytes": 256,
+      "sha256": "647e9c4653c3dc6c3a0bcc2e5487d5c1e5f737b9e2e17889a9110a84992cb681"
+    },
+    "mc_toolkit/src/snfs_traffic/metrics/priority.py": {
+      "bytes": 11870,
+      "sha256": "8ca00b377936501b009088bd39d9681745eb629ddd2f7b5052355cedb268fc32"
+    },
+    "mc_toolkit/src/snfs_traffic/observations/__init__.py": {
+      "bytes": 818,
+      "sha256": "14084963af89523007471a54afc39aab9bf06cefc9573af392086e2bb1e11083"
+    },
+    "mc_toolkit/src/snfs_traffic/observations/local.py": {
+      "bytes": 5797,
+      "sha256": "3d083a6ddae50bac142fcf31f3e66f01319fc681fc2307a7eb42598dff7f0051"
+    },
+    "mc_toolkit/src/snfs_traffic/observations/pv_graph.py": {
+      "bytes": 16918,
+      "sha256": "01f3e38ca2f1c44da6019c6d011a9f9c6a296fa23cd035aeb9ef6341669e8d2a"
+    },
+    "mc_toolkit/src/snfs_traffic/rules/__init__.py": {
+      "bytes": 283,
+      "sha256": "2104cf2fb0950bfdfcb486e1b38a58560721711c6c37e40b74eb34fec3eece17"
+    },
+    "mc_toolkit/src/snfs_traffic/rules/priority_yield.py": {
+      "bytes": 8053,
+      "sha256": "6f86ef5f670018d65f361b79523bae79a7570d08af77931289c69004c46ff193"
+    },
+    "mc_toolkit/src/snfs_traffic/scenarios/__init__.py": {
+      "bytes": 983,
+      "sha256": "71ed37ebbba12e8e9d52439066eb022a0fc7bf777eb07b6294efd78a22592e5a"
+    },
+    "mc_toolkit/src/snfs_traffic/scenarios/init.py": {
+      "bytes": 6497,
+      "sha256": "7f6a7d72290df1ee2fb5b569c3ff79471d4247f2673eabb4dbaf7e4455c9a09c"
+    },
+    "mc_toolkit/src/snfs_traffic/scenarios/priority.py": {
+      "bytes": 6724,
+      "sha256": "c8c8a3d593a5fde91543074fb0557fb94336b932c59cd719ba59729c212b2d65"
+    },
+    "mc_toolkit/src/snfs_traffic/simulator.py": {
+      "bytes": 8502,
+      "sha256": "000c29b6dd029b514149d605652cfc3d6be1d1ce9a4b98276be7b6ccdb5672b6"
+    },
+    "mc_toolkit/src/snfs_traffic/topology/__init__.py": {
+      "bytes": 171,
+      "sha256": "464ae34c3ea54946edc323296e553d0eb6de9fe2274056734e57d18a359b5cd3"
+    },
+    "mc_toolkit/src/snfs_traffic/topology/base.py": {
+      "bytes": 1337,
+      "sha256": "64467f03b84cd982be304f128f44f3a8f99126b2055318103ca0b07e38286a21"
+    },
+    "mc_toolkit/src/snfs_traffic/topology/ring.py": {
+      "bytes": 1638,
+      "sha256": "af6303a1ecb80b42f2c33cd99652b2c64c889ec7fd5aa68f60eaa34958639d73"
+    },
+    "mc_toolkit/tests/test_cli.py": {
+      "bytes": 4918,
+      "sha256": "d84429a3f82595660fb4df6ff3ff721c0de7dfddf2a2a075dfb76cb6a36ac123"
+    },
+    "mc_toolkit/tests/test_controllers.py": {
+      "bytes": 7315,
+      "sha256": "2e9f05f357edccd783c76f419bd93f27f12ab4f1ceaea67246a70fa6cf0b82d7"
+    },
+    "mc_toolkit/tests/test_diagnostics.py": {
+      "bytes": 8024,
+      "sha256": "7070507641635f98f1f3479b6555af3d8614b9e6b96ecd9362e57aed84cad3c1"
+    },
+    "mc_toolkit/tests/test_episode.py": {
+      "bytes": 31040,
+      "sha256": "0d8bc7cf5f6c71743743cc6dae60f30e0832fb1d1fab4027ff975dc4763c660e"
+    },
+    "mc_toolkit/tests/test_model_convert.py": {
+      "bytes": 11021,
+      "sha256": "efdf7443a10ebc72d4ebe78be73e5e06e942c1d946bd37810a29e9809ed2a6ef"
+    },
+    "mc_toolkit/tests/test_model_reference.py": {
+      "bytes": 4295,
+      "sha256": "0c0a4f0a43ecb25ccbe19c5a53026e7861e830aeef76d966fd351cc76d925442"
+    },
+    "mc_toolkit/tests/test_models.py": {
+      "bytes": 7326,
+      "sha256": "b92a80a63271a08bb14c84ceeb124ad9fd2c030652b4f18dabc843b5ecbf58de"
+    },
+    "mc_toolkit/tests/test_observer.py": {
+      "bytes": 14384,
+      "sha256": "71d504691e85ed2cd7bb2006520777753addf8f529cedb6736f75d1fa41c0d81"
+    },
+    "mc_toolkit/tests/test_planning.py": {
+      "bytes": 19107,
+      "sha256": "e41884bd22f57fb051dec1523efc975fbefab23407be6ef3678b53708108cabe"
+    },
+    "mc_toolkit/tests/test_postprocess.py": {
+      "bytes": 46096,
+      "sha256": "f37789189974ea476a4244cc7be59afa2709a7acf824feefd7086e8b79679adf"
+    },
+    "mc_toolkit/tests/test_reporting.py": {
+      "bytes": 33761,
+      "sha256": "1922e2f77a75e2eec52452a2bce7ee4b6c3ab65f4de536cf4a904335b4115c13"
+    },
+    "mc_toolkit/tests/test_runner.py": {
+      "bytes": 21614,
+      "sha256": "145ec952326df055aa4731715864815c7a25bbd4cd0a9251e88577767166c271"
+    },
+    "mc_toolkit/tests/test_schema.py": {
+      "bytes": 9291,
+      "sha256": "613fa90471668f4ddb2e54fec321cf0cbc2fde77b9f5dc94e9f5aafdecdd036f"
+    },
+    "mc_toolkit/tests/test_selection.py": {
+      "bytes": 20413,
+      "sha256": "5a0174285a8e27674b189e656e1f28f4de1b45e9fc5cc4b13665a93b94e26d11"
+    },
+    "mc_toolkit/tests/test_slurm.py": {
+      "bytes": 25110,
+      "sha256": "b2d96e5e371d7d99bedf1a295cd8fc80d091d54b89388802d98a1cd9c34e9002"
+    },
+    "mc_toolkit/tests/test_statistics.py": {
+      "bytes": 24186,
+      "sha256": "3d12746a137583f13df61094baadaec6db8b0a80f321276392dc4ef926285eb3"
+    },
+    "mc_toolkit/tests/test_storage.py": {
+      "bytes": 44457,
+      "sha256": "4002c9e63f9e5fa01ad2bf6cab00f217e5a8091b994daec39f89165e3b4692c0"
+    },
+    "pyproject.toml": {
+      "bytes": 776,
+      "sha256": "c127177b5cd785825155b938dddae9ba07b2658b879cf441c10c64ae77b2e1c9"
+    },
+    "reproduction/README.md": {
+      "bytes": 14296,
+      "sha256": "579adb7b46dedf7e2111ac7a32308a8f2310f4258dd4bfd79b072505f5ab0b52"
+    },
+    "reproduction/configs/frozen-files.json": {
+      "bytes": 1597,
+      "sha256": "e465a8c1cf58f853007b2b9c7962f2347205d8383e82217be0493b292ba72bda"
+    },
+    "reproduction/configs/frozen/FREEZE_MANIFEST.json": {
+      "bytes": 13183,
+      "sha256": "cf3717f4e55cde16ff2f013a9813f95c98caa070fac4094bc9030d3de84ddad4"
+    },
+    "reproduction/configs/frozen/SAP.json": {
+      "bytes": 7490,
+      "sha256": "63dc8b975ce73ea853323a482b37134e7ab3438ed6d8542ec9eb91d5659d59d1"
+    },
+    "reproduction/configs/frozen/analysis-full12.json": {
+      "bytes": 2282,
+      "sha256": "7e2232d6c928e87c816ef9008c50edaef6522372a56c224655d72d39984c0710"
+    },
+    "reproduction/configs/frozen/analysis-mechanism.json": {
+      "bytes": 3864,
+      "sha256": "8b8424daea52e11a3d7460bd7a8fbd363f610080c5b4f692f3f317d22f61e49c"
+    },
+    "reproduction/configs/frozen/b1-logical-references.json": {
+      "bytes": 265653,
+      "sha256": "4dae74e9d726f58be1b2583a5fe28a27df625c1b643a586f6b76922d8e529189"
+    },
+    "reproduction/configs/frozen/execution-requirements.json": {
+      "bytes": 716321,
+      "sha256": "c6d5bb744cee7db1db48a0b4f4c3b1612f1f96e7c015e41b7e83cce93fee7db4"
+    },
+    "reproduction/configs/frozen/future-plan.json": {
+      "bytes": 28102756,
+      "sha256": "6eb54810d23f938c5979dde838382f4c388323ddb16aa4fdb475a103c96a0881"
+    },
+    "reproduction/configs/frozen/panels.json": {
+      "bytes": 2726678,
+      "sha256": "57955d6092e9c0fc9d7b3489e055cc7b1a1b9c47708dc8271c3041b639d0255a"
+    },
+    "reproduction/configs/frozen/policies.json": {
+      "bytes": 9312,
+      "sha256": "b79715dcb87016ce84f7302ea0ec6e77dce0e894f16d2352602486dc46eb61cd"
+    },
+    "reproduction/configs/frozen/selected-weights.json": {
+      "bytes": 28938,
+      "sha256": "71c1ef04de603ee63a1642126b6c222c249514ff91007681cf59e87845124da6"
+    },
+    "reproduction/configs/frozen/selection-freeze.json": {
+      "bytes": 447124,
+      "sha256": "62c8ecb63011b5ee59450954726819ba1595a87a79564452f4f8ba3a7a8a265b"
+    },
+    "reproduction/configs/frozen/test-seeds.json": {
+      "bytes": 149191,
+      "sha256": "71e97edea941d49fd649d8b960e263684a8013c8ab8b0b98a421667ea79790a4"
+    },
+    "reproduction/configs/training-lines.json": {
+      "bytes": 2052,
+      "sha256": "ace3d4cf3eadebe5465e15a3b4206c7f64d46a4c1e2ccafb0e6c5a87a4b6f05a"
+    },
+    "reproduction/ingest_mc.py": {
+      "bytes": 8079,
+      "sha256": "262cb86c0e6e02cb565662f7f09398a908c816eea741ad73ae143b119f16d1da"
+    },
+    "reproduction/paper_outputs.py": {
+      "bytes": 494,
+      "sha256": "6883dfcfbb9a0a705c1a2be0c83af334cf51da1cea216bf2db1ff0443dacd73b"
+    },
+    "reproduction/prepare_mc.py": {
+      "bytes": 5064,
+      "sha256": "10724e42f2df76ae77d92f1094ec627dd26a2e9e131fbb269bacfa83cdf1584c"
+    },
+    "reproduction/source-closure.json": {
+      "bytes": 25540,
+      "sha256": "a6c94cb4af39d327ad25ab78b83bfbfd59895a209c9ebab11aaf554fbac19e0e"
+    },
+    "reproduction/train.py": {
+      "bytes": 7034,
+      "sha256": "bd74cd05107e65507df107c11870171b9553cb54bf1d879166f645ccff6ba070"
+    },
+    "reproduction/training/__init__.py": {
+      "bytes": 48,
+      "sha256": "4c1697d10978bffddfe8a86d0ff12d907b2be2003a0229018e39720dba7d62d8"
+    },
+    "reproduction/training/checkpoints.py": {
+      "bytes": 9548,
+      "sha256": "86767475b175ed4f4439b3823fd9e4adab962b2f65b67ce0c3657ff005a64519"
+    },
+    "reproduction/training/configuration.py": {
+      "bytes": 3886,
+      "sha256": "a3f9abb231edd987e8de6a2748df187296d325653d1b5153ebb96134ab1935ca"
+    },
+    "requirements-figures.txt": {
+      "bytes": 106,
+      "sha256": "791d84841542414ec54f7c762d465645b061384c6e22c20b3a59d9489ea0e086"
+    },
+    "requirements-mc.txt": {
+      "bytes": 196,
+      "sha256": "adae3b057c116cc66d5a1bb9a0cbd698190dcf43310e4b15f2a66c69c537b43d"
+    },
+    "requirements-training.txt": {
+      "bytes": 177,
+      "sha256": "663dda3f4ab625257dea546f4563728a4fd82a730b34d4449cf2fe2d3f8435ac"
+    },
+    "research/evaluate_pv_architectures.py": {
+      "bytes": 44704,
+      "sha256": "9f48bf1515514d9e87d5150eb174f898d2628602440ba10d08e8f070b9291f59"
+    },
+    "research/evaluate_pv_graph_ppo.py": {
+      "bytes": 48385,
+      "sha256": "ee3dd6566d5298bda240ccb6f3d2bd78a3f763f4f5b6c99d33b42564b474f4ed"
+    },
+    "research/fundamental_diagram_hdv_flow_mp.py": {
+      "bytes": 17875,
+      "sha256": "aeb9eb706b39e9a9c11d5d55443867bcc30357b0d49a2c55e9f626ceddc29eca"
+    },
+    "research/nograph/compare_pv_architectures.py": {
+      "bytes": 18135,
+      "sha256": "8b47d44cb38864de36a44f537020936d1adb5244dee76f505f2dcb1ffe25cee5"
+    },
+    "research/nograph/evaluate_pv_nongraph_ppo.py": {
+      "bytes": 33938,
+      "sha256": "69c7df82ce2b93379981bc3a0206bb136f6aef7c905a7dfd4e8a6e9fb3fed485"
+    },
+    "research/nograph/select_pv_nongraph_checkpoint.py": {
+      "bytes": 14209,
+      "sha256": "34cdd125a22b99517e90efa6d6db78403daca1c1f6623f2bcffbd71774734e67"
+    },
+    "research/nograph/select_pv_policy_checkpoint.py": {
+      "bytes": 204,
+      "sha256": "f65984d683d83b0f9b55bf794e7abc65ad9623b56524c71932b2f40f563d5fa7"
+    },
+    "research/nograph/train_pv_nongraph_ppo.py": {
+      "bytes": 17898,
+      "sha256": "c24d90790fb3ba1c6007436d0f9108b4b7ec25482952f7a7fabf90bc7096e31c"
+    },
+    "research/priority_baselines.py": {
+      "bytes": 31189,
+      "sha256": "75202be952c56e88e90125dffb318e2f21f32750e3312b1729cc539d78bf3a12"
+    },
+    "research/ring_4lane_video.py": {
+      "bytes": 6990,
+      "sha256": "1ec78fb3c0a6aed9f911a722c1480a08cb98b0db8e69ff8da6d73b666b401aab"
+    },
+    "research/train_pv_graph_ppo.py": {
+      "bytes": 22920,
+      "sha256": "9b93d7ff96f2e567b9b06f772542b4a598bc6e164bd7726e6ce69491ca440b3b"
+    },
+    "results/physica_a_v1.1/FIGURES.json": {
+      "bytes": 13144,
+      "sha256": "f26ea858c81beae49b06b264280d8fae78ef284a2604ed9c0275d29a0470a826"
+    },
+    "results/physica_a_v1.1/README.md": {
+      "bytes": 2342,
+      "sha256": "e3e0e469a09067fef0a9b58a04c2ec480ecb09e0e11e570924b6563ee94c6e48"
+    },
+    "results/physica_a_v1.1/figures/main_architecture.pdf": {
+      "bytes": 26380,
+      "sha256": "2d26048fc2700f53efdebbabafc317a3e16e241773652db34bfee193bfe2617a"
+    },
+    "results/physica_a_v1.1/figures/main_cost_screen.pdf": {
+      "bytes": 19085,
+      "sha256": "f7d1eb2c629fc2cda48ad071a92efdebd0a9d4cce44b0b445e80f2cdae14afc3"
+    },
+    "results/physica_a_v1.1/figures/main_length.pdf": {
+      "bytes": 27958,
+      "sha256": "bcc62a281bc2cf912c29d3ef08c3d242efadcfcb367e0b9dda926f3114eff9e6"
+    },
+    "results/physica_a_v1.1/figures/main_local_cost.pdf": {
+      "bytes": 30701,
+      "sha256": "ce2778693a8e0aff14f2c5628271529cfa10016dc86d92b0fe757e784d242489"
+    },
+    "results/physica_a_v1.1/figures/main_mechanism.pdf": {
+      "bytes": 30969,
+      "sha256": "baee88ac6828240db494d6a0fb52dd95236f5fd6e67337cb0ea28b089a0b6e62"
+    },
+    "results/physica_a_v1.1/figures/main_mobility.pdf": {
+      "bytes": 34702,
+      "sha256": "49d52c3966e59db49865326eb73810a67482dc156387a9265cd0efcb9a0cf9d1"
+    },
+    "results/physica_a_v1.1/figures/main_penetration.pdf": {
+      "bytes": 30140,
+      "sha256": "2663504ee782952885c7b7397d803e425215daaa5652d43ec6d9cf0d4b1b9fa1"
+    },
+    "results/physica_a_v1.1/figures/method_schematic.pdf": {
+      "bytes": 30815,
+      "sha256": "fc2a4a1ef1ddd6aad186e78b6a2184a76bc47ec6d4918af5de6bcd88e8bcfca6"
+    },
+    "results/physica_a_v1.1/figures/recorded_rho0.10_f0.90.pdf": {
+      "bytes": 25887,
+      "sha256": "f71dcf6e51b04a18b46623279c331b62e4d74c87b66151fba97af1216fc05483"
+    },
+    "results/physica_a_v1.1/figures/recorded_rho0.10_f0.95.pdf": {
+      "bytes": 23031,
+      "sha256": "1a3ae0611923043ac4bcf1437822fb3a20dabc71966e8d02d41e6c669b482d9b"
+    },
+    "results/physica_a_v1.1/figures/recorded_rho0.10_f1.00.pdf": {
+      "bytes": 18191,
+      "sha256": "b0a327905c30779e4ebdda71e1934caaf8666b59a58611708ef75e7baec019b6"
+    },
+    "results/physica_a_v1.1/figures/recorded_rho0.20_f0.90.pdf": {
+      "bytes": 36167,
+      "sha256": "57a82b8662e1e29a90e7456098d5f4d6f3f8615632b2622e4f2ba1535af6a5f9"
+    },
+    "results/physica_a_v1.1/figures/recorded_rho0.20_f0.95.pdf": {
+      "bytes": 32056,
+      "sha256": "e88035c447a981b2f19f01b3599fc3790bb839e81220dbee260c816225eb7900"
+    },
+    "results/physica_a_v1.1/figures/recorded_rho0.20_f1.00.pdf": {
+      "bytes": 22462,
+      "sha256": "db454ac2c74f20f3002e8028b6c629f3975edc31eb3535e86cf01ff47bf71a70"
+    },
+    "results/physica_a_v1.1/figures/recorded_rho0.30_f0.90.pdf": {
+      "bytes": 37688,
+      "sha256": "31523c2ca5681d48f79f90f8bd0d93e9933090e16b148c59411a5ca3d2841e3e"
+    },
+    "results/physica_a_v1.1/figures/recorded_rho0.30_f0.95.pdf": {
+      "bytes": 36451,
+      "sha256": "4f81d1a2808a93a78a6a06ed81261fbd25ab2d29bcf9ea06fe42ff26bdc15151"
+    },
+    "results/physica_a_v1.1/figures/recorded_rho0.30_f1.00.pdf": {
+      "bytes": 21726,
+      "sha256": "17fb1c0c423f22a1ad39d38bf528418b1c3d1311bb988f066c3d98ca4558b748"
+    },
+    "results/physica_a_v1.1/figures/recorded_rho0.60_f0.90.pdf": {
+      "bytes": 32671,
+      "sha256": "bb4dc525ff2ff9d6c02e75249eddd5c6e094df4ac7cca2d39b3fe4b50705ee1a"
+    },
+    "results/physica_a_v1.1/figures/recorded_rho0.60_f0.95.pdf": {
+      "bytes": 33093,
+      "sha256": "02d523dcd46b683c75ccb377c3d832cba0c297c01dcbb31170d2131cdb0116a4"
+    },
+    "results/physica_a_v1.1/figures/recorded_rho0.60_f1.00.pdf": {
+      "bytes": 31210,
+      "sha256": "b08c17ba739df14c7844a61c2d89a9d58d8719bba5307e754023c0cacc97d20a"
+    },
+    "results/physica_a_v1.1/figures/supp_lap_availability.pdf": {
+      "bytes": 40927,
+      "sha256": "e2cbf9899ba44d95b4777ec97dc013ec9e294301744e69788a445009e04362ca"
+    },
+    "results/physica_a_v1.1/figures/supp_lap_time.pdf": {
+      "bytes": 54963,
+      "sha256": "0dc1df1fa2e01448f7da57cfda770af4bfbdc1dd8a2ef880bbc3c51d522639be"
+    },
+    "results/physica_a_v1.1/figures/supp_local_delay_empty.pdf": {
+      "bytes": 29881,
+      "sha256": "ed62ebd313d6a98ed97e225f123a874ce701b812903be4cdecde7041be2b831c"
+    },
+    "results/physica_a_v1.1/figures/supp_local_density_flow.pdf": {
+      "bytes": 30372,
+      "sha256": "3010cc2a779cd6e11182af5eaa105d45b321af5023f3f6b816880a2128e58d59"
+    },
+    "results/physica_a_v1.1/figures/supp_local_grid.pdf": {
+      "bytes": 30179,
+      "sha256": "c373339a0b61589aea6a717c8eff8592a2b2bb7fe387bd99ba42ad7a885bcf27"
+    },
+    "results/physica_a_v1.1/figures/supp_local_length.pdf": {
+      "bytes": 28955,
+      "sha256": "bec07b2956fb8579ec2bdde8039ec4b740ab12ecf5c8dfa0a21974bf84c0ef77"
+    },
+    "results/physica_a_v1.1/figures/supp_local_node.pdf": {
+      "bytes": 30173,
+      "sha256": "d253f3cb697854e4a5300142672fc9af6545a23eb873b543894a38a806f0c031"
+    },
+    "results/physica_a_v1.1/figures/supp_local_penetration.pdf": {
+      "bytes": 34582,
+      "sha256": "e06798d6baad95e5ec2d3c1da1290b14eec21da4fcf5fab72ace5f15b555ede1"
+    },
+    "results/physica_a_v1.1/figures/supp_main_lines.pdf": {
+      "bytes": 43699,
+      "sha256": "6bd7c290429de50502627a8e1e194330c86e3d1310a4a6039a38a2b2c062f95f"
+    },
+    "results/physica_a_v1.1/figures/supp_onset.pdf": {
+      "bytes": 78073,
+      "sha256": "9e90c179aaa6078444f91b17a29e422a52bc21e6ec1d0f9095bfc7ebc2a88c7d"
+    },
+    "results/physica_a_v1.1/figures/supp_penalties_pv.pdf": {
+      "bytes": 19718,
+      "sha256": "034f406bf59b85a5b9a73f1fcfc4e03764ab6ad64cdf249b3996178237d7ccf2"
+    },
+    "results/physica_a_v1.1/figures/supp_penalties_r.pdf": {
+      "bytes": 24808,
+      "sha256": "9d985b5491a4f320cb0cb2232120d3171a1112ab1315f1f048c43e2536fb2667"
+    },
+    "results/physica_a_v1.1/figures/supp_spatial.pdf": {
+      "bytes": 84971,
+      "sha256": "2a3e9b20f14a3a59fb35314077bd426577f0419233abf6d19cb92d26657913ff"
+    },
+    "results/physica_a_v1.1/figures/supp_stopped.pdf": {
+      "bytes": 54820,
+      "sha256": "8d21a1d4977d0229dcffbcc90d9e10e616236f3e08f9dbed93b2a87ce5d841a0"
+    },
+    "results/physica_a_v1.1/figures/supp_temporal.pdf": {
+      "bytes": 86846,
+      "sha256": "bf544497ec42e077526aafcdda201323d9d303a182b2cf0d9d8b680a4cc78982"
+    },
+    "results/physica_a_v1.1/figures/supp_window_sensitivity.pdf": {
+      "bytes": 26864,
+      "sha256": "86201ffeb436891f7837d33efe954ca68c52ade70a75c280386251f13416d706"
+    },
+    "results/physica_a_v1.1/figures/validation_main.pdf": {
+      "bytes": 26439,
+      "sha256": "d6d387f342a351723debcee0cb11ca935e7be1216f68d5353a90120c6532a273"
+    },
+    "results/physica_a_v1.1/figures/validation_penalties.pdf": {
+      "bytes": 19923,
+      "sha256": "646a1f70da94708195ff448af6d2d7364493c8b070dec0e8af4930a79d6eb078"
+    },
+    "results/physica_a_v1.1/inputs/README.md": {
+      "bytes": 5177,
+      "sha256": "31a639c6ca2cb0e97ff947ce9ab07b93964adba58869da1117401a64a4a75377"
+    },
+    "results/physica_a_v1.1/inputs/figure_mapping.json": {
+      "bytes": 8897,
+      "sha256": "bb373b7d1b648e1aaf5803bf5f542a1ae094ed833419ead98265740082cd49f2"
+    },
+    "results/physica_a_v1.1/inputs/global-data/illustrations.json": {
+      "bytes": 31513,
+      "sha256": "ff769ed8238770fe9ab6d8b743d0dd4b1ea08ae131f73baa3bf98349e0f7308d"
+    },
+    "results/physica_a_v1.1/inputs/global-data/manifest.json": {
+      "bytes": 9715,
+      "sha256": "8c945e6e52b1ff7fb94ca24b818d41bc058a6479a50fa67c43eaa12144d68266"
+    },
+    "results/physica_a_v1.1/inputs/global-data/points.csv.gz": {
+      "bytes": 1887626,
+      "sha256": "6a8ebf5e02d189f189861a6ad504411fe262aff70a7dfc3cc139c37a80f2eb5c"
+    },
+    "results/physica_a_v1.1/inputs/historical/background_screen_by_fraction.csv": {
+      "bytes": 4850,
+      "sha256": "c766cc426ea676c8402c06f3694439713b252862ade60108835245381b8c431b"
+    },
+    "results/physica_a_v1.1/inputs/historical/background_screen_conditions.csv": {
+      "bytes": 151963,
+      "sha256": "942688444565ee40d22b45ff76dc72d538b817565846f14077a9fc641fb825a2"
+    },
+    "results/physica_a_v1.1/inputs/historical/background_screen_summary.csv": {
+      "bytes": 1547,
+      "sha256": "e26861278e5a716d2d09e328a4d87f6d8f61a073464f123428d9a9bee8c87107"
+    },
+    "results/physica_a_v1.1/inputs/historical/condition_tests.csv": {
+      "bytes": 200556,
+      "sha256": "81a0291f3b90fe7469202173d43d04f91eb9db1a8fd3890b9ecb40e0396397f7"
+    },
+    "results/physica_a_v1.1/inputs/historical/density_band_effects.csv": {
+      "bytes": 83946,
+      "sha256": "e30ef44f05ce965252a752d0b654692c41ff3e80b4629066e9bdb1faab4bb555"
+    },
+    "results/physica_a_v1.1/inputs/historical/multiplicity_summary.csv": {
+      "bytes": 866,
+      "sha256": "50fbbe39cdb32fa1aa25518b15de5aed203719757129e9ff607bc4ea9515f13f"
+    },
+    "results/physica_a_v1.1/inputs/historical/report_facts.json": {
+      "bytes": 9659,
+      "sha256": "57d0c0c4282b4645c5a788fdf3959a79adddd5e9f7d9ba5da6fe8845450cb829"
+    },
+    "results/physica_a_v1.1/inputs/inventory.json": {
+      "bytes": 14640,
+      "sha256": "a0a65baa05b15366fa2b97953b0e329611df8d81de1c984ee2e1055f61f04226"
+    },
+    "results/physica_a_v1.1/inputs/local/analysis-full12.json": {
+      "bytes": 2282,
+      "sha256": "7e2232d6c928e87c816ef9008c50edaef6522372a56c224655d72d39984c0710"
+    },
+    "results/physica_a_v1.1/inputs/local/analysis-mechanism.json": {
+      "bytes": 3864,
+      "sha256": "8b8424daea52e11a3d7460bd7a8fbd363f610080c5b4f692f3f317d22f61e49c"
+    },
+    "results/physica_a_v1.1/inputs/local/episode_identity.csv.gz": {
+      "bytes": 406101,
+      "sha256": "877a342573fe07983fccdb91380f6e0e19fd70c06796e7a26e8343b1d0a15b9f"
+    },
+    "results/physica_a_v1.1/inputs/local/points.csv.gz": {
+      "bytes": 3431037,
+      "sha256": "9d8de313ace80c9a1d3a1a3da82a2213c971d5cc7e84ae763c323dcc2888b2bd"
+    },
+    "results/physica_a_v1.1/inputs/local/projection.csv.gz": {
+      "bytes": 625419,
+      "sha256": "c5f4966170a9edf89c40342e34286ef63edfac68bdbb765b65c3b1c066ab2a8f"
+    },
+    "results/physica_a_v1.1/inputs/local/provenance.json": {
+      "bytes": 331222,
+      "sha256": "f85e80fbc2e3f1d7a992c8b096c222a9136409bd2f0c8c84a0f609623a2e7351"
+    },
+    "results/physica_a_v1.1/inputs/masters/method_schematic.pdf": {
+      "bytes": 30815,
+      "sha256": "fc2a4a1ef1ddd6aad186e78b6a2184a76bc47ec6d4918af5de6bcd88e8bcfca6"
+    },
+    "results/physica_a_v1.1/inputs/packing.json": {
+      "bytes": 5933,
+      "sha256": "2e899d66b409130ea394474d9002dbdc453ae204e9d9db931cd15e07ec931324"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--10f0e1307e8c.csv.gz": {
+      "bytes": 84154,
+      "sha256": "d9dbf86bc3cb80cb80dfc8d8ea2cb1ed2dc2506b3efb2c3d495a723baf5c9dcf"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--10f0e1307e8c.json": {
+      "bytes": 15933,
+      "sha256": "4c3c32539c99bb13f7d29b369072651c5e491cbba71575f93aa7cdad2e2c2a11"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--24074569caa2.csv.gz": {
+      "bytes": 83639,
+      "sha256": "30205d4c218d5f48816c6f7e842ee5ea780d4ca73063e8cd99ff3f9d05a14dde"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--24074569caa2.json": {
+      "bytes": 15919,
+      "sha256": "7de4513182709085633c014dbbd287d2e1dec3d17860c9b706e5173fddd298f5"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--30ea06f0e4c3.csv.gz": {
+      "bytes": 83307,
+      "sha256": "c6cd603fe9dfcaa0838732ac2865f10630dff7959bb6121cb3c258ee6a97234a"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--30ea06f0e4c3.json": {
+      "bytes": 15936,
+      "sha256": "672226420d3e140a8639e4b29639e5c8a94c296991f85c2bc4aaedb432c81042"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--3f264c4dfe64.csv.gz": {
+      "bytes": 83194,
+      "sha256": "55da4fdfd2b731da31fe44627860b8a0c62b41b110f62d7da1e63bf0a716d327"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--3f264c4dfe64.json": {
+      "bytes": 15905,
+      "sha256": "53fc2bf3159da609acac19a0215dd4429762b74e62f163c9a1b9663fa8b7dec0"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--3f5e99c8c52c.csv.gz": {
+      "bytes": 84270,
+      "sha256": "9b9da7da1d2f792d20a6dfa56e0073032c5ff6aed8eb70d808b8cebe355ae7b2"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--3f5e99c8c52c.json": {
+      "bytes": 15906,
+      "sha256": "42ffdc223b30240c544be9089cc181ae03f8a955b22bed39995ed2b5335dcda8"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c09dcdc6330.csv.gz": {
+      "bytes": 84164,
+      "sha256": "bf0bd382b49980af9501848d621d0c7b269e6ca325d4cc67fc7b16e8c2eb33b0"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c09dcdc6330.json": {
+      "bytes": 15934,
+      "sha256": "db621a9c767976a2ffde09ecf7e15a8516b477190f0fe4fe2a258fe873770237"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c28db439888.csv.gz": {
+      "bytes": 78013,
+      "sha256": "7b7228ded00c201145399c886c5915e4a0ee111192c17211f6611615c572b5f0"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c28db439888.json": {
+      "bytes": 15939,
+      "sha256": "b4ea5baa8a196958c4ea56c50ecdd8c3c002ea6156dc48812dbb37b0c564db40"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--54a5edd14228.csv.gz": {
+      "bytes": 83303,
+      "sha256": "ff5132115cda584eb27754fc860ff686d202d4dccf8d5cacfeb1fbc9ed30794a"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--54a5edd14228.json": {
+      "bytes": 15935,
+      "sha256": "a30d4651a5811be1791a0e792d1c0e12beeee45a59aad6a72eaa9653e4e41329"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--6d3d2773b011.csv.gz": {
+      "bytes": 81455,
+      "sha256": "c5c099a0aa5eb30bdf5c8840e8cbd5d191699ac2ebd08c329fa7faa09e1427f0"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--6d3d2773b011.json": {
+      "bytes": 15923,
+      "sha256": "40ccfca5201efd3d38c3321a4cbd9567d971c76341b13c7694a2140d3557d0a1"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--8831928d10d2.csv.gz": {
+      "bytes": 80161,
+      "sha256": "2f862831469a7d51316edac3253defcdfd46fde0e236354c1b43679a91de22c1"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--8831928d10d2.json": {
+      "bytes": 15938,
+      "sha256": "cea163e06adb4c789843d42dc95707ef803ea696550c4fe9328f39cbffeb3f7b"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--d2ab4896b0e4.csv.gz": {
+      "bytes": 82842,
+      "sha256": "48c19e1718a1e5403ca15e6f3a7a79be422ebb926290348eee741f48c74d0857"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--d2ab4896b0e4.json": {
+      "bytes": 15946,
+      "sha256": "3905d2f908f47b082ebb15b96187c578eadb65a8fcea8ed9407231226f147cdf"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--e4451c205144.csv.gz": {
+      "bytes": 77811,
+      "sha256": "7e328fd78fe81ec3e2a79aae299f3bc793c957efb618da23b5f1633e57ae4a03"
+    },
+    "results/physica_a_v1.1/inputs/recorded/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--e4451c205144.json": {
+      "bytes": 15936,
+      "sha256": "2344acf35cabf9ac4a1b971fdd93b73960badf8780161f948d58d1ee672bf057"
+    },
+    "results/physica_a_v1.1/inputs/source_generators.json": {
+      "bytes": 737,
+      "sha256": "4c8fbe3400f495ef217333ddc0f853990a2615612fe35a4d6fdb7ddb549debc2"
+    },
+    "results/physica_a_v1.1/inputs/tables/checkpoint_selection_rows.tex": {
+      "bytes": 208,
+      "sha256": "1cf3bd254cff8a5db03e5559e9f1cc9b8a5f61af0fd75cdfcf5554a7acaae916"
+    },
+    "results/physica_a_v1.1/inputs/tables/extraction_manifest.json": {
+      "bytes": 5074,
+      "sha256": "c7241c16b19e17c20e0f1a2a31f638fffe7e4d4f09552b192eadc57cb13901f8"
+    },
+    "results/physica_a_v1.1/inputs/tables/main_table_01.tex": {
+      "bytes": 1854,
+      "sha256": "b0dee318674f4f9ce34f4c5b6f292c88aaef6f4962ff95b6abffd3089e96e474"
+    },
+    "results/physica_a_v1.1/inputs/tables/main_table_02.tex": {
+      "bytes": 1638,
+      "sha256": "f134f18af1cc90838c219168f8c6db071fa3d315b43d79de245fe02cf0d3166b"
+    },
+    "results/physica_a_v1.1/inputs/tables/main_table_03.tex": {
+      "bytes": 1238,
+      "sha256": "7a9b88acb895f2f6204e78efd16d991240f2fd9b7dd4bdfa794de6b165549094"
+    },
+    "results/physica_a_v1.1/inputs/tables/main_table_04.tex": {
+      "bytes": 706,
+      "sha256": "17f86f5b9812ea1f662c3b687f35d61f30f237f983782c46aae3a3eeeff785ee"
+    },
+    "results/physica_a_v1.1/inputs/tables/main_table_05.tex": {
+      "bytes": 625,
+      "sha256": "30c0954bbe506a2d2956b33bbabc96e99976fc36b2db74130d9736989fb0ac1a"
+    },
+    "results/physica_a_v1.1/inputs/tables/revision_all42domains.csv": {
+      "bytes": 15865,
+      "sha256": "36d8d326e3cfaad35729901abb6614dfe9f8637a45ca134851c75aa76e0dc41d"
+    },
+    "results/physica_a_v1.1/inputs/tables/revision_all42domains.tex": {
+      "bytes": 5195,
+      "sha256": "7724a6eccf3fb40c33a572cc36925a5ba142f495d5e4592957eb74e2d64cafe2"
+    },
+    "results/physica_a_v1.1/inputs/tables/revision_background_audit.csv": {
+      "bytes": 34300,
+      "sha256": "f38b60b40be618e158dcf9b38445ee9649be5996892bf5200498e32487f1b4b1"
+    },
+    "results/physica_a_v1.1/inputs/tables/revision_background_audit.tex": {
+      "bytes": 1798,
+      "sha256": "84f51a59cde476b1075cee2a1fcd2f4d78731ef8e824fb4392509aa0d39caad9"
+    },
+    "results/physica_a_v1.1/inputs/tables/revision_effects.csv": {
+      "bytes": 2158,
+      "sha256": "17ac01b79b7c748952ebd31c0bc8ab1e207ae4be47d5bc9b16161b11a445b708"
+    },
+    "results/physica_a_v1.1/inputs/tables/revision_effects.tex": {
+      "bytes": 586,
+      "sha256": "cf619dd3989ac35ade38bf20eb4800803ec5a179e5742e4097341370054cb361"
+    },
+    "results/physica_a_v1.1/inputs/tables/revision_recorded_pairs.csv": {
+      "bytes": 2211,
+      "sha256": "0ef840eda553bc72f58d3118d0107de738578fba7c1230358af7240f3603ada5"
+    },
+    "results/physica_a_v1.1/inputs/tables/revision_recorded_pairs.tex": {
+      "bytes": 964,
+      "sha256": "0e605281e7eb8b105e4e0f399531f2362039a62474c9bb95b4663ea7523d87af"
+    },
+    "results/physica_a_v1.1/inputs/tables/revision_supplement_table_01.tex": {
+      "bytes": 1075,
+      "sha256": "7f7655034a62aec62a5e43c3b98aa89400e5980aaae69de0deea853f9ba3b73a"
+    },
+    "results/physica_a_v1.1/inputs/tables/revision_supplement_table_02.tex": {
+      "bytes": 1301,
+      "sha256": "b275d134c05cbbe28d97784d5667597a09e20fb1a908efe1ed68e7513913f1a8"
+    },
+    "results/physica_a_v1.1/inputs/tables/revision_supplement_table_03.tex": {
+      "bytes": 518,
+      "sha256": "1b88b314ed2c58473448195054cf1f31a51cbaff06406f4d7301e60803d9becf"
+    },
+    "results/physica_a_v1.1/inputs/tables/revision_supplement_table_04.tex": {
+      "bytes": 895,
+      "sha256": "9240833bf395e1f233495748c21572866c9c11976126ad8863c629fecc3aa731"
+    },
+    "results/physica_a_v1.1/inputs/validation/selection--validation--0.5--candidate--1000--validation-V--complete--1--595e1ddf43c0.csv": {
+      "bytes": 12960,
+      "sha256": "9338e3bcd7b9511fa63c1ee920b1330b325ca91c16c3fd31bb4b62e17a24f2b7"
+    },
+    "results/physica_a_v1.1/inputs/validation/selection--validation--0.5--candidate--1000--validation-V--complete--1--595e1ddf43c0.json": {
+      "bytes": 20922,
+      "sha256": "b241c96624790c9f30e994109928e36423978799c9d9c3ece4436473015b62c4"
+    },
+    "results/physica_a_v1.1/inputs/validation/selection--validation--1.0--candidate--1000--validation-V--complete--1--9c8c6c99870b.csv": {
+      "bytes": 39210,
+      "sha256": "e162ccbda34048c5c261c6b71ce024b8a80bad6eb4948dfbcc67dba9b692c2bc"
+    },
+    "results/physica_a_v1.1/inputs/validation/selection--validation--1.0--candidate--1000--validation-V--complete--1--9c8c6c99870b.json": {
+      "bytes": 21322,
+      "sha256": "3f663c2ba5407749af21c3466c90d026e5f9b601d1506a0ffd6cb8804eccbd59"
+    },
+    "results/physica_a_v1.1/inputs/validation/selection--validation--2.0--candidate--1000--validation-V--complete--1--82ae3e1ff6ae.csv": {
+      "bytes": 13037,
+      "sha256": "162a5eafd63c9df484346f53dbce9c30e4b9396c1c7402d1a25ef18ab9b515c6"
+    },
+    "results/physica_a_v1.1/inputs/validation/selection--validation--2.0--candidate--1000--validation-V--complete--1--82ae3e1ff6ae.json": {
+      "bytes": 20922,
+      "sha256": "e73ca52745951fd126244d108952cae7bd9cb4b399d15913e47691f75630d7f4"
+    },
+    "results/physica_a_v1.1/tables/TABLES.json": {
+      "bytes": 737,
+      "sha256": "1b09935d83cb3782442ab70445eabf0fa4af97c12d317346873c1c69d1f5f576"
+    },
+    "results/physica_a_v1.1/tables/all42domains.csv": {
+      "bytes": 15865,
+      "sha256": "36d8d326e3cfaad35729901abb6614dfe9f8637a45ca134851c75aa76e0dc41d"
+    },
+    "results/physica_a_v1.1/tables/all42domains.tex": {
+      "bytes": 5195,
+      "sha256": "7724a6eccf3fb40c33a572cc36925a5ba142f495d5e4592957eb74e2d64cafe2"
+    },
+    "results/physica_a_v1.1/tables/background_audit.csv": {
+      "bytes": 34300,
+      "sha256": "f38b60b40be618e158dcf9b38445ee9649be5996892bf5200498e32487f1b4b1"
+    },
+    "results/physica_a_v1.1/tables/background_audit.tex": {
+      "bytes": 1798,
+      "sha256": "84f51a59cde476b1075cee2a1fcd2f4d78731ef8e824fb4392509aa0d39caad9"
+    },
+    "results/physica_a_v1.1/tables/checkpoint_selection_rows.tex": {
+      "bytes": 208,
+      "sha256": "1cf3bd254cff8a5db03e5559e9f1cc9b8a5f61af0fd75cdfcf5554a7acaae916"
+    },
+    "results/physica_a_v1.1/tables/effects.csv": {
+      "bytes": 2158,
+      "sha256": "17ac01b79b7c748952ebd31c0bc8ab1e207ae4be47d5bc9b16161b11a445b708"
+    },
+    "results/physica_a_v1.1/tables/effects.tex": {
+      "bytes": 586,
+      "sha256": "cf619dd3989ac35ade38bf20eb4800803ec5a179e5742e4097341370054cb361"
+    },
+    "results/physica_a_v1.1/tables/extraction_manifest.json": {
+      "bytes": 5074,
+      "sha256": "c7241c16b19e17c20e0f1a2a31f638fffe7e4d4f09552b192eadc57cb13901f8"
+    },
+    "results/physica_a_v1.1/tables/main_table_01.tex": {
+      "bytes": 1854,
+      "sha256": "b0dee318674f4f9ce34f4c5b6f292c88aaef6f4962ff95b6abffd3089e96e474"
+    },
+    "results/physica_a_v1.1/tables/main_table_02.tex": {
+      "bytes": 1638,
+      "sha256": "f134f18af1cc90838c219168f8c6db071fa3d315b43d79de245fe02cf0d3166b"
+    },
+    "results/physica_a_v1.1/tables/main_table_03.tex": {
+      "bytes": 1238,
+      "sha256": "7a9b88acb895f2f6204e78efd16d991240f2fd9b7dd4bdfa794de6b165549094"
+    },
+    "results/physica_a_v1.1/tables/main_table_04.tex": {
+      "bytes": 706,
+      "sha256": "17f86f5b9812ea1f662c3b687f35d61f30f237f983782c46aae3a3eeeff785ee"
+    },
+    "results/physica_a_v1.1/tables/main_table_05.tex": {
+      "bytes": 625,
+      "sha256": "30c0954bbe506a2d2956b33bbabc96e99976fc36b2db74130d9736989fb0ac1a"
+    },
+    "results/physica_a_v1.1/tables/recorded_pairs.csv": {
+      "bytes": 2211,
+      "sha256": "0ef840eda553bc72f58d3118d0107de738578fba7c1230358af7240f3603ada5"
+    },
+    "results/physica_a_v1.1/tables/recorded_pairs.json": {
+      "bytes": 50220,
+      "sha256": "6003fbbcc5e9452eb20695959d9ee74c9460e1035f3556ea4e221622a157b73c"
+    },
+    "results/physica_a_v1.1/tables/recorded_pairs.tex": {
+      "bytes": 964,
+      "sha256": "0e605281e7eb8b105e4e0f399531f2362039a62474c9bb95b4663ea7523d87af"
+    },
+    "results/physica_a_v1.1/tables/revision_all42domains.csv": {
+      "bytes": 15865,
+      "sha256": "36d8d326e3cfaad35729901abb6614dfe9f8637a45ca134851c75aa76e0dc41d"
+    },
+    "results/physica_a_v1.1/tables/revision_all42domains.tex": {
+      "bytes": 5195,
+      "sha256": "7724a6eccf3fb40c33a572cc36925a5ba142f495d5e4592957eb74e2d64cafe2"
+    },
+    "results/physica_a_v1.1/tables/revision_background_audit.csv": {
+      "bytes": 34300,
+      "sha256": "f38b60b40be618e158dcf9b38445ee9649be5996892bf5200498e32487f1b4b1"
+    },
+    "results/physica_a_v1.1/tables/revision_background_audit.tex": {
+      "bytes": 1798,
+      "sha256": "84f51a59cde476b1075cee2a1fcd2f4d78731ef8e824fb4392509aa0d39caad9"
+    },
+    "results/physica_a_v1.1/tables/revision_effects.csv": {
+      "bytes": 2158,
+      "sha256": "17ac01b79b7c748952ebd31c0bc8ab1e207ae4be47d5bc9b16161b11a445b708"
+    },
+    "results/physica_a_v1.1/tables/revision_effects.tex": {
+      "bytes": 586,
+      "sha256": "cf619dd3989ac35ade38bf20eb4800803ec5a179e5742e4097341370054cb361"
+    },
+    "results/physica_a_v1.1/tables/revision_recorded_pairs.csv": {
+      "bytes": 2211,
+      "sha256": "0ef840eda553bc72f58d3118d0107de738578fba7c1230358af7240f3603ada5"
+    },
+    "results/physica_a_v1.1/tables/revision_recorded_pairs.tex": {
+      "bytes": 964,
+      "sha256": "0e605281e7eb8b105e4e0f399531f2362039a62474c9bb95b4663ea7523d87af"
+    },
+    "results/physica_a_v1.1/tables/revision_supplement_table_01.tex": {
+      "bytes": 1075,
+      "sha256": "7f7655034a62aec62a5e43c3b98aa89400e5980aaae69de0deea853f9ba3b73a"
+    },
+    "results/physica_a_v1.1/tables/revision_supplement_table_02.tex": {
+      "bytes": 1301,
+      "sha256": "b275d134c05cbbe28d97784d5667597a09e20fb1a908efe1ed68e7513913f1a8"
+    },
+    "results/physica_a_v1.1/tables/revision_supplement_table_03.tex": {
+      "bytes": 518,
+      "sha256": "1b88b314ed2c58473448195054cf1f31a51cbaff06406f4d7301e60803d9becf"
+    },
+    "results/physica_a_v1.1/tables/revision_supplement_table_04.tex": {
+      "bytes": 895,
+      "sha256": "9240833bf395e1f233495748c21572866c9c11976126ad8863c629fecc3aa731"
+    },
+    "src/snfs_traffic/__init__.py": {
+      "bytes": 65,
+      "sha256": "92a6b0b93bf0f4258961dec4f6b6247417de71265de0a1cef0d1cae1be266065"
+    },
+    "src/snfs_traffic/backends/__init__.py": {
+      "bytes": 1413,
+      "sha256": "02d38ac059597d7ccb76fb78359385b3d2648504769d0e3c744d8182be6d3eec"
+    },
+    "src/snfs_traffic/backends/optimized.py": {
+      "bytes": 5053,
+      "sha256": "d9364e545abd959a55183486fb12cddfa01e7a2dcda83439ca3d783861f69ab1"
+    },
+    "src/snfs_traffic/control.py": {
+      "bytes": 38851,
+      "sha256": "7e0eb44662607f1b0e8dce048beeade4f45a60a7295af45930f4942a54ffde0b"
+    },
+    "src/snfs_traffic/core/__init__.py": {
+      "bytes": 1281,
+      "sha256": "b6576b356a9f03ac5133ab6ad4d6866352e95a783e643e37087db6130f5d2751"
+    },
+    "src/snfs_traffic/core/backend.py": {
+      "bytes": 2147,
+      "sha256": "07c892d684c41c9d6ab763ddb6f65e5d8b91d57f7e45f1039fb669f6207b01a8"
+    },
+    "src/snfs_traffic/core/indexing.py": {
+      "bytes": 5978,
+      "sha256": "f432fd7860aa18ba7993f6de616b838a76f4df48c50b437e95bec84d7d772196"
+    },
+    "src/snfs_traffic/core/indexing_kernels.py": {
+      "bytes": 5809,
+      "sha256": "31bde98e74beefd189f87d6fe9c39cd547c7a03c8d140c2286e5c3ab3d6c0e81"
+    },
+    "src/snfs_traffic/core/indexing_numba.py": {
+      "bytes": 9190,
+      "sha256": "c466e5c98067387e4861166bdd06b30e8d2db76f9744c01e6c053bb5c62318c4"
+    },
+    "src/snfs_traffic/core/invariants.py": {
+      "bytes": 4236,
+      "sha256": "b5d88310b9337dfbee90af55d89c7b874b348e8e1783cd30d93dcbc737c3e46e"
+    },
+    "src/snfs_traffic/core/lane_change_kernels.py": {
+      "bytes": 7013,
+      "sha256": "68c4b0fd69125bebed96b4b1d86a033130e67edad051828957b0630438492c41"
+    },
+    "src/snfs_traffic/core/lane_change_numba.py": {
+      "bytes": 4182,
+      "sha256": "af04496bc7468754a90b745bb13a23a679f4e5c9f6aa508d467cbc86e8b6184f"
+    },
+    "src/snfs_traffic/core/lane_change_reference.py": {
+      "bytes": 3018,
+      "sha256": "9ae1481db9bfe82169d5a3ca3afc812c123c86a8ab1f7091e8c3f898de4a5d4c"
+    },
+    "src/snfs_traffic/core/longitudinal_kernels.py": {
+      "bytes": 3468,
+      "sha256": "c1103f7ceacaadb2a9dc6f5fa628083944f88362e79605be856be1baf3f139df"
+    },
+    "src/snfs_traffic/core/longitudinal_numba.py": {
+      "bytes": 12147,
+      "sha256": "c66e169b26a0d1040d0220ddc00f683056bd31e3623881241642a7c83cb539b9"
+    },
+    "src/snfs_traffic/core/params.py": {
+      "bytes": 2842,
+      "sha256": "befb483b628bebe810bc46442d4f58a7a6ae1bfc67f92076a234b476560f3cf1"
+    },
+    "src/snfs_traffic/core/roles.py": {
+      "bytes": 1028,
+      "sha256": "549914787df1dc0e8a90af27aa752200ff52f4e30d15868d562bfebedee66fc9"
+    },
+    "src/snfs_traffic/core/state.py": {
+      "bytes": 5419,
+      "sha256": "741972dcaa358242a6ef6be7d1dc03ed225e8187aadcba4a0868f2eccb7d92e8"
+    },
+    "src/snfs_traffic/core/step_reference.py": {
+      "bytes": 3823,
+      "sha256": "9077cf8d4b0344cb89b162c10f5bfce881b6d6b49436c5785791621bfa17d3a8"
+    },
+    "src/snfs_traffic/core/types.py": {
+      "bytes": 305,
+      "sha256": "0536741b9d0bda513bd0941a8aaf8e2d0e36addb4194d8c6d7c84c001b943f98"
+    },
+    "src/snfs_traffic/envs/__init__.py": {
+      "bytes": 50,
+      "sha256": "6e2915c1368965352ce2f6cccbb6219df7c7f801ade64348513ee3dd5e5b885a"
+    },
+    "src/snfs_traffic/io/__init__.py": {
+      "bytes": 50,
+      "sha256": "6bd02539a6e9b744146458b8d5d8e30dd0f4d89e4e2ab7bd4aa068bbbd9ecb15"
+    },
+    "src/snfs_traffic/metrics/__init__.py": {
+      "bytes": 256,
+      "sha256": "647e9c4653c3dc6c3a0bcc2e5487d5c1e5f737b9e2e17889a9110a84992cb681"
+    },
+    "src/snfs_traffic/metrics/priority.py": {
+      "bytes": 11870,
+      "sha256": "8ca00b377936501b009088bd39d9681745eb629ddd2f7b5052355cedb268fc32"
+    },
+    "src/snfs_traffic/observations/__init__.py": {
+      "bytes": 818,
+      "sha256": "14084963af89523007471a54afc39aab9bf06cefc9573af392086e2bb1e11083"
+    },
+    "src/snfs_traffic/observations/local.py": {
+      "bytes": 5797,
+      "sha256": "3d083a6ddae50bac142fcf31f3e66f01319fc681fc2307a7eb42598dff7f0051"
+    },
+    "src/snfs_traffic/observations/pv_graph.py": {
+      "bytes": 16918,
+      "sha256": "01f3e38ca2f1c44da6019c6d011a9f9c6a296fa23cd035aeb9ef6341669e8d2a"
+    },
+    "src/snfs_traffic/rl/__init__.py": {
+      "bytes": 1604,
+      "sha256": "1ecdd4e44680964b71f07f3e6b2457816206dced3f8d5160814c71cd557f8ad6"
+    },
+    "src/snfs_traffic/rl/centralized_pv_env.py": {
+      "bytes": 21304,
+      "sha256": "032e1e1c0243b66a56e8fceab003a3da92d4424eb3540e0d51206b8023dbcc76"
+    },
+    "src/snfs_traffic/rl/env.py": {
+      "bytes": 9643,
+      "sha256": "7f9ebf9f22c822ce4f2f17ace00be7f55dea42a8de49a5a299b664194f7819de"
+    },
+    "src/snfs_traffic/rl/episode.py": {
+      "bytes": 3239,
+      "sha256": "987b7ebd908b7e2ead87c18621eda468cb5fc2261749c8f54ed7960a0ba351c7"
+    },
+    "src/snfs_traffic/rl/graph_ppo.py": {
+      "bytes": 13101,
+      "sha256": "b2b140b93958641525898587163bc1fdf6b4fba101945bf111bfaa77af8a53ed"
+    },
+    "src/snfs_traffic/rl/multiagent_env.py": {
+      "bytes": 16778,
+      "sha256": "7f248a1573447093cdd2f46022dc61436f238ce4ccabce5c76b97aa2dac3b6ce"
+    },
+    "src/snfs_traffic/rl/nongraph_ppo.py": {
+      "bytes": 16983,
+      "sha256": "5eea819d8b701a8205352b274c38984a7352631279c240778aab710be0b3dda7"
+    },
+    "src/snfs_traffic/rl/rewards.py": {
+      "bytes": 3414,
+      "sha256": "1271c16a011eedf3da23612c04167e91e3e4c8cca1f63f0737d2a77ebbce70de"
+    },
+    "src/snfs_traffic/rl/speed_control_multiagent_env.py": {
+      "bytes": 3496,
+      "sha256": "5589d00215203e0a1d504e8268766a9951fe58bf2c707eb6667344eaef939d4c"
+    },
+    "src/snfs_traffic/rules/__init__.py": {
+      "bytes": 283,
+      "sha256": "2104cf2fb0950bfdfcb486e1b38a58560721711c6c37e40b74eb34fec3eece17"
+    },
+    "src/snfs_traffic/rules/priority_yield.py": {
+      "bytes": 8053,
+      "sha256": "6f86ef5f670018d65f361b79523bae79a7570d08af77931289c69004c46ff193"
+    },
+    "src/snfs_traffic/scenarios/__init__.py": {
+      "bytes": 983,
+      "sha256": "71ed37ebbba12e8e9d52439066eb022a0fc7bf777eb07b6294efd78a22592e5a"
+    },
+    "src/snfs_traffic/scenarios/init.py": {
+      "bytes": 6497,
+      "sha256": "7f6a7d72290df1ee2fb5b569c3ff79471d4247f2673eabb4dbaf7e4455c9a09c"
+    },
+    "src/snfs_traffic/scenarios/priority.py": {
+      "bytes": 6724,
+      "sha256": "c8c8a3d593a5fde91543074fb0557fb94336b932c59cd719ba59729c212b2d65"
+    },
+    "src/snfs_traffic/simulator.py": {
+      "bytes": 8502,
+      "sha256": "000c29b6dd029b514149d605652cfc3d6be1d1ce9a4b98276be7b6ccdb5672b6"
+    },
+    "src/snfs_traffic/topology/__init__.py": {
+      "bytes": 171,
+      "sha256": "464ae34c3ea54946edc323296e553d0eb6de9fe2274056734e57d18a359b5cd3"
+    },
+    "src/snfs_traffic/topology/base.py": {
+      "bytes": 1337,
+      "sha256": "64467f03b84cd982be304f128f44f3a8f99126b2055318103ca0b07e38286a21"
+    },
+    "src/snfs_traffic/topology/ring.py": {
+      "bytes": 1638,
+      "sha256": "af6303a1ecb80b42f2c33cd99652b2c64c889ec7fd5aa68f60eaa34958639d73"
+    },
+    "src/snfs_traffic/visualization/__init__.py": {
+      "bytes": 158,
+      "sha256": "b22b36c20776a2929c090794523418c3cdc343aeabef22de7600e9a007ef45f6"
+    },
+    "src/snfs_traffic/visualization/demo.py": {
+      "bytes": 3792,
+      "sha256": "fd66bf0b1f456fc0d3c366db57ab7ebbbe8d1ca1f551be0b2f424bd8df8c1bf7"
+    },
+    "src/snfs_traffic/visualization/road.py": {
+      "bytes": 12972,
+      "sha256": "22f18869f4881b40fe7d728c5faea6becb4a2d24cfd140176435683776db4908"
+    },
+    "src/snfs_traffic/visualization/video.py": {
+      "bytes": 1551,
+      "sha256": "44ec309ebf2a5f45bd0e2bb2b2dd3867aebeb58d58884f08848ca8ae23bf151f"
+    },
+    "tests/test_backend_equivalence.py": {
+      "bytes": 6118,
+      "sha256": "09289050c10872c26787fd67d6a6f508adda15e37d4e5b04cfa6b4172bf94801"
+    },
+    "tests/test_backends_selection.py": {
+      "bytes": 1267,
+      "sha256": "a34becbc03c23d17819446b9f655894aff087e5c457e7d4f7b3c2a6dd05ab804"
+    },
+    "tests/test_bench_full_step_phases.py": {
+      "bytes": 3915,
+      "sha256": "66b1e066785737f574cc9fc2fce0a698bd0a5779585e41a26594ae47390784e9"
+    },
+    "tests/test_bench_optimized_full_step.py": {
+      "bytes": 2420,
+      "sha256": "cd2ea197dcadee5b484a7abe82bd8f30b9cd7cca553b9ac77132771fb1549dfd"
+    },
+    "tests/test_benchmark_indexing_smoke.py": {
+      "bytes": 1406,
+      "sha256": "877c9c687fa81926758c22006347d5f84448303634c60e4051c422ac75ceb2a7"
+    },
+    "tests/test_centralized_pv_env.py": {
+      "bytes": 6533,
+      "sha256": "1a7b0ff2361e05c90f52b3e9581ee4af1d232b80966bd807f746fa434b667ade"
+    },
+    "tests/test_controlled_actions.py": {
+      "bytes": 4814,
+      "sha256": "0a83cd5bbc9ad73d073b7939c8c11848c8dff07fd202fd5bdcaf6210fa9f2807"
+    },
+    "tests/test_controlled_speed_actions.py": {
+      "bytes": 5321,
+      "sha256": "31eb751d74b65c058f3bf9a5147de8912894b0f71d5273c15558e171a2c35120"
+    },
+    "tests/test_gymnasium_env.py": {
+      "bytes": 7648,
+      "sha256": "37ee568f5b2aaaa33f9e1d5683fb43600c61c69cf33bf7e25b612b7ee09ac361"
+    },
+    "tests/test_imports.py": {
+      "bytes": 705,
+      "sha256": "83a06bf2e8b4fde2a1e97b6990f856a4a9008a493b9c0ca2353bed362bc2eb58"
+    },
+    "tests/test_indexing.py": {
+      "bytes": 10956,
+      "sha256": "ee4044deb6c3ecff9770ce29a2b38f144a99eed1862eb004d61f91a0b4d50561"
+    },
+    "tests/test_indexing_kernels.py": {
+      "bytes": 6824,
+      "sha256": "147169500b6d1a9430ee37eaf578ba7ee2c4bda0a2d1f1c45a9e7203a004cd09"
+    },
+    "tests/test_indexing_numba.py": {
+      "bytes": 8917,
+      "sha256": "3960a9545a90649c1a5a3778f92398e13e5e55213ee0dbc6ca05c540b65ede9a"
+    },
+    "tests/test_indexing_numba_fused.py": {
+      "bytes": 4284,
+      "sha256": "c25b6a04547a03005c535f3f9bfa56ff3591ab7c2f932bc83a92e149659498ab"
+    },
+    "tests/test_init_scenarios.py": {
+      "bytes": 7727,
+      "sha256": "87bd6651bb9e8af57959536a7e5217acbd71c1523504c83161c1d5199efa2235"
+    },
+    "tests/test_lane_change_kernels.py": {
+      "bytes": 2954,
+      "sha256": "05e0ef8d460bab95fe65f9811e6230774cdc066cbf7279e6b1e01f1889410c89"
+    },
+    "tests/test_lane_change_numba.py": {
+      "bytes": 4724,
+      "sha256": "01f1fe16b4dbbecd88c3dbe1ee06b14b7780951a31ae81d73315e66d11b60d19"
+    },
+    "tests/test_lateral_overrides.py": {
+      "bytes": 3483,
+      "sha256": "24c67eed3b6afeb9a0b46a3fbf7ad6b52fc430c4ef4d179a794c100e387af211"
+    },
+    "tests/test_local_observations.py": {
+      "bytes": 2875,
+      "sha256": "182224c3bb7f19120e6642b3006c2d7a2a81a74896f4b8323ae21cae4fb30a9b"
+    },
+    "tests/test_longitudinal_kernels.py": {
+      "bytes": 2677,
+      "sha256": "75fd3d9a7adf40d0b98c81516461e9ac9aa263a2668ea530b814cedfbf154c6c"
+    },
+    "tests/test_longitudinal_numba.py": {
+      "bytes": 12213,
+      "sha256": "85812a42fb793df383e53b057ec266e466407bef2b1c2ad2f59f6d32876dda61"
+    },
+    "tests/test_longitudinal_rule1.py": {
+      "bytes": 8243,
+      "sha256": "2f61cca007bf218d04bfaed3a9d0f71a0b04be93d5a0de8699f6d51899c51cf2"
+    },
+    "tests/test_multiagent_env.py": {
+      "bytes": 13333,
+      "sha256": "75bedabe42d4a5f4bd2419a444d8318b70b3805a19cb0e462b286c30c12c707d"
+    },
+    "tests/test_optimized_backend_equivalence.py": {
+      "bytes": 8839,
+      "sha256": "0559ef153d7d68a6e50fa5bf1493e04fb5cea364ac71dc9e07636be044632116"
+    },
+    "tests/test_optimized_controlled_speed_actions.py": {
+      "bytes": 11591,
+      "sha256": "d722e0acd59c89eaf2038b02c0875359819e0cb288f9f8940d3bbb247f3913a4"
+    },
+    "tests/test_priority_baseline_runner.py": {
+      "bytes": 2120,
+      "sha256": "8ea15f0b4a36bf52336348dca7f5b96e7ce921e634e2fbad0c46e3c6a3058a21"
+    },
+    "tests/test_priority_metrics.py": {
+      "bytes": 2789,
+      "sha256": "7a45eecc324586f86a92fb49a39642b71a4e564cd00b583553b0317051bb5436"
+    },
+    "tests/test_priority_roles_and_scenarios.py": {
+      "bytes": 4346,
+      "sha256": "06845b860c08518583b05e4fdd0f80e80edeb0dfb768a642315ec085eb16cef7"
+    },
+    "tests/test_priority_yield_rule.py": {
+      "bytes": 3543,
+      "sha256": "3547c1c0bf175209197ad1f8db791c5f33e825d4061d8a17453b757d4c5200e6"
+    },
+    "tests/test_pv_architecture_tools.py": {
+      "bytes": 4477,
+      "sha256": "ff6a4fe078e20cc3efaaccc6cdb8da87b8093d4bd550900f6e18eb3931f85716"
+    },
+    "tests/test_pv_graph_model.py": {
+      "bytes": 2415,
+      "sha256": "17c87dc45bf806d40481e4e64286ba48c87d60c8831dcbf7e9e1966f79906556"
+    },
+    "tests/test_pv_graph_observation.py": {
+      "bytes": 4452,
+      "sha256": "ab80fa1b293b64704fc4732868f2736547b86cee5625f0ed4aa629e65d08ce1c"
+    },
+    "tests/test_pv_graph_train_config.py": {
+      "bytes": 4923,
+      "sha256": "9e052becc4741f27c12b0d12d082fe2d8aeb99fd0085e72a51401406cf216af5"
+    },
+    "tests/test_pv_nongraph_model.py": {
+      "bytes": 4584,
+      "sha256": "e804bf66b8c8348ee3461a24e3bbf675b8b5ffcfd4c492ff042d3c89f4954648"
+    },
+    "tests/test_pv_nongraph_train_config.py": {
+      "bytes": 2367,
+      "sha256": "85b53e55f66be4cc3f82f2ca183be9f24a55e0b1957747343392bca5a93e67d9"
+    },
+    "tests/test_ring_topology.py": {
+      "bytes": 4386,
+      "sha256": "37cbb3764db735ef4f5e91fbe67ed08419b9ce9798b3f694f43b5ff0468a214f"
+    },
+    "tests/test_rl_episode.py": {
+      "bytes": 1922,
+      "sha256": "545db75ca516c49b0bb3bb86f3de8b81f585bf422dbac3e6074b65aef0aa87eb"
+    },
+    "tests/test_rl_rewards.py": {
+      "bytes": 5724,
+      "sha256": "473e25b3b872da83ccc55aad0d447910d796f970ccd0fd244cde5a4520f8a52c"
+    },
+    "tests/test_rllib_multiagent_env.py": {
+      "bytes": 749,
+      "sha256": "d968d60f2b3232d446c88f1e481cb2da29ac20914a4ea18bd46742da66a5a59f"
+    },
+    "tests/test_rollout_hooks.py": {
+      "bytes": 1208,
+      "sha256": "77fee186440d267ce306baf4d114d144323986595836053450db1116c2556b86"
+    },
+    "tests/test_runtime_invariants.py": {
+      "bytes": 8572,
+      "sha256": "fad2fc30900980c493f7c6d11c16e4527b285f885987480c70c3d613d68b4fdc"
+    },
+    "tests/test_simulator_facade.py": {
+      "bytes": 2177,
+      "sha256": "638572dfdbbbdeaa50f13475afdf709bfdc2acb2c13480c48c59036b176cc46f"
+    },
+    "tests/test_snfs_full_step.py": {
+      "bytes": 9522,
+      "sha256": "431e0b97bbb491a871256b1d957fe39569e8e01066d12602356d8caa5f557fc2"
+    },
+    "tests/test_snfs_lane_change.py": {
+      "bytes": 9964,
+      "sha256": "884097cc99be06620d9dd82a0be495b94e59afac2f1040bbe63825fb306a6e9b"
+    },
+    "tests/test_snfs_longitudinal.py": {
+      "bytes": 11420,
+      "sha256": "7a685190b3224ac4bf4c21d1da13a7bb4fd751fe1a7b0f4958ac8e4d20e2bf35"
+    },
+    "tests/test_speed_control_multiagent_env.py": {
+      "bytes": 5469,
+      "sha256": "8d9041ac6d4f9eb83b24d554fc90244af3f5d86ab16d103346092c541d749ebe"
+    },
+    "tests/test_state_schema.py": {
+      "bytes": 9055,
+      "sha256": "40d8721e94905227f37450418b463c90c07384346f47285799a6ebaf5558959e"
+    },
+    "tests/test_visualization_helpers.py": {
+      "bytes": 3529,
+      "sha256": "c5f54aaff35307052ca463895649efaf9d9c6b0a2b282a9844d9e991af0afad7"
+    },
+    "tests/test_visualization_imports.py": {
+      "bytes": 545,
+      "sha256": "4ed0e94ed07e196dc623f7275f97fc590169fe91ca818bf4c54f564c41bba675"
+    },
+    "tests/test_visualization_pygame.py": {
+      "bytes": 2858,
+      "sha256": "999a234fd44119a6e916f24650fd224e1334cd68802855305d05b075dcb34d8d"
+    },
+    "tests/test_visualization_video.py": {
+      "bytes": 789,
+      "sha256": "7130544617feeebe22491e86ffb7872521a09fb12d3876dd51218dfb06d2f88f"
+    },
+    "tools/publication/README.md": {
+      "bytes": 3655,
+      "sha256": "44934c287c97a407eafcd0423596af1ea97e84d020831097355d45c440b0c128"
+    },
+    "tools/publication/build_global_assets.py": {
+      "bytes": 34745,
+      "sha256": "84fd704fc9636e81e23c78936f2aed976b53b0507c0dd15a723b22cbd75bd6d1"
+    },
+    "tools/publication/build_local_assets.py": {
+      "bytes": 38992,
+      "sha256": "5e6c1404505b9956e36fe61626551d71de8454e8ec7d39ac8b69abdade970a8d"
+    },
+    "tools/publication/export_tables.py": {
+      "bytes": 5496,
+      "sha256": "c7e55d875d36e3b68d6b0ffdaf599df45fc068ee8482ccf9a87698e1abaef122"
+    },
+    "tools/publication/generate.py": {
+      "bytes": 3661,
+      "sha256": "5bcdb23cd9d869781e3ebe436f058e6c3fd7aca9a2dc33a78c4fcf294f65d3ad"
+    },
+    "tools/publication/inputs.py": {
+      "bytes": 1283,
+      "sha256": "57d358ab2ba8cfb345983384200ac83f32bddb790b88fd56d3f509ebb7285603"
+    },
+    "weights/0280bedf8f98ed5f5ed04f6f5d5bd1a686090e06bd8f6164b01a8a7b2edc40d2/manifest.json": {
+      "bytes": 17750,
+      "sha256": "df740727ee55479645e123c7cc643bfaba48a92998426787178aaa8288e166be"
+    },
+    "weights/0280bedf8f98ed5f5ed04f6f5d5bd1a686090e06bd8f6164b01a8a7b2edc40d2/weights.npz": {
+      "bytes": 1434994,
+      "sha256": "1371f1ac29181de25f56fc1fde8d9b6926a62d9998ee3129a01215f5ebcfca31"
+    },
+    "weights/09b931dd388bb5f918c2ca986a1821f32bb2e55dc50f0d8d34f8526593a97d0a/manifest.json": {
+      "bytes": 22596,
+      "sha256": "b2b24c325845522686caf02d523b6a03ba916ea53872a98e5d3a5c1dd9d7f4fb"
+    },
+    "weights/09b931dd388bb5f918c2ca986a1821f32bb2e55dc50f0d8d34f8526593a97d0a/weights.npz": {
+      "bytes": 1430206,
+      "sha256": "9b079ddd29ea43f8e83702632168967f1c42bfc0acac2af296624ee02e2776b6"
+    },
+    "weights/163b5e31baa59090ac7bdcbbbed78e819339a109219833978bb65777b3671775/manifest.json": {
+      "bytes": 22603,
+      "sha256": "0d7516a80b229e3030dd31bfe3bbe96a5e015522de5b7f415f1ea83f8ce39586"
+    },
+    "weights/163b5e31baa59090ac7bdcbbbed78e819339a109219833978bb65777b3671775/weights.npz": {
+      "bytes": 1434994,
+      "sha256": "5b9fd9681a1b7c2e4688364a326ce147c31d41e82807327b7f6901831f4cf293"
+    },
+    "weights/2d4089d81ff301a34f54edeb3579297fe720963018d765974f9e0876ecf15d2c/manifest.json": {
+      "bytes": 17748,
+      "sha256": "f2f98c32ebbe0a26893aa71bf3f8d83d61577fd713e7851e49ee470d8c884521"
+    },
+    "weights/2d4089d81ff301a34f54edeb3579297fe720963018d765974f9e0876ecf15d2c/weights.npz": {
+      "bytes": 1434994,
+      "sha256": "d77e7d87b8cdab2136e7c66ed3f907191773132a679ae4884427ac43bb1e6ab8"
+    },
+    "weights/30997dee6364cf473eb58f4d9382fa938b3c99a323d4f9115679c7062b7d050f/manifest.json": {
+      "bytes": 22601,
+      "sha256": "16d1904fc56a6e4453e546071d9fd8841d35da9bbe9de94d321f5e9a33e18279"
+    },
+    "weights/30997dee6364cf473eb58f4d9382fa938b3c99a323d4f9115679c7062b7d050f/weights.npz": {
+      "bytes": 1434994,
+      "sha256": "71364bf0360a4b9b441c73fc318bc855a4ab7c02b590fe5c742d90321e8ba2d2"
+    },
+    "weights/32ab03f0f6403de9698372cd11f912e7f01cf38d75e40868676f7a8c866542d8/manifest.json": {
+      "bytes": 17750,
+      "sha256": "c9ef166b808c89ef509367ea9c2a9b77a89e055887581e893742730555713c92"
+    },
+    "weights/32ab03f0f6403de9698372cd11f912e7f01cf38d75e40868676f7a8c866542d8/weights.npz": {
+      "bytes": 1434994,
+      "sha256": "0e589fe71fcff58d7e7d9b111ba7587215e6b40724efde943ad5d55ff7b9eb7c"
+    },
+    "weights/39d924d99f752672cc91a10ccdb23a616d87d4bbec0146a75000f8f1a8c1a449/manifest.json": {
+      "bytes": 24173,
+      "sha256": "0daecb2bd85f3511aa451fb4b80a9c1c8e53cc08ab16cbb8f706c5e3335960ee"
+    },
+    "weights/39d924d99f752672cc91a10ccdb23a616d87d4bbec0146a75000f8f1a8c1a449/weights.npz": {
+      "bytes": 1428754,
+      "sha256": "c707c9f26ef9c45f22d163cbf7ad51abc718bb99ee28a844c53f0908880c867c"
+    },
+    "weights/52050de267d6ce87dea3525c8d511bebc33d80c07b412a59f9231e6f83ad833f/manifest.json": {
+      "bytes": 22596,
+      "sha256": "f85a0b93edcb12944812835cdfcaa6c68ef5125c6cf97b81d116b591e3e1ae7f"
+    },
+    "weights/52050de267d6ce87dea3525c8d511bebc33d80c07b412a59f9231e6f83ad833f/weights.npz": {
+      "bytes": 1430206,
+      "sha256": "a889d99ff18c426b4e3de559be1d6e3440ae40b4d6f08c04a52234e0a968aeb9"
+    },
+    "weights/58238aca4819972494f7f474a00697a7450ea280636742bfbcca9e6b58b38839/manifest.json": {
+      "bytes": 22606,
+      "sha256": "bfe7ec304d271c546e0a4d3c5690bd45a8cbad92c9ac27c0fe0a66234f38d461"
+    },
+    "weights/58238aca4819972494f7f474a00697a7450ea280636742bfbcca9e6b58b38839/weights.npz": {
+      "bytes": 1434994,
+      "sha256": "5f1b3e7a2f00a066beed5eb9af52863cc64e7c5dc02b18ecdb3b10ca6cf8fcd0"
+    },
+    "weights/6026f6bf6a9e7399ea6d3a3aeafdd5b9fd4281c4410d2283e4a5e8536bb5662e/manifest.json": {
+      "bytes": 24172,
+      "sha256": "f0186239811ac4d8f43d4159569bce80e932c1699db188cb0d1b7ececb460bd4"
+    },
+    "weights/6026f6bf6a9e7399ea6d3a3aeafdd5b9fd4281c4410d2283e4a5e8536bb5662e/weights.npz": {
+      "bytes": 1428754,
+      "sha256": "32cbb7ea8349371f2f12b592ec7b21f1ba18c853a0465289feda6e042ef3b105"
+    },
+    "weights/655296db044fc848f6c407cc3483baf832ce2b7ac724668421072d85bf67dd46/manifest.json": {
+      "bytes": 24173,
+      "sha256": "081ad52b50448c8dab47f17c70e31629df8dbb2ba8f6a75abdae5b7297c370e1"
+    },
+    "weights/655296db044fc848f6c407cc3483baf832ce2b7ac724668421072d85bf67dd46/weights.npz": {
+      "bytes": 1428754,
+      "sha256": "c9a83863783fbbfbabd72c705040ee9823be7eedb68a856812949ab273b85324"
+    },
+    "weights/6aef533250224fdce6d8c6b79addc30f927faaa9dd7e5c85af0e3afcd4b80fbb/manifest.json": {
+      "bytes": 24172,
+      "sha256": "523a4eba40beac1398e70a301fbf9df1faf73879ac7d440a5a0ca12a771b6b16"
+    },
+    "weights/6aef533250224fdce6d8c6b79addc30f927faaa9dd7e5c85af0e3afcd4b80fbb/weights.npz": {
+      "bytes": 1428754,
+      "sha256": "f3197f6b4c471199e735ae8e39cbf3c2fc98568807e265adad3ddb2a6b312d87"
+    },
+    "weights/81e2d4b80caf4636d5586f616001aaf511b849afa69144bfbc72d74299d6afcf/manifest.json": {
+      "bytes": 24173,
+      "sha256": "bde0d0e64b5aa7d8e502bcb1af6f603bf7e22b57fb7bd2481c0be22e151c97eb"
+    },
+    "weights/81e2d4b80caf4636d5586f616001aaf511b849afa69144bfbc72d74299d6afcf/weights.npz": {
+      "bytes": 1428754,
+      "sha256": "301872129e8826ef7c2ec4e583a7e0a227e0292c641c68f9fe3a8e83147590e0"
+    },
+    "weights/906510729a8e8eaea487fd58573a73657d5628532815d882caae663dc241cfbc/manifest.json": {
+      "bytes": 24172,
+      "sha256": "c1f84144dfa9055e4d4dc7dfd8af0c01bec1c6902a7a17801c18bc379c49f151"
+    },
+    "weights/906510729a8e8eaea487fd58573a73657d5628532815d882caae663dc241cfbc/weights.npz": {
+      "bytes": 1428754,
+      "sha256": "6a40b6bf12c047960318e856271c5ecb5b0d5736fa2b68261aa5574aef6dd94a"
+    },
+    "weights/9305ed6919864a4db04cbb59603215dc4aabf2202adaa6ec3011d697287b13e2/manifest.json": {
+      "bytes": 17750,
+      "sha256": "e7b4991c9ac7f8a00e8e8bcf5cae1795c2568716f335f99d709e75de5e5fb3fb"
+    },
+    "weights/9305ed6919864a4db04cbb59603215dc4aabf2202adaa6ec3011d697287b13e2/weights.npz": {
+      "bytes": 1434994,
+      "sha256": "e61e1082914b0e31daa493bef1096277ca8d08e4c5c3fe952ac167cddcf66ddb"
+    },
+    "weights/README.md": {
+      "bytes": 1425,
+      "sha256": "9010f2eda65d82de3eab34dadffdd7f1964d8fd25e5d31be6a6e09888cb17705"
+    },
+    "weights/b78dd41958e85e2d3d8c5ca8ceda745e2f94d6e6c050b006908c088718f6872a/manifest.json": {
+      "bytes": 22596,
+      "sha256": "71dd237ccf00dcb4830ebf92ca36874affada3c262e26a9f3c98f8a96a94051b"
+    },
+    "weights/b78dd41958e85e2d3d8c5ca8ceda745e2f94d6e6c050b006908c088718f6872a/weights.npz": {
+      "bytes": 1430206,
+      "sha256": "f1a3ec8713dadf34eb4532f09e64cd541ead3914937518bfa5ad1c90eeffe5fc"
+    },
+    "weights/catalog.json": {
+      "bytes": 23000,
+      "sha256": "428d5746f32c76e69927323aaf31ab71c936a7add8e999bb64d55977db8ab977"
+    },
+    "weights/d3693911dd27b4fddfe29ea92637c535dfeeb6ce66aee55e9ef2e99eaf90c619/manifest.json": {
+      "bytes": 22596,
+      "sha256": "d794354d083b733d3a19fa25d164786be007afee691b6b4a7bdd123205968784"
+    },
+    "weights/d3693911dd27b4fddfe29ea92637c535dfeeb6ce66aee55e9ef2e99eaf90c619/weights.npz": {
+      "bytes": 1430206,
+      "sha256": "d90690eabfdea56e861db66491307b7dcf7f4071d60dd04b75367133bef7a72a"
+    },
+    "weights/d654cead4b405913206583d41dea6b699ce6fef573af0ae39d97afc9a7ccc012/manifest.json": {
+      "bytes": 24170,
+      "sha256": "28cbb8832f3edf2c3f2cb98bd13dbcf3539aef0bef0c859bb7d5ae83adb1a207"
+    },
+    "weights/d654cead4b405913206583d41dea6b699ce6fef573af0ae39d97afc9a7ccc012/weights.npz": {
+      "bytes": 1428754,
+      "sha256": "c38857429b469d618daa66b6c1d7ff523bee02c4a395f049f4fce3af07484cac"
+    },
+    "weights/d7eb34b445400162a0a5268145a6110db851de2f5672ccd9edae93eff5ebf749/manifest.json": {
+      "bytes": 17750,
+      "sha256": "95e3b656b943a3de962efe0cb1e0cf509ec58dcdf53eb954f44a7c84161ea29f"
+    },
+    "weights/d7eb34b445400162a0a5268145a6110db851de2f5672ccd9edae93eff5ebf749/weights.npz": {
+      "bytes": 1434994,
+      "sha256": "844ca40947182a55c4c8f2ecdb2f075e87123149844f6ef3a93e53de32c75793"
+    },
+    "weights/da2beb0d6f9ac11d6cff162da6c5a04375b4a5862e82a8bc2c50fb5c7daf8ba0/manifest.json": {
+      "bytes": 22604,
+      "sha256": "58464fae05979b5da9e43a62185ab80d6b376bc267935df30874ffcf5ed02b75"
+    },
+    "weights/da2beb0d6f9ac11d6cff162da6c5a04375b4a5862e82a8bc2c50fb5c7daf8ba0/weights.npz": {
+      "bytes": 1434994,
+      "sha256": "55385235a4ead56a43c191d494d89829557e48e61eae165927fbedcc95b11227"
+    },
+    "weights/dc3ff52384727d5bf05e73c390b9dab7eed1c89909ad773854ec48c72c5a1a41/manifest.json": {
+      "bytes": 17748,
+      "sha256": "61d7bb9efb75b7183c19eed80c394255445776db9dcacaa8f4e04e99158acca0"
+    },
+    "weights/dc3ff52384727d5bf05e73c390b9dab7eed1c89909ad773854ec48c72c5a1a41/weights.npz": {
+      "bytes": 1434994,
+      "sha256": "738fd6a4e980d6dc0de4a787b1b295f806beeee7c055c725fdacbbd6eacdf2b0"
+    },
+    "weights/dc438624b5e74f9b52c7e024c97a5e704b0fc4eb65e8b44a3b5f198f3635f4c9/manifest.json": {
+      "bytes": 22596,
+      "sha256": "717b15cfed9e9b3aada4f00cdd52dd0b0a5711f12a80fc3edf2fcb4618448f66"
+    },
+    "weights/dc438624b5e74f9b52c7e024c97a5e704b0fc4eb65e8b44a3b5f198f3635f4c9/weights.npz": {
+      "bytes": 1430206,
+      "sha256": "60aabacac5b727c0e95b74fc6c304c1f862945c4456f42d36585896a6956a381"
+    },
+    "weights/de0cc61677704534110d5b2ee20114425946bd62769b0106f87acd0d1e098dd3/manifest.json": {
+      "bytes": 24170,
+      "sha256": "aac615a697ee5afb2d4497b3c0f1659dc68a380eae276eb05cba648e2d20cc6c"
+    },
+    "weights/de0cc61677704534110d5b2ee20114425946bd62769b0106f87acd0d1e098dd3/weights.npz": {
+      "bytes": 1428754,
+      "sha256": "0dd343ce532224a9be1f46522978e35bdf4b9b9fc16f0d55fc94155dca83f9b2"
+    },
+    "weights/e04a0c74e9cf786bb706f7747ae197c4ca842e71e385535332e7f5eb91c148d1/manifest.json": {
+      "bytes": 17747,
+      "sha256": "e033b5b7b188b0b5947ef701f7783874530e0f7943f485b779ab5eb3ade2fcbf"
+    },
+    "weights/e04a0c74e9cf786bb706f7747ae197c4ca842e71e385535332e7f5eb91c148d1/weights.npz": {
+      "bytes": 1434994,
+      "sha256": "aafeeca287a782bc0eb0002537671075bc8eac74c4d298b30f85cb1f5120cf82"
+    },
+    "weights/e05971ef2c4dd69ba9eb3d9a374ffde3f1012b5ba9391609857eded2a63b10be/manifest.json": {
+      "bytes": 22604,
+      "sha256": "19e7333fffd1ba1ca9192ba1b1d20c9795c1b9506632026ceffbd6e311cf5fae"
+    },
+    "weights/e05971ef2c4dd69ba9eb3d9a374ffde3f1012b5ba9391609857eded2a63b10be/weights.npz": {
+      "bytes": 1434994,
+      "sha256": "edddb3bf88ad7e963c3d16709ce29c3996965b1af898e8e103d9e8ff4289e711"
+    },
+    "weights/e18b5aee0f3daa670d1c344f02304dd4e9364e78a57d8f7caca7a07dde96686d/manifest.json": {
+      "bytes": 17748,
+      "sha256": "be21afcba7bc3f7bcfa3cfcf97a49f01236b070d3672b003a6edfe4e1ae171f5"
+    },
+    "weights/e18b5aee0f3daa670d1c344f02304dd4e9364e78a57d8f7caca7a07dde96686d/weights.npz": {
+      "bytes": 1434994,
+      "sha256": "fe7320f43d0647ce7c6fd2ddda8acb9e783a7d3d316d2a22a72bba20be75b7e8"
+    },
+    "weights/f5a9b3951c0f8034f0e5ab40ea24f91a8fa60ad10d29b264a9c3ff93aa72dc2e/manifest.json": {
+      "bytes": 17750,
+      "sha256": "2155cff5509f9364ba9c52671e43b6228d807f004c2af47e163b0da99295088d"
+    },
+    "weights/f5a9b3951c0f8034f0e5ab40ea24f91a8fa60ad10d29b264a9c3ff93aa72dc2e/weights.npz": {
+      "bytes": 1434994,
+      "sha256": "42c25352cc0889022d2cbd3b9be9d799319f31075d2d6d42ca2aaa25ab4c16d1"
+    },
+    "weights/ff5cdd6fcc3c899ebfb9402860dbe2a67da871d6ad8bb0cd78b1459d3cd3c7be/manifest.json": {
+      "bytes": 17748,
+      "sha256": "58fa766b499754404d3acc93abdb4d916eff26b9605ddd9a56777d2884614180"
+    },
+    "weights/ff5cdd6fcc3c899ebfb9402860dbe2a67da871d6ad8bb0cd78b1459d3cd3c7be/weights.npz": {
+      "bytes": 1434994,
+      "sha256": "f7924f092820d995e90c3239e76e53974eeb00bc816d00e1475eaffad372536b"
+    }
+  }
+}

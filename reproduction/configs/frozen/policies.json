@@ -1,0 +1,393 @@
+{
+  "B1": {
+    "cohort": "control",
+    "method": "B1",
+    "policy_id": "B1",
+    "rules": []
+  },
+  "B2": {
+    "cohort": "control",
+    "method": "B2",
+    "policy_id": "B2",
+    "rules": []
+  },
+  "E3graph_s1/iter_000900": {
+    "C": null,
+    "candidate_id": "iter_000900",
+    "cohort": "main",
+    "env_steps": 14745600,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "E3graph_s1"
+    },
+    "method": "graph",
+    "model_id": "163b5e31baa59090ac7bdcbbbed78e819339a109219833978bb65777b3671775",
+    "policy_id": "E3graph_s1/iter_000900",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1510000001"
+  },
+  "E3graph_s2/iter_001221": {
+    "C": null,
+    "candidate_id": "iter_001221",
+    "cohort": "main",
+    "env_steps": 20004864,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "E3graph_s2"
+    },
+    "method": "graph",
+    "model_id": "58238aca4819972494f7f474a00697a7450ea280636742bfbcca9e6b58b38839",
+    "policy_id": "E3graph_s2/iter_001221",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1520000001"
+  },
+  "E3graph_s3/iter_000500": {
+    "C": null,
+    "candidate_id": "iter_000500",
+    "cohort": "main",
+    "env_steps": 8192000,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "E3graph_s3"
+    },
+    "method": "graph",
+    "model_id": "30997dee6364cf473eb58f4d9382fa938b3c99a323d4f9115679c7062b7d050f",
+    "policy_id": "E3graph_s3/iter_000500",
+    "rules": [
+      "S0",
+      "S_0.93"
+    ],
+    "scale": 1.0,
+    "training_seed": "1530000001"
+  },
+  "E3grid_s1/iter_000900": {
+    "C": null,
+    "candidate_id": "iter_000900",
+    "cohort": "main",
+    "env_steps": 14745600,
+    "group": {
+      "architecture": "grid",
+      "family": "RL",
+      "training_line": "E3grid_s1"
+    },
+    "method": "grid",
+    "model_id": "906510729a8e8eaea487fd58573a73657d5628532815d882caae663dc241cfbc",
+    "policy_id": "E3grid_s1/iter_000900",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1570000001"
+  },
+  "E3grid_s2/iter_000400": {
+    "C": null,
+    "candidate_id": "iter_000400",
+    "cohort": "main",
+    "env_steps": 6553600,
+    "group": {
+      "architecture": "grid",
+      "family": "RL",
+      "training_line": "E3grid_s2"
+    },
+    "method": "grid",
+    "model_id": "d654cead4b405913206583d41dea6b699ce6fef573af0ae39d97afc9a7ccc012",
+    "policy_id": "E3grid_s2/iter_000400",
+    "rules": [
+      "S0",
+      "S_0.93"
+    ],
+    "scale": 1.0,
+    "training_seed": "1580000001"
+  },
+  "E3grid_s2/iter_000600": {
+    "C": null,
+    "candidate_id": "iter_000600",
+    "cohort": "main",
+    "env_steps": 9830400,
+    "group": {
+      "architecture": "grid",
+      "family": "RL",
+      "training_line": "E3grid_s2"
+    },
+    "method": "grid",
+    "model_id": "de0cc61677704534110d5b2ee20114425946bd62769b0106f87acd0d1e098dd3",
+    "policy_id": "E3grid_s2/iter_000600",
+    "rules": [
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1580000001"
+  },
+  "E3grid_s3/iter_000700": {
+    "C": null,
+    "candidate_id": "iter_000700",
+    "cohort": "main",
+    "env_steps": 11468800,
+    "group": {
+      "architecture": "grid",
+      "family": "RL",
+      "training_line": "E3grid_s3"
+    },
+    "method": "grid",
+    "model_id": "6aef533250224fdce6d8c6b79addc30f927faaa9dd7e5c85af0e3afcd4b80fbb",
+    "policy_id": "E3grid_s3/iter_000700",
+    "rules": [
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1590000001"
+  },
+  "E3grid_s3/iter_000900": {
+    "C": null,
+    "candidate_id": "iter_000900",
+    "cohort": "main",
+    "env_steps": 14745600,
+    "group": {
+      "architecture": "grid",
+      "family": "RL",
+      "training_line": "E3grid_s3"
+    },
+    "method": "grid",
+    "model_id": "6026f6bf6a9e7399ea6d3a3aeafdd5b9fd4281c4410d2283e4a5e8536bb5662e",
+    "policy_id": "E3grid_s3/iter_000900",
+    "rules": [
+      "S0",
+      "S_0.93"
+    ],
+    "scale": 1.0,
+    "training_seed": "1590000001"
+  },
+  "E3node_s1/iter_001000": {
+    "C": null,
+    "candidate_id": "iter_001000",
+    "cohort": "main",
+    "env_steps": 16384000,
+    "group": {
+      "architecture": "node",
+      "family": "RL",
+      "training_line": "E3node_s1"
+    },
+    "method": "node",
+    "model_id": "d3693911dd27b4fddfe29ea92637c535dfeeb6ce66aee55e9ef2e99eaf90c619",
+    "policy_id": "E3node_s1/iter_001000",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1540000001"
+  },
+  "E3node_s2/iter_001221": {
+    "C": null,
+    "candidate_id": "iter_001221",
+    "cohort": "main",
+    "env_steps": 20004864,
+    "group": {
+      "architecture": "node",
+      "family": "RL",
+      "training_line": "E3node_s2"
+    },
+    "method": "node",
+    "model_id": "b78dd41958e85e2d3d8c5ca8ceda745e2f94d6e6c050b006908c088718f6872a",
+    "policy_id": "E3node_s2/iter_001221",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1550000001"
+  },
+  "E3node_s3/iter_001000": {
+    "C": null,
+    "candidate_id": "iter_001000",
+    "cohort": "main",
+    "env_steps": 16384000,
+    "group": {
+      "architecture": "node",
+      "family": "RL",
+      "training_line": "E3node_s3"
+    },
+    "method": "node",
+    "model_id": "09b931dd388bb5f918c2ca986a1821f32bb2e55dc50f0d8d34f8526593a97d0a",
+    "policy_id": "E3node_s3/iter_001000",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 1.0,
+    "training_seed": "1560000001"
+  },
+  "H/C=2": {
+    "C": 2,
+    "candidate_id": "H2",
+    "cohort": "H",
+    "env_steps": 0,
+    "group": {
+      "architecture": "",
+      "family": "H",
+      "training_line": ""
+    },
+    "method": "H2",
+    "policy_id": "H/C=2",
+    "rules": [
+      "H_0.93",
+      "H_0.95"
+    ]
+  },
+  "left_if_safe_original": {
+    "cohort": "control",
+    "method": "left_if_safe_original",
+    "policy_id": "left_if_safe_original",
+    "rules": []
+  },
+  "noop": {
+    "cohort": "control",
+    "method": "noop",
+    "policy_id": "noop",
+    "rules": []
+  },
+  "w7-double-s1/iter_001221": {
+    "C": null,
+    "candidate_id": "iter_001221",
+    "cohort": "w7",
+    "env_steps": 20004864,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "w7-double-s1"
+    },
+    "method": "graph",
+    "model_id": "e18b5aee0f3daa670d1c344f02304dd4e9364e78a57d8f7caca7a07dde96686d",
+    "policy_id": "w7-double-s1/iter_001221",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 2.0,
+    "training_seed": "1640000001"
+  },
+  "w7-double-s2/iter_001221": {
+    "C": null,
+    "candidate_id": "iter_001221",
+    "cohort": "w7",
+    "env_steps": 20004864,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "w7-double-s2"
+    },
+    "method": "graph",
+    "model_id": "ff5cdd6fcc3c899ebfb9402860dbe2a67da871d6ad8bb0cd78b1459d3cd3c7be",
+    "policy_id": "w7-double-s2/iter_001221",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 2.0,
+    "training_seed": "1650000001"
+  },
+  "w7-double-s3/iter_001200": {
+    "C": null,
+    "candidate_id": "iter_001200",
+    "cohort": "w7",
+    "env_steps": 19660800,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "w7-double-s3"
+    },
+    "method": "graph",
+    "model_id": "dc3ff52384727d5bf05e73c390b9dab7eed1c89909ad773854ec48c72c5a1a41",
+    "policy_id": "w7-double-s3/iter_001200",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 2.0,
+    "training_seed": "1660000001"
+  },
+  "w7-half-s1/iter_000400": {
+    "C": null,
+    "candidate_id": "iter_000400",
+    "cohort": "w7",
+    "env_steps": 6553600,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "w7-half-s1"
+    },
+    "method": "graph",
+    "model_id": "e04a0c74e9cf786bb706f7747ae197c4ca842e71e385535332e7f5eb91c148d1",
+    "policy_id": "w7-half-s1/iter_000400",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 0.5,
+    "training_seed": "1610000001"
+  },
+  "w7-half-s2/iter_001200": {
+    "C": null,
+    "candidate_id": "iter_001200",
+    "cohort": "w7",
+    "env_steps": 19660800,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "w7-half-s2"
+    },
+    "method": "graph",
+    "model_id": "0280bedf8f98ed5f5ed04f6f5d5bd1a686090e06bd8f6164b01a8a7b2edc40d2",
+    "policy_id": "w7-half-s2/iter_001200",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 0.5,
+    "training_seed": "1620000001"
+  },
+  "w7-half-s3/iter_001100": {
+    "C": null,
+    "candidate_id": "iter_001100",
+    "cohort": "w7",
+    "env_steps": 18022400,
+    "group": {
+      "architecture": "graph",
+      "family": "RL",
+      "training_line": "w7-half-s3"
+    },
+    "method": "graph",
+    "model_id": "f5a9b3951c0f8034f0e5ab40ea24f91a8fa60ad10d29b264a9c3ff93aa72dc2e",
+    "policy_id": "w7-half-s3/iter_001100",
+    "rules": [
+      "S0",
+      "S_0.93",
+      "S_0.95"
+    ],
+    "scale": 0.5,
+    "training_seed": "1630000001"
+  }
+}

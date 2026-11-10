@@ -1,0 +1,967 @@
+{
+  "pairs": [
+    {
+      "rho": "0.1",
+      "f": "0.9",
+      "training_line": "E3graph_s2",
+      "replicate": 4,
+      "paired_pv_effect": "0.03049999999999997",
+      "Graph": "4e42a5beb6170a73b624df81dd3fb10201f404cf0062dade7d4e3f2049054d17",
+      "H2": "b803cb0a9c79d88674902696059ed0afacd9dde66218f87c9a0ff0e68cf13286",
+      "selection_pool": 90,
+      "displayed_episodes": 2
+    },
+    {
+      "rho": "0.1",
+      "f": "0.95",
+      "training_line": "E3graph_s2",
+      "replicate": 4,
+      "paired_pv_effect": "-0.006000000000000227",
+      "Graph": "9ee06938b3b4da98f42dcb122d0bb3c9aefe324c0fe53da58d3e8015fcd6deeb",
+      "H2": "7859488cd7fed5e3e0769fc9d6bcd114c32e70d8b2b09305167de1c86ca135d3",
+      "selection_pool": 90,
+      "displayed_episodes": 2
+    },
+    {
+      "rho": "0.1",
+      "f": "1.0",
+      "training_line": "E3graph_s1",
+      "replicate": 6,
+      "paired_pv_effect": "0.001000000000000334",
+      "Graph": "70650c799dc0621e4ee5fbbd7c7052162445df041552093bd1f6e16c6e061298",
+      "H2": "918872253c6b2e586152447ed1596767a5566cab0c056c37ead366266d5f27e1",
+      "selection_pool": 90,
+      "displayed_episodes": 2
+    },
+    {
+      "rho": "0.2",
+      "f": "0.9",
+      "training_line": "E3graph_s1",
+      "replicate": 7,
+      "paired_pv_effect": "0.31400000000000006",
+      "Graph": "f64fbb2bf2202201654871891d6db6de94261d1e69efad25ad1ac76b18b0f2be",
+      "H2": "fb395f856942aeaa58a54da923e8164d33966025d7a33bf6c2706eda762d45ab",
+      "selection_pool": 90,
+      "displayed_episodes": 2
+    },
+    {
+      "rho": "0.2",
+      "f": "0.95",
+      "training_line": "E3graph_s1",
+      "replicate": 8,
+      "paired_pv_effect": "0.1800000000000006",
+      "Graph": "66a46c77ccb468d5e412a3a1c0fde7efca3e2511c51fb2b287e861f9095cc647",
+      "H2": "8d4895957c9af1fa485bb131312a820ce2fe3f6800be1c580fc5c7bf7505decb",
+      "selection_pool": 90,
+      "displayed_episodes": 2
+    },
+    {
+      "rho": "0.2",
+      "f": "1.0",
+      "training_line": "E3graph_s2",
+      "replicate": 1,
+      "paired_pv_effect": "0.06799999999999962",
+      "Graph": "64e7c29b11b5760f1960d41ba9a2e4d0f96da30b944c260e5cd7005ac74116a2",
+      "H2": "b8e6316672ea41047baa46ef187bf09b6d2bd30a290df4a91d4b59a37f991b65",
+      "selection_pool": 90,
+      "displayed_episodes": 2
+    },
+    {
+      "rho": "0.3",
+      "f": "0.9",
+      "training_line": "E3graph_s2",
+      "replicate": 10,
+      "paired_pv_effect": "0.6429999999999998",
+      "Graph": "43113c77db45964b6699e2baa92b6c043d0205a7d7ebdf2390188fa9f9a36834",
+      "H2": "47c58b446c7babc5900a83cbebb238bbf4a9c434ccae9651161c250fc0a6d0fa",
+      "selection_pool": 90,
+      "displayed_episodes": 2
+    },
+    {
+      "rho": "0.3",
+      "f": "0.95",
+      "training_line": "E3graph_s2",
+      "replicate": 14,
+      "paired_pv_effect": "0.6199999999999997",
+      "Graph": "8db6936bf55fd5c700009c2167a03c41052c47567782298f8128e0fe0402dcd1",
+      "H2": "502e77f26f304f1a8884fbdb5e108c999738711d4896b78813c95ebb63afae3d",
+      "selection_pool": 90,
+      "displayed_episodes": 2
+    },
+    {
+      "rho": "0.3",
+      "f": "1.0",
+      "training_line": "E3graph_s1",
+      "replicate": 3,
+      "paired_pv_effect": "0.1795",
+      "Graph": "787abd9987772fa15a7fa8ba8965cf1956a850e4829ab0f8aa6a501d90069f32",
+      "H2": "d03a27df7b47170161bd1f8a41b6d14cf93b664d9feaa7557924a9cd3f793fc2",
+      "selection_pool": 90,
+      "displayed_episodes": 2
+    },
+    {
+      "rho": "0.6",
+      "f": "0.9",
+      "training_line": "E3graph_s3",
+      "replicate": 15,
+      "paired_pv_effect": "-0.006500000000000061",
+      "Graph": "1ddea96d91dfe33d44b67f99bf5a50c61ab361441360a6d77d1cc5f96de9f314",
+      "H2": "9166fa413f24e20eacb39f57255477d4f08fbfc2bc3a3b789a1e2129bb75b24e",
+      "selection_pool": 90,
+      "displayed_episodes": 2
+    },
+    {
+      "rho": "0.6",
+      "f": "0.95",
+      "training_line": "E3graph_s3",
+      "replicate": 5,
+      "paired_pv_effect": "0.04200000000000004",
+      "Graph": "2673abc116a0a040995615c39e8ed10e8463ad2b7770fa45ef36242de461cddd",
+      "H2": "2da11b5e94df7d6bbcf93bd3b0738a55e04faaf2c2df52b936521486bc1bbef4",
+      "selection_pool": 90,
+      "displayed_episodes": 2
+    },
+    {
+      "rho": "0.6",
+      "f": "1.0",
+      "training_line": "E3graph_s3",
+      "replicate": 1,
+      "paired_pv_effect": "0.03249999999999997",
+      "Graph": "101fba8a7a1252937f2cc29e2f37e6a10209e14f99dcc4cd87bd3aa83454bd9e",
+      "H2": "63c748ee054a0f83081fecf6a4826de87976ce2d93c0bb8216aec2444656936b",
+      "selection_pool": 90,
+      "displayed_episodes": 2
+    }
+  ],
+  "notes": "12 frozen paired illustrations: two episodes from each prespecified all-90 pool (three lines x 30 environments); selection n=90 is not population evidence. Full 2000-step maps and storyboards remain working companion data; dense AV outlines are not publication maps. Native step 0 retained; figures show 1..2000.",
+  "sources": [
+    {
+      "selection": {
+        "identity": {
+          "cohort": 1.0,
+          "density": 0.1,
+          "fraction": 0.9,
+          "panel": "E4",
+          "road_length": 1000,
+          "rule": "S0"
+        },
+        "mode": "final",
+        "pair": {
+          "Graph": {
+            "analysis_path": "illustrations/4e42a5beb6170a73b624df81dd3fb10201f404cf0062dade7d4e3f2049054d17-a0f97ea390b609d279faf7228c4f0c68e532d4a35f1b8d738e309f5801d7a816.json",
+            "arrays_path": "illustrations/4e42a5beb6170a73b624df81dd3fb10201f404cf0062dade7d4e3f2049054d17-a0f97ea390b609d279faf7228c4f0c68e532d4a35f1b8d738e309f5801d7a816.npz",
+            "episode_id": "4e42a5beb6170a73b624df81dd3fb10201f404cf0062dade7d4e3f2049054d17"
+          },
+          "H2": {
+            "analysis_path": "illustrations/b803cb0a9c79d88674902696059ed0afacd9dde66218f87c9a0ff0e68cf13286-1cfa7ed05eb81f839b44022999a3854314a7174b87f858a0c7bb2a848789dcd6.json",
+            "arrays_path": "illustrations/b803cb0a9c79d88674902696059ed0afacd9dde66218f87c9a0ff0e68cf13286-1cfa7ed05eb81f839b44022999a3854314a7174b87f858a0c7bb2a848789dcd6.npz",
+            "episode_id": "b803cb0a9c79d88674902696059ed0afacd9dde66218f87c9a0ff0e68cf13286"
+          }
+        },
+        "selection_evidence": {
+          "Graph": "4e42a5beb6170a73b624df81dd3fb10201f404cf0062dade7d4e3f2049054d17",
+          "H2": "b803cb0a9c79d88674902696059ed0afacd9dde66218f87c9a0ff0e68cf13286",
+          "cell": {
+            "density": 0.1,
+            "fraction": 0.9,
+            "road_length": 1000
+          },
+          "environment": "997bb3635df6e94a51fa679c97f3be6781f1c2cb905edac9a2c7d89cb35fcd86",
+          "k": 3,
+          "k_planned": 3,
+          "line_means": {
+            "E3graph_s1": 0.057883333333333314,
+            "E3graph_s2": 0.03798333333333339,
+            "E3graph_s3": -0.044483333333333194
+          },
+          "median_line_mean": 0.03798333333333339,
+          "n": 90,
+          "n_planned": 90,
+          "paired_pv_effect": 0.03049999999999997,
+          "replicate": 4,
+          "rule": "frozen_median_line_then_environment",
+          "scope": "complete_E4_cell",
+          "selection": {
+            "absolute_distance_to_median": 0.000500000000000167,
+            "candidates": 30,
+            "environment": "997bb3635df6e94a51fa679c97f3be6781f1c2cb905edac9a2c7d89cb35fcd86",
+            "median_paired_pv_effect": 0.03100000000000014,
+            "method": null,
+            "paired_pv_effect": 0.03049999999999997,
+            "seed": 4,
+            "selection_rule": "fixed training_line; environment closest to the median paired PV effect; exact ties broken by the smallest seed; no best-trajectory or best-seed selection",
+            "training_line": "E3graph_s2"
+          },
+          "status": "selected",
+          "training_line": "E3graph_s2"
+        },
+        "status": "selected"
+      },
+      "source_file": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--6f672388702a/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--30ea06f0e4c3.csv",
+      "source_sha256": "a661d27d4b870929f0722b78455c783301e1a76e9f5e774f15a7b5a1f7873ba4",
+      "source_json": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--6f672388702a/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--30ea06f0e4c3.json",
+      "source_json_sha256": "37d8862ae1f06a79fe16620f4acee6bf84b4a0998f5a1fdfe9ef8613278bd498",
+      "selection_file": "/workspace/.local/paper-output-final-20261110/global-data/illustrations.json",
+      "selection_sha256": "ff769ed8238770fe9ab6d8b743d0dd4b1ea08ae131f73baa3bf98349e0f7308d"
+    },
+    {
+      "selection": {
+        "identity": {
+          "cohort": 1.0,
+          "density": 0.1,
+          "fraction": 0.95,
+          "panel": "E4",
+          "road_length": 1000,
+          "rule": "S0"
+        },
+        "mode": "final",
+        "pair": {
+          "Graph": {
+            "analysis_path": "illustrations/9ee06938b3b4da98f42dcb122d0bb3c9aefe324c0fe53da58d3e8015fcd6deeb-9d6d337f20a166ab8b72c32140a0f4ed165bb254ff1191e16827a012e7e35645.json",
+            "arrays_path": "illustrations/9ee06938b3b4da98f42dcb122d0bb3c9aefe324c0fe53da58d3e8015fcd6deeb-9d6d337f20a166ab8b72c32140a0f4ed165bb254ff1191e16827a012e7e35645.npz",
+            "episode_id": "9ee06938b3b4da98f42dcb122d0bb3c9aefe324c0fe53da58d3e8015fcd6deeb"
+          },
+          "H2": {
+            "analysis_path": "illustrations/7859488cd7fed5e3e0769fc9d6bcd114c32e70d8b2b09305167de1c86ca135d3-e903a29198e2f733b0dc1bdcdf9b10b645ecf2b292a5a7f1c4f028dd293952ae.json",
+            "arrays_path": "illustrations/7859488cd7fed5e3e0769fc9d6bcd114c32e70d8b2b09305167de1c86ca135d3-e903a29198e2f733b0dc1bdcdf9b10b645ecf2b292a5a7f1c4f028dd293952ae.npz",
+            "episode_id": "7859488cd7fed5e3e0769fc9d6bcd114c32e70d8b2b09305167de1c86ca135d3"
+          }
+        },
+        "selection_evidence": {
+          "Graph": "9ee06938b3b4da98f42dcb122d0bb3c9aefe324c0fe53da58d3e8015fcd6deeb",
+          "H2": "7859488cd7fed5e3e0769fc9d6bcd114c32e70d8b2b09305167de1c86ca135d3",
+          "cell": {
+            "density": 0.1,
+            "fraction": 0.95,
+            "road_length": 1000
+          },
+          "environment": "997bb3635df6e94a51fa679c97f3be6781f1c2cb905edac9a2c7d89cb35fcd86",
+          "k": 3,
+          "k_planned": 3,
+          "line_means": {
+            "E3graph_s1": 0.01856666666666662,
+            "E3graph_s2": -0.013033333333333393,
+            "E3graph_s3": -0.0339166666666667
+          },
+          "median_line_mean": -0.013033333333333393,
+          "n": 90,
+          "n_planned": 90,
+          "paired_pv_effect": -0.006000000000000227,
+          "replicate": 4,
+          "rule": "frozen_median_line_then_environment",
+          "scope": "complete_E4_cell",
+          "selection": {
+            "absolute_distance_to_median": 0.007000000000000117,
+            "candidates": 30,
+            "environment": "997bb3635df6e94a51fa679c97f3be6781f1c2cb905edac9a2c7d89cb35fcd86",
+            "median_paired_pv_effect": -0.013000000000000345,
+            "method": null,
+            "paired_pv_effect": -0.006000000000000227,
+            "seed": 4,
+            "selection_rule": "fixed training_line; environment closest to the median paired PV effect; exact ties broken by the smallest seed; no best-trajectory or best-seed selection",
+            "training_line": "E3graph_s2"
+          },
+          "status": "selected",
+          "training_line": "E3graph_s2"
+        },
+        "status": "selected"
+      },
+      "source_file": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--7a50af488f04/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--d2ab4896b0e4.csv",
+      "source_sha256": "d81382fa115feb6830d9d304a837ac577fb9192cda33af820bc2560982b1bc52",
+      "source_json": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--7a50af488f04/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--d2ab4896b0e4.json",
+      "source_json_sha256": "d8ceaeff9380a0041b33dc88a628a67a6c37893481bd4016f5622574b29f2e3d",
+      "selection_file": "/workspace/.local/paper-output-final-20261110/global-data/illustrations.json",
+      "selection_sha256": "ff769ed8238770fe9ab6d8b743d0dd4b1ea08ae131f73baa3bf98349e0f7308d"
+    },
+    {
+      "selection": {
+        "identity": {
+          "cohort": 1.0,
+          "density": 0.1,
+          "fraction": 1.0,
+          "panel": "E4",
+          "road_length": 1000,
+          "rule": "S0"
+        },
+        "mode": "final",
+        "pair": {
+          "Graph": {
+            "analysis_path": "illustrations/70650c799dc0621e4ee5fbbd7c7052162445df041552093bd1f6e16c6e061298-126298712c7393a471858ac006643eaf22bb5ccb0f7d29b51a2c9b89ee1d2b86.json",
+            "arrays_path": "illustrations/70650c799dc0621e4ee5fbbd7c7052162445df041552093bd1f6e16c6e061298-126298712c7393a471858ac006643eaf22bb5ccb0f7d29b51a2c9b89ee1d2b86.npz",
+            "episode_id": "70650c799dc0621e4ee5fbbd7c7052162445df041552093bd1f6e16c6e061298"
+          },
+          "H2": {
+            "analysis_path": "illustrations/918872253c6b2e586152447ed1596767a5566cab0c056c37ead366266d5f27e1-b33df04a93ee004abb75aa6fb8cb52e7155a5d3d96649d39c2de181ae7da9886.json",
+            "arrays_path": "illustrations/918872253c6b2e586152447ed1596767a5566cab0c056c37ead366266d5f27e1-b33df04a93ee004abb75aa6fb8cb52e7155a5d3d96649d39c2de181ae7da9886.npz",
+            "episode_id": "918872253c6b2e586152447ed1596767a5566cab0c056c37ead366266d5f27e1"
+          }
+        },
+        "selection_evidence": {
+          "Graph": "70650c799dc0621e4ee5fbbd7c7052162445df041552093bd1f6e16c6e061298",
+          "H2": "918872253c6b2e586152447ed1596767a5566cab0c056c37ead366266d5f27e1",
+          "cell": {
+            "density": 0.1,
+            "fraction": 1.0,
+            "road_length": 1000
+          },
+          "environment": "091f2e8b5e397f65212914f5c57637149368a2d999010d2dcdad5f09bca992bc",
+          "k": 3,
+          "k_planned": 3,
+          "line_means": {
+            "E3graph_s1": 0.01083333333333331,
+            "E3graph_s2": 0.011799999999999915,
+            "E3graph_s3": -0.0032000000000000917
+          },
+          "median_line_mean": 0.01083333333333331,
+          "n": 90,
+          "n_planned": 90,
+          "paired_pv_effect": 0.001000000000000334,
+          "replicate": 6,
+          "rule": "frozen_median_line_then_environment",
+          "scope": "complete_E4_cell",
+          "selection": {
+            "absolute_distance_to_median": 0.0,
+            "candidates": 30,
+            "environment": "091f2e8b5e397f65212914f5c57637149368a2d999010d2dcdad5f09bca992bc",
+            "median_paired_pv_effect": 0.001000000000000334,
+            "method": null,
+            "paired_pv_effect": 0.001000000000000334,
+            "seed": 6,
+            "selection_rule": "fixed training_line; environment closest to the median paired PV effect; exact ties broken by the smallest seed; no best-trajectory or best-seed selection",
+            "training_line": "E3graph_s1"
+          },
+          "status": "selected",
+          "training_line": "E3graph_s1"
+        },
+        "status": "selected"
+      },
+      "source_file": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--0a5c55fefdae/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--6d3d2773b011.csv",
+      "source_sha256": "ae075d805ebadcfaa0d471eb25a2785dcbd3b99e4660080f5e819ed47a2b8eca",
+      "source_json": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--0a5c55fefdae/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--6d3d2773b011.json",
+      "source_json_sha256": "20836b5bf82ebaef8ea732711874e5c0b985c1167be3573c048a9d470bbae89d",
+      "selection_file": "/workspace/.local/paper-output-final-20261110/global-data/illustrations.json",
+      "selection_sha256": "ff769ed8238770fe9ab6d8b743d0dd4b1ea08ae131f73baa3bf98349e0f7308d"
+    },
+    {
+      "selection": {
+        "identity": {
+          "cohort": 1.0,
+          "density": 0.2,
+          "fraction": 0.9,
+          "panel": "E4",
+          "road_length": 1000,
+          "rule": "S0"
+        },
+        "mode": "final",
+        "pair": {
+          "Graph": {
+            "analysis_path": "illustrations/f64fbb2bf2202201654871891d6db6de94261d1e69efad25ad1ac76b18b0f2be-3af0cef22bf32f01c1837191748b9922da1732c0d5d37ec67d8a6e17477a9cf5.json",
+            "arrays_path": "illustrations/f64fbb2bf2202201654871891d6db6de94261d1e69efad25ad1ac76b18b0f2be-3af0cef22bf32f01c1837191748b9922da1732c0d5d37ec67d8a6e17477a9cf5.npz",
+            "episode_id": "f64fbb2bf2202201654871891d6db6de94261d1e69efad25ad1ac76b18b0f2be"
+          },
+          "H2": {
+            "analysis_path": "illustrations/fb395f856942aeaa58a54da923e8164d33966025d7a33bf6c2706eda762d45ab-5a8893928301dff94e26bb7a15ef6e0b39acf58c3db7984133957f70048de2cb.json",
+            "arrays_path": "illustrations/fb395f856942aeaa58a54da923e8164d33966025d7a33bf6c2706eda762d45ab-5a8893928301dff94e26bb7a15ef6e0b39acf58c3db7984133957f70048de2cb.npz",
+            "episode_id": "fb395f856942aeaa58a54da923e8164d33966025d7a33bf6c2706eda762d45ab"
+          }
+        },
+        "selection_evidence": {
+          "Graph": "f64fbb2bf2202201654871891d6db6de94261d1e69efad25ad1ac76b18b0f2be",
+          "H2": "fb395f856942aeaa58a54da923e8164d33966025d7a33bf6c2706eda762d45ab",
+          "cell": {
+            "density": 0.2,
+            "fraction": 0.9,
+            "road_length": 1000
+          },
+          "environment": "cf9cf7268060cd192feba0f45b674a4266bea18e3f40832700fe125be20e6f20",
+          "k": 3,
+          "k_planned": 3,
+          "line_means": {
+            "E3graph_s1": 0.3385,
+            "E3graph_s2": 0.3693166666666667,
+            "E3graph_s3": 0.07405000000000002
+          },
+          "median_line_mean": 0.3385,
+          "n": 90,
+          "n_planned": 90,
+          "paired_pv_effect": 0.31400000000000006,
+          "replicate": 7,
+          "rule": "frozen_median_line_then_environment",
+          "scope": "complete_E4_cell",
+          "selection": {
+            "absolute_distance_to_median": 0.007249999999999979,
+            "candidates": 30,
+            "environment": "cf9cf7268060cd192feba0f45b674a4266bea18e3f40832700fe125be20e6f20",
+            "median_paired_pv_effect": 0.32125000000000004,
+            "method": null,
+            "paired_pv_effect": 0.31400000000000006,
+            "seed": 7,
+            "selection_rule": "fixed training_line; environment closest to the median paired PV effect; exact ties broken by the smallest seed; no best-trajectory or best-seed selection",
+            "training_line": "E3graph_s1"
+          },
+          "status": "selected",
+          "training_line": "E3graph_s1"
+        },
+        "status": "selected"
+      },
+      "source_file": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--0c91c4967109/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--3f5e99c8c52c.csv",
+      "source_sha256": "9d8e8557737ef1f2e3f146406c478ebcfca4720fa9316ed19360593477b44b93",
+      "source_json": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--0c91c4967109/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--3f5e99c8c52c.json",
+      "source_json_sha256": "182882cf12f0b41b9f85e786983b398d3f947574587a20e6426fbdccbaa43dea",
+      "selection_file": "/workspace/.local/paper-output-final-20261110/global-data/illustrations.json",
+      "selection_sha256": "ff769ed8238770fe9ab6d8b743d0dd4b1ea08ae131f73baa3bf98349e0f7308d"
+    },
+    {
+      "selection": {
+        "identity": {
+          "cohort": 1.0,
+          "density": 0.2,
+          "fraction": 0.95,
+          "panel": "E4",
+          "road_length": 1000,
+          "rule": "S0"
+        },
+        "mode": "final",
+        "pair": {
+          "Graph": {
+            "analysis_path": "illustrations/66a46c77ccb468d5e412a3a1c0fde7efca3e2511c51fb2b287e861f9095cc647-46efe5804c5a4c4ae812394fef7687ee91f69a4d674cf20f9320b2c554b413c3.json",
+            "arrays_path": "illustrations/66a46c77ccb468d5e412a3a1c0fde7efca3e2511c51fb2b287e861f9095cc647-46efe5804c5a4c4ae812394fef7687ee91f69a4d674cf20f9320b2c554b413c3.npz",
+            "episode_id": "66a46c77ccb468d5e412a3a1c0fde7efca3e2511c51fb2b287e861f9095cc647"
+          },
+          "H2": {
+            "analysis_path": "illustrations/8d4895957c9af1fa485bb131312a820ce2fe3f6800be1c580fc5c7bf7505decb-081ee3b5f3e772e1dfd041e76e38afd9360c55f3deeb810d784818773ad92306.json",
+            "arrays_path": "illustrations/8d4895957c9af1fa485bb131312a820ce2fe3f6800be1c580fc5c7bf7505decb-081ee3b5f3e772e1dfd041e76e38afd9360c55f3deeb810d784818773ad92306.npz",
+            "episode_id": "8d4895957c9af1fa485bb131312a820ce2fe3f6800be1c580fc5c7bf7505decb"
+          }
+        },
+        "selection_evidence": {
+          "Graph": "66a46c77ccb468d5e412a3a1c0fde7efca3e2511c51fb2b287e861f9095cc647",
+          "H2": "8d4895957c9af1fa485bb131312a820ce2fe3f6800be1c580fc5c7bf7505decb",
+          "cell": {
+            "density": 0.2,
+            "fraction": 0.95,
+            "road_length": 1000
+          },
+          "environment": "c7adffe47c172b8cad05ad3f059abd5fd91d94e4ded47bd881ae8dc4675ca04e",
+          "k": 3,
+          "k_planned": 3,
+          "line_means": {
+            "E3graph_s1": 0.19378333333333334,
+            "E3graph_s2": 0.2634999999999999,
+            "E3graph_s3": 0.10203333333333318
+          },
+          "median_line_mean": 0.19378333333333334,
+          "n": 90,
+          "n_planned": 90,
+          "paired_pv_effect": 0.1800000000000006,
+          "replicate": 8,
+          "rule": "frozen_median_line_then_environment",
+          "scope": "complete_E4_cell",
+          "selection": {
+            "absolute_distance_to_median": 0.0012499999999993072,
+            "candidates": 30,
+            "environment": "c7adffe47c172b8cad05ad3f059abd5fd91d94e4ded47bd881ae8dc4675ca04e",
+            "median_paired_pv_effect": 0.1812499999999999,
+            "method": null,
+            "paired_pv_effect": 0.1800000000000006,
+            "seed": 8,
+            "selection_rule": "fixed training_line; environment closest to the median paired PV effect; exact ties broken by the smallest seed; no best-trajectory or best-seed selection",
+            "training_line": "E3graph_s1"
+          },
+          "status": "selected",
+          "training_line": "E3graph_s1"
+        },
+        "status": "selected"
+      },
+      "source_file": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--500183e327b8/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--10f0e1307e8c.csv",
+      "source_sha256": "743ddb9915b691a8db3e516995010ecc117f74ecb4154430c159137ac71f9262",
+      "source_json": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--500183e327b8/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--10f0e1307e8c.json",
+      "source_json_sha256": "7e47ebcb71ed656da43da8edb22eae6c8db8593807f92d38bebfe6ff79829e0b",
+      "selection_file": "/workspace/.local/paper-output-final-20261110/global-data/illustrations.json",
+      "selection_sha256": "ff769ed8238770fe9ab6d8b743d0dd4b1ea08ae131f73baa3bf98349e0f7308d"
+    },
+    {
+      "selection": {
+        "identity": {
+          "cohort": 1.0,
+          "density": 0.2,
+          "fraction": 1.0,
+          "panel": "E4",
+          "road_length": 1000,
+          "rule": "S0"
+        },
+        "mode": "final",
+        "pair": {
+          "Graph": {
+            "analysis_path": "illustrations/64e7c29b11b5760f1960d41ba9a2e4d0f96da30b944c260e5cd7005ac74116a2-adeafe48f31ba5a37617075625bac286f98d1025c30d976e3ae0fd27806f1f61.json",
+            "arrays_path": "illustrations/64e7c29b11b5760f1960d41ba9a2e4d0f96da30b944c260e5cd7005ac74116a2-adeafe48f31ba5a37617075625bac286f98d1025c30d976e3ae0fd27806f1f61.npz",
+            "episode_id": "64e7c29b11b5760f1960d41ba9a2e4d0f96da30b944c260e5cd7005ac74116a2"
+          },
+          "H2": {
+            "analysis_path": "illustrations/b8e6316672ea41047baa46ef187bf09b6d2bd30a290df4a91d4b59a37f991b65-a952dea3bfde887cd9817135eeed9994a583f3170289d7d719a5a08ce86d0f2c.json",
+            "arrays_path": "illustrations/b8e6316672ea41047baa46ef187bf09b6d2bd30a290df4a91d4b59a37f991b65-a952dea3bfde887cd9817135eeed9994a583f3170289d7d719a5a08ce86d0f2c.npz",
+            "episode_id": "b8e6316672ea41047baa46ef187bf09b6d2bd30a290df4a91d4b59a37f991b65"
+          }
+        },
+        "selection_evidence": {
+          "Graph": "64e7c29b11b5760f1960d41ba9a2e4d0f96da30b944c260e5cd7005ac74116a2",
+          "H2": "b8e6316672ea41047baa46ef187bf09b6d2bd30a290df4a91d4b59a37f991b65",
+          "cell": {
+            "density": 0.2,
+            "fraction": 1.0,
+            "road_length": 1000
+          },
+          "environment": "8c86a450ced27c4cec27524a01df811e568ec8be5e53eec8dc5bc5e2b7fc8f83",
+          "k": 3,
+          "k_planned": 3,
+          "line_means": {
+            "E3graph_s1": 0.10826666666666661,
+            "E3graph_s2": 0.08914999999999994,
+            "E3graph_s3": -0.007233333333333291
+          },
+          "median_line_mean": 0.08914999999999994,
+          "n": 90,
+          "n_planned": 90,
+          "paired_pv_effect": 0.06799999999999962,
+          "replicate": 1,
+          "rule": "frozen_median_line_then_environment",
+          "scope": "complete_E4_cell",
+          "selection": {
+            "absolute_distance_to_median": 0.028249999999999886,
+            "candidates": 30,
+            "environment": "8c86a450ced27c4cec27524a01df811e568ec8be5e53eec8dc5bc5e2b7fc8f83",
+            "median_paired_pv_effect": 0.03974999999999973,
+            "method": null,
+            "paired_pv_effect": 0.06799999999999962,
+            "seed": 1,
+            "selection_rule": "fixed training_line; environment closest to the median paired PV effect; exact ties broken by the smallest seed; no best-trajectory or best-seed selection",
+            "training_line": "E3graph_s2"
+          },
+          "status": "selected",
+          "training_line": "E3graph_s2"
+        },
+        "status": "selected"
+      },
+      "source_file": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--eb252ddefcbc/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--54a5edd14228.csv",
+      "source_sha256": "193bbbd8fbef13db846af6362997fa23b4dc20ba84c2b3990f7a7904fa0c0cdb",
+      "source_json": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--eb252ddefcbc/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--54a5edd14228.json",
+      "source_json_sha256": "267f875e746b6b12fef3863c8a0fc866b54b39082d8cf907ded223f8fe8da0c6",
+      "selection_file": "/workspace/.local/paper-output-final-20261110/global-data/illustrations.json",
+      "selection_sha256": "ff769ed8238770fe9ab6d8b743d0dd4b1ea08ae131f73baa3bf98349e0f7308d"
+    },
+    {
+      "selection": {
+        "identity": {
+          "cohort": 1.0,
+          "density": 0.3,
+          "fraction": 0.9,
+          "panel": "E4",
+          "road_length": 1000,
+          "rule": "S0"
+        },
+        "mode": "final",
+        "pair": {
+          "Graph": {
+            "analysis_path": "illustrations/43113c77db45964b6699e2baa92b6c043d0205a7d7ebdf2390188fa9f9a36834-37b3e0cf1f286332400e617dc3323bb0fd4cccc57502b4a82a8efdddb652197f.json",
+            "arrays_path": "illustrations/43113c77db45964b6699e2baa92b6c043d0205a7d7ebdf2390188fa9f9a36834-37b3e0cf1f286332400e617dc3323bb0fd4cccc57502b4a82a8efdddb652197f.npz",
+            "episode_id": "43113c77db45964b6699e2baa92b6c043d0205a7d7ebdf2390188fa9f9a36834"
+          },
+          "H2": {
+            "analysis_path": "illustrations/47c58b446c7babc5900a83cbebb238bbf4a9c434ccae9651161c250fc0a6d0fa-c3862f36acd185f438e596e63691a880bc0d00b19d3586c9f42ecaa840cbd89c.json",
+            "arrays_path": "illustrations/47c58b446c7babc5900a83cbebb238bbf4a9c434ccae9651161c250fc0a6d0fa-c3862f36acd185f438e596e63691a880bc0d00b19d3586c9f42ecaa840cbd89c.npz",
+            "episode_id": "47c58b446c7babc5900a83cbebb238bbf4a9c434ccae9651161c250fc0a6d0fa"
+          }
+        },
+        "selection_evidence": {
+          "Graph": "43113c77db45964b6699e2baa92b6c043d0205a7d7ebdf2390188fa9f9a36834",
+          "H2": "47c58b446c7babc5900a83cbebb238bbf4a9c434ccae9651161c250fc0a6d0fa",
+          "cell": {
+            "density": 0.3,
+            "fraction": 0.9,
+            "road_length": 1000
+          },
+          "environment": "c7cf7241e16fb0c9583e6308ddde621a3b3434bcb62ac6485feb92fd696a74eb",
+          "k": 3,
+          "k_planned": 3,
+          "line_means": {
+            "E3graph_s1": 0.6814,
+            "E3graph_s2": 0.6761833333333332,
+            "E3graph_s3": -0.024599999999999986
+          },
+          "median_line_mean": 0.6761833333333332,
+          "n": 90,
+          "n_planned": 90,
+          "paired_pv_effect": 0.6429999999999998,
+          "replicate": 10,
+          "rule": "frozen_median_line_then_environment",
+          "scope": "complete_E4_cell",
+          "selection": {
+            "absolute_distance_to_median": 0.009000000000000119,
+            "candidates": 30,
+            "environment": "c7cf7241e16fb0c9583e6308ddde621a3b3434bcb62ac6485feb92fd696a74eb",
+            "median_paired_pv_effect": 0.6519999999999999,
+            "method": null,
+            "paired_pv_effect": 0.6429999999999998,
+            "seed": 10,
+            "selection_rule": "fixed training_line; environment closest to the median paired PV effect; exact ties broken by the smallest seed; no best-trajectory or best-seed selection",
+            "training_line": "E3graph_s2"
+          },
+          "status": "selected",
+          "training_line": "E3graph_s2"
+        },
+        "status": "selected"
+      },
+      "source_file": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--1a7429fbbaac/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--24074569caa2.csv",
+      "source_sha256": "f6ba37fd33e930b1f3e798ad4aeeec46b9a91ab77ba69d9f73ee12cd55cd92f4",
+      "source_json": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--1a7429fbbaac/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--24074569caa2.json",
+      "source_json_sha256": "ec8640116bbb8187e13c8a173401954063a8ecd922e4dd0660af73233b0837d9",
+      "selection_file": "/workspace/.local/paper-output-final-20261110/global-data/illustrations.json",
+      "selection_sha256": "ff769ed8238770fe9ab6d8b743d0dd4b1ea08ae131f73baa3bf98349e0f7308d"
+    },
+    {
+      "selection": {
+        "identity": {
+          "cohort": 1.0,
+          "density": 0.3,
+          "fraction": 0.95,
+          "panel": "E4",
+          "road_length": 1000,
+          "rule": "S0"
+        },
+        "mode": "final",
+        "pair": {
+          "Graph": {
+            "analysis_path": "illustrations/8db6936bf55fd5c700009c2167a03c41052c47567782298f8128e0fe0402dcd1-bbb93b8450ceeb1d3f8b71be5d713453e44b62d54db0d6685f31811816b474cd.json",
+            "arrays_path": "illustrations/8db6936bf55fd5c700009c2167a03c41052c47567782298f8128e0fe0402dcd1-bbb93b8450ceeb1d3f8b71be5d713453e44b62d54db0d6685f31811816b474cd.npz",
+            "episode_id": "8db6936bf55fd5c700009c2167a03c41052c47567782298f8128e0fe0402dcd1"
+          },
+          "H2": {
+            "analysis_path": "illustrations/502e77f26f304f1a8884fbdb5e108c999738711d4896b78813c95ebb63afae3d-b8f199cb5da03b18a7a4f637cdec3323a377d1befaf85dbea974f266f2c8e087.json",
+            "arrays_path": "illustrations/502e77f26f304f1a8884fbdb5e108c999738711d4896b78813c95ebb63afae3d-b8f199cb5da03b18a7a4f637cdec3323a377d1befaf85dbea974f266f2c8e087.npz",
+            "episode_id": "502e77f26f304f1a8884fbdb5e108c999738711d4896b78813c95ebb63afae3d"
+          }
+        },
+        "selection_evidence": {
+          "Graph": "8db6936bf55fd5c700009c2167a03c41052c47567782298f8128e0fe0402dcd1",
+          "H2": "502e77f26f304f1a8884fbdb5e108c999738711d4896b78813c95ebb63afae3d",
+          "cell": {
+            "density": 0.3,
+            "fraction": 0.95,
+            "road_length": 1000
+          },
+          "environment": "0a9142fe74bccca09ca19be8c76b0476366fc7436eb454f4cb43d3f791600071",
+          "k": 3,
+          "k_planned": 3,
+          "line_means": {
+            "E3graph_s1": 0.6859166666666667,
+            "E3graph_s2": 0.6747166666666665,
+            "E3graph_s3": -0.08170000000000002
+          },
+          "median_line_mean": 0.6747166666666665,
+          "n": 90,
+          "n_planned": 90,
+          "paired_pv_effect": 0.6199999999999997,
+          "replicate": 14,
+          "rule": "frozen_median_line_then_environment",
+          "scope": "complete_E4_cell",
+          "selection": {
+            "absolute_distance_to_median": 0.0012499999999999734,
+            "candidates": 30,
+            "environment": "0a9142fe74bccca09ca19be8c76b0476366fc7436eb454f4cb43d3f791600071",
+            "median_paired_pv_effect": 0.6187499999999997,
+            "method": null,
+            "paired_pv_effect": 0.6199999999999997,
+            "seed": 14,
+            "selection_rule": "fixed training_line; environment closest to the median paired PV effect; exact ties broken by the smallest seed; no best-trajectory or best-seed selection",
+            "training_line": "E3graph_s2"
+          },
+          "status": "selected",
+          "training_line": "E3graph_s2"
+        },
+        "status": "selected"
+      },
+      "source_file": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--b708bc38210b/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c09dcdc6330.csv",
+      "source_sha256": "2b4b063f93f032af49000993faf7e4bbce4e4ea45cf2a0ed9667ecba74890c04",
+      "source_json": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--b708bc38210b/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c09dcdc6330.json",
+      "source_json_sha256": "5ce4fe2740744c107f974cc97cb88eeaba28d635ab8b4723132bc355ad246222",
+      "selection_file": "/workspace/.local/paper-output-final-20261110/global-data/illustrations.json",
+      "selection_sha256": "ff769ed8238770fe9ab6d8b743d0dd4b1ea08ae131f73baa3bf98349e0f7308d"
+    },
+    {
+      "selection": {
+        "identity": {
+          "cohort": 1.0,
+          "density": 0.3,
+          "fraction": 1.0,
+          "panel": "E4",
+          "road_length": 1000,
+          "rule": "S0"
+        },
+        "mode": "final",
+        "pair": {
+          "Graph": {
+            "analysis_path": "illustrations/787abd9987772fa15a7fa8ba8965cf1956a850e4829ab0f8aa6a501d90069f32-9707b0071ce475646c161b4075d48d709e9817d81c0e7a47a14d7c7b58c2eaa6.json",
+            "arrays_path": "illustrations/787abd9987772fa15a7fa8ba8965cf1956a850e4829ab0f8aa6a501d90069f32-9707b0071ce475646c161b4075d48d709e9817d81c0e7a47a14d7c7b58c2eaa6.npz",
+            "episode_id": "787abd9987772fa15a7fa8ba8965cf1956a850e4829ab0f8aa6a501d90069f32"
+          },
+          "H2": {
+            "analysis_path": "illustrations/d03a27df7b47170161bd1f8a41b6d14cf93b664d9feaa7557924a9cd3f793fc2-643f0a42617ba1bbafc03d47abcf30519fa7880804b245c4aef883257b14d7df.json",
+            "arrays_path": "illustrations/d03a27df7b47170161bd1f8a41b6d14cf93b664d9feaa7557924a9cd3f793fc2-643f0a42617ba1bbafc03d47abcf30519fa7880804b245c4aef883257b14d7df.npz",
+            "episode_id": "d03a27df7b47170161bd1f8a41b6d14cf93b664d9feaa7557924a9cd3f793fc2"
+          }
+        },
+        "selection_evidence": {
+          "Graph": "787abd9987772fa15a7fa8ba8965cf1956a850e4829ab0f8aa6a501d90069f32",
+          "H2": "d03a27df7b47170161bd1f8a41b6d14cf93b664d9feaa7557924a9cd3f793fc2",
+          "cell": {
+            "density": 0.3,
+            "fraction": 1.0,
+            "road_length": 1000
+          },
+          "environment": "8f08241baf26454e5c1fd313555ad4772ec0b634c2324c7686ebd97e6806d83d",
+          "k": 3,
+          "k_planned": 3,
+          "line_means": {
+            "E3graph_s1": 0.2573833333333333,
+            "E3graph_s2": 0.2657333333333334,
+            "E3graph_s3": -0.14608333333333332
+          },
+          "median_line_mean": 0.2573833333333333,
+          "n": 90,
+          "n_planned": 90,
+          "paired_pv_effect": 0.1795,
+          "replicate": 3,
+          "rule": "frozen_median_line_then_environment",
+          "scope": "complete_E4_cell",
+          "selection": {
+            "absolute_distance_to_median": 0.004750000000000032,
+            "candidates": 30,
+            "environment": "8f08241baf26454e5c1fd313555ad4772ec0b634c2324c7686ebd97e6806d83d",
+            "median_paired_pv_effect": 0.18425000000000002,
+            "method": null,
+            "paired_pv_effect": 0.1795,
+            "seed": 3,
+            "selection_rule": "fixed training_line; environment closest to the median paired PV effect; exact ties broken by the smallest seed; no best-trajectory or best-seed selection",
+            "training_line": "E3graph_s1"
+          },
+          "status": "selected",
+          "training_line": "E3graph_s1"
+        },
+        "status": "selected"
+      },
+      "source_file": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--f10c4bd38c8f/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--3f264c4dfe64.csv",
+      "source_sha256": "f5f9f46efedafba68a049da246dd0e108b3045e534bef569bffe6c0cc2004924",
+      "source_json": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--f10c4bd38c8f/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--3f264c4dfe64.json",
+      "source_json_sha256": "a822d437b50f79a72c3f37884ce2fb0c24f907d7b544adc37e12499236770772",
+      "selection_file": "/workspace/.local/paper-output-final-20261110/global-data/illustrations.json",
+      "selection_sha256": "ff769ed8238770fe9ab6d8b743d0dd4b1ea08ae131f73baa3bf98349e0f7308d"
+    },
+    {
+      "selection": {
+        "identity": {
+          "cohort": 1.0,
+          "density": 0.6,
+          "fraction": 0.9,
+          "panel": "E4",
+          "road_length": 1000,
+          "rule": "S0"
+        },
+        "mode": "final",
+        "pair": {
+          "Graph": {
+            "analysis_path": "illustrations/1ddea96d91dfe33d44b67f99bf5a50c61ab361441360a6d77d1cc5f96de9f314-3d00893f0fde7ef446ec4dcca873de7413917080044da7cd6134a40f5a3e24c4.json",
+            "arrays_path": "illustrations/1ddea96d91dfe33d44b67f99bf5a50c61ab361441360a6d77d1cc5f96de9f314-3d00893f0fde7ef446ec4dcca873de7413917080044da7cd6134a40f5a3e24c4.npz",
+            "episode_id": "1ddea96d91dfe33d44b67f99bf5a50c61ab361441360a6d77d1cc5f96de9f314"
+          },
+          "H2": {
+            "analysis_path": "illustrations/9166fa413f24e20eacb39f57255477d4f08fbfc2bc3a3b789a1e2129bb75b24e-8b85adaa72d2ba3330286d1b748f2cc8ba84d67099fdb2b43183a91323e89c55.json",
+            "arrays_path": "illustrations/9166fa413f24e20eacb39f57255477d4f08fbfc2bc3a3b789a1e2129bb75b24e-8b85adaa72d2ba3330286d1b748f2cc8ba84d67099fdb2b43183a91323e89c55.npz",
+            "episode_id": "9166fa413f24e20eacb39f57255477d4f08fbfc2bc3a3b789a1e2129bb75b24e"
+          }
+        },
+        "selection_evidence": {
+          "Graph": "1ddea96d91dfe33d44b67f99bf5a50c61ab361441360a6d77d1cc5f96de9f314",
+          "H2": "9166fa413f24e20eacb39f57255477d4f08fbfc2bc3a3b789a1e2129bb75b24e",
+          "cell": {
+            "density": 0.6,
+            "fraction": 0.9,
+            "road_length": 1000
+          },
+          "environment": "78fbb938098afbaca63dd2a854d3b5bc7232bad06f674ed6a29dbe67068e7465",
+          "k": 3,
+          "k_planned": 3,
+          "line_means": {
+            "E3graph_s1": 0.06185,
+            "E3graph_s2": -0.0031333333333333326,
+            "E3graph_s3": 0.0024499999999999965
+          },
+          "median_line_mean": 0.0024499999999999965,
+          "n": 90,
+          "n_planned": 90,
+          "paired_pv_effect": -0.006500000000000061,
+          "replicate": 15,
+          "rule": "frozen_median_line_then_environment",
+          "scope": "complete_E4_cell",
+          "selection": {
+            "absolute_distance_to_median": 0.000250000000000028,
+            "candidates": 30,
+            "environment": "78fbb938098afbaca63dd2a854d3b5bc7232bad06f674ed6a29dbe67068e7465",
+            "median_paired_pv_effect": -0.006250000000000033,
+            "method": null,
+            "paired_pv_effect": -0.006500000000000061,
+            "seed": 15,
+            "selection_rule": "fixed training_line; environment closest to the median paired PV effect; exact ties broken by the smallest seed; no best-trajectory or best-seed selection",
+            "training_line": "E3graph_s3"
+          },
+          "status": "selected",
+          "training_line": "E3graph_s3"
+        },
+        "status": "selected"
+      },
+      "source_file": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--7e18682839dc/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--e4451c205144.csv",
+      "source_sha256": "2beef08893fd21b613cdaf0895ccbdcf30e729065822328e16df046a74387265",
+      "source_json": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--7e18682839dc/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--e4451c205144.json",
+      "source_json_sha256": "d97c7ef6bf16991f1068ecdc7a4fb38cd3cfec2d8054db3f13b3286ec94042d8",
+      "selection_file": "/workspace/.local/paper-output-final-20261110/global-data/illustrations.json",
+      "selection_sha256": "ff769ed8238770fe9ab6d8b743d0dd4b1ea08ae131f73baa3bf98349e0f7308d"
+    },
+    {
+      "selection": {
+        "identity": {
+          "cohort": 1.0,
+          "density": 0.6,
+          "fraction": 0.95,
+          "panel": "E4",
+          "road_length": 1000,
+          "rule": "S0"
+        },
+        "mode": "final",
+        "pair": {
+          "Graph": {
+            "analysis_path": "illustrations/2673abc116a0a040995615c39e8ed10e8463ad2b7770fa45ef36242de461cddd-1309e0c3162063cae1676ed9f3f5a5ca533cdc7c3e45e8d9f4a3487bf729e56b.json",
+            "arrays_path": "illustrations/2673abc116a0a040995615c39e8ed10e8463ad2b7770fa45ef36242de461cddd-1309e0c3162063cae1676ed9f3f5a5ca533cdc7c3e45e8d9f4a3487bf729e56b.npz",
+            "episode_id": "2673abc116a0a040995615c39e8ed10e8463ad2b7770fa45ef36242de461cddd"
+          },
+          "H2": {
+            "analysis_path": "illustrations/2da11b5e94df7d6bbcf93bd3b0738a55e04faaf2c2df52b936521486bc1bbef4-e47b9921f982b6903c17ec22bdbd40ccea61f78a60e4d0086416beb17979c5a3.json",
+            "arrays_path": "illustrations/2da11b5e94df7d6bbcf93bd3b0738a55e04faaf2c2df52b936521486bc1bbef4-e47b9921f982b6903c17ec22bdbd40ccea61f78a60e4d0086416beb17979c5a3.npz",
+            "episode_id": "2da11b5e94df7d6bbcf93bd3b0738a55e04faaf2c2df52b936521486bc1bbef4"
+          }
+        },
+        "selection_evidence": {
+          "Graph": "2673abc116a0a040995615c39e8ed10e8463ad2b7770fa45ef36242de461cddd",
+          "H2": "2da11b5e94df7d6bbcf93bd3b0738a55e04faaf2c2df52b936521486bc1bbef4",
+          "cell": {
+            "density": 0.6,
+            "fraction": 0.95,
+            "road_length": 1000
+          },
+          "environment": "d85ed6a6e86e802561df4a0b7765aac84240b428ca11259bb02c8c873d2e1f89",
+          "k": 3,
+          "k_planned": 3,
+          "line_means": {
+            "E3graph_s1": 0.08766666666666663,
+            "E3graph_s2": 0.004383333333333313,
+            "E3graph_s3": 0.024549999999999995
+          },
+          "median_line_mean": 0.024549999999999995,
+          "n": 90,
+          "n_planned": 90,
+          "paired_pv_effect": 0.04200000000000004,
+          "replicate": 5,
+          "rule": "frozen_median_line_then_environment",
+          "scope": "complete_E4_cell",
+          "selection": {
+            "absolute_distance_to_median": 0.005750000000000033,
+            "candidates": 30,
+            "environment": "d85ed6a6e86e802561df4a0b7765aac84240b428ca11259bb02c8c873d2e1f89",
+            "median_paired_pv_effect": 0.04775000000000007,
+            "method": null,
+            "paired_pv_effect": 0.04200000000000004,
+            "seed": 5,
+            "selection_rule": "fixed training_line; environment closest to the median paired PV effect; exact ties broken by the smallest seed; no best-trajectory or best-seed selection",
+            "training_line": "E3graph_s3"
+          },
+          "status": "selected",
+          "training_line": "E3graph_s3"
+        },
+        "status": "selected"
+      },
+      "source_file": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--c87bb26f6ed6/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c28db439888.csv",
+      "source_sha256": "3f33b7d337b7f3d0f6f22ab86672b363189bbe8d31dde1497f622414ac34ef00",
+      "source_json": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--c87bb26f6ed6/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--4c28db439888.json",
+      "source_json_sha256": "414389096585221483e65f22373f25b158e55564af0be30a3a6ab847abf9a9e5",
+      "selection_file": "/workspace/.local/paper-output-final-20261110/global-data/illustrations.json",
+      "selection_sha256": "ff769ed8238770fe9ab6d8b743d0dd4b1ea08ae131f73baa3bf98349e0f7308d"
+    },
+    {
+      "selection": {
+        "identity": {
+          "cohort": 1.0,
+          "density": 0.6,
+          "fraction": 1.0,
+          "panel": "E4",
+          "road_length": 1000,
+          "rule": "S0"
+        },
+        "mode": "final",
+        "pair": {
+          "Graph": {
+            "analysis_path": "illustrations/101fba8a7a1252937f2cc29e2f37e6a10209e14f99dcc4cd87bd3aa83454bd9e-1bdbfa8355419463fd3c0ffbd98939bdf41b19ac14b958b46b83c898901db6ce.json",
+            "arrays_path": "illustrations/101fba8a7a1252937f2cc29e2f37e6a10209e14f99dcc4cd87bd3aa83454bd9e-1bdbfa8355419463fd3c0ffbd98939bdf41b19ac14b958b46b83c898901db6ce.npz",
+            "episode_id": "101fba8a7a1252937f2cc29e2f37e6a10209e14f99dcc4cd87bd3aa83454bd9e"
+          },
+          "H2": {
+            "analysis_path": "illustrations/63c748ee054a0f83081fecf6a4826de87976ce2d93c0bb8216aec2444656936b-3167126a0070b712342cca05536aa4b4ea457cab3c7299506f0e3d1600639e9f.json",
+            "arrays_path": "illustrations/63c748ee054a0f83081fecf6a4826de87976ce2d93c0bb8216aec2444656936b-3167126a0070b712342cca05536aa4b4ea457cab3c7299506f0e3d1600639e9f.npz",
+            "episode_id": "63c748ee054a0f83081fecf6a4826de87976ce2d93c0bb8216aec2444656936b"
+          }
+        },
+        "selection_evidence": {
+          "Graph": "101fba8a7a1252937f2cc29e2f37e6a10209e14f99dcc4cd87bd3aa83454bd9e",
+          "H2": "63c748ee054a0f83081fecf6a4826de87976ce2d93c0bb8216aec2444656936b",
+          "cell": {
+            "density": 0.6,
+            "fraction": 1.0,
+            "road_length": 1000
+          },
+          "environment": "a5c707890e9cb13623d6f23078841ace0ef52b0e7a7312bff81029f4664d2335",
+          "k": 3,
+          "k_planned": 3,
+          "line_means": {
+            "E3graph_s1": 0.05646666666666669,
+            "E3graph_s2": -0.05573333333333331,
+            "E3graph_s3": 0.011766666666666706
+          },
+          "median_line_mean": 0.011766666666666706,
+          "n": 90,
+          "n_planned": 90,
+          "paired_pv_effect": 0.03249999999999997,
+          "replicate": 1,
+          "rule": "frozen_median_line_then_environment",
+          "scope": "complete_E4_cell",
+          "selection": {
+            "absolute_distance_to_median": 0.0017500000000000293,
+            "candidates": 30,
+            "environment": "a5c707890e9cb13623d6f23078841ace0ef52b0e7a7312bff81029f4664d2335",
+            "median_paired_pv_effect": 0.030749999999999944,
+            "method": null,
+            "paired_pv_effect": 0.03249999999999997,
+            "seed": 1,
+            "selection_rule": "fixed training_line; environment closest to the median paired PV effect; exact ties broken by the smallest seed; no best-trajectory or best-seed selection",
+            "training_line": "E3graph_s3"
+          },
+          "status": "selected",
+          "training_line": "E3graph_s3"
+        },
+        "status": "selected"
+      },
+      "source_file": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--9ee8006f8e3d/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--8831928d10d2.csv",
+      "source_sha256": "f7af38b6d0c9a61d9682348cb836727e58a4d40979240b65b9f2588b05bdf507",
+      "source_json": "/workspace/.local/paper-output-final-20261110/illustrations-atlas-v2/illustrations--E4--1.0--S0--1000--recorded--all--all--9ee8006f8e3d/illustrations--E4--1.0--S0--1000--PV-trace--speed-lane-distance--all--8831928d10d2.json",
+      "source_json_sha256": "5130bb3dde0762df528c638aa84a77cdceac1ab3729a0015b62704bcf54f8fbe",
+      "selection_file": "/workspace/.local/paper-output-final-20261110/global-data/illustrations.json",
+      "selection_sha256": "ff769ed8238770fe9ab6d8b743d0dd4b1ea08ae131f73baa3bf98349e0f7308d"
+    }
+  ]
+}
